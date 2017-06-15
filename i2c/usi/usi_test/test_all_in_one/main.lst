@@ -1,0 +1,473 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	USI_I2C_Master_Transfer
+  18               	USI_I2C_Master_Transfer:
+  19               	.LFB6:
+  20               	.LM1:
+  21               	.LVL0:
+  22               	/* prologue: function */
+  23               	/* frame size = 0 */
+  24               	.LM2:
+  25 0000 8EB9      		out 46-32,r24
+  26               	.LBB101:
+  27               	.LBB102:
+  28               	.LBB103:
+  29               	.LBB104:
+  30               	.LM3:
+  31 0002 21E0      		ldi r18,lo8(1)
+  32               	.LBE104:
+  33               	.LBE103:
+  34               	.LBE102:
+  35               	.LBE101:
+  36               	.LM4:
+  37 0004 9BE2      		ldi r25,lo8(43)
+  38               	.LVL1:
+  39               	.L3:
+  40               	.LBB108:
+  41               	.LBB107:
+  42               	.LBB106:
+  43               	.LBB105:
+  44               	.LM5:
+  45 0006 822F      		mov r24,r18
+  46               	.LVL2:
+  47               	/* #APP */
+  48               	 ;  83 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+  49 0008 8A95      		1: dec r24
+  50 000a 01F4      		brne 1b
+  51               	 ;  0 "" 2
+  52               	/* #NOAPP */
+  53               	.LBE105:
+  54               	.LBE106:
+  55               	.LBE107:
+  56               	.LBE108:
+  57               	.LM6:
+  58 000c 9DB9      		out 45-32,r25
+  59               	.L2:
+  60               	.LM7:
+  61 000e B29B      		sbis 54-32,2
+  62 0010 00C0      		rjmp .L2
+  63               	.LBB109:
+  64               	.LBB110:
+  65               	.LBB111:
+  66               	.LBB112:
+  67               	.LM8:
+  68 0012 822F      		mov r24,r18
+  69               	.LVL3:
+  70               	/* #APP */
+  71               	 ;  83 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+  72 0014 8A95      		1: dec r24
+  73 0016 01F4      		brne 1b
+  74               	 ;  0 "" 2
+  75               	/* #NOAPP */
+  76               	.LBE112:
+  77               	.LBE111:
+  78               	.LBE110:
+  79               	.LBE109:
+  80               	.LM9:
+  81 0018 9DB9      		out 45-32,r25
+  82               	.LM10:
+  83 001a 769B      		sbis 46-32,6
+  84 001c 00C0      		rjmp .L3
+  85               	.LBB113:
+  86               	.LBB114:
+  87               	.LBB115:
+  88               	.LBB116:
+  89               	.LM11:
+  90 001e 81E0      		ldi r24,lo8(1)
+  91               	.LVL4:
+  92               	/* #APP */
+  93               	 ;  83 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+  94 0020 8A95      		1: dec r24
+  95 0022 01F4      		brne 1b
+  96               	 ;  0 "" 2
+  97               	/* #NOAPP */
+  98               	.LBE116:
+  99               	.LBE115:
+ 100               	.LBE114:
+ 101               	.LBE113:
+ 102               	.LM12:
+ 103 0024 8FB1      		in r24,47-32
+ 104               	.LVL5:
+ 105               	/* epilogue start */
+ 106               	.LM13:
+ 107 0026 0895      		ret
+ 108               	.LFE6:
+ 110               	.global	USI_I2C_Master_Start_Transmission
+ 112               	USI_I2C_Master_Start_Transmission:
+ 113               	.LFB7:
+ 114               	.LM14:
+ 115               	.LVL6:
+ 116 0028 EF92      		push r14
+ 117 002a FF92      		push r15
+ 118 002c 0F93      		push r16
+ 119 002e 1F93      		push r17
+ 120 0030 CF93      		push r28
+ 121 0032 DF93      		push r29
+ 122               	/* prologue: function */
+ 123               	/* frame size = 0 */
+ 124 0034 EC01      		movw r28,r24
+ 125 0036 162F      		mov r17,r22
+ 126               	.LM15:
+ 127 0038 1092 0000 		sts USI_I2C_Master_State,__zero_reg__
+ 128               	.LM16:
+ 129 003c C29A      		sbi 56-32,2
+ 130               	.LVL7:
+ 131               	.L8:
+ 132               	.LM17:
+ 133 003e B29B      		sbis 54-32,2
+ 134 0040 00C0      		rjmp .L8
+ 135               	.LBB117:
+ 136               	.LBB118:
+ 137               	.LBB119:
+ 138               	.LBB120:
+ 139               	.LM18:
+ 140 0042 81E0      		ldi r24,lo8(1)
+ 141 0044 982F      		mov r25,r24
+ 142               	.LVL8:
+ 143               	/* #APP */
+ 144               	 ;  83 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 145 0046 9A95      		1: dec r25
+ 146 0048 01F4      		brne 1b
+ 147               	 ;  0 "" 2
+ 148               	/* #NOAPP */
+ 149               	.LBE120:
+ 150               	.LBE119:
+ 151               	.LBE118:
+ 152               	.LBE117:
+ 153               	.LM19:
+ 154 004a B89A      		sbi 55-32,0
+ 155               	.LM20:
+ 156 004c BA9A      		sbi 55-32,2
+ 157               	.LM21:
+ 158 004e C098      		cbi 56-32,0
+ 159               	.LBB121:
+ 160               	.LBB122:
+ 161               	.LBB123:
+ 162               	.LBB124:
+ 163               	.LM22:
+ 164 0050 982F      		mov r25,r24
+ 165               	.LVL9:
+ 166               	/* #APP */
+ 167               	 ;  83 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 168 0052 9A95      		1: dec r25
+ 169 0054 01F4      		brne 1b
+ 170               	 ;  0 "" 2
+ 171               	/* #NOAPP */
+ 172               	.LBE124:
+ 173               	.LBE123:
+ 174               	.LBE122:
+ 175               	.LBE121:
+ 176               	.LM23:
+ 177 0056 C298      		cbi 56-32,2
+ 178               	.LBB125:
+ 179               	.LBB126:
+ 180               	.LBB127:
+ 181               	.LBB128:
+ 182               	.LM24:
+ 183               	/* #APP */
+ 184               	 ;  83 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 185 0058 8A95      		1: dec r24
+ 186 005a 01F4      		brne 1b
+ 187               	 ;  0 "" 2
+ 188               	.LVL10:
+ 189               	/* #NOAPP */
+ 190               	.LBE128:
+ 191               	.LBE127:
+ 192               	.LBE126:
+ 193               	.LBE125:
+ 194               	.LM25:
+ 195 005c C09A      		sbi 56-32,0
+ 196               	.LM26:
+ 197 005e 82E0      		ldi r24,lo8(2)
+ 198 0060 E82E      		mov r14,r24
+ 199               	.LVL11:
+ 200               	.LM27:
+ 201 0062 FF24      		clr r15
+ 202 0064 F394      		inc r15
+ 203               	.LM28:
+ 204 0066 0FEF      		ldi r16,lo8(-1)
+ 205               	.L18:
+ 206               	.LM29:
+ 207 0068 8091 0000 		lds r24,USI_I2C_Master_State
+ 208 006c 8130      		cpi r24,lo8(1)
+ 209 006e 01F0      		breq .L11
+ 210 0070 8130      		cpi r24,lo8(1)
+ 211 0072 00F0      		brlo .L10
+ 212 0074 8230      		cpi r24,lo8(2)
+ 213 0076 01F4      		brne .L9
+ 214 0078 00C0      		rjmp .L26
+ 215               	.L10:
+ 216               	.LM30:
+ 217 007a 8881      		ld r24,Y
+ 218 007c 80FD      		sbrc r24,0
+ 219 007e 00C0      		rjmp .L13
+ 220               	.LM31:
+ 221 0080 F092 0000 		sts USI_I2C_Master_State,r15
+ 222 0084 00C0      		rjmp .L11
+ 223               	.L13:
+ 224               	.LM32:
+ 225 0086 E092 0000 		sts USI_I2C_Master_State,r14
+ 226               	.L11:
+ 227               	.LM33:
+ 228 008a C298      		cbi 56-32,2
+ 229               	.LM34:
+ 230 008c 8881      		ld r24,Y
+ 231 008e 8FB9      		out 47-32,r24
+ 232               	.LM35:
+ 233 0090 80EF      		ldi r24,lo8(-16)
+ 234 0092 00D0      		rcall USI_I2C_Master_Transfer
+ 235               	.LVL12:
+ 236               	.LM36:
+ 237 0094 B898      		cbi 55-32,0
+ 238               	.LM37:
+ 239 0096 8EEF      		ldi r24,lo8(-2)
+ 240 0098 00D0      		rcall USI_I2C_Master_Transfer
+ 241 009a 80FF      		sbrs r24,0
+ 242 009c 00C0      		rjmp .L14
+ 243               	.LM38:
+ 244 009e C29A      		sbi 56-32,2
+ 245               	.LM39:
+ 246 00a0 C09A      		sbi 56-32,0
+ 247 00a2 80E0      		ldi r24,lo8(0)
+ 248 00a4 00C0      		rjmp .L15
+ 249               	.L14:
+ 250               	.LM40:
+ 251 00a6 2196      		adiw r28,1
+ 252               	.LM41:
+ 253 00a8 B89A      		sbi 55-32,0
+ 254 00aa 00C0      		rjmp .L9
+ 255               	.LVL13:
+ 256               	.L26:
+ 257               	.LM42:
+ 258 00ac B898      		cbi 55-32,0
+ 259               	.LM43:
+ 260 00ae 80EF      		ldi r24,lo8(-16)
+ 261 00b0 00D0      		rcall USI_I2C_Master_Transfer
+ 262               	.LVL14:
+ 263 00b2 8883      		st Y,r24
+ 264               	.LM44:
+ 265 00b4 B89A      		sbi 55-32,0
+ 266               	.LM45:
+ 267 00b6 1130      		cpi r17,lo8(1)
+ 268 00b8 01F4      		brne .L16
+ 269               	.LM46:
+ 270 00ba 0FB9      		out 47-32,r16
+ 271 00bc 00C0      		rjmp .L17
+ 272               	.L16:
+ 273               	.LM47:
+ 274 00be 1FB8      		out 47-32,__zero_reg__
+ 275               	.L17:
+ 276               	.LM48:
+ 277 00c0 2196      		adiw r28,1
+ 278               	.LM49:
+ 279 00c2 8EEF      		ldi r24,lo8(-2)
+ 280 00c4 00D0      		rcall USI_I2C_Master_Transfer
+ 281               	.LVL15:
+ 282               	.L9:
+ 283               	.LM50:
+ 284 00c6 1150      		subi r17,lo8(-(-1))
+ 285 00c8 01F4      		brne .L18
+ 286               	.LM51:
+ 287 00ca C098      		cbi 56-32,0
+ 288               	.LBB129:
+ 289               	.LBB130:
+ 290               	.LBB131:
+ 291               	.LBB132:
+ 292               	.LM52:
+ 293 00cc 81E0      		ldi r24,lo8(1)
+ 294               	.LVL16:
+ 295               	/* #APP */
+ 296               	 ;  83 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 297 00ce 8A95      		1: dec r24
+ 298 00d0 01F4      		brne 1b
+ 299               	 ;  0 "" 2
+ 300               	/* #NOAPP */
+ 301               	.LBE132:
+ 302               	.LBE131:
+ 303               	.LBE130:
+ 304               	.LBE129:
+ 305               	.LM53:
+ 306 00d2 BA98      		cbi 55-32,2
+ 307               	.L19:
+ 308               	.LM54:
+ 309 00d4 B29B      		sbis 54-32,2
+ 310 00d6 00C0      		rjmp .L19
+ 311               	.LBB133:
+ 312               	.LBB134:
+ 313               	.LBB135:
+ 314               	.LBB136:
+ 315               	.LM55:
+ 316 00d8 81E0      		ldi r24,lo8(1)
+ 317               	.LVL17:
+ 318               	/* #APP */
+ 319               	 ;  83 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 320 00da 8A95      		1: dec r24
+ 321 00dc 01F4      		brne 1b
+ 322               	 ;  0 "" 2
+ 323               	/* #NOAPP */
+ 324               	.LBE136:
+ 325               	.LBE135:
+ 326               	.LBE134:
+ 327               	.LBE133:
+ 328               	.LM56:
+ 329 00de B898      		cbi 55-32,0
+ 330               	.L20:
+ 331               	.LM57:
+ 332 00e0 B09B      		sbis 54-32,0
+ 333 00e2 00C0      		rjmp .L20
+ 334 00e4 81E0      		ldi r24,lo8(1)
+ 335               	.LVL18:
+ 336               	.L15:
+ 337               	/* epilogue start */
+ 338               	.LM58:
+ 339 00e6 DF91      		pop r29
+ 340 00e8 CF91      		pop r28
+ 341               	.LVL19:
+ 342 00ea 1F91      		pop r17
+ 343               	.LVL20:
+ 344 00ec 0F91      		pop r16
+ 345 00ee FF90      		pop r15
+ 346 00f0 EF90      		pop r14
+ 347 00f2 0895      		ret
+ 348               	.LFE7:
+ 350               	.global	main
+ 352               	main:
+ 353               	.LFB8:
+ 354               	.LM59:
+ 355 00f4 AF92      		push r10
+ 356 00f6 BF92      		push r11
+ 357 00f8 CF92      		push r12
+ 358 00fa DF92      		push r13
+ 359 00fc EF92      		push r14
+ 360 00fe FF92      		push r15
+ 361 0100 0F93      		push r16
+ 362 0102 1F93      		push r17
+ 363 0104 DF93      		push r29
+ 364 0106 CF93      		push r28
+ 365 0108 00D0      		rcall .
+ 366 010a 00D0      		rcall .
+ 367 010c CDB7      		in r28,__SP_L__
+ 368 010e DEB7      		in r29,__SP_H__
+ 369               	/* prologue: function */
+ 370               	/* frame size = 4 */
+ 371               	.LM60:
+ 372 0110 B99A      		sbi 55-32,1
+ 373               	.LM61:
+ 374 0112 80ED      		ldi r24,lo8(-48)
+ 375 0114 8983      		std Y+1,r24
+ 376               	.LM62:
+ 377 0116 8BE6      		ldi r24,lo8(107)
+ 378 0118 8A83      		std Y+2,r24
+ 379               	.LM63:
+ 380 011a 1B82      		std Y+3,__zero_reg__
+ 381               	.LM64:
+ 382 011c 8E01      		movw r16,r28
+ 383 011e 0F5F      		subi r16,lo8(-(1))
+ 384 0120 1F4F      		sbci r17,hi8(-(1))
+ 385 0122 C801      		movw r24,r16
+ 386 0124 63E0      		ldi r22,lo8(3)
+ 387 0126 00D0      		rcall USI_I2C_Master_Start_Transmission
+ 388               	.LM65:
+ 389 0128 31ED      		ldi r19,lo8(-47)
+ 390 012a A32E      		mov r10,r19
+ 391               	.LM66:
+ 392 012c 2FE3      		ldi r18,lo8(63)
+ 393 012e B22E      		mov r11,r18
+ 394               	.LM67:
+ 395 0130 6801      		movw r12,r16
+ 396               	.LBB137:
+ 397               	.LBB138:
+ 398               	.LBB139:
+ 399               	.LBB140:
+ 400               	.LBB141:
+ 401               	.LM68:
+ 402 0132 99E1      		ldi r25,lo8(25)
+ 403 0134 E92E      		mov r14,r25
+ 404 0136 F12C      		mov r15,__zero_reg__
+ 405               	.LVL21:
+ 406               	.L36:
+ 407               	.LBE141:
+ 408               	.LBE140:
+ 409               	.LBE139:
+ 410               	.LBE138:
+ 411               	.LBE137:
+ 412               	.LM69:
+ 413 0138 A982      		std Y+1,r10
+ 414               	.LM70:
+ 415 013a BA82      		std Y+2,r11
+ 416               	.LM71:
+ 417 013c C601      		movw r24,r12
+ 418               	.LVL22:
+ 419 013e 64E0      		ldi r22,lo8(4)
+ 420 0140 00D0      		rcall USI_I2C_Master_Start_Transmission
+ 421               	.LVL23:
+ 422 0142 8823      		tst r24
+ 423 0144 01F0      		breq .L36
+ 424               	.LBB146:
+ 425               	.LM72:
+ 426 0146 1B81      		ldd r17,Y+3
+ 427 0148 00E0      		ldi r16,lo8(0)
+ 428 014a 8C81      		ldd r24,Y+4
+ 429 014c 90E0      		ldi r25,lo8(0)
+ 430 014e 802B      		or r24,r16
+ 431 0150 912B      		or r25,r17
+ 432 0152 8154      		subi r24,lo8(8001)
+ 433 0154 9F41      		sbci r25,hi8(8001)
+ 434 0156 00F0      		brlo .L29
+ 435               	.LM73:
+ 436 0158 C19A      		sbi 56-32,1
+ 437 015a 00C0      		rjmp .L37
+ 438               	.L29:
+ 439               	.LM74:
+ 440 015c C198      		cbi 56-32,1
+ 441               	.L37:
+ 442 015e 88E8      		ldi r24,lo8(5000)
+ 443 0160 93E1      		ldi r25,hi8(5000)
+ 444               	.LVL24:
+ 445               	.L33:
+ 446               	.LBB145:
+ 447               	.LBB144:
+ 448               	.LBB143:
+ 449               	.LBB142:
+ 450               	.LM75:
+ 451 0162 F701      		movw r30,r14
+ 452               	/* #APP */
+ 453               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 454 0164 3197      		1: sbiw r30,1
+ 455 0166 01F4      		brne 1b
+ 456               	 ;  0 "" 2
+ 457               	/* #NOAPP */
+ 458               	.LBE142:
+ 459               	.LBE143:
+ 460               	.LM76:
+ 461 0168 0197      		sbiw r24,1
+ 462               	.LM77:
+ 463 016a 01F0      		breq .L36
+ 464 016c 00C0      		rjmp .L33
+ 465               	.LBE144:
+ 466               	.LBE145:
+ 467               	.LBE146:
+ 468               	.LFE8:
+ 470               		.comm USI_I2C_Master_State,1,1
+ 511               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\Xavier\AppData\Local\Temp/cc9zSnZU.s:2      *ABS*:0000003f __SREG__
+C:\Users\Xavier\AppData\Local\Temp/cc9zSnZU.s:3      *ABS*:0000003e __SP_H__
+C:\Users\Xavier\AppData\Local\Temp/cc9zSnZU.s:4      *ABS*:0000003d __SP_L__
+C:\Users\Xavier\AppData\Local\Temp/cc9zSnZU.s:5      *ABS*:00000034 __CCP__
+C:\Users\Xavier\AppData\Local\Temp/cc9zSnZU.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Xavier\AppData\Local\Temp/cc9zSnZU.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Xavier\AppData\Local\Temp/cc9zSnZU.s:18     .text:00000000 USI_I2C_Master_Transfer
+C:\Users\Xavier\AppData\Local\Temp/cc9zSnZU.s:112    .text:00000028 USI_I2C_Master_Start_Transmission
+                            *COM*:00000001 USI_I2C_Master_State
+C:\Users\Xavier\AppData\Local\Temp/cc9zSnZU.s:352    .text:000000f4 main
+
+UNDEFINED SYMBOLS
+__do_clear_bss

@@ -1,0 +1,36 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	main
+  18               	main:
+  19               	.LFB2:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 B89A      		sbi 55-32,0
+  25               	.LM3:
+  26 0002 91E0      		ldi r25,lo8(1)
+  27               	.L2:
+  28 0004 88B3      		in r24,56-32
+  29 0006 8927      		eor r24,r25
+  30 0008 88BB      		out 56-32,r24
+  31 000a 00C0      		rjmp .L2
+  32               	.LFE2:
+  58               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\Xavier\AppData\Local\Temp/ccotcnq6.s:2      *ABS*:0000003f __SREG__
+C:\Users\Xavier\AppData\Local\Temp/ccotcnq6.s:3      *ABS*:0000003e __SP_H__
+C:\Users\Xavier\AppData\Local\Temp/ccotcnq6.s:4      *ABS*:0000003d __SP_L__
+C:\Users\Xavier\AppData\Local\Temp/ccotcnq6.s:5      *ABS*:00000034 __CCP__
+C:\Users\Xavier\AppData\Local\Temp/ccotcnq6.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Xavier\AppData\Local\Temp/ccotcnq6.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Xavier\AppData\Local\Temp/ccotcnq6.s:18     .text:00000000 main
+
+NO UNDEFINED SYMBOLS

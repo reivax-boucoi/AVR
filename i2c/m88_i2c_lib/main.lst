@@ -1,0 +1,330 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	uart_init
+  18               	uart_init:
+  19               	.LFB7:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 1092 C500 		sts 197,__zero_reg__
+  25               	.LM3:
+  26 0004 87E6      		ldi r24,lo8(103)
+  27 0006 8093 C400 		sts 196,r24
+  28               	.LM4:
+  29 000a E1EC      		ldi r30,lo8(193)
+  30 000c F0E0      		ldi r31,hi8(193)
+  31 000e 8081      		ld r24,Z
+  32 0010 8861      		ori r24,lo8(24)
+  33 0012 8083      		st Z,r24
+  34               	.LM5:
+  35 0014 E2EC      		ldi r30,lo8(194)
+  36 0016 F0E0      		ldi r31,hi8(194)
+  37 0018 8081      		ld r24,Z
+  38 001a 8668      		ori r24,lo8(-122)
+  39 001c 8083      		st Z,r24
+  40               	/* epilogue start */
+  41               	.LM6:
+  42 001e 0895      		ret
+  43               	.LFE7:
+  45               	.global	uart_transmit
+  47               	uart_transmit:
+  48               	.LFB8:
+  49               	.LM7:
+  50               	.LVL0:
+  51               	/* prologue: function */
+  52               	/* frame size = 0 */
+  53 0020 982F      		mov r25,r24
+  54               	.LVL1:
+  55               	.L4:
+  56               	.LM8:
+  57 0022 8091 C000 		lds r24,192
+  58 0026 85FF      		sbrs r24,5
+  59 0028 00C0      		rjmp .L4
+  60               	.LM9:
+  61 002a 9093 C600 		sts 198,r25
+  62               	/* epilogue start */
+  63               	.LM10:
+  64 002e 0895      		ret
+  65               	.LFE8:
+  67               	.global	uart_recieve
+  69               	uart_recieve:
+  70               	.LFB9:
+  71               	.LM11:
+  72               	/* prologue: function */
+  73               	/* frame size = 0 */
+  74               	.LM12:
+  75 0030 8091 C000 		lds r24,192
+  76               	.LM13:
+  77 0034 8091 C600 		lds r24,198
+  78               	/* epilogue start */
+  79               	.LM14:
+  80 0038 0895      		ret
+  81               	.LFE9:
+  83               	.global	uart_transmitMult
+  85               	uart_transmitMult:
+  86               	.LFB10:
+  87               	.LM15:
+  88               	.LVL2:
+  89               	/* prologue: function */
+  90               	/* frame size = 0 */
+  91 003a FC01      		movw r30,r24
+  92 003c 00C0      		rjmp .L10
+  93               	.LVL3:
+  94               	.L13:
+  95               	.LBB20:
+  96               	.LBB21:
+  97               	.LM16:
+  98 003e 8091 C000 		lds r24,192
+  99 0042 85FF      		sbrs r24,5
+ 100 0044 00C0      		rjmp .L13
+ 101               	.LBE21:
+ 102               	.LBE20:
+ 103               	.LM17:
+ 104 0046 3196      		adiw r30,1
+ 105               	.LBB23:
+ 106               	.LBB22:
+ 107               	.LM18:
+ 108 0048 9093 C600 		sts 198,r25
+ 109               	.LVL4:
+ 110               	.L10:
+ 111               	.LBE22:
+ 112               	.LBE23:
+ 113               	.LM19:
+ 114 004c 9081      		ld r25,Z
+ 115 004e 9923      		tst r25
+ 116 0050 01F4      		brne .L13
+ 117               	/* epilogue start */
+ 118               	.LM20:
+ 119 0052 0895      		ret
+ 120               	.LFE10:
+ 122               		.data
+ 123               	.LC0:
+ 124 0000 496E 6974 		.string	"Initialized UART\n"
+ 124      6961 6C69 
+ 124      7A65 6420 
+ 124      5541 5254 
+ 124      0A00 
+ 125               	.LC1:
+ 126 0012 496E 6974 		.string	"Initialized I2C\n"
+ 126      6961 6C69 
+ 126      7A65 6420 
+ 126      4932 430A 
+ 126      00
+ 127               		.text
+ 128               	.global	main
+ 130               	main:
+ 131               	.LFB6:
+ 132               	.LM21:
+ 133 0054 AF92      		push r10
+ 134 0056 BF92      		push r11
+ 135 0058 CF92      		push r12
+ 136 005a DF92      		push r13
+ 137 005c EF92      		push r14
+ 138 005e FF92      		push r15
+ 139 0060 0F93      		push r16
+ 140 0062 1F93      		push r17
+ 141 0064 CF93      		push r28
+ 142 0066 DF93      		push r29
+ 143               	/* prologue: function */
+ 144               	/* frame size = 0 */
+ 145               	.LM22:
+ 146 0068 00D0      		rcall uart_init
+ 147               	.LM23:
+ 148 006a 80E0      		ldi r24,lo8(.LC0)
+ 149 006c 90E0      		ldi r25,hi8(.LC0)
+ 150 006e 00D0      		rcall uart_transmitMult
+ 151               	.LM24:
+ 152 0070 00D0      		rcall i2c_init
+ 153               	.LM25:
+ 154 0072 80E0      		ldi r24,lo8(.LC1)
+ 155 0074 90E0      		ldi r25,hi8(.LC1)
+ 156 0076 00D0      		rcall uart_transmitMult
+ 157               	.LM26:
+ 158 0078 88E6      		ldi r24,lo8(104)
+ 159 007a 61E0      		ldi r22,lo8(1)
+ 160 007c 4BE6      		ldi r20,lo8(107)
+ 161 007e 20E0      		ldi r18,lo8(data)
+ 162 0080 30E0      		ldi r19,hi8(data)
+ 163 0082 00D0      		rcall i2c_write
+ 164               	.LBB24:
+ 165               	.LBB25:
+ 166               	.LBB26:
+ 167               	.LBB27:
+ 168               	.LM27:
+ 169 0084 20E9      		ldi r18,lo8(400)
+ 170 0086 C22E      		mov r12,r18
+ 171 0088 21E0      		ldi r18,hi8(400)
+ 172 008a D22E      		mov r13,r18
+ 173               	.LBE27:
+ 174               	.LBE26:
+ 175               	.LBE25:
+ 176               	.LBE24:
+ 177               	.LBB31:
+ 178               	.LBB32:
+ 179               	.LM28:
+ 180 008c 9CE2      		ldi r25,lo8(44)
+ 181 008e B92E      		mov r11,r25
+ 182               	.LBE32:
+ 183               	.LBE31:
+ 184               	.LBB34:
+ 185               	.LBB35:
+ 186 0090 8AE0      		ldi r24,lo8(10)
+ 187 0092 A82E      		mov r10,r24
+ 188               	.L20:
+ 189               	.LBE35:
+ 190               	.LBE34:
+ 191               	.LM29:
+ 192 0094 88E6      		ldi r24,lo8(104)
+ 193 0096 66E0      		ldi r22,lo8(6)
+ 194 0098 4BE3      		ldi r20,lo8(59)
+ 195 009a 20E0      		ldi r18,lo8(data)
+ 196 009c 30E0      		ldi r19,hi8(data)
+ 197 009e 00D0      		rcall i2c_read
+ 198 00a0 84EF      		ldi r24,lo8(500)
+ 199 00a2 91E0      		ldi r25,hi8(500)
+ 200               	.LVL5:
+ 201               	.L16:
+ 202               	.LBB37:
+ 203               	.LBB30:
+ 204               	.LBB29:
+ 205               	.LBB28:
+ 206               	.LM30:
+ 207 00a4 F601      		movw r30,r12
+ 208               	.LVL6:
+ 209               	/* #APP */
+ 210               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 211 00a6 3197      		1: sbiw r30,1
+ 212 00a8 01F4      		brne 1b
+ 213               	 ;  0 "" 2
+ 214               	/* #NOAPP */
+ 215               	.LBE28:
+ 216               	.LBE29:
+ 217               	.LM31:
+ 218 00aa 0197      		sbiw r24,1
+ 219               	.LM32:
+ 220 00ac 01F4      		brne .L16
+ 221               	.LBE30:
+ 222               	.LBE37:
+ 223               	.LM33:
+ 224 00ae F090 0000 		lds r15,data
+ 225 00b2 EE24      		clr r14
+ 226 00b4 8091 0000 		lds r24,data+1
+ 227               	.LVL7:
+ 228 00b8 90E0      		ldi r25,lo8(0)
+ 229 00ba 8E29      		or r24,r14
+ 230 00bc 9F29      		or r25,r15
+ 231 00be 60E0      		ldi r22,lo8(myString)
+ 232 00c0 70E0      		ldi r23,hi8(myString)
+ 233 00c2 4AE0      		ldi r20,lo8(10)
+ 234 00c4 50E0      		ldi r21,hi8(10)
+ 235 00c6 00D0      		rcall itoa
+ 236               	.LVL8:
+ 237               	.LM34:
+ 238 00c8 80E0      		ldi r24,lo8(myString)
+ 239 00ca 90E0      		ldi r25,hi8(myString)
+ 240 00cc 00D0      		rcall uart_transmitMult
+ 241               	.L17:
+ 242               	.LBB38:
+ 243               	.LBB33:
+ 244               	.LM35:
+ 245 00ce 8091 C000 		lds r24,192
+ 246 00d2 85FF      		sbrs r24,5
+ 247 00d4 00C0      		rjmp .L17
+ 248               	.LM36:
+ 249 00d6 B092 C600 		sts 198,r11
+ 250               	.LBE33:
+ 251               	.LBE38:
+ 252               	.LM37:
+ 253 00da D091 0000 		lds r29,data+2
+ 254 00de C0E0      		ldi r28,lo8(0)
+ 255 00e0 8091 0000 		lds r24,data+3
+ 256 00e4 90E0      		ldi r25,lo8(0)
+ 257 00e6 8C2B      		or r24,r28
+ 258 00e8 9D2B      		or r25,r29
+ 259 00ea 60E0      		ldi r22,lo8(myString)
+ 260 00ec 70E0      		ldi r23,hi8(myString)
+ 261 00ee 4AE0      		ldi r20,lo8(10)
+ 262 00f0 50E0      		ldi r21,hi8(10)
+ 263 00f2 00D0      		rcall itoa
+ 264               	.LM38:
+ 265 00f4 80E0      		ldi r24,lo8(myString)
+ 266 00f6 90E0      		ldi r25,hi8(myString)
+ 267 00f8 00D0      		rcall uart_transmitMult
+ 268               	.L18:
+ 269               	.LBB39:
+ 270               	.LBB40:
+ 271               	.LM39:
+ 272 00fa 8091 C000 		lds r24,192
+ 273 00fe 85FF      		sbrs r24,5
+ 274 0100 00C0      		rjmp .L18
+ 275               	.LM40:
+ 276 0102 B092 C600 		sts 198,r11
+ 277               	.LBE40:
+ 278               	.LBE39:
+ 279               	.LM41:
+ 280 0106 1091 0000 		lds r17,data+4
+ 281 010a 00E0      		ldi r16,lo8(0)
+ 282 010c 8091 0000 		lds r24,data+5
+ 283 0110 90E0      		ldi r25,lo8(0)
+ 284 0112 802B      		or r24,r16
+ 285 0114 912B      		or r25,r17
+ 286 0116 60E0      		ldi r22,lo8(myString)
+ 287 0118 70E0      		ldi r23,hi8(myString)
+ 288 011a 4AE0      		ldi r20,lo8(10)
+ 289 011c 50E0      		ldi r21,hi8(10)
+ 290 011e 00D0      		rcall itoa
+ 291               	.LM42:
+ 292 0120 80E0      		ldi r24,lo8(myString)
+ 293 0122 90E0      		ldi r25,hi8(myString)
+ 294 0124 00D0      		rcall uart_transmitMult
+ 295               	.L19:
+ 296               	.LBB41:
+ 297               	.LBB36:
+ 298               	.LM43:
+ 299 0126 8091 C000 		lds r24,192
+ 300 012a 85FF      		sbrs r24,5
+ 301 012c 00C0      		rjmp .L19
+ 302               	.LM44:
+ 303 012e A092 C600 		sts 198,r10
+ 304 0132 00C0      		rjmp .L20
+ 305               	.LBE36:
+ 306               	.LBE41:
+ 307               	.LFE6:
+ 309               	.global	data
+ 310               	.global	data
+ 311               		.section .bss
+ 314               	data:
+ 315 0000 0000 0000 		.skip 6,0
+ 315      0000 
+ 316               		.comm myString,16,1
+ 373               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\Xavier\AppData\Local\Temp/cctZEyLT.s:2      *ABS*:0000003f __SREG__
+C:\Users\Xavier\AppData\Local\Temp/cctZEyLT.s:3      *ABS*:0000003e __SP_H__
+C:\Users\Xavier\AppData\Local\Temp/cctZEyLT.s:4      *ABS*:0000003d __SP_L__
+C:\Users\Xavier\AppData\Local\Temp/cctZEyLT.s:5      *ABS*:00000034 __CCP__
+C:\Users\Xavier\AppData\Local\Temp/cctZEyLT.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Xavier\AppData\Local\Temp/cctZEyLT.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Xavier\AppData\Local\Temp/cctZEyLT.s:18     .text:00000000 uart_init
+C:\Users\Xavier\AppData\Local\Temp/cctZEyLT.s:47     .text:00000020 uart_transmit
+C:\Users\Xavier\AppData\Local\Temp/cctZEyLT.s:69     .text:00000030 uart_recieve
+C:\Users\Xavier\AppData\Local\Temp/cctZEyLT.s:85     .text:0000003a uart_transmitMult
+C:\Users\Xavier\AppData\Local\Temp/cctZEyLT.s:130    .text:00000054 main
+C:\Users\Xavier\AppData\Local\Temp/cctZEyLT.s:314    .bss:00000000 data
+                            *COM*:00000010 myString
+
+UNDEFINED SYMBOLS
+i2c_init
+i2c_write
+i2c_read
+itoa
+__do_copy_data
+__do_clear_bss
