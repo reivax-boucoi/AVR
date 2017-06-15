@@ -1,0 +1,67 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	main
+  18               	main:
+  19               	.LFB6:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 87B3      		in r24,55-32
+  25 0002 8360      		ori r24,lo8(3)
+  26 0004 87BB      		out 55-32,r24
+  27               	.LM3:
+  28 0006 88B3      		in r24,56-32
+  29 0008 8C7F      		andi r24,lo8(-4)
+  30 000a 88BB      		out 56-32,r24
+  31               	.LM4:
+  32 000c 82E0      		ldi r24,lo8(2)
+  33 000e 8ABD      		out 74-32,r24
+  34               	.LM5:
+  35 0010 8FEF      		ldi r24,lo8(-1)
+  36 0012 89BD      		out 73-32,r24
+  37               	.LM6:
+  38 0014 80E1      		ldi r24,lo8(16)
+  39 0016 89BF      		out 89-32,r24
+  40               	.LM7:
+  41 0018 83E0      		ldi r24,lo8(3)
+  42 001a 83BF      		out 83-32,r24
+  43               	.L2:
+  44 001c 00C0      		rjmp .L2
+  45               	.LFE6:
+  47               	.global	ISR
+  49               	ISR:
+  50               	.LFB7:
+  51               	.LM8:
+  52               	.LVL0:
+  53               	/* prologue: function */
+  54               	/* frame size = 0 */
+  55               	.LM9:
+  56 001e 88B3      		in r24,56-32
+  57               	.LVL1:
+  58 0020 91E0      		ldi r25,lo8(1)
+  59 0022 8927      		eor r24,r25
+  60 0024 88BB      		out 56-32,r24
+  61               	/* epilogue start */
+  62               	.LM10:
+  63 0026 0895      		ret
+  64               	.LFE7:
+  98               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\Xavier\AppData\Local\Temp/ccA2JNlk.s:2      *ABS*:0000003f __SREG__
+C:\Users\Xavier\AppData\Local\Temp/ccA2JNlk.s:3      *ABS*:0000003e __SP_H__
+C:\Users\Xavier\AppData\Local\Temp/ccA2JNlk.s:4      *ABS*:0000003d __SP_L__
+C:\Users\Xavier\AppData\Local\Temp/ccA2JNlk.s:5      *ABS*:00000034 __CCP__
+C:\Users\Xavier\AppData\Local\Temp/ccA2JNlk.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Xavier\AppData\Local\Temp/ccA2JNlk.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Xavier\AppData\Local\Temp/ccA2JNlk.s:18     .text:00000000 main
+C:\Users\Xavier\AppData\Local\Temp/ccA2JNlk.s:49     .text:0000001e ISR
+
+NO UNDEFINED SYMBOLS

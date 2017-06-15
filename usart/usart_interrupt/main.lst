@@ -1,0 +1,189 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	uart_init
+  18               	uart_init:
+  19               	.LFB2:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 10BC      		out 64-32,__zero_reg__
+  25               	.LM3:
+  26 0002 8DE4      		ldi r24,lo8(77)
+  27 0004 89B9      		out 41-32,r24
+  28               	.LM4:
+  29 0006 8AB1      		in r24,42-32
+  30 0008 8861      		ori r24,lo8(24)
+  31 000a 8AB9      		out 42-32,r24
+  32               	.LM5:
+  33 000c 80B5      		in r24,64-32
+  34 000e 8668      		ori r24,lo8(-122)
+  35 0010 80BD      		out 64-32,r24
+  36               	.LM6:
+  37 0012 579A      		sbi 42-32,7
+  38               	/* epilogue start */
+  39               	.LM7:
+  40 0014 0895      		ret
+  41               	.LFE2:
+  43               	.global	uart_transmit
+  45               	uart_transmit:
+  46               	.LFB3:
+  47               	.LM8:
+  48               	/* prologue: function */
+  49               	/* frame size = 0 */
+  50               	.LVL0:
+  51               	.L4:
+  52               	.LM9:
+  53 0016 5D9B      		sbis 43-32,5
+  54 0018 00C0      		rjmp .L4
+  55               	.LM10:
+  56 001a 8CB9      		out 44-32,r24
+  57               	/* epilogue start */
+  58               	.LM11:
+  59 001c 0895      		ret
+  60               	.LFE3:
+  62               	.global	uart_recieve
+  64               	uart_recieve:
+  65               	.LFB4:
+  66               	.LM12:
+  67               	/* prologue: function */
+  68               	/* frame size = 0 */
+  69               	.LM13:
+  70 001e 8BB1      		in r24,43-32
+  71               	.LM14:
+  72 0020 8CB1      		in r24,44-32
+  73               	/* epilogue start */
+  74               	.LM15:
+  75 0022 0895      		ret
+  76               	.LFE4:
+  78               	.global	main
+  80               	main:
+  81               	.LFB5:
+  82               	.LM16:
+  83               	/* prologue: function */
+  84               	/* frame size = 0 */
+  85               	.LM17:
+  86 0024 B89A      		sbi 55-32,0
+  87               	.LM18:
+  88 0026 C09A      		sbi 56-32,0
+  89               	.LM19:
+  90 0028 00D0      		rcall uart_init
+  91               	.LM20:
+  92 002a 89B7      		in r24,89-32
+  93 002c 8160      		ori r24,lo8(1)
+  94 002e 89BF      		out 89-32,r24
+  95               	.LM21:
+  96               	/* #APP */
+  97               	 ;  33 "main.c" 1
+  98 0030 7894      		sei
+  99               	 ;  0 "" 2
+ 100               	.LM22:
+ 101               	/* #NOAPP */
+ 102 0032 83B7      		in r24,83-32
+ 103 0034 8560      		ori r24,lo8(5)
+ 104 0036 83BF      		out 83-32,r24
+ 105               	.LVL1:
+ 106               	.L17:
+ 107               	.LBB7:
+ 108               	.LBB8:
+ 109               	.LBB9:
+ 110               	.LM23:
+ 111 0038 8BB1      		in r24,43-32
+ 112               	.LVL2:
+ 113               	.LM24:
+ 114 003a 8CB1      		in r24,44-32
+ 115               	.LVL3:
+ 116               	.LBE9:
+ 117               	.LBE8:
+ 118               	.LM25:
+ 119 003c 8823      		tst r24
+ 120 003e 01F0      		breq .L17
+ 121               	.L14:
+ 122               	.LBB10:
+ 123               	.LBB11:
+ 124               	.LM26:
+ 125 0040 5D9B      		sbis 43-32,5
+ 126 0042 00C0      		rjmp .L14
+ 127               	.LM27:
+ 128 0044 8CB9      		out 44-32,r24
+ 129 0046 00C0      		rjmp .L17
+ 130               	.LBE11:
+ 131               	.LBE10:
+ 132               	.LBE7:
+ 133               	.LFE5:
+ 135               	.global	__vector_9
+ 137               	__vector_9:
+ 138               	.LFB6:
+ 139               	.LM28:
+ 140 0048 1F92      		push __zero_reg__
+ 141 004a 0F92      		push r0
+ 142 004c 0FB6      		in r0,__SREG__
+ 143 004e 0F92      		push r0
+ 144 0050 1124      		clr __zero_reg__
+ 145               	/* prologue: Signal */
+ 146               	/* frame size = 0 */
+ 147               	/* epilogue start */
+ 148               	.LM29:
+ 149 0052 0F90      		pop r0
+ 150 0054 0FBE      		out __SREG__,r0
+ 151 0056 0F90      		pop r0
+ 152 0058 1F90      		pop __zero_reg__
+ 153 005a 1895      		reti
+ 154               	.LFE6:
+ 156               	.global	__vector_11
+ 158               	__vector_11:
+ 159               	.LFB7:
+ 160               	.LM30:
+ 161 005c 1F92      		push __zero_reg__
+ 162 005e 0F92      		push r0
+ 163 0060 0FB6      		in r0,__SREG__
+ 164 0062 0F92      		push r0
+ 165 0064 1124      		clr __zero_reg__
+ 166 0066 8F93      		push r24
+ 167               	/* prologue: Signal */
+ 168               	/* frame size = 0 */
+ 169               	.LM31:
+ 170 0068 8CB1      		in r24,44-32
+ 171               	.LVL4:
+ 172               	.LM32:
+ 173 006a 8CB9      		out 44-32,r24
+ 174               	/* epilogue start */
+ 175               	.LM33:
+ 176 006c 8F91      		pop r24
+ 177               	.LVL5:
+ 178 006e 0F90      		pop r0
+ 179 0070 0FBE      		out __SREG__,r0
+ 180 0072 0F90      		pop r0
+ 181 0074 1F90      		pop __zero_reg__
+ 182 0076 1895      		reti
+ 183               	.LFE7:
+ 185               	.global	cnt
+ 186               	.global	cnt
+ 187               		.section .bss
+ 190               	cnt:
+ 191 0000 00        		.skip 1,0
+ 256               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:2      *ABS*:0000003f __SREG__
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:3      *ABS*:0000003e __SP_H__
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:4      *ABS*:0000003d __SP_L__
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:5      *ABS*:00000034 __CCP__
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:18     .text:00000000 uart_init
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:45     .text:00000016 uart_transmit
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:64     .text:0000001e uart_recieve
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:80     .text:00000024 main
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:137    .text:00000048 __vector_9
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:158    .text:0000005c __vector_11
+C:\Users\Xavier\AppData\Local\Temp/ccFQuvwS.s:190    .bss:00000000 cnt
+
+UNDEFINED SYMBOLS
+__do_clear_bss

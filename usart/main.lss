@@ -1,0 +1,262 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000ee  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000001  00800060  00800060  00000162  2**0
+                  ALLOC
+  2 .debug_aranges 00000020  00000000  00000000  00000162  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_pubnames 00000063  00000000  00000000  00000182  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   000001bb  00000000  00000000  000001e5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 0000013a  00000000  00000000  000003a0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   000001c7  00000000  00000000  000004da  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000060  00000000  00000000  000006a4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    000000ba  00000000  00000000  00000704  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    0000001e  00000000  00000000  000007be  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	21 c0       	rjmp	.+66     	; 0x46 <__bad_interrupt>
+   4:	20 c0       	rjmp	.+64     	; 0x46 <__bad_interrupt>
+   6:	1f c0       	rjmp	.+62     	; 0x46 <__bad_interrupt>
+   8:	1e c0       	rjmp	.+60     	; 0x46 <__bad_interrupt>
+   a:	1d c0       	rjmp	.+58     	; 0x46 <__bad_interrupt>
+   c:	1c c0       	rjmp	.+56     	; 0x46 <__bad_interrupt>
+   e:	1b c0       	rjmp	.+54     	; 0x46 <__bad_interrupt>
+  10:	1a c0       	rjmp	.+52     	; 0x46 <__bad_interrupt>
+  12:	3d c0       	rjmp	.+122    	; 0x8e <__vector_9>
+  14:	18 c0       	rjmp	.+48     	; 0x46 <__bad_interrupt>
+  16:	17 c0       	rjmp	.+46     	; 0x46 <__bad_interrupt>
+  18:	16 c0       	rjmp	.+44     	; 0x46 <__bad_interrupt>
+  1a:	15 c0       	rjmp	.+42     	; 0x46 <__bad_interrupt>
+  1c:	14 c0       	rjmp	.+40     	; 0x46 <__bad_interrupt>
+  1e:	13 c0       	rjmp	.+38     	; 0x46 <__bad_interrupt>
+  20:	12 c0       	rjmp	.+36     	; 0x46 <__bad_interrupt>
+  22:	11 c0       	rjmp	.+34     	; 0x46 <__bad_interrupt>
+  24:	10 c0       	rjmp	.+32     	; 0x46 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+
+00000032 <__do_clear_bss>:
+  32:	10 e0       	ldi	r17, 0x00	; 0
+  34:	a0 e6       	ldi	r26, 0x60	; 96
+  36:	b0 e0       	ldi	r27, 0x00	; 0
+  38:	01 c0       	rjmp	.+2      	; 0x3c <.do_clear_bss_start>
+
+0000003a <.do_clear_bss_loop>:
+  3a:	1d 92       	st	X+, r1
+
+0000003c <.do_clear_bss_start>:
+  3c:	a1 36       	cpi	r26, 0x61	; 97
+  3e:	b1 07       	cpc	r27, r17
+  40:	e1 f7       	brne	.-8      	; 0x3a <.do_clear_bss_loop>
+  42:	13 d0       	rcall	.+38     	; 0x6a <main>
+  44:	52 c0       	rjmp	.+164    	; 0xea <_exit>
+
+00000046 <__bad_interrupt>:
+  46:	dc cf       	rjmp	.-72     	; 0x0 <__vectors>
+
+00000048 <uart_init>:
+
+#define BAUD 9600                                   // define baud
+#define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)            // set baud rate value for UBRR
+  
+  void uart_init (void){
+    UBRRH = (BAUDRATE>>8);
+  48:	10 bc       	out	0x20, r1	; 32
+    UBRRL = BAUDRATE;	// set baud rate
+  4a:	8d e4       	ldi	r24, 0x4D	; 77
+  4c:	89 b9       	out	0x09, r24	; 9
+    UCSRB|= (1<<TXEN)|(1<<RXEN);	// enable receiver and transmitter
+  4e:	8a b1       	in	r24, 0x0a	; 10
+  50:	88 61       	ori	r24, 0x18	; 24
+  52:	8a b9       	out	0x0a, r24	; 10
+    UCSRC|= (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);	// 8bit data format
+  54:	80 b5       	in	r24, 0x20	; 32
+  56:	86 68       	ori	r24, 0x86	; 134
+  58:	80 bd       	out	0x20, r24	; 32
+}
+  5a:	08 95       	ret
+
+0000005c <uart_transmit>:
+
+void uart_transmit (unsigned char data){
+    while (!( UCSRA & (1<<UDRE)));	// wait while register is free
+  5c:	5d 9b       	sbis	0x0b, 5	; 11
+  5e:	fe cf       	rjmp	.-4      	; 0x5c <uart_transmit>
+    UDR = data;	// load data in the register
+  60:	8c b9       	out	0x0c, r24	; 12
+}
+  62:	08 95       	ret
+
+00000064 <uart_recieve>:
+
+unsigned char uart_recieve (void){
+    while(!(UCSRA) & (1<<RXC));	// wait while data is being received
+  64:	8b b1       	in	r24, 0x0b	; 11
+    return UDR;	// return 8-bit data
+  66:	8c b1       	in	r24, 0x0c	; 12
+}
+  68:	08 95       	ret
+
+0000006a <main>:
+
+volatile uint8_t cnt=0;
+int main(void){
+  DDRB |= 1 << PINB0 ;
+  6a:	b8 9a       	sbi	0x17, 0	; 23
+  PORTB |= 1<<PINB0;
+  6c:	c0 9a       	sbi	0x18, 0	; 24
+  uart_init();
+  6e:	ec df       	rcall	.-40     	; 0x48 <uart_init>
+  TIMSK|=1<<TOIE0;
+  70:	89 b7       	in	r24, 0x39	; 57
+  72:	81 60       	ori	r24, 0x01	; 1
+  74:	89 bf       	out	0x39, r24	; 57
+  sei();
+  76:	78 94       	sei
+  TCCR0 |=(1<<CS02) |(1<<CS00);
+  78:	83 b7       	in	r24, 0x33	; 51
+  7a:	85 60       	ori	r24, 0x05	; 5
+  7c:	83 bf       	out	0x33, r24	; 51
+    while (!( UCSRA & (1<<UDRE)));	// wait while register is free
+    UDR = data;	// load data in the register
+}
+
+unsigned char uart_recieve (void){
+    while(!(UCSRA) & (1<<RXC));	// wait while data is being received
+  7e:	8b b1       	in	r24, 0x0b	; 11
+    return UDR;	// return 8-bit data
+  80:	8c b1       	in	r24, 0x0c	; 12
+  sei();
+  TCCR0 |=(1<<CS02) |(1<<CS00);
+  
+  while(1){
+	uint8_t data = uart_recieve ();
+	if(data){
+  82:	88 23       	and	r24, r24
+  84:	e1 f3       	breq	.-8      	; 0x7e <main+0x14>
+    UCSRB|= (1<<TXEN)|(1<<RXEN);	// enable receiver and transmitter
+    UCSRC|= (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);	// 8bit data format
+}
+
+void uart_transmit (unsigned char data){
+    while (!( UCSRA & (1<<UDRE)));	// wait while register is free
+  86:	5d 9b       	sbis	0x0b, 5	; 11
+  88:	fe cf       	rjmp	.-4      	; 0x86 <main+0x1c>
+    UDR = data;	// load data in the register
+  8a:	8c b9       	out	0x0c, r24	; 12
+  8c:	f8 cf       	rjmp	.-16     	; 0x7e <main+0x14>
+
+0000008e <__vector_9>:
+		data=0;
+		}
+  }
+  return 0;
+}
+ISR(TIMER0_OVF_vect){
+  8e:	1f 92       	push	r1
+  90:	0f 92       	push	r0
+  92:	0f b6       	in	r0, 0x3f	; 63
+  94:	0f 92       	push	r0
+  96:	11 24       	eor	r1, r1
+  98:	8f 93       	push	r24
+  9a:	9f 93       	push	r25
+	if(cnt>=46){
+  9c:	80 91 60 00 	lds	r24, 0x0060
+  a0:	8e 32       	cpi	r24, 0x2E	; 46
+  a2:	b8 f0       	brcs	.+46     	; 0xd2 <__vector_9+0x44>
+    UCSRB|= (1<<TXEN)|(1<<RXEN);	// enable receiver and transmitter
+    UCSRC|= (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);	// 8bit data format
+}
+
+void uart_transmit (unsigned char data){
+    while (!( UCSRA & (1<<UDRE)));	// wait while register is free
+  a4:	5d 9b       	sbis	0x0b, 5	; 11
+  a6:	fe cf       	rjmp	.-4      	; 0xa4 <__vector_9+0x16>
+    UDR = data;	// load data in the register
+  a8:	81 e4       	ldi	r24, 0x41	; 65
+  aa:	8c b9       	out	0x0c, r24	; 12
+    UCSRB|= (1<<TXEN)|(1<<RXEN);	// enable receiver and transmitter
+    UCSRC|= (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);	// 8bit data format
+}
+
+void uart_transmit (unsigned char data){
+    while (!( UCSRA & (1<<UDRE)));	// wait while register is free
+  ac:	5d 9b       	sbis	0x0b, 5	; 11
+  ae:	fe cf       	rjmp	.-4      	; 0xac <__vector_9+0x1e>
+    UDR = data;	// load data in the register
+  b0:	8a e0       	ldi	r24, 0x0A	; 10
+  b2:	8c b9       	out	0x0c, r24	; 12
+    UCSRB|= (1<<TXEN)|(1<<RXEN);	// enable receiver and transmitter
+    UCSRC|= (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);	// 8bit data format
+}
+
+void uart_transmit (unsigned char data){
+    while (!( UCSRA & (1<<UDRE)));	// wait while register is free
+  b4:	5d 9b       	sbis	0x0b, 5	; 11
+  b6:	fe cf       	rjmp	.-4      	; 0xb4 <__vector_9+0x26>
+    UDR = data;	// load data in the register
+  b8:	82 e4       	ldi	r24, 0x42	; 66
+  ba:	8c b9       	out	0x0c, r24	; 12
+    UCSRB|= (1<<TXEN)|(1<<RXEN);	// enable receiver and transmitter
+    UCSRC|= (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);	// 8bit data format
+}
+
+void uart_transmit (unsigned char data){
+    while (!( UCSRA & (1<<UDRE)));	// wait while register is free
+  bc:	5d 9b       	sbis	0x0b, 5	; 11
+  be:	fe cf       	rjmp	.-4      	; 0xbc <__vector_9+0x2e>
+    UDR = data;	// load data in the register
+  c0:	8a e0       	ldi	r24, 0x0A	; 10
+  c2:	8c b9       	out	0x0c, r24	; 12
+	if(cnt>=46){
+		uart_transmit (0x41);
+		uart_transmit ('\n');
+		uart_transmit (0x42);
+		uart_transmit (0x0A);
+		PORTB ^= 1<<PINB0 ;
+  c4:	88 b3       	in	r24, 0x18	; 24
+  c6:	91 e0       	ldi	r25, 0x01	; 1
+  c8:	89 27       	eor	r24, r25
+  ca:	88 bb       	out	0x18, r24	; 24
+		cnt=0;
+  cc:	10 92 60 00 	sts	0x0060, r1
+  d0:	05 c0       	rjmp	.+10     	; 0xdc <__vector_9+0x4e>
+	}else{
+		cnt++;
+  d2:	80 91 60 00 	lds	r24, 0x0060
+  d6:	8f 5f       	subi	r24, 0xFF	; 255
+  d8:	80 93 60 00 	sts	0x0060, r24
+	}
+  dc:	9f 91       	pop	r25
+  de:	8f 91       	pop	r24
+  e0:	0f 90       	pop	r0
+  e2:	0f be       	out	0x3f, r0	; 63
+  e4:	0f 90       	pop	r0
+  e6:	1f 90       	pop	r1
+  e8:	18 95       	reti
+
+000000ea <_exit>:
+  ea:	f8 94       	cli
+
+000000ec <__stop_program>:
+  ec:	ff cf       	rjmp	.-2      	; 0xec <__stop_program>

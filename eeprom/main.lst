@@ -1,0 +1,111 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	main
+  18               	main:
+  19               	.LFB6:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 B89A      		sbi 55-32,0
+  25               	.LM3:
+  26 0002 8EE2      		ldi r24,lo8(46)
+  27 0004 90E0      		ldi r25,hi8(46)
+  28 0006 00D0      		rcall __eerd_byte_tn85
+  29 0008 682F      		mov r22,r24
+  30               	.LVL0:
+  31               	.LM4:
+  32 000a 8EE2      		ldi r24,lo8(46)
+  33 000c 90E0      		ldi r25,hi8(46)
+  34 000e 00D0      		rcall __eeupd_byte_tn85
+  35               	.LVL1:
+  36               	.LBB18:
+  37               	.LBB19:
+  38               	.LBB20:
+  39               	.LBB21:
+  40               	.LM5:
+  41 0010 42EE      		ldi r20,lo8(1250)
+  42 0012 54E0      		ldi r21,hi8(1250)
+  43               	.LBE21:
+  44               	.LBE20:
+  45               	.LBE19:
+  46               	.LBE18:
+  47               	.LBB25:
+  48               	.LBB26:
+  49               	.LBB27:
+  50               	.LBB28:
+  51 0014 29E1      		ldi r18,lo8(25)
+  52 0016 30E0      		ldi r19,hi8(25)
+  53               	.LVL2:
+  54               	.L3:
+  55               	.LBE28:
+  56               	.LBE27:
+  57               	.LBE26:
+  58               	.LBE25:
+  59               	.LM6:
+  60 0018 C09A      		sbi 56-32,0
+  61               	.LBB32:
+  62               	.LBB24:
+  63               	.LBB23:
+  64               	.LBB22:
+  65               	.LM7:
+  66 001a CA01      		movw r24,r20
+  67               	.LVL3:
+  68               	/* #APP */
+  69               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+  70 001c 0197      		1: sbiw r24,1
+  71 001e 01F4      		brne 1b
+  72               	 ;  0 "" 2
+  73               	/* #NOAPP */
+  74               	.LBE22:
+  75               	.LBE23:
+  76               	.LBE24:
+  77               	.LBE32:
+  78               	.LM8:
+  79 0020 C098      		cbi 56-32,0
+  80 0022 80E2      		ldi r24,lo8(20000)
+  81 0024 9EE4      		ldi r25,hi8(20000)
+  82               	.LVL4:
+  83               	.L2:
+  84               	.LBB33:
+  85               	.LBB31:
+  86               	.LBB30:
+  87               	.LBB29:
+  88               	.LM9:
+  89 0026 F901      		movw r30,r18
+  90               	/* #APP */
+  91               	 ;  105 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+  92 0028 3197      		1: sbiw r30,1
+  93 002a 01F4      		brne 1b
+  94               	 ;  0 "" 2
+  95               	/* #NOAPP */
+  96               	.LBE29:
+  97               	.LBE30:
+  98               	.LM10:
+  99 002c 0197      		sbiw r24,1
+ 100               	.LM11:
+ 101 002e 01F4      		brne .L2
+ 102 0030 00C0      		rjmp .L3
+ 103               	.LBE31:
+ 104               	.LBE33:
+ 105               	.LFE6:
+ 131               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\Xavier\AppData\Local\Temp/cc8r68vz.s:2      *ABS*:0000003f __SREG__
+C:\Users\Xavier\AppData\Local\Temp/cc8r68vz.s:3      *ABS*:0000003e __SP_H__
+C:\Users\Xavier\AppData\Local\Temp/cc8r68vz.s:4      *ABS*:0000003d __SP_L__
+C:\Users\Xavier\AppData\Local\Temp/cc8r68vz.s:5      *ABS*:00000034 __CCP__
+C:\Users\Xavier\AppData\Local\Temp/cc8r68vz.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Xavier\AppData\Local\Temp/cc8r68vz.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Xavier\AppData\Local\Temp/cc8r68vz.s:18     .text:00000000 main
+
+UNDEFINED SYMBOLS
+__eerd_byte_tn85
+__eeupd_byte_tn85
