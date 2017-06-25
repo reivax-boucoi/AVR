@@ -114,7 +114,7 @@ char USI_Start_Transmission(char *msg, char msg_size){
 }
 
 int main(void){
-	DDRA|=(1<<PINA7);
+	DDRA|=(1<<PINA0);
 	uint8_t i2c_buffer[15];
 	int16_t data[7];
 	uint8_t i2c_buffer_len = 3;
@@ -139,11 +139,11 @@ int main(void){
 				data[2*i] = (i2c_buffer[2*i+1]<<8 )| i2c_buffer[2*i + 2]; // assemble
 			}
 			if(data[1]==0){
-				PORTA|=(1<<PINA7);
+				PORTA|=(1<<PINA0);
 			}else{
-				PORTA&=~(1<<PINA7); // led high
+				PORTA&=~(1<<PINA0); // led high
 			}
 		}
-		_delay_ms(1);	
+		_delay_ms(500);	
 	}
 }

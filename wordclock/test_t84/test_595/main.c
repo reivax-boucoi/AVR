@@ -4,22 +4,14 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-#define BAUD 9600
-#define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
-
 #define RTC_addr 0x68
 
 #define READ 0x01
 #define WRITE 0x00
 #define I2C_FAST_MODE 1
 
-#ifdef I2C_FAST_MODE	 // ~=430kHz
-	#define I2C_TLOW	1 // 1.3
-	#define I2C_THIGH	0.7 // 0.6
-#else 
-	#define I2C_TLOW	4.7
-	#define I2C_THIGH	4.0
-#endif
+#define I2C_TLOW	1
+#define I2C_THIGH	0.7
 
 #define DDR_USI             DDRA
 #define PORT_USI            PORTA
@@ -29,10 +21,15 @@
 #define PIN_USI_SDA         PINA6
 #define PIN_USI_SCL         PINA4
 
+#define RCLK PINA1
+#define SRCLK PINA2
+#define SER PINA0
+
  struct Ttime {
 	uint8_t hour, min, minquad, monthDay, month;
 };
 struct Ttime currenttime;
+
  struct Tcolors {
 	uint8_t r,g,b;
 };
@@ -43,26 +40,31 @@ uint8_t i2c_in_transmit(uint8_t *msg, uint8_t msg_size);
 uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val);
 uint8_t i2c_read(uint8_t addr, uint8_t len, uint8_t adrs, uint8_t *buf);
 
+void SR_init();
+void SR_write(uint16_t data);
+void setLeds(struct Tcolors c, struct Ttime t);
+
 uint8_t bcdToDec(uint8_t val);
 void RTC_init(void);
 uint8_t RTC_readTime(struct Ttime *t);
 uint8_t updateTime(struct Ttime temp);
 uint8_t quad(uint8_t min);
-void setLeds(struct Tcolors c, struct Ttime t);
 
 uint8_t myString[16];
 uint8_t data[7] = {0};
 
 int main(void){
 	RTC_init();
-	DDRA |= (1<<PINA0);
-	PORTB &=~(1<<PINA0);
+	SR_init();
+	uint8_t j=2;
 	while(1){
 		struct Ttime temp;
 		RTC_readTime(&temp);
 		updateTime(temp);
-		_delay_ms(500);	
-		}
+		_delay_ms(2000);	
+		SR_write(0x01<<j++);
+		if(j>=8)j=2;
+	}
 }
 /*
 ISR(_vect){//-------------------------------------------------------------------------------------------------------------------------------
@@ -72,9 +74,29 @@ ISR(_vect){//-------------------------------------------------------------------
 	updateTime(temp);
 }
 */
-void setLeds(struct Tcolors c, struct Ttime t){
-	PORTA ^=(1<<PINA0);
+void SR_write(uint16_t data) {
+  PORTA &=~(1<<RCLK);
+  uint8_t i=0;
+  for (; i < 8; i++){
+	PORTA &=~(1<<SRCLK);
+	if(data & (0x01<<i)){
+		PORTA |=(1<<SER);
+	}else{
+		PORTA &=~(1<<SER);
+	}
+	PORTA |=(1<<SRCLK);
+  }
+  PORTA |=(1<<RCLK);
 }
+void SR_init(){
+	DDRA |= (1<<RCLK)|(1<<SRCLK)|(1<<SER);
+	PORTA &=~((1<<RCLK)|(1<<SRCLK)|(1<<SER));
+	SR_write(0x00);
+}
+void setLeds(struct Tcolors c, struct Ttime t){
+	//PORTA ^=(1<<PINA0);
+}
+
 uint8_t updateTime(struct Ttime temp){
 	if(temp.minquad != currenttime.minquad ||
 		temp.hour != currenttime.hour){

@@ -3,7 +3,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-#define AccAddr 0x68
+#define RTC_addr 0x68
 #define READ 0x01
 #define WRITE 0x00
 #define I2C_FAST_MODE 1
@@ -115,34 +115,34 @@ char USI_Start_Transmission(char *msg, char msg_size){
 
 int main(void){
 	DDRA|=(1<<PINA0);
-	uint8_t i2c_buffer[15];
+	uint8_t i2c_buffer[8];
 	int16_t data[7];
 	uint8_t i2c_buffer_len = 3;
 	//write : 0 , read : 1
-	i2c_buffer[0] = (AccAddr << 1) | WRITE ;
+	/*i2c_buffer[0] = (RTC_addr << 1) | WRITE ;
 	i2c_buffer[1] = 0x6B;
 	i2c_buffer[2] = 0x00; // activate
 	USI_Start_Transmission(i2c_buffer, i2c_buffer_len);
-	_delay_ms(35); // to get stable 1st values
+	_delay_ms(35); // to get stable 1st values*/
 	
 	for(;;){
 		i2c_buffer_len = 2;		
-		i2c_buffer[0] = (AccAddr << 1) | WRITE ; // set reg pointer to 1st bit
-		i2c_buffer[1] = 0x3B;
+		i2c_buffer[0] = (RTC_addr << 1) | WRITE ; // set reg pointer to 1st bit
+		i2c_buffer[1] = 0x00;
 		USI_Start_Transmission(i2c_buffer, i2c_buffer_len);
 		
-		i2c_buffer_len = 15; // read whole data
-		i2c_buffer[0] = (AccAddr << 1) | READ;
+		i2c_buffer_len = 8; // read whole data
+		i2c_buffer[0] = (RTC_addr << 1) | READ;
 		if(USI_Start_Transmission(i2c_buffer, i2c_buffer_len)){
-			uint8_t i;
+			/*uint8_t i;
 			for(i=0;i<7;i++){
 				data[2*i] = (i2c_buffer[2*i+1]<<8 )| i2c_buffer[2*i + 2]; // assemble
 			}
 			if(data[1]==0){
-				PORTA|=(1<<PINA7);
+				PORTA|=(1<<PINA0);
 			}else{
-				PORTA&=~(1<<PINA7); // led high
-			}
+				PORTA&=~(1<<PINA0); // led high
+			}*/
 		}
 		_delay_ms(500);	
 	}
