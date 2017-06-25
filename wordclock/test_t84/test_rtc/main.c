@@ -56,9 +56,11 @@ int main(void){
 	DDRA |= (1<<PINA0);
 	PORTB &=~(1<<PINA0);
 	while(1){
-		struct Ttime temp;
-		RTC_readTime(&temp);
-		updateTime(temp);
+		//struct Ttime temp;
+		//i2c_read(RTC_addr,7,0x00,data);
+		//RTC_readTime(&temp);
+		//updateTime(temp);
+		PORTA ^=(1<<PINA0);
 		_delay_ms(500);
 	}
 }

@@ -28,11 +28,11 @@
 #define PIN_SCL PINA6
 #define PIN_SDA PINA4
 
-typedef struct Ttime {
+ struct Ttime {
 	uint8_t hour, min, minquad, monthDay, month;
 };
 struct Ttime currenttime;
-typedef struct Tcolors {
+ struct Tcolors {
 	uint8_t r,g,b;
 };
 struct Tcolors currentcolors;
@@ -56,9 +56,11 @@ int main(void){
 	DDRA |= (1<<PINA0);
 	PORTB &=~(1<<PINA0);
 	while(1){
-		struct Ttime temp;
-		RTC_readTime(&temp);
-		updateTime(temp);
+		//struct Ttime temp;
+		i2c_read(RTC_addr,7,0x00,data);
+		//RTC_readTime(&temp);
+		//updateTime(temp);
+		PORTA ^=(1<<PINA0);
 		_delay_ms(500);
 	}
 }
