@@ -28,13 +28,14 @@
 #define PIN_SCL PINA6
 #define PIN_SDA PINA4
 
-typedef struct Ttime {
+ struct Ttime {
 	uint8_t hour, min, minquad, monthDay, month;
-} currenttime;
-typedef struct Tcolors {
+};
+struct Ttime currenttime;
+ struct Tcolors {
 	uint8_t r,g,b;
-} currentcolors;
-
+};
+struct Tcolors currentcolors;
 uint8_t i2c_in_transfer(uint8_t USISR_temp);
 uint8_t i2c_in_transmit(uint8_t *msg, uint8_t msg_size);
 uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val);
@@ -57,7 +58,7 @@ int main(void){
 	while(1){
 		struct Ttime temp;
 		RTC_readTime(&temp);
-		data[0]=updateTime(temp);
+		updateTime(temp);
 		_delay_ms(500);
 	}
 }
@@ -73,7 +74,8 @@ void setLeds(struct Tcolors c, struct Ttime t){
 	PORTA ^=(1<<PINA0);
 }
 uint8_t updateTime(struct Ttime temp){
-	if(temp.minquad != currenttime.minquad){
+	if(temp.minquad != currenttime.minquad ||
+		temp.hour != currenttime.hour){
 		currenttime = temp;
 		setLeds(currentcolors,currenttime);
 		return 1;
