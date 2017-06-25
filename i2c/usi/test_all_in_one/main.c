@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #define F_CPU 12000000
+=======
+#define F_CPU 8000000
+>>>>>>> 698d105daf26f9a3d02a764d4f3549a99f81be1b
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -9,10 +13,17 @@
 #define I2C_FAST_MODE 1
 
 #ifdef I2C_FAST_MODE	 // ~=430kHz
+<<<<<<< HEAD
 	#define I2C_TLOW	0.8 // 1.3
 	#define I2C_THIGH	0.5 // 0.6
 #else 
 	#define I2C_TLOW	4.7 // ~=100kHz
+=======
+	#define I2C_TLOW	1 // 1.3
+	#define I2C_THIGH	0.7 // 0.6
+#else 
+	#define I2C_TLOW	4.7
+>>>>>>> 698d105daf26f9a3d02a764d4f3549a99f81be1b
 	#define I2C_THIGH	4.0
 #endif
 
@@ -135,15 +146,25 @@ int main(void){
 		i2c_buffer[0] = (AccAddr << 1) | READ;
 		if(USI_Start_Transmission(i2c_buffer, i2c_buffer_len)){
 			uint8_t i;
+<<<<<<< HEAD
 			/*for(i=0;i<7;i++){
 				data[2*i] = (i2c_buffer[2*i]<<8 )| i2c_buffer[2*i + 1]; // assemble
 			}*/
+=======
+			for(i=0;i<7;i++){
+				data[2*i] = (i2c_buffer[2*i]<<8 )| i2c_buffer[2*i + 1]; // assemble
+			}
+>>>>>>> 698d105daf26f9a3d02a764d4f3549a99f81be1b
 			if(data[0]>8000){
 				PORTB|=(1<<PINB1);
 			}else{
 				PORTB&=~(1<<PINB1);
 			}
 		}
+<<<<<<< HEAD
 		_delay_ms(1);	
+=======
+		_delay_ms(50);	
+>>>>>>> 698d105daf26f9a3d02a764d4f3549a99f81be1b
 	}
 }
