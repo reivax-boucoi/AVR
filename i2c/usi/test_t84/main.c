@@ -16,13 +16,13 @@
 	#define I2C_THIGH	4.0
 #endif
 
-#define DDR_USI             DDRB
-#define PORT_USI            PORTB
-#define PIN_USI             PINB
-#define PORT_USI_SDA        PB0
-#define PORT_USI_SCL        PB2
-#define PIN_USI_SDA         PINB0
-#define PIN_USI_SCL         PINB2
+#define DDR_USI             DDRA
+#define PORT_USI            PORTA
+#define PIN_USI             PINA
+#define PORT_USI_SDA        PA6
+#define PORT_USI_SCL        PA4
+#define PIN_USI_SDA         PINA6
+#define PIN_USI_SCL         PINA4
 
 
 enum{
@@ -114,7 +114,7 @@ char USI_Start_Transmission(char *msg, char msg_size){
 }
 
 int main(void){
-	DDRB|=(1<<PINB1);
+	DDRA|=(1<<PINA7);
 	uint8_t i2c_buffer[15];
 	int16_t data[7];
 	uint8_t i2c_buffer_len = 3;
@@ -135,13 +135,13 @@ int main(void){
 		i2c_buffer[0] = (AccAddr << 1) | READ;
 		if(USI_Start_Transmission(i2c_buffer, i2c_buffer_len)){
 			uint8_t i;
-			/*for(i=0;i<7;i++){
-				data[2*i] = (i2c_buffer[2*i]<<8 )| i2c_buffer[2*i + 1]; // assemble
-			}*/
-			if(data[0]>8000){
-				PORTB|=(1<<PINB1);
+			for(i=0;i<7;i++){
+				data[2*i] = (i2c_buffer[2*i+1]<<8 )| i2c_buffer[2*i + 2]; // assemble
+			}
+			if(data[1]==0){
+				PORTA|=(1<<PINA7);
 			}else{
-				PORTB&=~(1<<PINB1);
+				PORTA&=~(1<<PINA7); // led high
 			}
 		}
 		_delay_ms(1);	
