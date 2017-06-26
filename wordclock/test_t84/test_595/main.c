@@ -25,15 +25,29 @@
 #define SRCLK PINA2
 #define SER PINA0
 
+#define ITIS 0
+#define MIDI 12
+#define MINUIT 13
+#define HEURE 14
+#define MINUS 15
+#define DIX 16
+#define VINGT 17
+#define DEMI 18
+
+enum{
+	BLUE,GREEN,RED,CYAN,MAGENTA,YELLOW,WHITE
+}color;
  struct Ttime {
 	uint8_t hour, min, minquad, monthDay, month;
 };
 struct Ttime currenttime;
-
- struct Tcolors {
-	uint8_t r,g,b;
+ struct Tleds {
+	 uint8_t b[20];
+	 uint8_t g[20];
+	 uint8_t r[20];
+	 uint8_t active[20];
 };
-struct Tcolors currentcolors;
+struct Tleds leds;
 
 uint8_t i2c_in_transfer(uint8_t USISR_temp);
 uint8_t i2c_in_transmit(uint8_t *msg, uint8_t msg_size);
@@ -42,7 +56,9 @@ uint8_t i2c_read(uint8_t addr, uint8_t len, uint8_t adrs, uint8_t *buf);
 
 void SR_init();
 void SR_write(uint16_t data);
-void setLeds(struct Tcolors c, struct Ttime t);
+void setLedsTime(struct Ttime t);
+void setAllLedsColor();
+void displayTime(uint8_t state);
 
 uint8_t bcdToDec(uint8_t val);
 void RTC_init(void);
@@ -56,14 +72,15 @@ uint8_t data[7] = {0};
 int main(void){
 	RTC_init();
 	SR_init();
-	uint8_t j=2;
+	uint8_t j=0;
 	while(1){
 		struct Ttime temp;
 		RTC_readTime(&temp);
 		updateTime(temp);
-		_delay_ms(2000);	
-		SR_write(0x01<<j++);
-		if(j>=8)j=2;
+		_delay_ms(500);	
+		displayTime(0);
+		_delay_ms(500);	
+		displayTime(1);
 	}
 }
 /*
@@ -74,10 +91,59 @@ ISR(_vect){//-------------------------------------------------------------------
 	updateTime(temp);
 }
 */
+void displayTime(uint8_t state){
+	if(state){
+		SR_write(0xFC00);
+	}else{
+		SR_write(0xe000);
+	}
+}
+void setAllLedsColor(){
+	uint8_t i=0;
+	uint8_t r=0,g=0,b=0;
+	switch (color){
+		case BLUE :
+			b=1;
+		break;
+		case GREEN : 
+			g=1;
+		break;
+		case RED : 
+			r=1;
+		break;
+		case CYAN : 
+			g=1;
+			b=1;
+		break;
+		case MAGENTA : 
+			r=1;
+			b=1;
+		break;
+		case YELLOW : 
+			r=1;
+			g=1;
+		break;
+		case WHITE : 
+			r=1;
+			b=1;
+			g=1;
+		break;
+		default :
+			r=1;
+			b=1;
+			g=1;
+		break;
+	}
+	for(;i<20;i++){
+		leds.r[i]=r;
+		leds.b[i]=b;
+		leds.g[i]=g;
+	}
+}
 void SR_write(uint16_t data) {
   PORTA &=~(1<<RCLK);
   uint8_t i=0;
-  for (; i < 8; i++){
+  for (; i < 16; i++){
 	PORTA &=~(1<<SRCLK);
 	if(data & (0x01<<i)){
 		PORTA |=(1<<SER);
@@ -93,15 +159,47 @@ void SR_init(){
 	PORTA &=~((1<<RCLK)|(1<<SRCLK)|(1<<SER));
 	SR_write(0x00);
 }
-void setLeds(struct Tcolors c, struct Ttime t){
-	//PORTA ^=(1<<PINA0);
+void setLeds(struct Ttime t){
+	uint8_t i=0;
+	for(;i<20;i++){
+		leds.active[i]=0;
+	}
+	leds.active[ITIS]=1;
+	leds.active[HEURE]=1;
+	switch(currenttime.hour){
+		case 0 :
+			leds.active[MINUIT]=1;
+		break;
+		case 12 :
+			leds.active[MIDI]=1;
+		break;
+		default :
+			leds.active[currenttime.hour]=1;
+		break;
+	}
+	uint8_t mins = currenttime.min; 
+	if(mins > 30){
+		leds.active[MINUS]=1;
+		mins = 60 - mins;
+	}
+	switch(mins){
+		case 10 :
+			leds.active[DIX]=1;
+		break;
+		case 20 :
+			leds.active[VINGT]=1;
+		break;
+		case 30 :
+			leds.active[DEMI]=1;
+		break;
+	}
 }
 
 uint8_t updateTime(struct Ttime temp){
 	if(temp.minquad != currenttime.minquad ||
 		temp.hour != currenttime.hour){
 		currenttime = temp;
-		setLeds(currentcolors,currenttime);
+		setLeds(currenttime);
 		return 1;
 	}
 	return 0;
@@ -117,7 +215,7 @@ void RTC_init(void){
 uint8_t RTC_readTime(struct Ttime *t){
 	uint8_t data[7] = {0};
 	if(i2c_read(RTC_addr,7,0x00,data)){
-		t->hour = bcdToDec(data[2]);
+		t->hour = bcdToDec(data[2])%12;
 		t->min = bcdToDec(data[1]);
 		t->monthDay = bcdToDec(data[4]);
 		t->month = bcdToDec(data[5]);
