@@ -24,21 +24,7 @@
 #define RCLK PINA1
 #define SRCLK PINA2
 #define SER PINA0
-/*
-ilest 4  3  8
-16    19 24 25
 
-11  2   6   10  5   9 
-17  18  20  21  22  23 
-
-1   7   midi heure  minuit
-l2  l3  l5   l6     l8
-
-moins  10  et1/2  20
-l1     l4  l9     l10
-
-0-9 : L0-L9, 10-19 : H0-H9
-*/
 #define ITIS 10 
 #define MIDI 4
 #define MINUIT 7
