@@ -95,7 +95,7 @@ void displayTime(uint8_t state){
 	if(state){
 		SR_write(0xFC00);
 	}else{
-		SR_write(0x3800);
+		SR_write(0xe000);
 	}
 }
 void setAllLedsColor(){

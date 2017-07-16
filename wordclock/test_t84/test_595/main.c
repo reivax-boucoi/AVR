@@ -93,7 +93,7 @@ ISR(_vect){//-------------------------------------------------------------------
 */
 void displayTime(uint8_t state){
 	if(state){
-		SR_write(0xFC00);
+		SR_write(0xCC00);
 	}else{
 		SR_write(0xe000);
 	}
