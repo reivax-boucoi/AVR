@@ -44,21 +44,18 @@ void initDisplay(void);
 int main(void) {
   initDisplay();
   setRange(1);
-  unsigned long i = 0;
+  unsigned long i = 999900;
   uint8_t state=0;
   DDRB &=~(1<<PINB2);//high speed input // low division
 
   while (1)  {
 	  if(bit_is_clear(PINB,2)){
-		  if(state==1){
-			  i++;
-		displayNumber(i);
-		  }
 		state=0;
 	  }else{
+		displayNumber(1);
 		state=1;
 	  }
-    //_delay_ms(100);
+    _delay_ms(100);
   }
 }
 
