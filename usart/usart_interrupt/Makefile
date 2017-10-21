@@ -41,7 +41,7 @@
 
 
 # MCU name
-MCU = atmega8
+MCU = atmega32
 
 
 # Processor frequency.
@@ -273,7 +273,7 @@ LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 # Type: avrdude -c ?
 # to get a full listing.
 #
-AVRDUDE_PROGRAMMER = usbasp
+AVRDUDE_PROGRAMMER = usbtiny
 
 # com1 = serial port. Use lpt1 to connect to parallel port.
 AVRDUDE_PORT = usb
