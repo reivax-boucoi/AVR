@@ -49,8 +49,8 @@ unsigned char uart_recieve (void){
 }
 void   axis_init(){
 	DDRB |=(1<<XNEG)|(1<<XNEG)|(1<<YPOS)|(1<<YNEG);
-	DDRC = 0x00;
-	PORTC = 0xFF;
+	DDRA = 0x00;
+	PORTA = 0xFF;
 	xaxis.stop = (0<<XNEG)|(0<<XPOS);
 	xaxis.forward = (1<<XPOS)|(0<<XNEG);
 	xaxis.reverse = (0<<XPOS)|(1<<XNEG);
@@ -74,8 +74,9 @@ int main(void){
 }
 ISR(TIMER0_OVF_vect){
 	PORTB = xaxis.state | yaxis.state;
-	//test = PORTA & XA;
-	uart_transmitMult("b\n");
+	if(PINA & (1<<PINA0))uart_transmit('a');
+	if(PINA & (1<<PINA1))uart_transmit('b');
+	uart_transmit('\n');
 }
 
 ISR ( USART_RXC_vect ){
