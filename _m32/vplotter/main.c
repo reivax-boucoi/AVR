@@ -26,7 +26,7 @@ void uart_init (void){
     UBRRL = BAUDRATE;	// set baud rate
     UCSRB|= (1<<TXEN)|(1<<RXEN);	// enable receiver and transmitter
     UCSRC|= (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);	// 8bit data format
-    UCSRB |= (1 << RXCIE ); // Enable the USART Recieve Complete interrupt
+    UCSRB |= (1 << RXCIE ); 	// Enable the USART Recieve Complete interrupt
 }
 void ADC_init(void){
 	ADMUX =0;//sets right adjusted, AREF referenced, ADC0 measurement channel
