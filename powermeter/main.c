@@ -34,7 +34,7 @@ volatile uint8_t Flags =0;
 
 struct S_Cal{
 	uint8_t phase, gain, zero;
-}CalCoeffs[2]={{0,0,0},{0,0,0}};
+}CalCoeffs[2]={{0,1,0},{0,1,0}};
 struct S_Sample{
 			//x[n]		x[n-1]
 	int16_t current, previous;
@@ -176,7 +176,7 @@ int main(void){
 			
 			// TODO : stream results better
 			char str[40] = {0};
-			sprintf(str, "P = %f\r\n", Res.p);
+			sprintf(str, "P = %4.2f , V = %4.2f , I = %4.2f\r\n", Res.p,Res.v,Res.i);
 			uart_transmitMult(str);
 			
 			PORTD &=~(1<<STATUS); // debug
