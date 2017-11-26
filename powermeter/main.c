@@ -3,12 +3,16 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-#define BAUD 4800                                   // define baud
-#define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)            // set baud rate value for UBRR
+#define BAUD 4800
+#define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
 #define CS PINB2
 // ADC config:xxxxSSx1 0
 #define VCH0 0b00001100
 #define ICH0 0b00001001 // CH2ref-/3sig+ (diff)
+
+#define F_SAMPLE 0
+#define F_UARTTX 1
+#define F_UARTRX 2
 
 void uart_init (void){
     UBRR0H = (BAUDRATE>>8);
@@ -50,7 +54,6 @@ uint16_t adc_v(void){
 	PORTB |=(1<<CS);
 	return (val);
 }
-
 int16_t adc_i(void){
 	uint16_t val=0;
 	PORTB &=~(1<<CS);
@@ -65,9 +68,21 @@ int16_t adc_i(void){
 }
 
 
-volatile uint8_t data;
-volatile uint8_t cnt=0;
+volatile uint8_t data; //usart buffer
+volatile uint8_t cnt=0; // timer extended byte
 volatile int64_t acc=0;
+volatile uint8_t Flags =0;
+
+struct S_Cal {
+	uint8_t temp;
+}CalCoeffs;
+
+struct S_Sample {
+			//x[n]		x[n-1]
+	int16_t current, previous;
+			//y[n]		y[n-1]			z[n]
+	int32_t filtred,previousFiltred,calibrated;
+}Sample[3]={0};
 
 int main(void){
 	DDRD |=(1<<PIND5)|(1<<PIND6);
@@ -84,35 +99,49 @@ int main(void){
 	TCCR0B |=(1<<CS02) |(1<<CS00); // N=1024
 
 	while(1){
-		if(data>0){
+		if(Flags&F_SAMPLE){
+			Flags=Flags&(0xFF-F_SAMPLE);
+		}
+		if(Flags&F_UARTRX){
+			Flags=Flags&(0xFF-F_UARTRX);
 			uart_transmit(data);
 			if(data=='a')PORTD ^=(1<<PIND5);
 			data=0;
 		}
+		if(Flags&F_UARTTX){
+			Flags=Flags&(0xFF-F_UARTTX);
+			PORTD |=(1<<PIND5); // debug
+			char str[10]={0};
+			itoa((int)(acc/cnt),str,10);
+			uart_transmitMult(str);
+			uart_transmit('\n');
+			cnt=0;
+			acc=0;
+			PORTD &=~(1<<PIND5); // debug
+		}
 	}
 	return 0;
 }
+
 ISR(USART_RX_vect, ISR_BLOCK){
 	data=uart_recieve();
+	Flags|=(1<<F_UARTRX);
 }
 ISR(TIMER0_COMPA_vect){
-	PORTD |=(1<<PIND6);
-	int32_t p = adc_v()*adc_i();
-	acc+=p;
+	PORTD |=(1<<PIND6); // debug
+	
+	Flags|=(1<<F_SAMPLE);
+	
+	Sample[0].previous=Sample[0].current;
+	Sample[0].current=adc_v();
+	Sample[1].previous=Sample[1].current;
+	Sample[1].current=adc_i();
 	cnt++;
 	if(cnt>=255){
-	PORTD |=(1<<PIND5);
-		char str[10]={0};
-		itoa((int)(acc/cnt),str,10);
-		uart_transmitMult(str);
-		uart_transmit('\n');
-		cnt=0;
-		acc=0;
-	PORTD &=~(1<<PIND5);
+		Flags|=(1<<F_UARTTX);
 	}
-	PORTD &=~(1<<PIND6);
+	PORTD &=~(1<<PIND6); // debug
 }
 /*ISR(SPI_STC_vect){
 	
 }*/
-
