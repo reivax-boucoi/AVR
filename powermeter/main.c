@@ -5,14 +5,45 @@
 
 #define BAUD 4800
 #define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
+#define N 256
+#define NORM (1.0/N) // TODO : choose NORM and N according to 50Hz and F_CPU
+#define IMIN 0 // TODO
+
+// Pin config
 #define CS PINB2
+#define STATUS PIND5
+#define STATUS1 PIND6
+
 // ADC config:xxxxSSx1 0
 #define VCH0 0b00001100
 #define ICH0 0b00001001 // CH2ref-/3sig+ (diff)
 
-#define F_SAMPLE 0
-#define F_UARTTX 1
-#define F_UARTRX 2
+// Flag byte
+#define F_FAULT 0
+#define F_SAMPLE 1
+#define F_CYCLE_FULL 2
+#define F_UARTTX 3
+#define F_UARTRX 4
+
+volatile uint8_t data; //usart buffer
+volatile uint8_t cnt=0; // timer extended byte
+volatile uint8_t Flags =0;
+
+struct S_Cal{
+	uint8_t phase, gain, zero;
+}CalCoeffs[2]={{0,0,0},{0,0,0}};
+struct S_Sample{
+			//x[n]		x[n-1]
+	int16_t current, previous;
+			//y[n]		y[n-1]			z[n]
+	int32_t filtered,previousFiltered,calibrated;
+}Sample[2]={0};
+struct S_Acc{
+	int32_t v,i,p;
+}Acc,Sum;
+struct S_Result{
+	float v, i , p;
+}Res;
 
 void uart_init (void){
     UBRR0H = (BAUDRATE>>8);
@@ -66,26 +97,37 @@ int16_t adc_i(void){
 	if(sign)return (-val);
 	return (val);
 }
-
-
-volatile uint8_t data; //usart buffer
-volatile uint8_t cnt=0; // timer extended byte
-volatile int64_t acc=0;
-volatile uint8_t Flags =0;
-
-struct S_Cal {
-	uint8_t temp;
-}CalCoeffs;
-
-struct S_Sample {
-			//x[n]		x[n-1]
-	int16_t current, previous;
-			//y[n]		y[n-1]			z[n]
-	int32_t filtred,previousFiltred,calibrated;
-}Sample[3]={0};
+void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumulate
+	Sample[index].previous = Sample[index].current;
+	// adc read
+	switch (index){
+		case 0:
+			Sample[0].current = adc_v();
+		break;
+		case 1:
+			Sample[0].current = adc_i();
+		break;
+		default:
+			Flags|=(1<<F_FAULT);
+		break;
+	}
+	// filtering
+	Sample[index].previousFiltered = Sample[index].filtered;  // y[n] -> y[n-1]
+	int32_t temp0 = 255*(long)Sample[index].filtered; // =0.996*y[n-1]
+	temp0 = temp0>>8;
+	int32_t temp1 = Sample[index].current - Sample[index].previous; //=x[n]-x[n-1]
+	temp0 = temp0 + 255*(long)temp1; // =0.996*(x[n]-x[n-1]) + 0.996*y[n-1]
+	Sample[index].filtered = temp0;
+	
+	//TODO : Add calibration for phase lag here
+	// accumulation
+	Acc.v += (Sample[0].calibrated>>6)*(Sample[0].calibrated>>6); //TODO check shift nbs
+	Acc.i += (Sample[1].calibrated>>6)*(Sample[1].calibrated>>6);
+	Acc.p += (Sample[0].calibrated>>6)*(Sample[1].calibrated>>6); // v*i
+}
 
 int main(void){
-	DDRD |=(1<<PIND5)|(1<<PIND6);
+	DDRD |=(1<<STATUS)|(1<<STATUS1);
 	DDRB |= 1 << PINB0 ;
 	PORTB |= 1<<PINB0;
 	uart_init();
@@ -102,22 +144,34 @@ int main(void){
 		if(Flags&F_SAMPLE){
 			Flags=Flags&(0xFF-F_SAMPLE);
 		}
-		if(Flags&F_UARTRX){
+		if(Flags&F_CYCLE_FULL){
+			Flags=Flags&(0xFF-F_CYCLE_FULL);
+			Sum = Acc;
+			Acc.v=0;
+			Acc.i=0;
+			Acc.p=0;
+			uint16_t temp0;
+			temp0 = Sum.v*NORM;
+			Res.v = sqrt(temp0)*CalCoeffs[0].gain;
+			temp0 = Sum.i*NORM;
+			Res.i = sqrt(temp0)*CalCoeffs[1].gain;
+			if(Res.i<IMIN){
+				Res.p=0.0;
+			}else{
+				Res.p = Sum.p*NORM*CalCoeffs[0].gain*CalCoeffs[1].gain;
+			}
+		}
+		if(Flags&F_UARTRX){//TODO : add user input cal here
 			Flags=Flags&(0xFF-F_UARTRX);
 			uart_transmit(data);
-			if(data=='a')PORTD ^=(1<<PIND5);
+			if(data=='a')PORTD ^=(1<<STATUS);
 			data=0;
 		}
 		if(Flags&F_UARTTX){
 			Flags=Flags&(0xFF-F_UARTTX);
-			PORTD |=(1<<PIND5); // debug
-			char str[10]={0};
-			itoa((int)(acc/cnt),str,10);
-			uart_transmitMult(str);
-			uart_transmit('\n');
-			cnt=0;
-			acc=0;
-			PORTD &=~(1<<PIND5); // debug
+			PORTD |=(1<<STATUS); // debug
+			// TODO : stream results
+			PORTD &=~(1<<STATUS); // debug
 		}
 	}
 	return 0;
@@ -128,19 +182,17 @@ ISR(USART_RX_vect, ISR_BLOCK){
 	Flags|=(1<<F_UARTRX);
 }
 ISR(TIMER0_COMPA_vect){
-	PORTD |=(1<<PIND6); // debug
+	PORTD |=(1<<STATUS1); // debug
 	
 	Flags|=(1<<F_SAMPLE);
-	
-	Sample[0].previous=Sample[0].current;
-	Sample[0].current=adc_v();
-	Sample[1].previous=Sample[1].current;
-	Sample[1].current=adc_i();
+	acquisition(0);
+	acquisition(1);	
 	cnt++;
 	if(cnt>=255){
 		Flags|=(1<<F_UARTTX);
+		Flags|=(1<<F_CYCLE_FULL); //temporary, to determine with even multiple of 50Hz
 	}
-	PORTD &=~(1<<PIND6); // debug
+	PORTD &=~(1<<STATUS1); // debug
 }
 /*ISR(SPI_STC_vect){
 	
