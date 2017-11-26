@@ -30,7 +30,7 @@ volatile uint8_t data; //usart buffer
 volatile uint8_t scnt=0; // sample count
 volatile uint16_t cnt=0; // timer extended byte for usart
 volatile uint8_t Flags =0;
-
+/*
 struct S_Cal{
 	uint8_t phase, gain, zero;
 }CalCoeffs[2]={{0,1,0},{0,1,0}};
@@ -46,7 +46,7 @@ struct S_Acc{
 struct S_Result{
 	float v, i , p;
 }Res;
-
+*/
 void uart_init (void){
     UBRR0H = (BAUDRATE>>8);
     UBRR0L = BAUDRATE;	// set baud rate
@@ -77,7 +77,7 @@ SPDR = data;
 while(!(SPSR & (1<<SPIF)));
 return (SPDR);
 }
-
+/*
 uint16_t adc_v(void){
 	uint16_t val=0;
 	PORTB &=~(1<<CS);
@@ -126,7 +126,7 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 	// accumulation
 	Acc.v += (Sample[index].calibrated>>6)*(Sample[index].calibrated>>6); //TODO check shift nbs	
 }
-
+*/
 int main(void){
 	// TODO  : Watchdog
 	DDRD |=(1<<STATUS)|(1<<STATUS1);
@@ -143,14 +143,11 @@ int main(void){
 	TCCR0B |=(1<<CS02) |(1<<CS00); // N=1024
 	
 	Flags|=(1<<F_UARTTX);
-	Res.p=1.0;
-	Res.v=2.0;
-	Res.i=3.0;
 	PORTD |=(1<<STATUS);
 	
 	while(1){
 		if(Flags&F_CYCLE_FULL){
-			Flags=Flags&(0xFF-F_CYCLE_FULL);
+			/*Flags=Flags&(0xFF-F_CYCLE_FULL);
 			Sum = Acc;
 			Acc.v=0;
 			Acc.i=0;
@@ -164,7 +161,7 @@ int main(void){
 				Res.p=0.0;
 			}else{
 				Res.p = Sum.p*NORM*CalCoeffs[0].gain*CalCoeffs[1].gain;
-			}
+			}*/
 		}
 		if(Flags&F_UARTRX){//TODO : add user input cal here
 			Flags=Flags&(0xFF-F_UARTRX);
