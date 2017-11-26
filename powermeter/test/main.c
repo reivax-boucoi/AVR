@@ -1,16 +1,17 @@
 #define F_CPU 16000000
-//#include <stdio.h>
-//#include <math.h>
+
+#include <stdio.h>
+#include <math.h>
 #include <avr/io.h>
 //#include <util/delay.h>
 #include <avr/interrupt.h>
 
 #define BAUD 4800
-#define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)/*
+#define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
 #define NMAX 104
 #define NORM (1.0/NMAX) // TODO : choose NORM and NMAX according to 50Hz and F_CPU
 #define IMIN 0.001 // TODO
-*/
+
 // Pin config
 #define CS PINB2
 #define STATUS PIND5
@@ -19,18 +20,18 @@
 // ADC config:xxxxSSx1 0
 #define VCH0 0b00001100
 #define ICH0 0b00001001 // CH2ref-/3sig+ (diff)
-/*
+
 // Flag byte
-#define F_FAULT 0
-#define F_CYCLE_FULL 2*/
-#define F_UARTTX 3
-#define F_UARTRX 4
+#define F_FAULT 0x00
+#define F_CYCLE_FULL 0x01
+#define F_UARTTX 0x02
+#define F_UARTRX 0x04
 
 volatile uint8_t data; //usart buffer
-volatile uint8_t scnt=0; // sample count
-volatile uint16_t cnt=0; // timer extended byte for usart
-volatile uint8_t Flags =0;
-/*
+volatile uint8_t scnt = 0; // sample count
+volatile uint16_t cnt = 0; // timer extended byte for usart
+volatile uint8_t Flags = 0;
+
 struct S_Cal{
 	uint8_t phase, gain, zero;
 }CalCoeffs[2]={{0,1,0},{0,1,0}};
@@ -46,7 +47,7 @@ struct S_Acc{
 struct S_Result{
 	float v, i , p;
 }Res;
-*/
+
 void uart_init (void){
     UBRR0H = (BAUDRATE>>8);
     UBRR0L = BAUDRATE;	// set baud rate
@@ -134,19 +135,19 @@ int main(void){
 	PORTB |= 1<<PINB0;
 	uart_init();
 	uart_transmitMult("\ninitialized uart !\n");
-	//spi_masterInit();
+	spi_masterInit();
 	uart_transmitMult("initialized spi !\n");
 	TCCR0A |=(1<<WGM01); // CTC mode
 	TIMSK0|=1<<OCIE0A;
-	OCR0A=6; // 16MHz/(2*1024*(1+OCR0A))=1.953.125KHz
+	OCR0A=7; // 16MHz/(2*1024*(1+OCR0A))=1.953.125KHz
 	sei();
 	TCCR0B |=(1<<CS02) |(1<<CS00); // N=1024
-	
-	//Flags|=(1<<F_UARTTX);
-	//PORTD |=(1<<STATUS);
+	Res.p=1.0;
+	Res.v=2.0;
+	Res.i=3.0;
 	
 	while(1){
-		/*if(Flags&F_CYCLE_FULL){
+		if(Flags&F_CYCLE_FULL){
 			Flags=Flags&(0xFF-F_CYCLE_FULL);
 			Sum = Acc;
 			Acc.v=0;
@@ -162,23 +163,22 @@ int main(void){
 			}else{
 				Res.p = Sum.p*NORM*CalCoeffs[0].gain*CalCoeffs[1].gain;
 			}
-		}*/
+		}
 		if(Flags&F_UARTRX){//TODO : add user input cal here
-			Flags=Flags&(0xFF-F_UARTRX);
+		Flags=Flags&(0xFF-F_UARTRX);
 			uart_transmit(data);
-			if(data=='a')PORTD ^=(1<<STATUS);
+			if(data=='a')PORTD ^=(1<<STATUS1);
 			data=0;
 		}
 		if(Flags&F_UARTTX){
 			Flags=Flags&(0xFF-F_UARTTX);
-			/*PORTD |=(1<<STATUS); // debug
+			PORTD |=(1<<STATUS); // debug
 			
 			// TODO : stream results better
-			/*char str[40] = {0};
+			char str[40] = {0};
 			sprintf(str, "P = %4.2f , V = %4.2f , I = %4.2f\r\n", Res.p,Res.v,Res.i);
 			uart_transmitMult(str);
-			uart_transmitMult("test");
-			PORTD &=~(1<<STATUS); // debug*/
+			PORTD &=~(1<<STATUS); // debug
 		}
 	}
 	return 0;
@@ -186,7 +186,7 @@ int main(void){
 
 ISR(USART_RX_vect, ISR_BLOCK){
 	data=uart_recieve();
-	Flags|=(1<<F_UARTRX);
+	Flags|=F_UARTRX;
 }
 ISR(TIMER0_COMPA_vect){
 	//PORTD |=(1<<STATUS1); // debug
@@ -195,11 +195,11 @@ ISR(TIMER0_COMPA_vect){
 	Acc.p += (Sample[0].calibrated>>6)*(Sample[1].calibrated>>6); // v*i
 	if(++scnt>NMAX){
 		scnt=0;
-		Flags|=(1<<F_CYCLE_FULL);
+		Flags|=F_CYCLE_FULL;
 	}*/
 	cnt++;
-	if(cnt>255){ // TODO pick appropriately
-		Flags|=(1<<F_UARTTX);
+	if(cnt>=1024){ // TODO pick appropriately
+		Flags|=F_UARTTX;
 		cnt=0;
 	}
 	
