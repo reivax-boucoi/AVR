@@ -79,7 +79,7 @@ int main(void){
 	uart_transmitMult("initialized spi !\n");
 	TCCR0A |=(1<<WGM01); // CTC mode
 	TIMSK0|=1<<OCIE0A;
-	OCR0A=7; // 16MHz/(2*1024*(1+OCR0A))=1.953.125KHz
+	OCR0A=6; // 16MHz/(2*1024*(1+OCR0A))=1.953.125KHz
 	sei();
 	TCCR0B |=(1<<CS02) |(1<<CS00); // N=1024
 
