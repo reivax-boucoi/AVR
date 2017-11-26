@@ -127,6 +127,7 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 }
 
 int main(void){
+	// TODO  : Watchdog
 	DDRD |=(1<<STATUS)|(1<<STATUS1);
 	DDRB |= 1 << PINB0 ;
 	PORTB |= 1<<PINB0;
