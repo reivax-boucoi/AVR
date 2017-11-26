@@ -141,7 +141,13 @@ int main(void){
 	OCR0A=6; // 16MHz/(2*1024*(1+OCR0A))=1.953.125KHz
 	sei();
 	TCCR0B |=(1<<CS02) |(1<<CS00); // N=1024
-
+	
+	Flags|=(1<<F_UARTTX);
+	Res.p=1.0;
+	Res.v=2.0;
+	Res.i=3.0;
+	PORTD |=(1<<STATUS);
+	
 	while(1){
 		if(Flags&F_CYCLE_FULL){
 			Flags=Flags&(0xFF-F_CYCLE_FULL);
@@ -162,8 +168,8 @@ int main(void){
 		}
 		if(Flags&F_UARTRX){//TODO : add user input cal here
 			Flags=Flags&(0xFF-F_UARTRX);
-			uart_transmit(data);
-			if(data=='a')PORTD ^=(1<<STATUS);
+			/*uart_transmit(data);
+			if(data=='a')PORTD ^=(1<<STATUS);*/
 			data=0;
 		}
 		if(Flags&F_UARTTX){
@@ -171,10 +177,10 @@ int main(void){
 			PORTD |=(1<<STATUS); // debug
 			
 			// TODO : stream results better
-			char str[40] = {0};
+			/*char str[40] = {0};
 			sprintf(str, "P = %4.2f , V = %4.2f , I = %4.2f\r\n", Res.p,Res.v,Res.i);
-			uart_transmitMult(str);
-			
+			uart_transmitMult(str);*/
+			uart_transmitMult("test");
 			PORTD &=~(1<<STATUS); // debug
 		}
 	}
@@ -187,15 +193,15 @@ ISR(USART_RX_vect, ISR_BLOCK){
 }
 ISR(TIMER0_COMPA_vect){
 	PORTD |=(1<<STATUS1); // debug
-	acquisition(0);
+	/*acquisition(0);
 	acquisition(1);
 	Acc.p += (Sample[0].calibrated>>6)*(Sample[1].calibrated>>6); // v*i
 	if(++scnt>NMAX){
 		scnt=0;
 		Flags|=(1<<F_CYCLE_FULL);
-	}
+	}*/
 	cnt++;
-	if(cnt>2048){ // TODO pick appropriately
+	if(cnt>255){ // TODO pick appropriately
 		Flags|=(1<<F_UARTTX);
 		cnt=0;
 	}
