@@ -1,4 +1,6 @@
 #define F_CPU 16000000
+#include <stdio.h>
+#include <math.h>
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -171,9 +173,12 @@ int main(void){
 		if(Flags&F_UARTTX){
 			Flags=Flags&(0xFF-F_UARTTX);
 			PORTD |=(1<<STATUS); // debug
-			// TODO : stream results better
 			
-			uart_transmitMult()
+			// TODO : stream results better
+			char str[40] = {0};
+			sprintf(str, "P = %f\r\n", Res.p);
+			uart_transmitMult(str);
+			
 			PORTD &=~(1<<STATUS); // debug
 		}
 	}
@@ -203,5 +208,3 @@ ISR(TIMER0_COMPA_vect){
 	
 	PORTD &=~(1<<STATUS1); // debug
 }
-	
-}*/
