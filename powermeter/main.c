@@ -5,8 +5,8 @@
 
 #define BAUD 4800
 #define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
-#define N 256
-#define NORM (1.0/N) // TODO : choose NORM and N according to 50Hz and F_CPU
+#define NMAX 256
+#define NORM (1.0/NMAX) // TODO : choose NORM and NMAX according to 50Hz and F_CPU
 #define IMIN 0 // TODO
 
 // Pin config
@@ -26,7 +26,8 @@
 #define F_UARTRX 4
 
 volatile uint8_t data; //usart buffer
-volatile uint8_t cnt=0; // timer extended byte
+volatile uint8_t scnt=0; // sample count
+volatile uint16_t cnt=0; // timer extended byte for usart
 volatile uint8_t Flags =0;
 
 struct S_Cal{
@@ -113,17 +114,16 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 	}
 	// filtering
 	Sample[index].previousFiltered = Sample[index].filtered;  // y[n] -> y[n-1]
-	int32_t temp0 = 255*(long)Sample[index].filtered; // =0.996*y[n-1]
+	int32_t temp0 = 255*(int32_t)Sample[index].filtered; // =0.996*y[n-1]
 	temp0 = temp0>>8;
-	int32_t temp1 = Sample[index].current - Sample[index].previous; //=x[n]-x[n-1]
-	temp0 = temp0 + 255*(long)temp1; // =0.996*(x[n]-x[n-1]) + 0.996*y[n-1]
+	int16_t temp1 = Sample[index].current - Sample[index].previous; //=x[n]-x[n-1]
+	temp0 = temp0 + 255*(int32_t)temp1; // =0.996*(x[n]-x[n-1]) + 0.996*y[n-1]
 	Sample[index].filtered = temp0;
 	
 	//TODO : Add calibration for phase lag here
+	
 	// accumulation
-	Acc.v += (Sample[0].calibrated>>6)*(Sample[0].calibrated>>6); //TODO check shift nbs
-	Acc.i += (Sample[1].calibrated>>6)*(Sample[1].calibrated>>6);
-	Acc.p += (Sample[0].calibrated>>6)*(Sample[1].calibrated>>6); // v*i
+	Acc.v += (Sample[index].calibrated>>6)*(Sample[index].calibrated>>6); //TODO check shift nbs	
 }
 
 int main(void){
@@ -171,7 +171,9 @@ int main(void){
 		if(Flags&F_UARTTX){
 			Flags=Flags&(0xFF-F_UARTTX);
 			PORTD |=(1<<STATUS); // debug
-			// TODO : stream results
+			// TODO : stream results better
+			
+			uart_transmitMult()
 			PORTD &=~(1<<STATUS); // debug
 		}
 	}
@@ -187,14 +189,19 @@ ISR(TIMER0_COMPA_vect){
 	
 	Flags|=(1<<F_SAMPLE);
 	acquisition(0);
-	acquisition(1);	
-	cnt++;
-	if(cnt>=255){
-		Flags|=(1<<F_UARTTX);
-		Flags|=(1<<F_CYCLE_FULL); //temporary, to determine with even multiple of 50Hz
+	acquisition(1);
+	Acc.p += (Sample[0].calibrated>>6)*(Sample[1].calibrated>>6); // v*i
+	if(++scnt>NMAX){
+		scnt=0;
+		Flags|=(1<<F_CYCLE_FULL);
 	}
+	cnt++;
+	if(cnt>2048){ // TODO pick appropriately
+		Flags|=(1<<F_UARTTX);
+		cnt=0;
+	}
+	
 	PORTD &=~(1<<STATUS1); // debug
 }
-/*ISR(SPI_STC_vect){
 	
 }*/
