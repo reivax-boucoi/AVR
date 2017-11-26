@@ -1,16 +1,16 @@
 #define F_CPU 16000000
-#include <stdio.h>
-#include <math.h>
+//#include <stdio.h>
+//#include <math.h>
 #include <avr/io.h>
-#include <util/delay.h>
+//#include <util/delay.h>
 #include <avr/interrupt.h>
 
 #define BAUD 4800
-#define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
-#define NMAX 256
+#define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)/*
+#define NMAX 104
 #define NORM (1.0/NMAX) // TODO : choose NORM and NMAX according to 50Hz and F_CPU
-#define IMIN 0 // TODO
-
+#define IMIN 0.001 // TODO
+*/
 // Pin config
 #define CS PINB2
 #define STATUS PIND5
@@ -19,10 +19,10 @@
 // ADC config:xxxxSSx1 0
 #define VCH0 0b00001100
 #define ICH0 0b00001001 // CH2ref-/3sig+ (diff)
-
+/*
 // Flag byte
 #define F_FAULT 0
-#define F_CYCLE_FULL 2
+#define F_CYCLE_FULL 2*/
 #define F_UARTTX 3
 #define F_UARTRX 4
 
@@ -134,7 +134,7 @@ int main(void){
 	PORTB |= 1<<PINB0;
 	uart_init();
 	uart_transmitMult("\ninitialized uart !\n");
-	spi_masterInit();
+	//spi_masterInit();
 	uart_transmitMult("initialized spi !\n");
 	TCCR0A |=(1<<WGM01); // CTC mode
 	TIMSK0|=1<<OCIE0A;
@@ -142,12 +142,12 @@ int main(void){
 	sei();
 	TCCR0B |=(1<<CS02) |(1<<CS00); // N=1024
 	
-	Flags|=(1<<F_UARTTX);
-	PORTD |=(1<<STATUS);
+	//Flags|=(1<<F_UARTTX);
+	//PORTD |=(1<<STATUS);
 	
 	while(1){
-		if(Flags&F_CYCLE_FULL){
-			/*Flags=Flags&(0xFF-F_CYCLE_FULL);
+		/*if(Flags&F_CYCLE_FULL){
+			Flags=Flags&(0xFF-F_CYCLE_FULL);
 			Sum = Acc;
 			Acc.v=0;
 			Acc.i=0;
@@ -161,24 +161,24 @@ int main(void){
 				Res.p=0.0;
 			}else{
 				Res.p = Sum.p*NORM*CalCoeffs[0].gain*CalCoeffs[1].gain;
-			}*/
-		}
+			}
+		}*/
 		if(Flags&F_UARTRX){//TODO : add user input cal here
 			Flags=Flags&(0xFF-F_UARTRX);
-			/*uart_transmit(data);
-			if(data=='a')PORTD ^=(1<<STATUS);*/
+			uart_transmit(data);
+			if(data=='a')PORTD ^=(1<<STATUS);
 			data=0;
 		}
 		if(Flags&F_UARTTX){
 			Flags=Flags&(0xFF-F_UARTTX);
-			PORTD |=(1<<STATUS); // debug
+			/*PORTD |=(1<<STATUS); // debug
 			
 			// TODO : stream results better
 			/*char str[40] = {0};
 			sprintf(str, "P = %4.2f , V = %4.2f , I = %4.2f\r\n", Res.p,Res.v,Res.i);
-			uart_transmitMult(str);*/
+			uart_transmitMult(str);
 			uart_transmitMult("test");
-			PORTD &=~(1<<STATUS); // debug
+			PORTD &=~(1<<STATUS); // debug*/
 		}
 	}
 	return 0;
@@ -189,7 +189,7 @@ ISR(USART_RX_vect, ISR_BLOCK){
 	Flags|=(1<<F_UARTRX);
 }
 ISR(TIMER0_COMPA_vect){
-	PORTD |=(1<<STATUS1); // debug
+	//PORTD |=(1<<STATUS1); // debug
 	/*acquisition(0);
 	acquisition(1);
 	Acc.p += (Sample[0].calibrated>>6)*(Sample[1].calibrated>>6); // v*i
@@ -203,5 +203,5 @@ ISR(TIMER0_COMPA_vect){
 		cnt=0;
 	}
 	
-	PORTD &=~(1<<STATUS1); // debug
+	//PORTD &=~(1<<STATUS1); // debug
 }
