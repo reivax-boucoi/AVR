@@ -149,7 +149,7 @@ int main(void){
 	while(1){
 		if(Flags&F_CYCLE_FULL){
 			Flags=Flags&(0xFF-F_CYCLE_FULL);
-			Sum = Acc;
+			/*Sum = Acc;
 			Acc.v=0;
 			Acc.i=0;
 			Acc.p=0;
@@ -162,7 +162,7 @@ int main(void){
 				Res.p=0.0;
 			}else{
 				Res.p = Sum.p*NORM*CalCoeffs[0].gain*CalCoeffs[1].gain;
-			}
+			}*/
 		}
 		if(Flags&F_UARTRX){//TODO : add user input cal here
 		Flags=Flags&(0xFF-F_UARTRX);
