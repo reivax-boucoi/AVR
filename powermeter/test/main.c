@@ -78,7 +78,7 @@ SPDR = data;
 while(!(SPSR & (1<<SPIF)));
 return (SPDR);
 }
-/*
+
 uint16_t adc_v(void){
 	uint16_t val=0;
 	PORTB &=~(1<<CS);
@@ -127,7 +127,7 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 	// accumulation
 	Acc.v += (Sample[index].calibrated>>6)*(Sample[index].calibrated>>6); //TODO check shift nbs	
 }
-*/
+
 int main(void){
 	// TODO  : Watchdog
 	DDRD |=(1<<STATUS)|(1<<STATUS1);
@@ -139,7 +139,7 @@ int main(void){
 	uart_transmitMult("initialized spi !\n");
 	TCCR0A |=(1<<WGM01); // CTC mode
 	TIMSK0|=1<<OCIE0A;
-	OCR0A=7; // 16MHz/(2*1024*(1+OCR0A))=1.953.125KHz
+	OCR0A=6; // 16MHz/(2*1024*(1+OCR0A))=1.953.125KHz
 	sei();
 	TCCR0B |=(1<<CS02) |(1<<CS00); // N=1024
 	Res.p=1.0;
@@ -149,7 +149,7 @@ int main(void){
 	while(1){
 		if(Flags&F_CYCLE_FULL){
 			Flags=Flags&(0xFF-F_CYCLE_FULL);
-			/*Sum = Acc;
+			Sum = Acc;
 			Acc.v=0;
 			Acc.i=0;
 			Acc.p=0;
@@ -162,7 +162,7 @@ int main(void){
 				Res.p=0.0;
 			}else{
 				Res.p = Sum.p*NORM*CalCoeffs[0].gain*CalCoeffs[1].gain;
-			}*/
+			}
 		}
 		if(Flags&F_UARTRX){//TODO : add user input cal here
 		Flags=Flags&(0xFF-F_UARTRX);
@@ -176,7 +176,7 @@ int main(void){
 			
 			// TODO : stream results better
 			char str[40] = {0};
-			sprintf(str, "P = %4.2f , V = %4.2f , I = %4.2f\r\n", Res.p,Res.v,Res.i);
+			sprintf(str, "P = %4.2f , V = %4.2f , I = %4.2f\r\n",1.0,2.0,3.0);// Res.p,Res.v,Res.i);
 			uart_transmitMult(str);
 			PORTD &=~(1<<STATUS); // debug
 		}
@@ -189,19 +189,19 @@ ISR(USART_RX_vect, ISR_BLOCK){
 	Flags|=F_UARTRX;
 }
 ISR(TIMER0_COMPA_vect){
-	//PORTD |=(1<<STATUS1); // debug
-	/*acquisition(0);
+	PORTD |=(1<<STATUS1); // debug
+	acquisition(0);
 	acquisition(1);
 	Acc.p += (Sample[0].calibrated>>6)*(Sample[1].calibrated>>6); // v*i
 	if(++scnt>NMAX){
 		scnt=0;
 		Flags|=F_CYCLE_FULL;
-	}*/
+	}
 	cnt++;
 	if(cnt>=1024){ // TODO pick appropriately
 		Flags|=F_UARTTX;
 		cnt=0;
 	}
 	
-	//PORTD &=~(1<<STATUS1); // debug
+	PORTD &=~(1<<STATUS1); // debug
 }
