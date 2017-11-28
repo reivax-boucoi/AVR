@@ -35,12 +35,14 @@ volatile uint8_t Flags = 0;
 struct S_Cal{
 	uint8_t phase, gain, zero;
 }CalCoeffs[2]={{0,1,0},{0,1,0}};
+
 struct S_Sample{
 			//x[n]		x[n-1]
 	int16_t current, previous;
 			//y[n]		y[n-1]			z[n]
 	int32_t filtered,previousFiltered,calibrated;
 }Sample[2]={0};
+
 struct S_Acc{
 	int32_t v,i,p;
 }Acc,Sum;
@@ -158,11 +160,11 @@ int main(void){
 			Res.v = sqrt(temp0)*CalCoeffs[0].gain;
 			temp0 = Sum.i*NORM;
 			Res.i = sqrt(temp0)*CalCoeffs[1].gain;
-			if(Res.i<IMIN){
+			/*if(Res.i<IMIN){
 				Res.p=0.0;
-			}else{
+			}else{*/
 				Res.p = Sum.p*NORM*CalCoeffs[0].gain*CalCoeffs[1].gain;
-			}
+			//}
 		}
 		if(Flags&F_UARTRX){//TODO : add user input cal here
 		Flags=Flags&(0xFF-F_UARTRX);
@@ -176,7 +178,7 @@ int main(void){
 			
 			// TODO : stream results better
 			char str[40] = {0};
-			sprintf(str, "P = %f, V = %f, I = %f\r\n",1.0,2.0,3.0);// Res.p,Res.v,Res.i);
+			sprintf(str, "P = %f, V = %f, I = %f\r\n",Res.p,Res.v,Res.i);
 			uart_transmitMult(str);
 			PORTD &=~(1<<STATUS); // debug
 		}
@@ -198,7 +200,7 @@ ISR(TIMER0_COMPA_vect){
 		Flags|=F_CYCLE_FULL;
 	}
 	cnt++;
-	if(cnt>=1024){ // TODO pick appropriately
+	if(cnt>=2048){ // TODO pick appropriately
 		Flags|=F_UARTTX;
 		cnt=0;
 	}
