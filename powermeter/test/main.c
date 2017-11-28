@@ -176,7 +176,7 @@ int main(void){
 			
 			// TODO : stream results better
 			char str[40] = {0};
-			sprintf(str, "P = %4.2f , V = %4.2f , I = %4.2f\r\n",1.0,2.0,3.0);// Res.p,Res.v,Res.i);
+			sprintf(str, "P = %f, V = %f, I = %f\r\n",1.0,2.0,3.0);// Res.p,Res.v,Res.i);
 			uart_transmitMult(str);
 			PORTD &=~(1<<STATUS); // debug
 		}

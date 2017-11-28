@@ -1,8 +1,8 @@
-@echo OFF
+
 
 :BEGIN
 main.c
-avr-gcc -g -Os -mmcu=atmega328p -c main.c && (
+avr-gcc -g -Os -lm -lprintf_flt -Wl,-u,vfprintf -mmcu=atmega328p -c main.c && (
   echo Pas d'erreurs !
 ) || (
   echo Erreurs !
