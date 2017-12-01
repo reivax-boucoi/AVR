@@ -1,9 +1,9 @@
 #define F_CPU 16000000
 
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 #include <avr/io.h>
-//#include <util/delay.h>
+#include <avr/power.h>
 #include <avr/interrupt.h>
 
 #define BAUD 4800
@@ -41,24 +41,24 @@ struct S_Sample{
 	int16_t current, previous;
 			//y[n]		y[n-1]			z[n]
 	int32_t filtered,previousFiltered,calibrated;
-}Sample[2]={0};
+}Sample[2]={{0}};
 
 struct S_Acc{
 	int32_t v,i,p;
 }Acc,Sum;
 struct S_Result{
-	float v, i , p;
+	float v, i, p ;
 }Res;
 
 void uart_init (void){
-    UBRR0H = (BAUDRATE>>8);
-    UBRR0L = BAUDRATE;	// set baud rate
-    UCSR0B|= (1<<TXEN0)|(1<<RXEN0)|(1<<RXCIE0);	// enable receiver and transmitter
-    UCSR0C|= (1<<UCSZ00)|(1<<UCSZ01);	// 8bit data format
+	UBRR0H = (BAUDRATE>>8);
+	UBRR0L = BAUDRATE;	// set baud rate
+	UCSR0B|= (1<<TXEN0)|(1<<RXEN0)|(1<<RXCIE0);	// enable receiver and transmitter
+	UCSR0C|= (1<<UCSZ00)|(1<<UCSZ01);	// 8bit data format
 }
 void uart_transmit (uint8_t data){
-    while (!( UCSR0A & (1<<UDRE0)));	// wait while register is free
-    UDR0 = data;	// load data in the register
+	while (!( UCSR0A & (1<<UDRE0)));	// wait while register is free
+	UDR0 = data;	// load data in the register
 }
 void uart_transmitMult(char *Data){
 	while(*Data>0){
@@ -66,8 +66,8 @@ void uart_transmitMult(char *Data){
 	}
 }
 uint8_t uart_recieve (void){
-    while(!(UCSR0A) & (1<<RXC0));	// wait while data is being received
-    return UDR0;	// return 8-bit data
+	while(!(UCSR0A) & (1<<RXC0));	// wait while data is being received
+	return UDR0;	// return 8-bit data
 }
 
 void spi_masterInit(void){
@@ -110,7 +110,7 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 			Sample[0].current = adc_v();
 		break;
 		case 1:
-			Sample[0].current = adc_i();
+			Sample[1].current = adc_i();
 		break;
 		default:
 			Flags|=(1<<F_FAULT);
@@ -125,13 +125,14 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 	Sample[index].filtered = temp0;
 	
 	//TODO : Add calibration for phase lag here
-	
+	Sample[index].calibrated=Sample[index].filtered;
 	// accumulation
 	Acc.v += (Sample[index].calibrated>>6)*(Sample[index].calibrated>>6); //TODO check shift nbs	
 }
 
 int main(void){
 	// TODO  : Watchdog
+	PRR|=(1<<PRTWI)|(1<<PRTIM2)|(1<<PRTIM1)|(1<<PRADC);// Power saving features
 	DDRD |=(1<<STATUS)|(1<<STATUS1);
 	DDRB |= 1 << PINB0 ;
 	PORTB |= 1<<PINB0;
@@ -157,14 +158,14 @@ int main(void){
 			Acc.p=0;
 			uint16_t temp0;
 			temp0 = Sum.v*NORM;
-			Res.v = sqrt(temp0)*CalCoeffs[0].gain;
+			Res.v = sqrt(temp0)*CalCoeffs[0].gain; // estimated 494 CPU Cycles !
 			temp0 = Sum.i*NORM;
 			Res.i = sqrt(temp0)*CalCoeffs[1].gain;
-			/*if(Res.i<IMIN){
+			if(Res.i<IMIN){
 				Res.p=0.0;
-			}else{*/
+			}else{
 				Res.p = Sum.p*NORM*CalCoeffs[0].gain*CalCoeffs[1].gain;
-			//}
+			}
 		}
 		if(Flags&F_UARTRX){//TODO : add user input cal here
 		Flags=Flags&(0xFF-F_UARTRX);
@@ -176,9 +177,9 @@ int main(void){
 			Flags=Flags&(0xFF-F_UARTTX);
 			PORTD |=(1<<STATUS); // debug
 			
-			// TODO : stream results better
+			// TODO : stream results better : sprintf ~= 2573 CPU cycles ! (itoa ~= 879 CCk)
 			char str[40] = {0};
-			sprintf(str, "P = %f, V = %f, I = %f\r\n",Res.p,Res.v,Res.i);
+			sprintf(str, "P = %4.2f, V = %5.2f, I = %4.3f\r\n",Res.p,Res.v,Res.i);
 			uart_transmitMult(str);
 			PORTD &=~(1<<STATUS); // debug
 		}
