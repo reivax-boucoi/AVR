@@ -2,14 +2,14 @@
 #include <stdio.h>
 #include <math.h>
 #include <avr/io.h>
-#include <util/delay.h>
+//#include <util/delay.h>
 #include <avr/interrupt.h>
 
 #define BAUD 4800
 #define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
-#define NMAX 256
+#define NMAX 104
 #define NORM (1.0/NMAX) // TODO : choose NORM and NMAX according to 50Hz and F_CPU
-#define IMIN 0 // TODO
+#define IMIN 0.001 // TODO
 
 // Pin config
 #define CS PINB2
@@ -21,26 +21,28 @@
 #define ICH0 0b00001001 // CH2ref-/3sig+ (diff)
 
 // Flag byte
-#define F_FAULT 0
-#define F_CYCLE_FULL 2
-#define F_UARTTX 3
-#define F_UARTRX 4
+#define F_FAULT 0x00
+#define F_CYCLE_FULL 0x01
+#define F_UARTTX 0x02
+#define F_UARTRX 0x04
 
-volatile uint8_t data; //usart buffer
-volatile uint8_t scnt=0; // sample count
-volatile uint16_t cnt=0; // timer extended byte for usart
-volatile uint8_t Flags =0;
+volatile uint8_t data; //UART buffer
+volatile uint8_t scnt = 0; // sample count
+volatile uint16_t cnt = 0; // timer extended byte for usart
+volatile uint8_t Flags = 0;
 
-struct S_Cal{
+volatile struct S_Cal{
 	uint8_t phase, gain, zero;
 }CalCoeffs[2]={{0,1,0},{0,1,0}};
-struct S_Sample{
+
+volatile struct S_Sample{
 			//x[n]		x[n-1]
 	int16_t current, previous;
 			//y[n]		y[n-1]			z[n]
 	int32_t filtered,previousFiltered,calibrated;
-}Sample[2]={0};
-struct S_Acc{
+}Sample[2]={0,0};
+
+volatile struct S_Acc{
 	int32_t v,i,p;
 }Acc,Sum;
 struct S_Result{
@@ -93,7 +95,7 @@ int16_t adc_i(void){
 	spi_rxtx(ICH0);
 	uint8_t sign=spi_rxtx(128);;
 	val=(sign&15)<<8;
-	sign=(sign&0b00010000);	
+	sign=(sign&0b00010000);
 	val|=spi_rxtx(0);;
 	PORTB |=(1<<CS);
 	if(sign)return (-val);
@@ -107,24 +109,37 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 			Sample[0].current = adc_v();
 		break;
 		case 1:
-			Sample[0].current = adc_i();
+			Sample[1].current = adc_i();
 		break;
 		default:
 			Flags|=(1<<F_FAULT);
 		break;
 	}
 	// filtering
-	Sample[index].previousFiltered = Sample[index].filtered;  // y[n] -> y[n-1]
+	/*Sample[index].previousFiltered = Sample[index].filtered;  // y[n] -> y[n-1]
 	int32_t temp0 = 255*(int32_t)Sample[index].filtered; // =0.996*y[n-1]
 	temp0 = temp0>>8;
 	int16_t temp1 = Sample[index].current - Sample[index].previous; //=x[n]-x[n-1]
 	temp0 = temp0 + 255*(int32_t)temp1; // =0.996*(x[n]-x[n-1]) + 0.996*y[n-1]
 	Sample[index].filtered = temp0;
-	
+
 	//TODO : Add calibration for phase lag here
-	
+	Sample[index].calibrated = Sample[index].filtered;
+*/
+	Sample[index].calibrated=Sample[index].current;
 	// accumulation
-	Acc.v += (Sample[index].calibrated>>6)*(Sample[index].calibrated>>6); //TODO check shift nbs	
+	uint32_t temp = (Sample[index].calibrated>>6)*(Sample[index].calibrated>>6); //TODO check shift nbs
+	switch (index){
+		case 0:
+			Acc.v = temp;
+		break;
+		case 1:
+			Acc.i = temp;
+		break;
+		default:
+			Flags|=(1<<F_FAULT);
+		break;
+	}
 }
 
 int main(void){
@@ -143,6 +158,9 @@ int main(void){
 	TCCR0B |=(1<<CS02) |(1<<CS00); // N=1024
 
 	while(1){
+		if(Flags&F_FAULT){
+			uart_transmitMult('FAULT\n');
+		}
 		if(Flags&F_CYCLE_FULL){
 			Flags=Flags&(0xFF-F_CYCLE_FULL);
 			Sum = Acc;
@@ -154,27 +172,26 @@ int main(void){
 			Res.v = sqrt(temp0)*CalCoeffs[0].gain;
 			temp0 = Sum.i*NORM;
 			Res.i = sqrt(temp0)*CalCoeffs[1].gain;
-			if(Res.i<IMIN){
+			/*if(Res.i<IMIN){
 				Res.p=0.0;
-			}else{
+			}else{*/
 				Res.p = Sum.p*NORM*CalCoeffs[0].gain*CalCoeffs[1].gain;
-			}
+			//}
 		}
 		if(Flags&F_UARTRX){//TODO : add user input cal here
-			Flags=Flags&(0xFF-F_UARTRX);
+		Flags=Flags&(0xFF-F_UARTRX);
 			uart_transmit(data);
-			if(data=='a')PORTD ^=(1<<STATUS);
+			if(data=='a')PORTD ^=(1<<STATUS1);
 			data=0;
 		}
 		if(Flags&F_UARTTX){
 			Flags=Flags&(0xFF-F_UARTTX);
 			PORTD |=(1<<STATUS); // debug
-			
+
 			// TODO : stream results better
 			char str[40] = {0};
-			sprintf(str, "P = %4.2f , V = %4.2f , I = %4.2f\r\n", 1.0,2.0,3.0);//Res.p,Res.v,Res.i);
+			sprintf(str, "P = %04.2lf, V = %04.2lf, I = %04.2lf\r\n",1.0,2.0,3.0);//Res.p,Res.v,Res.i);
 			uart_transmitMult(str);
-			
 			PORTD &=~(1<<STATUS); // debug
 		}
 	}
@@ -183,7 +200,7 @@ int main(void){
 
 ISR(USART_RX_vect, ISR_BLOCK){
 	data=uart_recieve();
-	Flags|=(1<<F_UARTRX);
+	Flags|=F_UARTRX;
 }
 ISR(TIMER0_COMPA_vect){
 	PORTD |=(1<<STATUS1); // debug
@@ -192,13 +209,13 @@ ISR(TIMER0_COMPA_vect){
 	Acc.p += (Sample[0].calibrated>>6)*(Sample[1].calibrated>>6); // v*i
 	if(++scnt>NMAX){
 		scnt=0;
-		Flags|=(1<<F_CYCLE_FULL);
+		Flags|=F_CYCLE_FULL;
 	}
 	cnt++;
-	if(cnt>2048){ // TODO pick appropriately
-		Flags|=(1<<F_UARTTX);
+	if(cnt>=2048){ // TODO pick appropriately
+		Flags|=F_UARTTX;
 		cnt=0;
 	}
-	
+
 	PORTD &=~(1<<STATUS1); // debug
 }
