@@ -26,23 +26,23 @@
 #define F_UARTTX 0x02
 #define F_UARTRX 0x04
 
-volatile uint8_t data; //usart buffer
+volatile uint8_t data; //UART buffer
 volatile uint8_t scnt = 0; // sample count
 volatile uint16_t cnt = 0; // timer extended byte for usart
 volatile uint8_t Flags = 0;
 
-struct S_Cal{
+volatile struct S_Cal{
 	uint8_t phase, gain, zero;
 }CalCoeffs[2]={{0,1,0},{0,1,0}};
 
-struct S_Sample{
+volatile struct S_Sample{
 			//x[n]		x[n-1]
 	int16_t current, previous;
 			//y[n]		y[n-1]			z[n]
 	int32_t filtered,previousFiltered,calibrated;
-}Sample[2]={0};
+}Sample[2]={0,0};
 
-struct S_Acc{
+volatile struct S_Acc{
 	int32_t v,i,p;
 }Acc,Sum;
 struct S_Result{
@@ -116,7 +116,7 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 		break;
 	}
 	// filtering
-	Sample[index].previousFiltered = Sample[index].filtered;  // y[n] -> y[n-1]
+	/*Sample[index].previousFiltered = Sample[index].filtered;  // y[n] -> y[n-1]
 	int32_t temp0 = 255*(int32_t)Sample[index].filtered; // =0.996*y[n-1]
 	temp0 = temp0>>8;
 	int16_t temp1 = Sample[index].current - Sample[index].previous; //=x[n]-x[n-1]
@@ -125,9 +125,21 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 
 	//TODO : Add calibration for phase lag here
 	Sample[index].calibrated = Sample[index].filtered;
-
+*/
+	Sample[index].calibrated=Sample[index].current;
 	// accumulation
-	Acc.v += (Sample[index].calibrated>>6)*(Sample[index].calibrated>>6); //TODO check shift nbs
+	uint32_t temp = (Sample[index].calibrated>>6)*(Sample[index].calibrated>>6); //TODO check shift nbs
+	switch (index){
+		case 0:
+			Acc.v = temp;
+		break;
+		case 1:
+			Acc.i = temp;
+		break;
+		default:
+			Flags|=(1<<F_FAULT);
+		break;
+	}
 }
 
 int main(void){
@@ -144,11 +156,11 @@ int main(void){
 	OCR0A=6; // 16MHz/(2*1024*(1+OCR0A))=1.953.125KHz
 	sei();
 	TCCR0B |=(1<<CS02) |(1<<CS00); // N=1024
-	Res.p=1.0;
-	Res.v=2.0;
-	Res.i=3.0;
 
 	while(1){
+		if(Flags&F_FAULT){
+			uart_transmitMult('FAULT\n');
+		}
 		if(Flags&F_CYCLE_FULL){
 			Flags=Flags&(0xFF-F_CYCLE_FULL);
 			Sum = Acc;
@@ -178,7 +190,7 @@ int main(void){
 
 			// TODO : stream results better
 			char str[40] = {0};
-			sprintf(str, "P = %04.2f, V = %04.2f, I = %04.2f\r\n",Res.p,Res.v,Res.i);
+			sprintf(str, "P = %04.2lf, V = %04.2lf, I = %04.2lf\r\n",1.0,2.0,3.0);//Res.p,Res.v,Res.i);
 			uart_transmitMult(str);
 			PORTD &=~(1<<STATUS); // debug
 		}

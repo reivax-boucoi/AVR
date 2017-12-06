@@ -55,6 +55,12 @@
 							<tool id="de.innot.avreclipse.tool.avrdude.app.debug.2367704" name="AVRDude" superClass="de.innot.avreclipse.tool.avrdude.app.debug"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="de.innot.avreclipse.configuration.app.debug.1504631105.1099656321" name="main.c" rcbsApplicability="disable" resourcePath="src/main.c" toolsToInvoke="de.innot.avreclipse.tool.compiler.winavr.app.debug.441710124.1985466605">
+						<tool id="de.innot.avreclipse.tool.compiler.winavr.app.debug.441710124.1985466605" name="AVR Compiler" superClass="de.innot.avreclipse.tool.compiler.winavr.app.debug.441710124">
+							<option id="de.innot.avreclipse.compiler.option.otherflags.259440233" superClass="de.innot.avreclipse.compiler.option.otherflags" useByScannerDiscovery="false" value="-Wl,-u,vfprintf -lprintf_flt -lm" valueType="string"/>
+							<inputType id="de.innot.avreclipse.compiler.winavr.input.2078886039" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
+						</tool>
+					</fileInfo>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

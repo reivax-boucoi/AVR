@@ -20,10 +20,10 @@ C_DEPS += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-src/%.o: ../src/%.c
+src/main.o: ../src/main.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: AVR Compiler'
-	avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=c99 -funsigned-char -funsigned-bitfields -lm -lprintf_flt -Wl,-u,vfprintf -mmcu=atmega328p -DF_CPU=16000000UL -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -c -o "$@" "$<"
+	avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=c99 -funsigned-char -funsigned-bitfields -Wl,-u,vfprintf -lprintf_flt -lm -mmcu=atmega328p -DF_CPU=16000000UL -MMD -MP -MF"$(@:%.o=%.d)" -MT"src/main.d" -c -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
