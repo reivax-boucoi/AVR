@@ -40,7 +40,7 @@ struct S_Sample{
 	int16_t current, previous;
 			//y[n]		y[n-1]			z[n]
 	int32_t filtered,previousFiltered,calibrated;
-}Sample[2]={{0}};
+}Sample[2]={0};
 
 struct S_Acc{
 	int32_t v,i,p;
