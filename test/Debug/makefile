@@ -31,47 +31,47 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 LSS += \
-test.lss \
+test_1.lss \
 
 FLASH_IMAGE += \
-test.hex \
+test_1.hex \
 
 SIZEDUMMY += \
 sizedummy \
 
 
 # All Target
-all: test.elf secondary-outputs
+all: test_1.elf secondary-outputs
 
 # Tool invocations
-test.elf: $(OBJS) $(USER_OBJS)
+test_1.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C Linker'
-	avr-gcc -Wl,-Map,test.map -mmcu=atmega328p -o "test.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -Wl,-Map,test_1.map -Wl,-u,vfprintf -lm -lprintf_flt -mmcu=atmega328p -o "test_1.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-test.lss: test.elf
+test_1.lss: test_1.elf
 	@echo 'Invoking: AVR Create Extended Listing'
-	-avr-objdump -h -S test.elf  >"test.lss"
+	-avr-objdump -h -S test_1.elf  >"test_1.lss"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-test.hex: test.elf
+test_1.hex: test_1.elf
 	@echo 'Create Flash image (ihex format)'
-	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex test.elf  "test.hex"
+	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex test_1.elf  "test_1.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-sizedummy: test.elf
+sizedummy: test_1.elf
 	@echo 'Invoking: Print Size'
-	-avr-size --format=avr --mcu=atmega328p test.elf
+	-avr-size --format=avr --mcu=atmega328p test_1.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) test.elf
+	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) test_1.elf
 	-@echo ' '
 
 secondary-outputs: $(LSS) $(FLASH_IMAGE) $(SIZEDUMMY)

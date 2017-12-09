@@ -33,7 +33,7 @@
 								<option id="de.innot.avreclipse.compiler.option.std.1885435443" name="Language Standard" superClass="de.innot.avreclipse.compiler.option.std" useByScannerDiscovery="false" value="de.innot.avreclipse.compiler.option.std.c99" valueType="enumerated"/>
 								<option id="de.innot.avreclipse.compiler.option.omitfcpu.724555249" name="Omit F_CPU" superClass="de.innot.avreclipse.compiler.option.omitfcpu" useByScannerDiscovery="false" value="false" valueType="boolean"/>
 								<option id="de.innot.avreclipse.compiler.option.verbose.1128532624" name="Verbose (-v)" superClass="de.innot.avreclipse.compiler.option.verbose" useByScannerDiscovery="false" value="false" valueType="boolean"/>
-								<option id="de.innot.avreclipse.compiler.option.otherflags.1756945272" name="Other flags" superClass="de.innot.avreclipse.compiler.option.otherflags" useByScannerDiscovery="false" value="-lm -lprintf_flt -Wl,-u,vfprintf" valueType="string"/>
+								<option id="de.innot.avreclipse.compiler.option.otherflags.1756945272" name="Other flags" superClass="de.innot.avreclipse.compiler.option.otherflags" useByScannerDiscovery="false" value="" valueType="string"/>
 								<inputType id="de.innot.avreclipse.compiler.winavr.input.583101288" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
 							</tool>
 							<tool id="de.innot.avreclipse.tool.cppcompiler.app.debug.732328563" name="AVR C++ Compiler" superClass="de.innot.avreclipse.tool.cppcompiler.app.debug">
@@ -41,6 +41,8 @@
 								<option id="de.innot.avreclipse.cppcompiler.option.optimize.315145437" name="Optimization Level" superClass="de.innot.avreclipse.cppcompiler.option.optimize"/>
 							</tool>
 							<tool id="de.innot.avreclipse.tool.linker.winavr.app.debug.1314883997" name="AVR C Linker" superClass="de.innot.avreclipse.tool.linker.winavr.app.debug">
+								<option id="de.innot.avreclipse.linker.option.otherlinkargs.1712299889" superClass="de.innot.avreclipse.linker.option.otherlinkargs" useByScannerDiscovery="false" value="-Wl,-u,vfprintf -lm -lprintf_flt " valueType="string"/>
+								<option id="de.innot.avreclipse.linker.option.libs.2025691492" superClass="de.innot.avreclipse.linker.option.libs" useByScannerDiscovery="false" valueType="libs"/>
 								<inputType id="de.innot.avreclipse.tool.linker.input.546583763" name="OBJ Files" superClass="de.innot.avreclipse.tool.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -57,7 +59,7 @@
 					</folderInfo>
 					<fileInfo id="de.innot.avreclipse.configuration.app.debug.1504631105.1099656321" name="main.c" rcbsApplicability="disable" resourcePath="src/main.c" toolsToInvoke="de.innot.avreclipse.tool.compiler.winavr.app.debug.441710124.1985466605">
 						<tool id="de.innot.avreclipse.tool.compiler.winavr.app.debug.441710124.1985466605" name="AVR Compiler" superClass="de.innot.avreclipse.tool.compiler.winavr.app.debug.441710124">
-							<option id="de.innot.avreclipse.compiler.option.otherflags.259440233" superClass="de.innot.avreclipse.compiler.option.otherflags" useByScannerDiscovery="false" value="-Wl,-u,vfprintf -lprintf_flt -lm" valueType="string"/>
+							<option id="de.innot.avreclipse.compiler.option.otherflags.259440233" name="Other flags" superClass="de.innot.avreclipse.compiler.option.otherflags" useByScannerDiscovery="false" value="-Wl,-u,vfprintf -lprintf_flt -lm" valueType="string"/>
 							<inputType id="de.innot.avreclipse.compiler.winavr.input.2078886039" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
 						</tool>
 					</fileInfo>
