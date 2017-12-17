@@ -27,7 +27,7 @@
 #define F_UARTTX 0x02
 #define F_UARTRX 0x04
 
-volatile uint8_t data; //usart buffer
+volatile uint8_t data; // usart buffer
 volatile uint8_t scnt = 0; // sample count
 volatile uint16_t cnt = 0; // timer extended byte for usart
 volatile uint8_t Flags = 0;
