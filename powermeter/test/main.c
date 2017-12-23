@@ -21,7 +21,7 @@
 #define VCH0 0b00001100
 #define ICH0 0b00001001 // CH2ref-/3sig+ (diff)
 
-// Flag byte
+// Flags byte
 #define F_FAULT 0x00
 #define F_CYCLE_FULL 0x01
 #define F_UARTTX 0x02
