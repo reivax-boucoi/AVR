@@ -134,7 +134,7 @@ void acquisition(uint8_t index) { //reads adc, filters, TODO calibrate and accum
 
 	//TODO : Add calibration for phase lag here
 	Sample[index].calibrated = Sample[index].filtered;
-/*
+
 	// accumulation
 	uint32_t temp = (Sample[index].calibrated >> 6) * (Sample[index].calibrated >> 6); //TODO check shift nbs
 	switch (index) {
@@ -147,7 +147,7 @@ void acquisition(uint8_t index) { //reads adc, filters, TODO calibrate and accum
 	default:
 		Flags |= (1 << F_FAULT);
 		break;
-	}*/
+	}
 }
 
 int main(void) {

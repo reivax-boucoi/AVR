@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS :=
+LIBS := -l"C:/WinAVR-20100110/avr/include/avr/io.h"
 
