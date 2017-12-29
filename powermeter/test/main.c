@@ -126,6 +126,7 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 	
 	//TODO : Add calibration for phase lag here
 	Sample[index].calibrated=Sample[index].filtered;
+	
 	// accumulation
 	Acc.v += (Sample[index].calibrated>>6)*(Sample[index].calibrated>>6); //TODO check shift nbs	
 }
