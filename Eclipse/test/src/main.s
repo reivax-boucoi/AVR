@@ -8,6 +8,7 @@ __zero_reg__ = 1
 	.text
 .global	main
 	.type	main, @function
+	
 main:
 	push r29
 	push r28
