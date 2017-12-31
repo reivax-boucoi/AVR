@@ -97,7 +97,8 @@ int16_t adc_i(void){
 	uint8_t sign=spi_rxtx(128);;
 	val=(sign&15)<<8;
 	sign=(sign&0b00010000);	
-	val|=spi_rxtx(0);;
+	val|=spi_rxtx(0);
+	val = ~(val);
 	PORTB |=(1<<CS);
 	if(sign)return (-val);
 	return (val);
