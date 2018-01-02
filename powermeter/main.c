@@ -25,6 +25,7 @@
 #define F_CYCLE_FULL 0x01
 #define F_UARTTX 0x02
 #define F_UARTRX 0x04
+#define F_DEBUG 0x08
 
 volatile uint8_t data; //UART buffer
 volatile uint8_t scnt = 0; // sample count
@@ -190,21 +191,26 @@ int main(void){
 		if(Flags&F_UARTRX){//TODO : add user input cal here
 		Flags=Flags&(0xFF-F_UARTRX);
 			uart_transmit(data+1);
-			if(data=='a')PORTD ^=(1<<STATUS1);
+			if(data=='a'){
+				PORTD ^=(1<<STATUS1);
+				Flags|=F_DEBUG;
+			}
 			data=0;
 		}
 		if(Flags&F_UARTTX){
 			Flags=Flags&(0xFF-F_UARTTX);
 			PORTD |=(1<<STATUS); // debug
-			cli();
-			// TODO : stream results better
-			for(uint16_t i = 0;i<255;i++){
-				char str[40] = {0};
-				//sprintf(str, "%04.2lf\r\n",4.56);
-				sprintf(str,"%d,%d\r\n",testArr[2*i],testArr[2*i+1]);
-				uart_transmitMult(str);
+			if(Flags&F_DEBUG){
+				cli();
+				// TODO : stream results better
+				for(uint16_t i = 0;i<256;i++){
+					char str[40] = {0};
+					//sprintf(str, "%04.2lf\r\n",4.56);
+					sprintf(str,"%d,%d\r\n",testArr[2*i],testArr[2*i+1]);
+					uart_transmitMult(str);
+				}
+				sei();
 			}
-			sei();
 			PORTD &=~(1<<STATUS); // debug
 		}
 	}
