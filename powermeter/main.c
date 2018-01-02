@@ -30,7 +30,9 @@ volatile uint8_t data; //UART buffer
 volatile uint8_t scnt = 0; // sample count
 volatile uint16_t cnt = 0; // timer extended byte for usart
 volatile uint8_t Flags = 0;
-float testArr[]={0};
+
+volatile uint16_t tcnt = 0;
+float testArr[512] = {0};
 
 volatile struct S_Cal{
 	uint8_t phase, gain, zero;
@@ -99,7 +101,8 @@ int16_t adc_i(void){
 	uint8_t sign=spi_rxtx(128);;
 	val=(sign&15)<<8;
 	sign=(sign&0b00010000);
-	val|=spi_rxtx(0);;
+	val|=spi_rxtx(0);
+	val = 0xFFFF - val;
 	PORTB |=(1<<CS);
 	if(sign)return (-val);
 	return (val);
@@ -121,7 +124,7 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 	}
 	
 	// filtering
-	/*Sample[index].previousFiltered = Sample[index].filtered;  // y[n] -> y[n-1]
+	Sample[index].previousFiltered = Sample[index].filtered;  // y[n] -> y[n-1]
 	int32_t temp0 = 255*(int32_t)Sample[index].filtered; // =0.996*y[n-1]
 	temp0 = temp0>>8;
 	int16_t temp1 = Sample[index].current - Sample[index].previous; //=x[n]-x[n-1]
@@ -130,7 +133,7 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 
 	//TODO : Add calibration for phase lag here
 	Sample[index].calibrated = Sample[index].filtered;
-*/
+
 	Sample[index].calibrated = Sample[index].current;
 	
 	// accumulation
@@ -146,6 +149,7 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 			Flags|=(1<<F_FAULT);
 		break;
 	}
+	testArr[tcnt++]=Sample[index].calibrated;
 }
 
 int main(void){
@@ -186,7 +190,7 @@ int main(void){
 		}
 		if(Flags&F_UARTRX){//TODO : add user input cal here
 		Flags=Flags&(0xFF-F_UARTRX);
-			uart_transmit(data);
+			uart_transmit(data+1);
 			if(data=='a')PORTD ^=(1<<STATUS1);
 			data=0;
 		}
@@ -195,9 +199,11 @@ int main(void){
 			PORTD |=(1<<STATUS); // debug
 
 			// TODO : stream results better
-			char str[40] = {0};
-			sprintf(str, "%04.2lf\r\n",testArr);
-			uart_transmitMult(str);
+			for(uint16_t i = 0;i<255;i++){
+				char str[40] = {0};
+				sprintf(str, "%04.2lf,%04.2lf\r\n",testArr[2*i],testArr[2*i+1]);
+				uart_transmitMult(str);
+			}
 			PORTD &=~(1<<STATUS); // debug
 		}
 	}
@@ -213,7 +219,8 @@ ISR(TIMER0_COMPA_vect){
 	acquisition(0);
 	acquisition(1);
 	Acc.p += (Sample[0].calibrated>>6)*(Sample[1].calibrated>>6); // v*i
-	if(++scnt>NMAX){
+	if(tcnt>511/*++scnt>NMAX*/){
+		tcnt = 0;
 		scnt=0;
 		Flags|=F_CYCLE_FULL;
 	}
