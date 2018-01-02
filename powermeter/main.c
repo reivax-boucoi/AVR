@@ -32,7 +32,7 @@ volatile uint16_t cnt = 0; // timer extended byte for usart
 volatile uint8_t Flags = 0;
 
 volatile uint16_t tcnt = 0;
-int32_t testArr[512] = {0};
+int16_t testArr[512] = {0};
 
 volatile struct S_Cal{
 	uint8_t phase, gain, zero;
@@ -201,8 +201,8 @@ int main(void){
 			// TODO : stream results better
 			for(uint16_t i = 0;i<255;i++){
 				char str[40] = {0};
-				sprintf(str, "%04.2lf,%04.2lf\r\n",1.23/*testArr[2*i],testArr[2*i+1]*/,4.56);
-//sprintf(str,"%04.2lf",1.23);
+				//sprintf(str, "%04.2lf\r\n",4.56);
+				sprintf(str,"%d,%d\r\n",testArr[2*i],testArr[2*i+1]);
 				uart_transmitMult(str);
 			}
 			PORTD &=~(1<<STATUS); // debug
