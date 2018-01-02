@@ -103,10 +103,7 @@ int16_t adc_i(void){
 	sign=(sign&0b00010000);
 	val|=spi_rxtx(0);
 	PORTB |=(1<<CS);
-	if(sign){
-		val = 0xFFFF - val;
-		return (-val);
-	}
+	if(sign)return (val-4096);
 	return (val);
 }
 

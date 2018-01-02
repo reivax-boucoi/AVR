@@ -17,15 +17,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   6 .debug_abbrev 0000023a  00000000  00000000  000028b6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000554  00000000  00000000  00002af0  2**0
+  7 .debug_line   0000054c  00000000  00000000  00002af0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000d0  00000000  00000000  00003044  2**2
+  8 .debug_frame  000000d0  00000000  00000000  0000303c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000001b6  00000000  00000000  00003114  2**0
+  9 .debug_str    000001b6  00000000  00000000  0000310c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000000e0  00000000  00000000  000032ca  2**0
+ 10 .debug_loc    000000e0  00000000  00000000  000032c2  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000060  00000000  00000000  000033aa  2**0
+ 11 .debug_ranges 00000060  00000000  00000000  000033a2  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -389,16 +389,13 @@ int16_t adc_i(void){
      2d0:	93 2b       	or	r25, r19
 	PORTB |=(1<<CS);
      2d2:	2a 9a       	sbi	0x05, 2	; 5
-	if(sign){
+	if(sign)return (val-4096);
      2d4:	44 ff       	sbrs	r20, 4
      2d6:	04 c0       	rjmp	.+8      	; 0x2e0 <adc_i+0x44>
-		val = 0xFFFF - val;
-		return (-val);
      2d8:	9c 01       	movw	r18, r24
-     2da:	2f 5f       	subi	r18, 0xFF	; 255
-     2dc:	3f 4f       	sbci	r19, 0xFF	; 255
+     2da:	20 50       	subi	r18, 0x00	; 0
+     2dc:	30 41       	sbci	r19, 0x10	; 16
      2de:	01 c0       	rjmp	.+2      	; 0x2e2 <adc_i+0x46>
-	}
 	return (val);
      2e0:	9c 01       	movw	r18, r24
 }
