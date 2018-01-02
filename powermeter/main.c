@@ -108,9 +108,9 @@ int16_t adc_i(void){
 }
 
 void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumulate
-	Sample[index].previous = Sample[index].current;
+	Sample[index].previous = Sample[index].current; // x[n] -> x[n+1]
 	// adc read
-	switch (index){
+	switch (index){ // DATA -> x[n]
 		case 0:
 			Sample[0].current = adc_v();
 		break;
@@ -133,13 +133,14 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 	//TODO : Add calibration for phase lag here
 	Sample[index].calibrated = Sample[index].filtered;
 
-	Sample[index].calibrated = Sample[index].current;
 	
 	// accumulation
 	uint32_t temp = (Sample[index].calibrated>>6)*(Sample[index].calibrated>>6); //TODO check shift nbs
 	switch (index){
 		case 0:
 			Acc.v = temp;
+			testArr[tcnt++]=Sample[index].current;
+			testArr[tcnt++]=Sample[index].filtered;
 		break;
 		case 1:
 			Acc.i = temp;
@@ -148,7 +149,6 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 			Flags|=(1<<F_FAULT);
 		break;
 	}
-	testArr[tcnt++]=Sample[index].calibrated;
 }
 
 int main(void){
@@ -220,7 +220,7 @@ ISR(TIMER0_COMPA_vect){
 	acquisition(0);
 	acquisition(1);
 	Acc.p += (Sample[0].calibrated>>6)*(Sample[1].calibrated>>6); // v*i
-	if(tcnt>511/*++scnt>NMAX*/){
+	if(tcnt>508/*++scnt>NMAX*/){
 		tcnt = 0;
 		scnt=0;
 		Flags|=F_CYCLE_FULL;
