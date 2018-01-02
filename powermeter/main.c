@@ -30,6 +30,7 @@ volatile uint8_t data; //UART buffer
 volatile uint8_t scnt = 0; // sample count
 volatile uint16_t cnt = 0; // timer extended byte for usart
 volatile uint8_t Flags = 0;
+float testArr[]={0};
 
 volatile struct S_Cal{
 	uint8_t phase, gain, zero;
@@ -40,7 +41,7 @@ volatile struct S_Sample{
 	int16_t current, previous;
 			//y[n]		y[n-1]			z[n]
 	int32_t filtered,previousFiltered,calibrated;
-}Sample[2]={0,0};
+}Sample[2]={{0}};
 
 volatile struct S_Acc{
 	int32_t v,i,p;
@@ -80,6 +81,7 @@ while(!(SPSR & (1<<SPIF)));
 return (SPDR);
 }
 
+
 uint16_t adc_v(void){
 	uint16_t val=0;
 	PORTB &=~(1<<CS);
@@ -89,6 +91,7 @@ uint16_t adc_v(void){
 	PORTB |=(1<<CS);
 	return (val);
 }
+
 int16_t adc_i(void){
 	uint16_t val=0;
 	PORTB &=~(1<<CS);
@@ -101,6 +104,7 @@ int16_t adc_i(void){
 	if(sign)return (-val);
 	return (val);
 }
+
 void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumulate
 	Sample[index].previous = Sample[index].current;
 	// adc read
@@ -115,6 +119,7 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 			Flags|=(1<<F_FAULT);
 		break;
 	}
+	
 	// filtering
 	/*Sample[index].previousFiltered = Sample[index].filtered;  // y[n] -> y[n-1]
 	int32_t temp0 = 255*(int32_t)Sample[index].filtered; // =0.996*y[n-1]
@@ -126,7 +131,8 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 	//TODO : Add calibration for phase lag here
 	Sample[index].calibrated = Sample[index].filtered;
 */
-	Sample[index].calibrated=Sample[index].current;
+	Sample[index].calibrated = Sample[index].current;
+	
 	// accumulation
 	uint32_t temp = (Sample[index].calibrated>>6)*(Sample[index].calibrated>>6); //TODO check shift nbs
 	switch (index){
@@ -159,7 +165,7 @@ int main(void){
 
 	while(1){
 		if(Flags&F_FAULT){
-			uart_transmitMult('FAULT\n');
+			uart_transmitMult("FAULT\n");
 		}
 		if(Flags&F_CYCLE_FULL){
 			Flags=Flags&(0xFF-F_CYCLE_FULL);
@@ -172,11 +178,11 @@ int main(void){
 			Res.v = sqrt(temp0)*CalCoeffs[0].gain;
 			temp0 = Sum.i*NORM;
 			Res.i = sqrt(temp0)*CalCoeffs[1].gain;
-			/*if(Res.i<IMIN){
+			if(Res.i<IMIN){
 				Res.p=0.0;
-			}else{*/
+			}else{
 				Res.p = Sum.p*NORM*CalCoeffs[0].gain*CalCoeffs[1].gain;
-			//}
+			}
 		}
 		if(Flags&F_UARTRX){//TODO : add user input cal here
 		Flags=Flags&(0xFF-F_UARTRX);
@@ -190,7 +196,7 @@ int main(void){
 
 			// TODO : stream results better
 			char str[40] = {0};
-			sprintf(str, "P = %04.2lf, V = %04.2lf, I = %04.2lf\r\n",1.0,2.0,3.0);//Res.p,Res.v,Res.i);
+			sprintf(str, "%04.2lf\r\n",testArr);
 			uart_transmitMult(str);
 			PORTD &=~(1<<STATUS); // debug
 		}
