@@ -1111,161 +1111,173 @@
  1132 072c 8093 0000 		sts Flags,r24
  1133               	.LM145:
  1134 0730 5D9A      		sbi 43-32,5
- 1135 0732 00E0      		ldi r16,lo8(testArr)
- 1136 0734 10E0      		ldi r17,hi8(testArr)
- 1137               	.L68:
- 1138               	.LBB53:
- 1139               	.LBB47:
- 1140               	.LM146:
- 1141 0736 ADA5      		ldd r26,Y+45
- 1142 0738 BEA5      		ldd r27,Y+46
- 1143 073a E8E2      		ldi r30,lo8(40)
- 1144 073c 1D92      		st X+,__zero_reg__
- 1145 073e EA95      	        dec r30
- 1146 0740 01F4      		brne .-6
- 1147               	.LM147:
- 1148 0742 8DB7      		in r24,__SP_L__
- 1149 0744 9EB7      		in r25,__SP_H__
- 1150 0746 0897      		sbiw r24,8
- 1151 0748 0FB6      		in __tmp_reg__,__SREG__
- 1152 074a F894      		cli
- 1153 074c 9EBF      		out __SP_H__,r25
- 1154 074e 0FBE      		out __SREG__,__tmp_reg__
- 1155 0750 8DBF      		out __SP_L__,r24
- 1156 0752 EDB7      		in r30,__SP_L__
- 1157 0754 FEB7      		in r31,__SP_H__
- 1158 0756 3196      		adiw r30,1
- 1159 0758 81E0      		ldi r24,lo8(1)
- 1160 075a 90E0      		ldi r25,hi8(1)
- 1161 075c 8C0F      		add r24,r28
- 1162 075e 9D1F      		adc r25,r29
- 1163 0760 ADB7      		in r26,__SP_L__
- 1164 0762 BEB7      		in r27,__SP_H__
- 1165 0764 1296      		adiw r26,1+1
- 1166 0766 9C93      		st X,r25
- 1167 0768 8E93      		st -X,r24
- 1168 076a 1197      		sbiw r26,1
- 1169 076c A0E0      		ldi r26,lo8(.LC2)
- 1170 076e B0E0      		ldi r27,hi8(.LC2)
- 1171 0770 B383      		std Z+3,r27
- 1172 0772 A283      		std Z+2,r26
- 1173 0774 D801      		movw r26,r16
- 1174 0776 8D91      		ld r24,X+
- 1175 0778 9C91      		ld r25,X
- 1176 077a 1197      		sbiw r26,1
- 1177 077c 9583      		std Z+5,r25
- 1178 077e 8483      		std Z+4,r24
- 1179 0780 1296      		adiw r26,2
- 1180 0782 8D91      		ld r24,X+
- 1181 0784 9C91      		ld r25,X
- 1182 0786 1397      		sbiw r26,2+1
- 1183 0788 9783      		std Z+7,r25
- 1184 078a 8683      		std Z+6,r24
- 1185 078c 0E94 0000 		call sprintf
- 1186               	.LM148:
- 1187 0790 EDB7      		in r30,__SP_L__
- 1188 0792 FEB7      		in r31,__SP_H__
- 1189 0794 3896      		adiw r30,8
- 1190 0796 0FB6      		in __tmp_reg__,__SREG__
- 1191 0798 F894      		cli
- 1192 079a FEBF      		out __SP_H__,r31
- 1193 079c 0FBE      		out __SREG__,__tmp_reg__
- 1194 079e EDBF      		out __SP_L__,r30
- 1195 07a0 CE01      		movw r24,r28
- 1196 07a2 0196      		adiw r24,1
- 1197 07a4 0E94 0000 		call uart_transmitMult
- 1198 07a8 0C5F      		subi r16,lo8(-(4))
- 1199 07aa 1F4F      		sbci r17,hi8(-(4))
- 1200               	.LBE47:
- 1201               	.LM149:
- 1202 07ac F0E0      		ldi r31,hi8(testArr+1020)
- 1203 07ae 0030      		cpi r16,lo8(testArr+1020)
- 1204 07b0 1F07      		cpc r17,r31
- 1205 07b2 01F4      		brne .L68
- 1206               	.LBE53:
+ 1135               	.LM146:
+ 1136               	/* #APP */
+ 1137               	 ;  200 "main.c" 1
+ 1138 0732 F894      		cli
+ 1139               	 ;  0 "" 2
+ 1140               	/* #NOAPP */
+ 1141 0734 00E0      		ldi r16,lo8(testArr)
+ 1142 0736 10E0      		ldi r17,hi8(testArr)
+ 1143               	.L68:
+ 1144               	.LBB53:
+ 1145               	.LBB47:
+ 1146               	.LM147:
+ 1147 0738 ADA5      		ldd r26,Y+45
+ 1148 073a BEA5      		ldd r27,Y+46
+ 1149 073c E8E2      		ldi r30,lo8(40)
+ 1150 073e 1D92      		st X+,__zero_reg__
+ 1151 0740 EA95      	        dec r30
+ 1152 0742 01F4      		brne .-6
+ 1153               	.LM148:
+ 1154 0744 8DB7      		in r24,__SP_L__
+ 1155 0746 9EB7      		in r25,__SP_H__
+ 1156 0748 0897      		sbiw r24,8
+ 1157 074a 0FB6      		in __tmp_reg__,__SREG__
+ 1158 074c F894      		cli
+ 1159 074e 9EBF      		out __SP_H__,r25
+ 1160 0750 0FBE      		out __SREG__,__tmp_reg__
+ 1161 0752 8DBF      		out __SP_L__,r24
+ 1162 0754 EDB7      		in r30,__SP_L__
+ 1163 0756 FEB7      		in r31,__SP_H__
+ 1164 0758 3196      		adiw r30,1
+ 1165 075a 81E0      		ldi r24,lo8(1)
+ 1166 075c 90E0      		ldi r25,hi8(1)
+ 1167 075e 8C0F      		add r24,r28
+ 1168 0760 9D1F      		adc r25,r29
+ 1169 0762 ADB7      		in r26,__SP_L__
+ 1170 0764 BEB7      		in r27,__SP_H__
+ 1171 0766 1296      		adiw r26,1+1
+ 1172 0768 9C93      		st X,r25
+ 1173 076a 8E93      		st -X,r24
+ 1174 076c 1197      		sbiw r26,1
+ 1175 076e A0E0      		ldi r26,lo8(.LC2)
+ 1176 0770 B0E0      		ldi r27,hi8(.LC2)
+ 1177 0772 B383      		std Z+3,r27
+ 1178 0774 A283      		std Z+2,r26
+ 1179 0776 D801      		movw r26,r16
+ 1180 0778 8D91      		ld r24,X+
+ 1181 077a 9C91      		ld r25,X
+ 1182 077c 1197      		sbiw r26,1
+ 1183 077e 9583      		std Z+5,r25
+ 1184 0780 8483      		std Z+4,r24
+ 1185 0782 1296      		adiw r26,2
+ 1186 0784 8D91      		ld r24,X+
+ 1187 0786 9C91      		ld r25,X
+ 1188 0788 1397      		sbiw r26,2+1
+ 1189 078a 9783      		std Z+7,r25
+ 1190 078c 8683      		std Z+6,r24
+ 1191 078e 0E94 0000 		call sprintf
+ 1192               	.LM149:
+ 1193 0792 EDB7      		in r30,__SP_L__
+ 1194 0794 FEB7      		in r31,__SP_H__
+ 1195 0796 3896      		adiw r30,8
+ 1196 0798 0FB6      		in __tmp_reg__,__SREG__
+ 1197 079a F894      		cli
+ 1198 079c FEBF      		out __SP_H__,r31
+ 1199 079e 0FBE      		out __SREG__,__tmp_reg__
+ 1200 07a0 EDBF      		out __SP_L__,r30
+ 1201 07a2 CE01      		movw r24,r28
+ 1202 07a4 0196      		adiw r24,1
+ 1203 07a6 0E94 0000 		call uart_transmitMult
+ 1204 07aa 0C5F      		subi r16,lo8(-(4))
+ 1205 07ac 1F4F      		sbci r17,hi8(-(4))
+ 1206               	.LBE47:
  1207               	.LM150:
- 1208 07b4 5D98      		cbi 43-32,5
- 1209 07b6 00C0      		rjmp .L69
- 1210               	.LFE14:
- 1212               	.global	scnt
- 1213               	.global	scnt
- 1214               		.section .bss
- 1217               	scnt:
- 1218 0000 00        		.skip 1,0
- 1219               	.global	cnt
- 1220               	.global	cnt
- 1223               	cnt:
- 1224 0001 0000      		.skip 2,0
- 1225               	.global	Flags
- 1226               	.global	Flags
- 1229               	Flags:
- 1230 0003 00        		.skip 1,0
- 1231               	.global	tcnt
- 1232               	.global	tcnt
- 1235               	tcnt:
- 1236 0004 0000      		.skip 2,0
- 1237               	.global	testArr
- 1238               	.global	testArr
- 1241               	testArr:
- 1242 0006 0000 0000 		.skip 1024,0
- 1242      0000 0000 
- 1242      0000 0000 
- 1242      0000 0000 
- 1242      0000 0000 
- 1243               	.global	CalCoeffs
- 1244               		.data
- 1247               	CalCoeffs:
- 1248 0030 00        		.byte	0
- 1249 0031 01        		.byte	1
- 1250 0032 00        		.byte	0
- 1251 0033 00        		.byte	0
- 1252 0034 01        		.byte	1
- 1253 0035 00        		.byte	0
- 1254               	.global	Sample
- 1255               	.global	Sample
- 1256               		.section .bss
- 1259               	Sample:
- 1260 0406 0000 0000 		.skip 32,0
- 1260      0000 0000 
- 1260      0000 0000 
- 1260      0000 0000 
- 1260      0000 0000 
- 1261               		.comm data,1,1
- 1262               		.comm Acc,12,1
- 1263               		.comm Sum,12,1
- 1264               		.comm Res,12,1
- 1377               	.Letext0:
+ 1208 07ae F0E0      		ldi r31,hi8(testArr+1020)
+ 1209 07b0 0030      		cpi r16,lo8(testArr+1020)
+ 1210 07b2 1F07      		cpc r17,r31
+ 1211 07b4 01F4      		brne .L68
+ 1212               	.LBE53:
+ 1213               	.LM151:
+ 1214               	/* #APP */
+ 1215               	 ;  208 "main.c" 1
+ 1216 07b6 7894      		sei
+ 1217               	 ;  0 "" 2
+ 1218               	.LM152:
+ 1219               	/* #NOAPP */
+ 1220 07b8 5D98      		cbi 43-32,5
+ 1221 07ba 00C0      		rjmp .L69
+ 1222               	.LFE14:
+ 1224               	.global	scnt
+ 1225               	.global	scnt
+ 1226               		.section .bss
+ 1229               	scnt:
+ 1230 0000 00        		.skip 1,0
+ 1231               	.global	cnt
+ 1232               	.global	cnt
+ 1235               	cnt:
+ 1236 0001 0000      		.skip 2,0
+ 1237               	.global	Flags
+ 1238               	.global	Flags
+ 1241               	Flags:
+ 1242 0003 00        		.skip 1,0
+ 1243               	.global	tcnt
+ 1244               	.global	tcnt
+ 1247               	tcnt:
+ 1248 0004 0000      		.skip 2,0
+ 1249               	.global	testArr
+ 1250               	.global	testArr
+ 1253               	testArr:
+ 1254 0006 0000 0000 		.skip 1024,0
+ 1254      0000 0000 
+ 1254      0000 0000 
+ 1254      0000 0000 
+ 1254      0000 0000 
+ 1255               	.global	CalCoeffs
+ 1256               		.data
+ 1259               	CalCoeffs:
+ 1260 0030 00        		.byte	0
+ 1261 0031 01        		.byte	1
+ 1262 0032 00        		.byte	0
+ 1263 0033 00        		.byte	0
+ 1264 0034 01        		.byte	1
+ 1265 0035 00        		.byte	0
+ 1266               	.global	Sample
+ 1267               	.global	Sample
+ 1268               		.section .bss
+ 1271               	Sample:
+ 1272 0406 0000 0000 		.skip 32,0
+ 1272      0000 0000 
+ 1272      0000 0000 
+ 1272      0000 0000 
+ 1272      0000 0000 
+ 1273               		.comm data,1,1
+ 1274               		.comm Acc,12,1
+ 1275               		.comm Sum,12,1
+ 1276               		.comm Res,12,1
+ 1389               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:2      *ABS*:0000003f __SREG__
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:3      *ABS*:0000003e __SP_H__
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:4      *ABS*:0000003d __SP_L__
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:5      *ABS*:00000034 __CCP__
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:18     .text:00000000 uart_init
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:47     .text:00000020 uart_transmit
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:69     .text:00000030 uart_transmitMult
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:108    .text:0000004a uart_recieve
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:124    .text:00000054 spi_masterInit
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:144    .text:00000060 spi_rxtx
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:167    .text:0000006c adc_v
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:234    .text:000000a6 adc_i
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:324    .text:000000f6 acquisition
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:1259   .bss:00000406 Sample
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:1229   .bss:00000003 Flags
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:2      *ABS*:0000003f __SREG__
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:3      *ABS*:0000003e __SP_H__
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:4      *ABS*:0000003d __SP_L__
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:5      *ABS*:00000034 __CCP__
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:18     .text:00000000 uart_init
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:47     .text:00000020 uart_transmit
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:69     .text:00000030 uart_transmitMult
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:108    .text:0000004a uart_recieve
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:124    .text:00000054 spi_masterInit
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:144    .text:00000060 spi_rxtx
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:167    .text:0000006c adc_v
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:234    .text:000000a6 adc_i
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:324    .text:000000f6 acquisition
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:1271   .bss:00000406 Sample
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:1241   .bss:00000003 Flags
                             *COM*:0000000c Acc
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:1235   .bss:00000004 tcnt
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:1241   .bss:00000006 testArr
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:604    .text:00000300 __vector_18
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:1247   .bss:00000004 tcnt
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:1253   .bss:00000006 testArr
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:604    .text:00000300 __vector_18
                             *COM*:00000001 data
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:641    .text:0000032e __vector_14
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:1217   .bss:00000000 scnt
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:1223   .bss:00000001 cnt
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:784    .text:00000450 main
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:641    .text:0000032e __vector_14
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:1229   .bss:00000000 scnt
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:1235   .bss:00000001 cnt
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:784    .text:00000450 main
                             *COM*:0000000c Res
                             *COM*:0000000c Sum
-C:\Users\User\AppData\Local\Temp/ccdgV1Fz.s:1247   .data:00000030 CalCoeffs
+C:\Users\User\AppData\Local\Temp/ccVSX6zE.s:1259   .data:00000030 CalCoeffs
 
 UNDEFINED SYMBOLS
 __mulsi3

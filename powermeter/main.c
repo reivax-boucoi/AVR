@@ -197,7 +197,7 @@ int main(void){
 		if(Flags&F_UARTTX){
 			Flags=Flags&(0xFF-F_UARTTX);
 			PORTD |=(1<<STATUS); // debug
-
+			cli();
 			// TODO : stream results better
 			for(uint16_t i = 0;i<255;i++){
 				char str[40] = {0};
@@ -205,6 +205,7 @@ int main(void){
 				sprintf(str,"%d,%d\r\n",testArr[2*i],testArr[2*i+1]);
 				uart_transmitMult(str);
 			}
+			sei();
 			PORTD &=~(1<<STATUS); // debug
 		}
 	}
