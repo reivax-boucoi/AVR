@@ -1,0 +1,313 @@
+   1               		.file	"periphs.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	uart_init
+  18               	uart_init:
+  19               	.LFB2:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 1092 C500 		sts 197,__zero_reg__
+  25               	.LM3:
+  26 0004 87E6      		ldi r24,lo8(103)
+  27 0006 8093 C400 		sts 196,r24
+  28               	.LM4:
+  29 000a E1EC      		ldi r30,lo8(193)
+  30 000c F0E0      		ldi r31,hi8(193)
+  31 000e 8081      		ld r24,Z
+  32 0010 8869      		ori r24,lo8(-104)
+  33 0012 8083      		st Z,r24
+  34               	.LM5:
+  35 0014 E2EC      		ldi r30,lo8(194)
+  36 0016 F0E0      		ldi r31,hi8(194)
+  37 0018 8081      		ld r24,Z
+  38 001a 8660      		ori r24,lo8(6)
+  39 001c 8083      		st Z,r24
+  40               	/* epilogue start */
+  41               	.LM6:
+  42 001e 0895      		ret
+  43               	.LFE2:
+  45               	.global	uart_transmit
+  47               	uart_transmit:
+  48               	.LFB3:
+  49               	.LM7:
+  50               	.LVL0:
+  51               	/* prologue: function */
+  52               	/* frame size = 0 */
+  53 0020 982F      		mov r25,r24
+  54               	.LVL1:
+  55               	.L4:
+  56               	.LM8:
+  57 0022 8091 C000 		lds r24,192
+  58 0026 85FF      		sbrs r24,5
+  59 0028 00C0      		rjmp .L4
+  60               	.LM9:
+  61 002a 9093 C600 		sts 198,r25
+  62               	/* epilogue start */
+  63               	.LM10:
+  64 002e 0895      		ret
+  65               	.LFE3:
+  67               	.global	uart_transmitMult
+  69               	uart_transmitMult:
+  70               	.LFB4:
+  71               	.LM11:
+  72               	.LVL2:
+  73               	/* prologue: function */
+  74               	/* frame size = 0 */
+  75 0030 FC01      		movw r30,r24
+  76 0032 00C0      		rjmp .L8
+  77               	.LVL3:
+  78               	.L11:
+  79               	.LBB16:
+  80               	.LBB17:
+  81               	.LM12:
+  82 0034 8091 C000 		lds r24,192
+  83 0038 85FF      		sbrs r24,5
+  84 003a 00C0      		rjmp .L11
+  85               	.LBE17:
+  86               	.LBE16:
+  87               	.LM13:
+  88 003c 3196      		adiw r30,1
+  89               	.LBB19:
+  90               	.LBB18:
+  91               	.LM14:
+  92 003e 9093 C600 		sts 198,r25
+  93               	.LVL4:
+  94               	.L8:
+  95               	.LBE18:
+  96               	.LBE19:
+  97               	.LM15:
+  98 0042 9081      		ld r25,Z
+  99 0044 9923      		tst r25
+ 100 0046 01F4      		brne .L11
+ 101               	/* epilogue start */
+ 102               	.LM16:
+ 103 0048 0895      		ret
+ 104               	.LFE4:
+ 106               	.global	uart_recieve
+ 108               	uart_recieve:
+ 109               	.LFB5:
+ 110               	.LM17:
+ 111               	/* prologue: function */
+ 112               	/* frame size = 0 */
+ 113               	.LM18:
+ 114 004a 8091 C000 		lds r24,192
+ 115               	.LM19:
+ 116 004e 8091 C600 		lds r24,198
+ 117               	/* epilogue start */
+ 118               	.LM20:
+ 119 0052 0895      		ret
+ 120               	.LFE5:
+ 122               	.global	spi_masterInit
+ 124               	spi_masterInit:
+ 125               	.LFB6:
+ 126               	.LM21:
+ 127               	/* prologue: function */
+ 128               	/* frame size = 0 */
+ 129               	.LM22:
+ 130 0054 8CE2      		ldi r24,lo8(44)
+ 131 0056 84B9      		out 36-32,r24
+ 132               	.LM23:
+ 133 0058 81E5      		ldi r24,lo8(81)
+ 134 005a 8CBD      		out 76-32,r24
+ 135               	.LM24:
+ 136 005c 2A9A      		sbi 37-32,2
+ 137               	/* epilogue start */
+ 138               	.LM25:
+ 139 005e 0895      		ret
+ 140               	.LFE6:
+ 142               	.global	spi_rxtx
+ 144               	spi_rxtx:
+ 145               	.LFB7:
+ 146               	.LM26:
+ 147               	.LVL5:
+ 148               	/* prologue: function */
+ 149               	/* frame size = 0 */
+ 150               	.LM27:
+ 151 0060 8EBD      		out 78-32,r24
+ 152               	.L18:
+ 153               	.LM28:
+ 154 0062 0DB4      		in __tmp_reg__,77-32
+ 155 0064 07FE      		sbrs __tmp_reg__,7
+ 156 0066 00C0      		rjmp .L18
+ 157               	.LM29:
+ 158 0068 8EB5      		in r24,78-32
+ 159               	.LVL6:
+ 160               	/* epilogue start */
+ 161               	.LM30:
+ 162 006a 0895      		ret
+ 163               	.LFE7:
+ 165               	.global	adc_v
+ 167               	adc_v:
+ 168               	.LFB8:
+ 169               	.LM31:
+ 170               	/* prologue: function */
+ 171               	/* frame size = 0 */
+ 172               	.LM32:
+ 173 006c 2A98      		cbi 37-32,2
+ 174               	.LBB20:
+ 175               	.LBB21:
+ 176               	.LM33:
+ 177 006e 8CE0      		ldi r24,lo8(12)
+ 178 0070 8EBD      		out 78-32,r24
+ 179               	.L22:
+ 180               	.LM34:
+ 181 0072 0DB4      		in __tmp_reg__,77-32
+ 182 0074 07FE      		sbrs __tmp_reg__,7
+ 183 0076 00C0      		rjmp .L22
+ 184               	.LM35:
+ 185 0078 8EB5      		in r24,78-32
+ 186               	.LBE21:
+ 187               	.LBE20:
+ 188               	.LBB22:
+ 189               	.LBB23:
+ 190               	.LM36:
+ 191 007a 80E8      		ldi r24,lo8(-128)
+ 192 007c 8EBD      		out 78-32,r24
+ 193               	.L23:
+ 194               	.LM37:
+ 195 007e 0DB4      		in __tmp_reg__,77-32
+ 196 0080 07FE      		sbrs __tmp_reg__,7
+ 197 0082 00C0      		rjmp .L23
+ 198               	.LM38:
+ 199 0084 2EB5      		in r18,78-32
+ 200               	.LBE23:
+ 201               	.LBE22:
+ 202               	.LBB24:
+ 203               	.LBB25:
+ 204               	.LM39:
+ 205 0086 1EBC      		out 78-32,__zero_reg__
+ 206               	.L24:
+ 207               	.LM40:
+ 208 0088 0DB4      		in __tmp_reg__,77-32
+ 209 008a 07FE      		sbrs __tmp_reg__,7
+ 210 008c 00C0      		rjmp .L24
+ 211               	.LM41:
+ 212 008e 8EB5      		in r24,78-32
+ 213               	.LBE25:
+ 214               	.LBE24:
+ 215               	.LM42:
+ 216 0090 30E0      		ldi r19,lo8(0)
+ 217 0092 2F70      		andi r18,lo8(15)
+ 218 0094 3070      		andi r19,hi8(15)
+ 219 0096 322F      		mov r19,r18
+ 220 0098 2227      		clr r18
+ 221               	.LM43:
+ 222 009a 2A9A      		sbi 37-32,2
+ 223 009c 90E0      		ldi r25,lo8(0)
+ 224 009e 282B      		or r18,r24
+ 225 00a0 392B      		or r19,r25
+ 226               	.LM44:
+ 227 00a2 C901      		movw r24,r18
+ 228               	/* epilogue start */
+ 229 00a4 0895      		ret
+ 230               	.LFE8:
+ 232               	.global	adc_i
+ 234               	adc_i:
+ 235               	.LFB9:
+ 236               	.LM45:
+ 237               	/* prologue: function */
+ 238               	/* frame size = 0 */
+ 239               	.LM46:
+ 240 00a6 2A98      		cbi 37-32,2
+ 241               	.LBB26:
+ 242               	.LBB27:
+ 243               	.LM47:
+ 244 00a8 89E0      		ldi r24,lo8(9)
+ 245 00aa 8EBD      		out 78-32,r24
+ 246               	.L30:
+ 247               	.LM48:
+ 248 00ac 0DB4      		in __tmp_reg__,77-32
+ 249 00ae 07FE      		sbrs __tmp_reg__,7
+ 250 00b0 00C0      		rjmp .L30
+ 251               	.LM49:
+ 252 00b2 8EB5      		in r24,78-32
+ 253               	.LBE27:
+ 254               	.LBE26:
+ 255               	.LBB28:
+ 256               	.LBB29:
+ 257               	.LM50:
+ 258 00b4 80E8      		ldi r24,lo8(-128)
+ 259 00b6 8EBD      		out 78-32,r24
+ 260               	.L31:
+ 261               	.LM51:
+ 262 00b8 0DB4      		in __tmp_reg__,77-32
+ 263 00ba 07FE      		sbrs __tmp_reg__,7
+ 264 00bc 00C0      		rjmp .L31
+ 265               	.LM52:
+ 266 00be 4EB5      		in r20,78-32
+ 267               	.LVL7:
+ 268               	.LBE29:
+ 269               	.LBE28:
+ 270               	.LBB30:
+ 271               	.LBB31:
+ 272               	.LM53:
+ 273 00c0 1EBC      		out 78-32,__zero_reg__
+ 274               	.L32:
+ 275               	.LM54:
+ 276 00c2 0DB4      		in __tmp_reg__,77-32
+ 277 00c4 07FE      		sbrs __tmp_reg__,7
+ 278 00c6 00C0      		rjmp .L32
+ 279               	.LM55:
+ 280 00c8 2EB5      		in r18,78-32
+ 281               	.LBE31:
+ 282               	.LBE30:
+ 283               	.LM56:
+ 284 00ca 842F      		mov r24,r20
+ 285 00cc 90E0      		ldi r25,lo8(0)
+ 286               	.LVL8:
+ 287 00ce 8F70      		andi r24,lo8(15)
+ 288 00d0 9070      		andi r25,hi8(15)
+ 289               	.LVL9:
+ 290 00d2 982F      		mov r25,r24
+ 291 00d4 8827      		clr r24
+ 292               	.LVL10:
+ 293               	.LM57:
+ 294 00d6 30E0      		ldi r19,lo8(0)
+ 295 00d8 822B      		or r24,r18
+ 296 00da 932B      		or r25,r19
+ 297               	.LM58:
+ 298 00dc 2A9A      		sbi 37-32,2
+ 299               	.LM59:
+ 300 00de 44FF      		sbrs r20,4
+ 301 00e0 00C0      		rjmp .L33
+ 302               	.LVL11:
+ 303 00e2 9C01      		movw r18,r24
+ 304 00e4 2050      		subi r18,lo8(-(-4096))
+ 305 00e6 3041      		sbci r19,hi8(-(-4096))
+ 306 00e8 00C0      		rjmp .L34
+ 307               	.L33:
+ 308               	.LM60:
+ 309 00ea 9C01      		movw r18,r24
+ 310               	.L34:
+ 311               	.LM61:
+ 312 00ec C901      		movw r24,r18
+ 313               	.LVL12:
+ 314               	/* epilogue start */
+ 315 00ee 0895      		ret
+ 316               	.LFE9:
+ 398               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 periphs.c
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:2      *ABS*:0000003f __SREG__
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:3      *ABS*:0000003e __SP_H__
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:4      *ABS*:0000003d __SP_L__
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:5      *ABS*:00000034 __CCP__
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:18     .text:00000000 uart_init
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:47     .text:00000020 uart_transmit
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:69     .text:00000030 uart_transmitMult
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:108    .text:0000004a uart_recieve
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:124    .text:00000054 spi_masterInit
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:144    .text:00000060 spi_rxtx
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:167    .text:0000006c adc_v
+C:\Users\User\AppData\Local\Temp/ccVGsaiY.s:234    .text:000000a6 adc_i
+
+NO UNDEFINED SYMBOLS
