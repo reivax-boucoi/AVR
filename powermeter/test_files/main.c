@@ -5,9 +5,9 @@
 #include <avr/interrupt.h>
 #include "periphs.h"
 
-#define NMAX 104
+#define NMAX 138 // estimated max 2048, and choose multiples of 40 (/ 46 ??)(TODO check S.R.)
 #define NORM (1.0/NMAX) // TODO : choose NORM and NMAX according to 50Hz and F_CPU
-#define IMIN 0.001 // TODO
+#define IMIN 0.001 // TODO check treshold and working
 
 // Pin config
 #define STATUS PIND5
