@@ -47,7 +47,9 @@ struct S_Result{
 	float v, i , p;
 }Res;
 
+
 void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumulate
+	
 	Sample[index].previous = Sample[index].current; // x[n] -> x[n+1]
 	// adc read
 	switch (index){ // DATA -> x[n]

@@ -329,10 +329,10 @@ int main(void){
      332:	90 91 78 05 	lds	r25, 0x0578
 			Res.v = sqrt(temp0)*CalCoeffs[0].gain;
      336:	0e 94 85 0c 	call	0x190a	; 0x190a <__floatsisf>
-     33a:	29 ed       	ldi	r18, 0xD9	; 217
-     33c:	39 e8       	ldi	r19, 0x89	; 137
-     33e:	4d e1       	ldi	r20, 0x1D	; 29
-     340:	5c e3       	ldi	r21, 0x3C	; 60
+     33a:	24 e0       	ldi	r18, 0x04	; 4
+     33c:	33 e7       	ldi	r19, 0x73	; 115
+     33e:	4d ee       	ldi	r20, 0xED	; 237
+     340:	5b e3       	ldi	r21, 0x3B	; 59
      342:	0e 94 0d 0d 	call	0x1a1a	; 0x1a1a <__mulsf3>
      346:	0e 94 57 0c 	call	0x18ae	; 0x18ae <__fixunssfsi>
      34a:	80 e0       	ldi	r24, 0x00	; 0
@@ -364,10 +364,10 @@ int main(void){
      394:	90 91 7c 05 	lds	r25, 0x057C
 			Res.i = sqrt(temp0)*CalCoeffs[1].gain;
      398:	0e 94 85 0c 	call	0x190a	; 0x190a <__floatsisf>
-     39c:	29 ed       	ldi	r18, 0xD9	; 217
-     39e:	39 e8       	ldi	r19, 0x89	; 137
-     3a0:	4d e1       	ldi	r20, 0x1D	; 29
-     3a2:	5c e3       	ldi	r21, 0x3C	; 60
+     39c:	24 e0       	ldi	r18, 0x04	; 4
+     39e:	33 e7       	ldi	r19, 0x73	; 115
+     3a0:	4d ee       	ldi	r20, 0xED	; 237
+     3a2:	5b e3       	ldi	r21, 0x3B	; 59
      3a4:	0e 94 0d 0d 	call	0x1a1a	; 0x1a1a <__mulsf3>
      3a8:	0e 94 57 0c 	call	0x18ae	; 0x18ae <__fixunssfsi>
      3ac:	80 e0       	ldi	r24, 0x00	; 0
@@ -419,10 +419,10 @@ int main(void){
      424:	e0 90 31 01 	lds	r14, 0x0131
      428:	a0 90 34 01 	lds	r10, 0x0134
      42c:	0e 94 85 0c 	call	0x190a	; 0x190a <__floatsisf>
-     430:	29 ed       	ldi	r18, 0xD9	; 217
-     432:	39 e8       	ldi	r19, 0x89	; 137
-     434:	4d e1       	ldi	r20, 0x1D	; 29
-     436:	5c e3       	ldi	r21, 0x3C	; 60
+     430:	24 e0       	ldi	r18, 0x04	; 4
+     432:	33 e7       	ldi	r19, 0x73	; 115
+     434:	4d ee       	ldi	r20, 0xED	; 237
+     436:	5b e3       	ldi	r21, 0x3B	; 59
      438:	0e 94 0d 0d 	call	0x1a1a	; 0x1a1a <__mulsf3>
      43c:	3b 01       	movw	r6, r22
      43e:	4c 01       	movw	r8, r24
