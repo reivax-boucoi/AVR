@@ -33,8 +33,8 @@ volatile uint8_t Flags = 0;
 
 volatile struct S_Cal{
 	uint8_t phase, gain, zero;
-}CalCoeffs[2]={{0,1,0},{0,1,0}};
-
+}CalCoeffs[2];
+memset(CalCoefs,0,2*sizeof(S_Cal));//objet, valeur, taille totale
 volatile struct S_Sample{
 			//x[n]		x[n-1]
 	int16_t current, previous;
