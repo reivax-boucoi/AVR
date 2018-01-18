@@ -26,7 +26,7 @@
 #define F_UARTTX 0x02
 #define F_UARTRX 0x04
 #define F_DEBUG 0x08
-
+a
 volatile uint8_t data; //UART buffer
 volatile uint8_t scnt = 0; // sample count
 volatile uint16_t cnt = 0; // timer extended byte for usart
@@ -128,7 +128,7 @@ void acquisition(uint8_t index){//reads adc, filters, TODO calibrate and accumul
 	int32_t temp0 = 255*(int32_t)Sample[index].filtered; // =0.996*y[n-1]
 	temp0 = temp0>>8;
 	int16_t temp1 = Sample[index].current - Sample[index].previous; //=x[n]-x[n-1]
-	temp0 = temp0 + 255*(int32_t)temp1; // =0.996*(x[n]-x[n-1]) + 0.996*y[n-1]
+	temp0 = temp0 + ((255*(int32_t)temp1)>>8); // =0.996*(x[n]-x[n-1]) + 0.996*y[n-1]
 	Sample[index].filtered = temp0;
 
 	//TODO : Add calibration for phase lag here
