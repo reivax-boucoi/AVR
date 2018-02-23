@@ -7,13 +7,17 @@
 void LCDInit(){
 
 	LCDControlDIR |= 1<<Enable | 1<<RW | 1<<RS;
-	_delay_ms(15);
+	//_delay_ms(15);
+	_delay_ms(30);
 	Send(0,0x01); //Clear display + set cursor at home pos°
-	_delay_ms(2);
+	//_delay_ms(2);
+	_delay_ms(4);
 	Send(0,0x38); // set interface to 8bits, nb disp lines to 2, disp mode 5*8
-	_delay_us(50);
+	//_delay_us(50);
+	_delay_us(100);
 	Send(0,0x0E); // set display on, cursor on, blinking off
-	_delay_us(50);
+	//_delay_us(50);
+	_delay_us(100);
 	
 }
 

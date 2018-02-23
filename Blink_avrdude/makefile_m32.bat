@@ -11,6 +11,5 @@ exit
 :COMMAND
 echo "No errors !"
 avr-objcopy -j .text -j .data -O ihex main.elf main.hex
-avrdude -P usb -p m32 -c usbasp -F -U flash:w:main.hex
-ECHO O | DEL main.elf
+avrdude -P usb -p m32 -c usbtiny -F -U flash:w:main.hex
 ECHO O | DEL main.o
