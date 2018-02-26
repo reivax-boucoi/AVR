@@ -1,10 +1,3 @@
-/*
- * LCD.cpp
- *
- *  Created on: 18 f�vr. 2018
- *      Author: User
- */
-
 #include "LCD.h"
 
 LCD::LCD() {
@@ -13,8 +6,8 @@ LCD::LCD() {
 	SEGREG0 = 0xFF;
 	SEGREG1 |= 0x80;
 	COMREG |= 0x78;
-	//SEGPORT0 = 0x00;
-	SEGPORT0 = 0xFF;
+	SEGPORT0 = 0x07;
+	//SEGPORT0 = 0xFF;
 	//SEGPORT1 &= ~0x80;
 	SEGPORT1 |= 0x80;
 	COMPORT &= ~0x78;

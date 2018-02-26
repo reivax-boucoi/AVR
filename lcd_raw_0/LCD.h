@@ -1,9 +1,3 @@
-/*
- * LCD.h
- *
- *  Created on: 18 f�vr. 2018
- *      Author: User
- */
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #ifndef LCD_H_
