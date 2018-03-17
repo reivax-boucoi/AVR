@@ -3,6 +3,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <util/twi.h>
+#include "periphs.h"
 #define SLA 0x40
 #define TEMPREG 0xE3
 #define I2C_READ 0x01
@@ -77,6 +78,13 @@ uint8_t i2c_read_nack(void)
 void i2c_stop(void){
 	TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
 }
+
+void adc_init(){
+	ADMUX|=(1<<ADLAR);
+	ADCSRA|=(1<<ADEN)|(1<<ADSC)|(1<<ADATE)|(1<<ADIE)|(1<<ADPS2)|(1<<ADPS1)|(1<<ADPS0);
+}
+volatile uint8_t tempo = 250;
+
 float calc(uint16_t v){
 	return ((175.72*v)/65536)-46.85;
 }
@@ -86,6 +94,7 @@ int main(void){
 	DDRC |=(1<<PA7);
 	i2c_init();
 	uart_init();
+	adc_init();
 	sei();
 	while(1){
 		uint16_t data=0;
@@ -98,12 +107,17 @@ int main(void){
 		float temp = calc(data);
 		if(temp>22.0)PORTC^=(1<<PA7);
 		char str[10] = {0};
-		sprintf(str, "T=%04.2lf\r\n",4.56);
+		sprintf(str, "T = %08.6lf°C, t = %i\r\n",temp,tempo);
 		uart_transmitMult(str);
 		PORTB^=(1<<PB0);
-		_delay_ms(250);
+		_delay_ms((tempo<<2) +2);
 	}
 	return 0;
+}
+ISR ( ADC_vect ){
+	tempo = ADCH;
+}
+ISR ( TWI_vect ){
 }
 ISR ( USART_RXC_vect ){
 	char ReceivedByte ;
