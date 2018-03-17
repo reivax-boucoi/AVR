@@ -14,7 +14,7 @@
     UCSRB |= (1 << RXCIE ); // Enable the USART Recieve Complete interrupt
 }
 
-void uart_transmit (unsigned char data){
+void uart_transmit (uint8_t data){
     while (!( UCSRA & (1<<UDRE)));	// wait while register is free
     UDR = data;	// load data in the register
 }
