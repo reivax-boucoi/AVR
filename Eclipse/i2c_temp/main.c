@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -17,24 +18,27 @@ uint8_t i2c_read_ack(void);
 uint8_t i2c_read_nack(void);
 void i2c_stop(void);
 
-#define BAUDRATE 4800UL
-#define BAUD (F_CPU/(16UL*BAUDRATE)-1)
+#define BAUD 4800
+#define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
 void uart_init (void){
-  UBRRH = (BAUDRATE>>8);
-  UBRRL = BAUDRATE;	// set baud rate
-  UCSRB|= (1<<TXEN)|(1<<RXEN);	// enable receiver and transmitter
-  UCSRC|= (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);	// 8bit data format
-  UCSRB |= (1 << RXCIE ); // Enable the USART Recieve Complete interrupt
+	UBRRH = (BAUDRATE>>8);
+	UBRRL = BAUDRATE;	// set baud rate
+	UCSRB|= (1<<TXEN)|(1<<RXEN);	// enable receiver and transmitter
+	UCSRC|= (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);	// 8bit data format
+	UCSRB |= (1 << RXCIE ); // Enable the USART Recieve Complete interrupt
 }
-
-void uart_transmit (unsigned char data){
-  while (!( UCSRA & (1<<UDRE)));	// wait while register is free
-  UDR = data;	// load data in the register
+void uart_transmit (char data){
+	while (!( UCSRA & (1<<UDRE)));	// wait while register is free
+	UDR = data;	// load data in the register
 }
-
+void uart_transmitMult(char *Data){
+	while(*Data>0){
+		uart_transmit(*Data++);
+	}
+}
 unsigned char uart_recieve (void){
-  while(!(UCSRA) & (1<<RXC));	// wait while data is being received
-  return UDR;	// return 8-bit data
+	while(!(UCSRA) & (1<<RXC));	// wait while data is being received
+	return UDR;	// return 8-bit data
 }
 
 void i2c_init(void){
@@ -81,6 +85,8 @@ int main(void){
 	PORTB |= (1<<PB0) | (0<PB1);
 	DDRC |=(1<<PA7);
 	i2c_init();
+	uart_init();
+	sei();
 	while(1){
 		uint16_t data=0;
 		i2c_start((SLA<<1)+I2C_WRITE);
@@ -89,15 +95,18 @@ int main(void){
 		data=(i2c_read_ack()<<8);
 		data|=i2c_read_nack();
 		i2c_stop();
-		if(calc(data)>22.0)PORTC^=(1<<PA7);
+		float temp = calc(data);
+		if(temp>22.0)PORTC^=(1<<PA7);
+		char str[10] = {0};
+		sprintf(str, "T=%04.2lf\r\n",4.56);
+		uart_transmitMult(str);
 		PORTB^=(1<<PB0);
 		_delay_ms(250);
 	}
 	return 0;
 }
 ISR ( USART_RXC_vect ){
-char ReceivedByte ;
-ReceivedByte = UDR ;
-UDR = ReceivedByte ;
-}
+	char ReceivedByte ;
+	ReceivedByte = UDR ;
+	UDR = ReceivedByte ;
 }
