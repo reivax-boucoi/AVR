@@ -29,7 +29,8 @@ int main(void){
 		if(temp>22.0)PORTC^=(1<<PA7);
 		char str[10] = {0};
 		sprintf(str, "T = %08.6lf°C, t = %i\r\n",temp,tempo);
-		uart_transmitBuff(str,strlen(str));
+		uart_transmitBuff(str,strlen(str)); // doesn't work
+		//uart_transmitNow(str); // works
 		PORTB^=(1<<PB0);
 		_delay_ms(tempo);
 	}
@@ -42,9 +43,6 @@ ISR (TWI_vect ){
 }
 ISR (USART_RXC_vect ){
 	uart_isr_rx();
-}
-ISR (USART_TXC_vect ){
-	uart_isr_tx();
 }
 ISR (USART_UDRE_vect ){
 	uart_isr_udre();

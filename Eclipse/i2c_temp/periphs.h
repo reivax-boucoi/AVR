@@ -40,11 +40,11 @@ void i2c_stop(void);
 #define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
 extern volatile uint16_t tempo;
 void uart_init (void);
-void uart_transmitAll (char data);
-void uart_transmitBuff(char *Data,uint8_t l);
+void uart_transmit(char data);
+void uart_transmitNow(char *data);
+void uart_transmitBuff(char *data,uint8_t l);
 unsigned char uart_recieve (void);
 void uart_isr_rx();
-void uart_isr_tx();
 void uart_isr_udre();
 
 void adc_init(void);
