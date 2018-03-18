@@ -58,31 +58,30 @@ uint8_t uart_buffer_write(T_uart_buffer *b,char *data,uint8_t l){
 
 void uart_init (void){
 	UBRRH = (BAUDRATE>>8);
-	UBRRL = BAUDRATE;	// set baud rate
-	UCSRB|= (1<<TXEN)|(1<<RXEN);	// enable receiver and transmitter
-	UCSRC|= (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);	// 8bit data format
-	UCSRB |= (1 << RXCIE ); // Enable the USART Recieve Complete interrupt
+	UBRRL = BAUDRATE;
+	UCSRB|= (1<<TXEN)|(1<<RXEN)|(1<<RXCIE)|(1<<TXCIE);
+	UCSRC|= (1<<URSEL)|(1<<UCSZ0)|(1<<UCSZ1);
 	uart_buffer_init(&uart_buffer_tx);
 	uart_buffer_init(&uart_buffer_rx);
 }
 void uart_transmitAll (char data){
-	while (!( UCSRA & (1<<UDRE)));	// wait while register is free
-	UDR = data;	// load data in the register
+	while (!( UCSRA & (1<<UDRE)));
+	UDR = data;
 }
 void uart_transmitBuff(char *data, uint8_t l){
 	uart_buffer_write(&uart_buffer_tx,data,l);
 	UARTTXEN();
 }
 unsigned char uart_recieve (void){
-	while(!(UCSRA) & (1<<RXC));	// wait while data is being received
-	return UDR;	// return 8-bit data
+	while(!(UCSRA) & (1<<RXC));
+	return UDR;
 }
 uint8_t uart_cnt = 0;
 void uart_isr_tx(void){
 
 }
 void uart_isr_rx(void){
-
+	uart_buffer_writeByte(&uart_buffer_rx,UDR);
 }
 void uart_isr_udre(void){
 	if(uart_buffer_length(&uart_buffer_tx)>0){
