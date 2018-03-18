@@ -31,6 +31,7 @@ void uart_buffer_writeByte(T_uart_buffer *b,char data){
 	while(uart_buffer_free(b)<1);//WHAT?
 	b->data[h++]=data;
 	if(h>=BUFFERSIZE)h=0;
+	b->head = h;
 }
 uint8_t uart_buffer_read(T_uart_buffer *b, char *data, uint8_t l){
 	uint8_t t;
