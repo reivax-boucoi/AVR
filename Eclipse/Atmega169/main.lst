@@ -1,0 +1,172 @@
+   1               		.file	"main.cpp"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  17               	_Z41__static_initialization_and_destruction_0ii:
+  18               	.LFB7:
+  19               	.LM1:
+  20               	.LVL0:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 8130      		cpi r24,1
+  25 0002 9105      		cpc r25,__zero_reg__
+  26 0004 01F4      		brne .L2
+  27 0006 6F5F      		subi r22,lo8(-1)
+  28 0008 7F4F      		sbci r23,hi8(-1)
+  29               	.LVL1:
+  30 000a 01F4      		brne .L4
+  31               	.LM3:
+  32 000c 80E0      		ldi r24,lo8(myLCD)
+  33 000e 90E0      		ldi r25,hi8(myLCD)
+  34 0010 0E94 0000 		call _ZN3LCDC1Ev
+  35               	.LVL2:
+  36 0014 0895      		ret
+  37               	.LVL3:
+  38               	.L2:
+  39 0016 892B      		or r24,r25
+  40 0018 01F4      		brne .L4
+  41 001a 6F5F      		subi r22,lo8(-1)
+  42 001c 7F4F      		sbci r23,hi8(-1)
+  43               	.LVL4:
+  44 001e 01F4      		brne .L4
+  45 0020 80E0      		ldi r24,lo8(myLCD)
+  46 0022 90E0      		ldi r25,hi8(myLCD)
+  47 0024 0E94 0000 		call _ZN3LCDD1Ev
+  48               	.LVL5:
+  49               	.L4:
+  50 0028 0895      		ret
+  51               	.LFE7:
+  54               	_GLOBAL__D_myLCD:
+  55               	.LFB9:
+  56               	.LM4:
+  57               	/* prologue: function */
+  58               	/* frame size = 0 */
+  59               	.LM5:
+  60 002a 80E0      		ldi r24,lo8(0)
+  61 002c 90E0      		ldi r25,hi8(0)
+  62 002e 6FEF      		ldi r22,lo8(-1)
+  63 0030 7FEF      		ldi r23,hi8(-1)
+  64 0032 0E94 0000 		call _Z41__static_initialization_and_destruction_0ii
+  65               	/* epilogue start */
+  66 0036 0895      		ret
+  67               	.LFE9:
+  69               		.global __do_global_dtors
+  70               		.section .dtors,"a",@progbits
+  71 0000 0000      		.word	gs(_GLOBAL__D_myLCD)
+  72               		.text
+  74               	_GLOBAL__I_myLCD:
+  75               	.LFB8:
+  76               	.LM6:
+  77               	/* prologue: function */
+  78               	/* frame size = 0 */
+  79               	.LM7:
+  80 0038 81E0      		ldi r24,lo8(1)
+  81 003a 90E0      		ldi r25,hi8(1)
+  82 003c 6FEF      		ldi r22,lo8(-1)
+  83 003e 7FEF      		ldi r23,hi8(-1)
+  84 0040 0E94 0000 		call _Z41__static_initialization_and_destruction_0ii
+  85               	/* epilogue start */
+  86 0044 0895      		ret
+  87               	.LFE8:
+  89               		.global __do_global_ctors
+  90               		.section .ctors,"a",@progbits
+  91 0000 0000      		.word	gs(_GLOBAL__I_myLCD)
+  92               		.text
+  93               	.global	main
+  95               	main:
+  96               	.LFB6:
+  97               	.LM8:
+  98 0046 CF93      		push r28
+  99 0048 DF93      		push r29
+ 100               	/* prologue: function */
+ 101               	/* frame size = 0 */
+ 102               	.LM9:
+ 103 004a 209A      		sbi 36-32,0
+ 104               	.LM10:
+ 105 004c 289A      		sbi 37-32,0
+ 106               	.LM11:
+ 107 004e 80E0      		ldi r24,lo8(myLCD)
+ 108 0050 90E0      		ldi r25,hi8(myLCD)
+ 109 0052 60E0      		ldi r22,lo8(0)
+ 110 0054 41E0      		ldi r20,lo8(1)
+ 111 0056 0E94 0000 		call _ZN3LCD8setDigitEhh
+ 112               	.LBB14:
+ 113               	.LBB15:
+ 114               	.LBB16:
+ 115               	.LBB17:
+ 116               	.LBB18:
+ 117               	.LM12:
+ 118 005a C0E0      		ldi r28,lo8(32000)
+ 119 005c DDE7      		ldi r29,hi8(32000)
+ 120               	.L10:
+ 121               	.LBE18:
+ 122               	.LBE17:
+ 123               	.LBE16:
+ 124               	.LBE15:
+ 125               	.LBE14:
+ 126               	.LM13:
+ 127 005e 80E0      		ldi r24,lo8(myLCD)
+ 128 0060 90E0      		ldi r25,hi8(myLCD)
+ 129 0062 61E0      		ldi r22,lo8(1)
+ 130 0064 70E0      		ldi r23,hi8(1)
+ 131 0066 0E94 0000 		call _ZN3LCD5blinkEj
+ 132               	.LM14:
+ 133 006a 80E0      		ldi r24,lo8(myLCD)
+ 134 006c 90E0      		ldi r25,hi8(myLCD)
+ 135 006e 60E0      		ldi r22,lo8(0)
+ 136 0070 0E94 0000 		call _ZN3LCD10setBatteryENS_7BatteryE
+ 137               	.LBB23:
+ 138               	.LBB22:
+ 139               	.LBB21:
+ 140               	.LBB20:
+ 141               	.LBB19:
+ 142               	.LM15:
+ 143 0074 CE01      		movw r24,r28
+ 144               	.LVL6:
+ 145               	/* #APP */
+ 146               	 ;  110 "c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 147 0076 0197      		1: sbiw r24,1
+ 148 0078 01F4      		brne 1b
+ 149               	 ;  0 "" 2
+ 150               	/* #NOAPP */
+ 151 007a 00C0      		rjmp .L10
+ 152               	.LBE19:
+ 153               	.LBE20:
+ 154               	.LBE21:
+ 155               	.LBE22:
+ 156               	.LBE23:
+ 157               	.LFE6:
+ 159               	.global	myLCD
+ 160               	.global	myLCD
+ 161               		.section .bss
+ 164               	myLCD:
+ 165 0000 00        		.skip 1,0
+ 214               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.cpp
+C:\Users\Guest\AppData\Local\Temp/cc3mfJ7b.s:2      *ABS*:0000003f __SREG__
+C:\Users\Guest\AppData\Local\Temp/cc3mfJ7b.s:3      *ABS*:0000003e __SP_H__
+C:\Users\Guest\AppData\Local\Temp/cc3mfJ7b.s:4      *ABS*:0000003d __SP_L__
+C:\Users\Guest\AppData\Local\Temp/cc3mfJ7b.s:5      *ABS*:00000034 __CCP__
+C:\Users\Guest\AppData\Local\Temp/cc3mfJ7b.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\Guest\AppData\Local\Temp/cc3mfJ7b.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\Guest\AppData\Local\Temp/cc3mfJ7b.s:17     .text:00000000 _Z41__static_initialization_and_destruction_0ii
+C:\Users\Guest\AppData\Local\Temp/cc3mfJ7b.s:164    .bss:00000000 myLCD
+C:\Users\Guest\AppData\Local\Temp/cc3mfJ7b.s:54     .text:0000002a _GLOBAL__D_myLCD
+C:\Users\Guest\AppData\Local\Temp/cc3mfJ7b.s:74     .text:00000038 _GLOBAL__I_myLCD
+C:\Users\Guest\AppData\Local\Temp/cc3mfJ7b.s:95     .text:00000046 main
+
+UNDEFINED SYMBOLS
+_ZN3LCDC1Ev
+_ZN3LCDD1Ev
+__do_global_dtors
+__do_global_ctors
+_ZN3LCD8setDigitEhh
+_ZN3LCD5blinkEj
+_ZN3LCD10setBatteryENS_7BatteryE
+__do_clear_bss
