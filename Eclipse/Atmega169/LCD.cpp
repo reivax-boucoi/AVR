@@ -1,16 +1,13 @@
 #include "LCD.h"
+
 const uint8_t LCD::NbMap[]={0x3F,0x6,0x5B,0x4F,0x66,0x6D,0x7D,0x7,0x7F,0x6F};
-
-
 LCD::digit LCD::digits[]={
 		{{2,2,2,3,3,3,3},{&LCDDR1,&LCDDR6,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR1,&LCDDR6}},
 		{{0,0,0,1,1,1,1},{&LCDDR1,&LCDDR6,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR1,&LCDDR6}},
 		{{6,6,6,7,7,7,7},{&LCDDR0,&LCDDR5,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR0,&LCDDR5}},
 		{{4,4,4,5,5,5,5},{&LCDDR0,&LCDDR5,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR0,&LCDDR5}},
 		{{2,2,2,3,3,3,3},{&LCDDR0,&LCDDR5,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR0,&LCDDR5}},
-		{{0,0,0,1,1,1,1},{&LCDDR0,&LCDDR5,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR0,&LCDDR5}}}
-;
-
+		{{0,0,0,1,1,1,1},{&LCDDR0,&LCDDR5,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR0,&LCDDR5}}};
 
 LCD::LCD(){
 	LCDCRB|=(1<<LCDMUX1)|(1<<LCDMUX0);
@@ -28,27 +25,22 @@ LCD::~LCD() {
 void LCD::setDigit(uint8_t dig, uint8_t nb) {
 	for(uint8_t j=0;j<8;j++){
 		if(NbMap[nb] & (1<<j)){
-	 *(digits[dig].dr[j]) |= (1<<digits[dig].s[j]);
+			*(digits[dig].dr[j]) |= (1<<digits[dig].s[j]);
 		}else{
-	 *(digits[dig].dr[j]) &= ~(1<<digits[dig].s[j]);
+			*(digits[dig].dr[j]) &= ~(1<<digits[dig].s[j]);
 		}	
-	}/*
-	for(uint8_t j=0;j<8;j++){
-		*(digits[dig].dr[j]) |= (1<<digits[dig].s[j]);
-		_delay_ms(1000);
-	}*/
-
+	}
 }
-/*
-void LCD::setDigit(uint8_t dig, Symbol s) {
+
+void LCD::setDigit(uint8_t dig, Symbol sy) {
 	for(uint8_t j=0;j<8;j++){
-		if(s & (1<<j)){
-			digits[dig].dr[j]|=(1<<digits[dig].s[j]);
+		if(sy & (1<<j)){
+			*(digits[dig].dr[j]) |= (1<<digits[dig].s[j]);
 		}else{
-			digits[dig].dr[j]&=~(1<<digits[dig].s[j]);
+			*(digits[dig].dr[j]) &= ~(1<<digits[dig].s[j]);
 		}
 	}
-}*/
+}
 
 void LCD::setBattery(Battery b) {
 	switch(b){
@@ -119,11 +111,38 @@ void LCD::setClk(bool b) {
 	}
 }
 
+uint8_t LCD::setText(char t[7]) {
+	for(int8_t i=5;i>0;i--){
+
+	}
+	return 0;
+}
+
 void LCD::blink(uint16_t t) {
 	for(uint16_t i=0;i<t;i++){
 		PORTB|=(1<<PB0);
 		_delay_ms(15);
 		PORTB&=~(1<<PB0);
-		_delay_ms(300);
+		_delay_ms(15);
 	}
+}
+
+uint8_t LCD::setNb(int32_t nb) {// TODO 10ms !
+	if(nb>999999 || nb <-99999){
+		return 1;
+	}
+	int8_t d=5;
+	uint8_t min=0;
+	if(nb<0){
+		setDigit(0,Minus);
+		min++;
+		nb*=-1;
+	}
+	while(d>=min){
+		setDigit(d--,nb%10);
+		nb/=10;
+		if(nb==0)break;
+	}
+	while(d>=min)setDigit(d--,Blank);
+	return 0;
 }
