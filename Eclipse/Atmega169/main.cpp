@@ -6,12 +6,12 @@ LCD myLCD;
 int main(void){
 	DDRB |= (1 << PB0);
 	PORTB |= (1<<PB0);
-	myLCD.setDigit(0,1);
+	uint8_t i=0;
 	while(1){
-		myLCD.blink(1);
+
 		myLCD.setBattery(LCD::NONE);
 		_delay_ms(128);
-		/*myLCD.setBattery(LCD::EMPTY);
+		myLCD.setBattery(LCD::EMPTY);
 		_delay_ms(128);
 		myLCD.setBattery(LCD::FIRST);
 		_delay_ms(128);
@@ -29,9 +29,9 @@ int main(void){
 		for(uint8_t d=0;d<6;d++){
 			for(uint8_t i=0;i<10;i++){
 				myLCD.setDigit(d,i);
-				_delay_ms(500);
+				_delay_ms(128);
 			}
-		}*/
+		}
 	}
 	return 0;
 }
