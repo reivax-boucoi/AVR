@@ -2,12 +2,12 @@
 #include <util/delay.h>
 #include "LCD.h"
 LCD myLCD;
-#define H 'H'
 int main(void){
 	DDRB |= (1 << PB0);
 	PORTB |= (1<<PB0);
+	int8_t i=0;
 	while(1){
-		myLCD.setNb(H);
+		myLCD.setNb(i--);
 		_delay_ms(128);
 		myLCD.blink(1);
 
