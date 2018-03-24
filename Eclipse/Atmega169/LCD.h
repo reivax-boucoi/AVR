@@ -6,7 +6,7 @@
 class LCD {
 public:
 	static const uint8_t NbMap[10];
-	
+	static LCD myLCD;
 	enum Symbol {A=0x77,b=0x7C,C=0x39,d=0x5E,E=0x79,F=0x71,H=0x76,L=0x38,P=0x73,U=0x3E,Minus=0x40,Blank=0x00};
 	enum Battery {NONE,EMPTY,FIRST,SECOND,THIRD,ONEBAR,TWOBAR,FULL};
 
@@ -15,17 +15,18 @@ public:
 		volatile uint8_t* dr[7];
 	};
 	static digit digits[6];
-	
+
+	static void setDigit(uint8_t dig, Symbol s);
+	static void setDigit(uint8_t dig, uint8_t nb);
+	static void setBattery(Battery b);
+	static void setDP(bool b);
+	static void setClk(bool b);
+	static uint8_t setNb(int32_t nb);
+	static uint8_t setText(char t[7]);
+	static void blink(uint16_t t);
+private:
 	LCD();
 	~LCD();
-	void setDigit(uint8_t dig, Symbol s);
-	void setDigit(uint8_t dig, uint8_t nb);
-	void setBattery(Battery b);
-	void setDP(bool b);
-	void setClk(bool b);
-	uint8_t setNb(int32_t nb);
-	uint8_t setText(char t[7]);
-	void blink(uint16_t t);
 };
 
 #endif

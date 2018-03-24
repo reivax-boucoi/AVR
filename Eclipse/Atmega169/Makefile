@@ -41,7 +41,7 @@
 
 
 # MCU name
-MCU = atmega169
+MCU = atmega128
 
 
 # Processor frequency.
@@ -62,7 +62,7 @@ MCU = atmega169
 #         F_CPU = 16000000
 #         F_CPU = 18432000
 #         F_CPU = 20000000
-F_CPU = 1000000
+F_CPU = 8000000
 
 
 # Output format. (can be srec, ihex, binary)
@@ -122,7 +122,7 @@ EXTRAINCDIRS =
 #     gnu89 = c89 plus GCC extensions
 #     c99   = ISO C99 standard (not yet fully implemented)
 #     gnu99 = c99 plus GCC extensions
-CSTANDARD = -std=gnu99
+CSTANDARD = -std=C++11
 
 
 # Place -D or -U options here for C sources
@@ -337,7 +337,7 @@ DEBUG_HOST = localhost
 
 # Define programs and commands.
 SHELL = sh
-CC = avr-g++
+CC = avr-gcc
 OBJCOPY = avr-objcopy
 OBJDUMP = avr-objdump
 SIZE = avr-size

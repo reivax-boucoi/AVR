@@ -136,7 +136,7 @@ uint8_t LCD::setNb(int32_t nb) {// TODO 10ms !
 	if(nb<0){
 		setDigit(0,Minus);
 		min++;
-		nb*=-1;
+		nb=(~nb)+1; // to check
 	}
 	while(d>=min){
 		setDigit(d--,nb%10);
