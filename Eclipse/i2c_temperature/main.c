@@ -29,8 +29,8 @@ int main(void){
 		if(temp>22.0)PORTC^=(1<<PA7);
 		char str[10] = {0};
 		sprintf(str,"%i\r\n",456);
-		//uart_transmitBuff(str,strlen(str)); // doesn't work
-		uart_transmitNow(str); // works
+		uart_transmitBuff(str,strlen(str)); // doesn't work
+		//uart_transmitNow(str); // works
 		PORTB^=(1<<PB0);
 		_delay_ms(128);
 	}
