@@ -10,8 +10,16 @@ LCD::digit LCD::digits[]={
 		{{0,0,0,1,1,1,1},{&LCDDR0,&LCDDR5,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR0,&LCDDR5}}};
 
 LCD::LCD(){
+	DDRB |= (1 << PB0);
+	PORTB |= (1<<PB0);
 	LCDCRB|=(1<<LCDMUX1)|(1<<LCDMUX0);
-	LCDFRR|=(1<<LCDPS2)|(1<<LCDCD2); // prescaler 512, division factor 5 & K=8 for duty 1/4
+	if(F_CPU<6000000UL){
+		LCDFRR|=(1<<LCDPS2)|(1<<LCDCD2); // prescaler 512, division factor 5 & K=8 for duty 1/4
+	}else if(F_CPU<12000000UL){
+		LCDFRR|=(1<<LCDPS2)|(1<<LCDPS1)|(1<<LCDPS0)|(1<<LCDCD2); // prescaler 4096, division factor 5 & K=8 for duty 1/4
+	}else{
+		LCDFRR|=(1<<LCDPS2)|(1<<LCDPS1)|(1<<LCDPS0)|(1<<LCDCD2)|(1<<LCDCD2)|(1<<LCDCD0); // prescaler 4096, division factor 8 & K=8 for duty 1/4
+	}
 	LCDCCR|=(1<<LCDCC1)|(1<<LCDDC2)|(1<<LCDDC1);
 	LCDCRA|=(1<<LCDEN);
 }
