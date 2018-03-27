@@ -3,7 +3,8 @@
 #include "LCD.h"
 LCD myLCD;
 bool prime(uint32_t i){
-	for(uint32_t j=3;j<i/2;j+=2){
+	uint8_t max=sqrt(i)+1;
+	for(uint32_t j=3;j<max;j+=2){
 		if(i%j==0)return false;
 	}
 	return true;
