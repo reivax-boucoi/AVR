@@ -52,7 +52,7 @@
 							<tool command="avr-objcopy" id="de.innot.avreclipse.tool.objcopy.flash.winavr.app.release.216005123" name="AVR Create Flash image" superClass="de.innot.avreclipse.tool.objcopy.flash.winavr.app.release"/>
 							<tool command="avr-objcopy" id="de.innot.avreclipse.tool.objcopy.eeprom.winavr.app.release.1184570829" name="AVR Create EEPROM image" superClass="de.innot.avreclipse.tool.objcopy.eeprom.winavr.app.release"/>
 							<tool command="avr-size" id="de.innot.avreclipse.tool.size.winavr.app.release.1617319287" name="Print Size" superClass="de.innot.avreclipse.tool.size.winavr.app.release">
-								<option id="de.innot.avreclipse.size.option.format.132582636" name="Size Format" superClass="de.innot.avreclipse.size.option.format" useByScannerDiscovery="false" value="de.innot.avreclipse.size.option.format.sysv" valueType="enumerated"/>
+								<option id="de.innot.avreclipse.size.option.format.132582636" name="Size Format" superClass="de.innot.avreclipse.size.option.format" useByScannerDiscovery="false" value="de.innot.avreclipse.size.option.format.berkeley" valueType="enumerated"/>
 							</tool>
 							<tool id="de.innot.avreclipse.tool.avrdude.app.release.1571268795" name="AVRDude" superClass="de.innot.avreclipse.tool.avrdude.app.release"/>
 						</toolChain>
