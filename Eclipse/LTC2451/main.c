@@ -32,9 +32,9 @@ int main(void){
 	uart_init();
 	adc_init();
 	sei();
-	temp_init();
+	//temp_init();
 	while(1){
-		float temp = temp_read();
+		float temp =0.0;// temp_read();
 		uint16_t adc=adcExt_read();
 		if(temp>25.0)PORTC^=(1<<PA7);
 		char str[40] = {0};

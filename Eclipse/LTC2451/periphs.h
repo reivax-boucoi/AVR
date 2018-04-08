@@ -10,7 +10,7 @@
 //I2C
 #define I2C_READ 0x01
 #define I2C_WRITE 0x00
-#define F_SCL 400000UL
+#define F_SCL 200000UL
 #define Prescaler 1
 #define TWBR_val ((((F_CPU / F_SCL) / Prescaler) - 16 ) / 2)
 
