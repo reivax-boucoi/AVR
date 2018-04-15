@@ -6,7 +6,7 @@
 #define C (1<<PC2)
 #define COMMA (1<<PC1)
 #define E (1<<PC0)
-// D0-D7 -> PD7-PD0 pull to GND to acitvate
+// D0-D7 -> PD7-PD0 pull to GND to activate
 // D8-D9 -> PB7-PB6
 //
 #define D (1<<PB5)

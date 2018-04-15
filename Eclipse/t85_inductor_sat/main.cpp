@@ -11,9 +11,9 @@ int main(void){
 	bool state=false;
 
 	while(1){
-		if(!PINB&(1<<PB0)){
+		if(bit_is_clear(PINB,PB0)){
 			state=!state;
-			_delay_ms(100);
+			_delay_ms(1000);
 		}
 		if(state){
 			PORTB^=(1<<PB3);
