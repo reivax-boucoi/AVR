@@ -1,6 +1,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+
 #define CONFLEVEL 200
 
 uint8_t bconf=0;
