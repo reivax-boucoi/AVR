@@ -1,18 +1,8 @@
 void	SplitCommand() {
-	/////////////////////////////////////////////////////
-	// split the command line by replacing all ' ' with 
-	// '\0' and saving pointers to all the parm strings
 	int i, p;
-
-	/////////////////////////////////////////////////////
-	// clear the pointer array
 	n_parms = 0;
-	for (i = 0; i < MAX_PARMS; i++)
-		parms[i] = NULL;
+	for (i = 0; i < MAX_PARMS; i++)parms[i] = NULL;
 
-	/////////////////////////////////////////////////////
-	// scan the command line, dork any spaces with null chars
-	// and save the location of the first char after the null
 	for (i = 0, p = 0; cmd_buffer[i] != NULLCHAR; i++) {
 		if (cmd_buffer[i] == SPACE) {
 			cmd_buffer[i] = NULLCHAR;
@@ -23,37 +13,17 @@ void	SplitCommand() {
 }
 void	ProcessCommand () {
 	int cmd;
-	
-	Serial.println("");
-
-	/////////////////////////////////////////////////////
-	// trap just a CRLF
 	if (cmd_buffer[0] == NULLCHAR) {
 		Serial.print("QM> ");
 		return;
 	}
-	
-	/////////////////////////////////////////////////////
-	// save this command for later use with TAB or UP arrow
-	memcpy(last_cmd, cmd_buffer, sizeof(last_cmd));
-	
-	/////////////////////////////////////////////////////
-	// Chop the command line into substrings by
-	// replacing ' ' with '\0' 
-	// Also adds pointers to the substrings 
 	SplitCommand(); 
-	
-	/////////////////////////////////////////////////////
-	// Scan the command table looking for a match
 	for (cmd = 0; cmd < N_COMMANDS; cmd++) {
-		if (strcmp (commands[cmd].cmd, (char *)cmd_buffer) == 0) {
-			commands[cmd].func();  // command found, run its function
+		if (strcmp (cmd_table[cmd].cmd, (char *)cmd_buffer) == 0) {
+			cmd_table[cmd].func();
 			goto done;
 		}
 	}
-
-	/////////////////////////////////////////////////////
-	// if we get here no valid command was found
 	Serial << "wtf?" << endl;
 
 	done:
