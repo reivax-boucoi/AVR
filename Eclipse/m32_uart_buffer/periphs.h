@@ -5,6 +5,7 @@
 #include <string.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include "cmds.h"
 
 #define BAUD 38400
 #define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
@@ -25,6 +26,7 @@ void uart_init(void);
 uint8_t  uart_receiveByte(void);
 void uart_transmitByte(uint8_t  data);
 void uart_transmit(char  *data);
+void uart_transmitln(char  *data);
 uint8_t uart_receivedAvailable(void);
 uint8_t uart_transmitAvailable(void);
 void uart_rx_emptyBuffer(void);

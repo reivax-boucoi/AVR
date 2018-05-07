@@ -29,6 +29,12 @@ void uart_transmit(char* data) {
 		uart_transmitByte(*data++);
 	}
 }
+
+void uart_transmitln(char* data) {
+	uart_transmit(data);
+	uart_transmitByte('\n');
+}
+
 void uart_isr_udre(void) {
 	if (uart_tx_head != uart_tx_tail) {
 		uart_tx_tail = ( uart_tx_tail + 1 ) & UART_BUFFER_MASK;
@@ -38,7 +44,6 @@ void uart_isr_udre(void) {
 	}
 }
 
-
 void uart_isr_rxc(void) {
 	uart_rx_head = (uart_rx_head + 1) & UART_BUFFER_MASK;
 	if (uart_rx_head == uart_rx_tail) {
@@ -46,9 +51,16 @@ void uart_isr_rxc(void) {
 		uart_transmit((char*)"Receive buffer full !");
 	}
 	uart_buff_rx[uart_rx_head] = UDR;
-	if(uart_buff_rx[uart_rx_head]=='\r' || uart_receivedAvailable()>10){
-		uart_rx_emptyBuffer();
-		uart_transmitByte('>');
+	switch (uart_buff_rx[uart_rx_head]){
+	case '\n':
+		ProcessCommand();
+		break;
+	case '\r':
+		ProcessCommand();
+		break;
+	case '0':
+		ProcessCommand();
+		break;
 	}
 }
 
