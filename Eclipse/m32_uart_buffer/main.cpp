@@ -1,13 +1,17 @@
 #include "avr/io.h"
 #include "avr/interrupt.h"
 #include "periphs.h"
+#include "cmds.h"
 
 int main(void){
 	uart_init();
+	DDRB|=(1<<PB0);
 	sei();
+	uart_transmit((char*)"Hello World\n");
+	uart_transmit((char*)"Hello World\n");
+	onLed();
+	while(1) {
 
-	for(;;) {
-		uart_transmitByte(uart_receiveByte());
 	}
 	return 0;
 }
