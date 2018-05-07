@@ -48,6 +48,7 @@ void uart_isr_rxc(void) {
 	uart_buff_rx[uart_rx_head] = UDR;
 	if(uart_buff_rx[uart_rx_head]=='\r' || uart_receivedAvailable()>10){
 		uart_rx_emptyBuffer();
+		uart_transmitByte('>');
 	}
 }
 

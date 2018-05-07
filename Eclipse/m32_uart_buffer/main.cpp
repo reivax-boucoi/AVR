@@ -9,7 +9,6 @@ int main(void){
 	sei();
 	uart_transmit((char*)"Hello World\n");
 	uart_transmit((char*)"Hello World\n");
-	onLed();
 	while(1) {
 
 	}
