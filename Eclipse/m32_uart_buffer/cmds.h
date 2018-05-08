@@ -17,7 +17,10 @@ void cmd_onLed(void);
 void cmd_offLed(void);
 void cmd_info(void);
 void cmd_help(void);
+void cmd_clear(void);
 void cmd_reboot(void);
+
+uint8_t cmp_cmd(const char* s1,const char* s2);
 void processCommand();
 
 static cmd_t cmd_table[] = {
@@ -25,6 +28,7 @@ static cmd_t cmd_table[] = {
 		{ cmd_offLed, "offLed" },
 		{ cmd_info, "info" },
 		{ cmd_help, "help" },
+		{ cmd_clear, "clear" },
 		{cmd_reboot, "reboot"}
 };
 

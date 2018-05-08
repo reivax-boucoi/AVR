@@ -64,9 +64,10 @@ void uart_isr_rxc(void) {
 	case '0':
 		processCommand();
 		break;
-	case '1':
+	case 'k':
 		uart_rx_emptyBuffer();
-		uart_transmit("\r\n>");
+		uart_transmit("\r\ntriggered");
+		uart_prompt();
 		break;
 	default:
 		uart_transmitByte(uart_buff_rx[uart_rx_head]);
