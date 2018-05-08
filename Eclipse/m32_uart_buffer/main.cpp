@@ -7,8 +7,8 @@ int main(void){
 	uart_init();
 	DDRB|=(1<<PB0);
 	sei();
-	uart_transmitln("\nHello World");
-	info();
+	uart_transmitln("\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHello World");
+	cmd_info();
 	//reboot();
 	while(1) {
 

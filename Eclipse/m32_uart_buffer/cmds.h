@@ -13,19 +13,19 @@ typedef struct {
 	const char * str;
 } cmd_t;
 
-void onLed(void);
-void offLed(void);
-void info(void);
-void help(void);
-void reboot(void);
+void cmd_onLed(void);
+void cmd_offLed(void);
+void cmd_info(void);
+void cmd_help(void);
+void cmd_reboot(void);
 void processCommand();
 
 static cmd_t cmd_table[] = {
-		{ onLed, "onLed" },
-		{ offLed, "offLed" },
-		{ info, "info" },
-		{ help, "help" },
-		{reboot, "reboot"}
+		{ cmd_onLed, "onLed" },
+		{ cmd_offLed, "offLed" },
+		{ cmd_info, "info" },
+		{ cmd_help, "help" },
+		{cmd_reboot, "reboot"}
 };
 
 static const uint8_t NB_COMMANDS = sizeof (cmd_table)/ sizeof (cmd_t);
