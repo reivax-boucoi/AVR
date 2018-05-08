@@ -30,7 +30,8 @@ void uart_transmitln(const char  *data);
 uint8_t uart_receivedAvailable(void);
 uint8_t uart_transmitAvailable(void);
 void uart_rx_emptyBuffer(void);
-
+void uart_rx_printEmptyBuffer(void);
+void uart_prompt(void);
 void uart_isr_udre(void);
 void uart_isr_rxc(void);
 

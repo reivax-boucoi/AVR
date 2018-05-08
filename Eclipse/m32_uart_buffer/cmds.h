@@ -17,16 +17,18 @@ void onLed(void);
 void offLed(void);
 void info(void);
 void help(void);
+void reboot(void);
 void processCommand();
 
 static cmd_t cmd_table[] = {
 		{ onLed, "onLed" },
 		{ offLed, "offLed" },
 		{ info, "info" },
-		{ help, "help" }
+		{ help, "help" },
+		{reboot, "reboot"}
 };
 
-const uint8_t NB_COMMANDS = sizeof (cmd_table)/ sizeof (cmd_t);
+static const uint8_t NB_COMMANDS = sizeof (cmd_table)/ sizeof (cmd_t);
 static char cmd_buffer[50];
 
 #endif /* CMDS_H_ */

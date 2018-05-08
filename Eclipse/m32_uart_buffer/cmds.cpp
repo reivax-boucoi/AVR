@@ -8,7 +8,7 @@ void offLed(void) {
 	PORTB&=~(1<<PB0);
 }
 void info(void) {
-	uart_transmitln("\nTerminal running version 0.2\nAvailable commands :");
+	uart_transmitln("\r\nTerminal running version 0.2\r\nAvailable commands :");
 	for(int cmd = 0; cmd < NB_COMMANDS; cmd++){
 		uart_transmitByte(9);
 		uart_transmitln((char*)cmd_table[cmd].str);
@@ -17,19 +17,22 @@ void info(void) {
 }
 
 void help(void){
-	uart_transmitln("No help is currently available, sorry =)");
-	uart_transmitByte('>');
+	uart_transmit("No help is currently available, sorry =)\r\n>");
+}
+
+void reboot(void) {
+	WDTCR|=(1<< WDE)|(1<<WDP0)|(1<<WDP1)|(1<<WDP2);
+	while(1);
 }
 
 void processCommand() {
 	uint8_t i=0;
-	uart_transmitByte('\n');
 	if(uart_receivedAvailable()<=1){
 		uart_rx_emptyBuffer();
-		uart_transmitByte('>');
+		uart_prompt();
 		return;
 	}
-	uart_transmitByte(uart_receivedAvailable());//debug
+	uart_transmitByte('5');//debug
 	while(uart_receivedAvailable()>0){
 		cmd_buffer[i]=uart_receiveByte();
 		uart_transmitByte(cmd_buffer[i++]);//debug
@@ -43,6 +46,6 @@ void processCommand() {
 			return;
 		}
 	}
-	uart_transmitln("Unknown command, type \"help\" for help ");
-	uart_transmitByte('>');
+	uart_transmit("Unknown command, type \"help\" for help");
+	uart_prompt();
 }

@@ -9,6 +9,7 @@ int main(void){
 	sei();
 	uart_transmitln("\nHello World");
 	info();
+	//reboot();
 	while(1) {
 
 	}
