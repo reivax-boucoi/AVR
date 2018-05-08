@@ -61,12 +61,22 @@ void uart_isr_rxc(void) {
 	switch (uart_buff_rx[uart_rx_head]){
 	case '\n':
 	case '\r':
-		processCommand();
+		cmd_process();
 		break;
-	case 'k':
+	case KILL:
 		uart_rx_emptyBuffer();
-		uart_transmit("\r\ntriggered");
+		uart_transmit("\r\nKilled all running processes");
 		uart_prompt();
+		break;
+	case PREV:
+		uart_rx_loadBuffer(last_cmd);
+		uart_rx_printBuffer();//TODO redraw command
+		break;
+	case BACKSPACE:
+		uart_buff_rx_removeLast();
+		uart_transmit("                                         \r\n>");
+		while(uart_transmitAvailable());///rrhaaa ! looks like transmitBytes() executes before transmit()
+		uart_rx_printBuffer();
 		break;
 	default:
 		uart_transmitByte(uart_buff_rx[uart_rx_head]);
@@ -88,12 +98,34 @@ uint8_t uart_transmitAvailable(void) {
 void uart_rx_printEmptyBuffer(void) {
 	while(uart_receivedAvailable()>0)uart_transmitByte(uart_receiveByte());
 }
+void uart_rx_printBuffer(void) {
+	uint8_t i=uart_rx_tail;
+	while(i!=uart_rx_head){
+		uart_transmitByte(uart_buff_rx[i]);
+		i = (i+1) & UART_BUFFER_MASK;
+	}
+}
 void uart_rx_emptyBuffer(void) {
 	while(uart_receivedAvailable()>0)uart_receiveByte();
 }
+void uart_rx_loadBuffer(const unsigned char* s) {
+	for(uint8_t i=0, uart_rx_head=uart_rx_tail;s[i]!=NULLCHAR;i++){
+		uart_buff_rx[uart_rx_head]=s[i];
+		uart_rx_head= (uart_rx_head+1) & UART_BUFFER_MASK;
+	}
+}
 
+void uart_buff_rx_removeLast(void){
+	if(uart_rx_head!=uart_rx_tail){
+		if(uart_rx_head==0){
+			uart_rx_head=UART_BUFFER_MASK;
+		}else{
+			uart_rx_head=uart_rx_head-1;
+		}
+	}
+}
 
-uint8_t cmp_cmd(const char* cmd, const char* entry) {
+uint8_t cmd_cmp(const char* cmd, const char* entry) {
 	uint8_t c=0;
 	while(cmd[c]!=NULLCHAR && entry[c]!=NULLCHAR){
 		if(cmd[c]!=entry[c])return 0;
@@ -104,24 +136,40 @@ uint8_t cmp_cmd(const char* cmd, const char* entry) {
 }
 
 
-void processCommand() {
+void cmd_process(void) {
 	uint8_t i=0;
 	if(uart_receivedAvailable()<=1){
 		uart_rx_emptyBuffer();
 		uart_prompt();
 		return;
 	}
+	memcpy(last_cmd,cmd_buffer,sizeof(cmd_buffer));
 	while(uart_receivedAvailable()>0){
 		cmd_buffer[i++]=uart_receiveByte();
 	}
 	cmd_buffer[i-1]=NULLCHAR;
+	cmd_parse();
 	for (uint8_t cmd = 0; cmd < NB_COMMANDS; cmd++) {
 
-		if (cmp_cmd(cmd_table[cmd].str, (char *)cmd_buffer)) {
+		if (cmd_cmp(cmd_table[cmd].str, (char *)cmd_buffer)) {
 			cmd_table[cmd].fptr_t();
 			return;
 		}
 	}
 	uart_transmit("\r\nUnknown command, type \"help\" for help");
 	uart_prompt();
+}
+
+void cmd_parse(void) {//TODO check
+	int l, p=0;
+	nbParams = 0;
+	for (l=0;l<MAXPARAM;l++)params[l] = NULL;
+
+	for (l = 0, p = 0; cmd_buffer[l] != NULLCHAR; l++) {
+		if (cmd_buffer[l] == ' ') {
+			cmd_buffer[l] = NULLCHAR;
+			params[p++] = &cmd_buffer[l] + 1;
+			nbParams++;
+		}
+	}
 }

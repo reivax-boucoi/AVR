@@ -14,6 +14,10 @@
 #define NULLCHAR '\0'
 #endif
 
+#define KILL 'k'
+#define PREV '&'
+#define BACKSPACE 127
+
 #define UART_BUFFER_SIZE 256     // 2 to 256 bytes
 #define UART_BUFFER_MASK (UART_BUFFER_SIZE - 1)
 #define UARTTXEN()	UCSRB |= (1<<UDRIE)
@@ -34,17 +38,26 @@ void uart_transmit(const char  *data);
 void uart_transmitln(const char  *data);
 uint8_t uart_receivedAvailable(void);
 uint8_t uart_transmitAvailable(void);
+void uart_buff_rx_removeLast(void);
 void uart_rx_emptyBuffer(void);
+void uart_rx_loadBuffer(const unsigned char* s);
+void uart_rx_printBuffer(void);
 void uart_rx_printEmptyBuffer(void);
 void uart_prompt(void);
 void uart_isr_udre(void);
 void uart_isr_rxc(void);
 
 //uart command interpreter handling
-static char cmd_buffer[50];
 
-uint8_t cmp_cmd(const char* s1,const char* s2);
-void processCommand();
+#define MAXPARAM 5
+static unsigned char* params[MAXPARAM];
+static uint8_t nbParams;
+static unsigned char cmd_buffer[256];
+static unsigned char last_cmd[256];
+
+uint8_t cmd_cmp(const char* s1,const char* s2);
+void cmd_process(void);
+void cmd_parse(void);
 
 #endif
 

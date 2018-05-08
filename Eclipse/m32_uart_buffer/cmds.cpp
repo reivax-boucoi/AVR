@@ -5,10 +5,12 @@ void cmd_onLed(void) {
 	PORTB|=(1<<PB0);
 	uart_prompt();
 }
+
 void cmd_offLed(void) {
 	PORTB&=~(1<<PB0);
 	uart_prompt();
 }
+
 void cmd_info(void) {
 	uart_transmitln("\r\nTerminal running version 0.3\r\nAvailable commands :");
 	for(int cmd = 0; cmd < NB_COMMANDS; cmd++){

@@ -8,7 +8,6 @@ int main(void){
 	DDRB|=(1<<PB0);
 	sei();
 	cmd_clear();
-	cmd_info();
 	while(1) {
 
 	}
