@@ -7,8 +7,7 @@ int main(void){
 	uart_init();
 	DDRB|=(1<<PB0);
 	sei();
-	uart_transmitln((char*)"Hello World");
-	uart_transmitln((char*)"Hello World");
+	uart_transmitln("\nHello World");
 	info();
 	while(1) {
 

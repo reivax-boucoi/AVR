@@ -24,13 +24,13 @@ void uart_transmitByte(uint8_t  data){
 	UARTTXEN();
 }
 
-void uart_transmit(char* data) {
+void uart_transmit(const char* data) {
 	while(*data>0){
 		uart_transmitByte(*data++);
 	}
 }
 
-void uart_transmitln(char* data) {
+void uart_transmitln(const char* data) {
 	uart_transmit(data);
 	uart_transmitByte('\n');
 }
@@ -48,18 +48,22 @@ void uart_isr_rxc(void) {
 	uart_rx_head = (uart_rx_head + 1) & UART_BUFFER_MASK;
 	if (uart_rx_head == uart_rx_tail) {
 		// Ooops ! buffer overflow !
-		uart_transmit((char*)"Receive buffer full !");
+		uart_transmit("Receive buffer full !");
 	}
 	uart_buff_rx[uart_rx_head] = UDR;
 	switch (uart_buff_rx[uart_rx_head]){
 	case '\n':
-		ProcessCommand();
-		break;
 	case '\r':
-		ProcessCommand();
-		break;
 	case '0':
-		ProcessCommand();
+		processCommand();
+		break;
+	case '1':
+		uart_transmitByte('\n');
+		uart_rx_emptyBuffer();
+		uart_transmit("\n>");
+		break;
+	default:
+		uart_transmitByte(uart_buff_rx[uart_rx_head]);
 		break;
 	}
 }

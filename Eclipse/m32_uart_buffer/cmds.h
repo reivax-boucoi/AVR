@@ -10,21 +10,23 @@
 
 typedef struct {
 	void (*fptr_t)(void);
-	char * str;
+	const char * str;
 } cmd_t;
 
 void onLed(void);
 void offLed(void);
 void info(void);
-void ProcessCommand();
+void help(void);
+void processCommand();
 
 static cmd_t cmd_table[] = {
-		{ onLed, "ONLED" },
-		{ offLed, "OFFLED" },
-		{ info, "info" }
+		{ onLed, "onLed" },
+		{ offLed, "offLed" },
+		{ info, "info" },
+		{ help, "help" }
 };
 
-const int N_COMMANDS = sizeof (cmd_table)/ sizeof (cmd_t);
-static	char	cmd_buffer[50];
+const uint8_t NB_COMMANDS = sizeof (cmd_table)/ sizeof (cmd_t);
+static char cmd_buffer[50];
 
 #endif /* CMDS_H_ */
