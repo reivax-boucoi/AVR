@@ -1,4 +1,4 @@
-#include "periphs.h"
+#include "uart_interpreter.h"
 
 void uart_init(void){
 	UBRRH = (BAUDRATE>>8);
@@ -61,7 +61,6 @@ void uart_isr_rxc(void) {
 	switch (uart_buff_rx[uart_rx_head]){
 	case '\n':
 	case '\r':
-	case '0':
 		processCommand();
 		break;
 	case 'k':
@@ -91,4 +90,38 @@ void uart_rx_printEmptyBuffer(void) {
 }
 void uart_rx_emptyBuffer(void) {
 	while(uart_receivedAvailable()>0)uart_receiveByte();
+}
+
+
+uint8_t cmp_cmd(const char* cmd, const char* entry) {
+	uint8_t c=0;
+	while(cmd[c]!=NULLCHAR && entry[c]!=NULLCHAR){
+		if(cmd[c]!=entry[c])return 0;
+		c++;
+	}
+	if(cmd[c]==NULLCHAR)return 1;
+	return 0;
+}
+
+
+void processCommand() {
+	uint8_t i=0;
+	if(uart_receivedAvailable()<=1){
+		uart_rx_emptyBuffer();
+		uart_prompt();
+		return;
+	}
+	while(uart_receivedAvailable()>0){
+		cmd_buffer[i++]=uart_receiveByte();
+	}
+	cmd_buffer[i-1]=NULLCHAR;
+	for (uint8_t cmd = 0; cmd < NB_COMMANDS; cmd++) {
+
+		if (cmp_cmd(cmd_table[cmd].str, (char *)cmd_buffer)) {
+			cmd_table[cmd].fptr_t();
+			return;
+		}
+	}
+	uart_transmit("\r\nUnknown command, type \"help\" for help");
+	uart_prompt();
 }

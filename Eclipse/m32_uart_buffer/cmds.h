@@ -1,12 +1,7 @@
 #ifndef CMDS_H_
 #define CMDS_H_
 
-#include "periphs.h"
-#include <string.h>
-
-#ifndef NULLCHAR
-#define NULLCHAR '\0'
-#endif
+#include "uart_interpreter.h"
 
 typedef struct {
 	void (*fptr_t)(void);
@@ -20,9 +15,6 @@ void cmd_help(void);
 void cmd_clear(void);
 void cmd_reboot(void);
 
-uint8_t cmp_cmd(const char* s1,const char* s2);
-void processCommand();
-
 static cmd_t cmd_table[] = {
 		{ cmd_onLed, "onLed" },
 		{ cmd_offLed, "offLed" },
@@ -31,8 +23,6 @@ static cmd_t cmd_table[] = {
 		{ cmd_clear, "clear" },
 		{cmd_reboot, "reboot"}
 };
-
 static const uint8_t NB_COMMANDS = sizeof (cmd_table)/ sizeof (cmd_t);
-static char cmd_buffer[50];
 
 #endif /* CMDS_H_ */

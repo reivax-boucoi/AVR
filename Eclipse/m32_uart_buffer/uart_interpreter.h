@@ -1,5 +1,5 @@
-#ifndef PERIPH_H
-#define PERIPH_H
+#ifndef UART_INTERPRET_H
+#define UART_INTERPRET_H
 #include <stdio.h>
 #include <avr/io.h>
 #include <string.h>
@@ -7,9 +7,12 @@
 #include <avr/interrupt.h>
 #include "cmds.h"
 
-
 #define BAUD 38400
 #define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
+
+#ifndef NULLCHAR
+#define NULLCHAR '\0'
+#endif
 
 #define UART_BUFFER_SIZE 256     // 2 to 256 bytes
 #define UART_BUFFER_MASK (UART_BUFFER_SIZE - 1)
@@ -37,6 +40,8 @@ void uart_prompt(void);
 void uart_isr_udre(void);
 void uart_isr_rxc(void);
 
+//uart command interpreter handling
+static char cmd_buffer[50];
 
 uint8_t cmp_cmd(const char* s1,const char* s2);
 void processCommand();

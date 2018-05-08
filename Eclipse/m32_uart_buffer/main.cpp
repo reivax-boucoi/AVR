@@ -1,7 +1,7 @@
 #include "avr/io.h"
 #include "avr/interrupt.h"
-#include "periphs.h"
 #include "cmds.h"
+#include "uart_interpreter.h"
 
 int main(void){
 	uart_init();
