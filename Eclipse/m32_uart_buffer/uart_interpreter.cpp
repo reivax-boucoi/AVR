@@ -72,12 +72,6 @@ void uart_isr_rxc(void) {
 		uart_rx_loadBuffer(last_cmd);
 		uart_rx_printBuffer();//TODO redraw command
 		break;
-	case BACKSPACE:
-		uart_buff_rx_removeLast();
-		uart_transmit("                                         \r\n>");
-		while(uart_transmitAvailable());///rrhaaa ! looks like transmitBytes() executes before transmit()
-		uart_rx_printBuffer();
-		break;
 	default:
 		uart_transmitByte(uart_buff_rx[uart_rx_head]);
 		break;
@@ -149,6 +143,8 @@ void cmd_process(void) {
 	}
 	cmd_buffer[i-1]=NULLCHAR;
 	cmd_parse();
+	uart_transmitln("\r\nparsed");
+	uart_transmitByte(48+nbParams);
 	for (uint8_t cmd = 0; cmd < NB_COMMANDS; cmd++) {
 
 		if (cmd_cmp(cmd_table[cmd].str, (char *)cmd_buffer)) {
