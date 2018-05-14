@@ -1,6 +1,7 @@
 #ifndef UART_INTERPRET_H
 #define UART_INTERPRET_H
 #include <stdio.h>
+#include <stdlib.h>
 #include <avr/io.h>
 #include <string.h>
 #include <util/delay.h>
@@ -14,7 +15,7 @@
 #define NULLCHAR '\0'
 #endif
 
-#define KILL 'k'
+#define KILL 'K'
 #define PREV '&'
 #define BACKSPACE 127
 
@@ -35,6 +36,7 @@ void uart_init(void);
 uint8_t  uart_receiveByte(void);
 void uart_transmitByte(uint8_t  data);
 void uart_transmit(const char  *data);
+void uart_transmitNb(uint8_t data, uint8_t mode);
 void uart_transmitln(const char  *data);
 uint8_t uart_receivedAvailable(void);
 uint8_t uart_transmitAvailable(void);
@@ -50,14 +52,15 @@ void uart_isr_rxc(void);
 //uart command interpreter handling
 
 #define MAXPARAM 5
-static unsigned char* params[MAXPARAM];
-static uint8_t nbParams;
-static unsigned char cmd_buffer[256];
-static unsigned char last_cmd[256];
+extern unsigned char* params[MAXPARAM];
+extern uint8_t nbParams;
+static unsigned char cmd_buffer[UART_BUFFER_SIZE];
+static unsigned char last_cmd[UART_BUFFER_SIZE];
 
 uint8_t cmd_cmp(const char* s1,const char* s2);
 void cmd_process(void);
 void cmd_parse(void);
+uint8_t param_int(uint8_t nb);
 
 #endif
 
