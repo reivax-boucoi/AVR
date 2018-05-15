@@ -1,5 +1,4 @@
 #include "cmds.h"
-#include <avr/io.h>
 
 void cmd_onLed(void) {
 	PORTB|=(1<<PB0);
@@ -23,6 +22,19 @@ void cmd_info(void) {
 void cmd_help(void){
 	uart_transmit("\r\nNo help is currently available, sorry =)");
 	cmd_info();
+}
+
+void cmd_param(void) {
+	uart_transmit("\r\n");
+	if(nbParams==0){
+		uart_transmit("No parameters !");
+	}else{
+		for(uint8_t i=0;i<nbParams;i++){
+			uart_transmitByte(48+i);
+			uart_transmitln((char*)params[i]);
+		}
+	}
+	uart_prompt();
 }
 
 void cmd_reboot(void) {

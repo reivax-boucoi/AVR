@@ -13,12 +13,12 @@ void uart_init(void){
 
 uint8_t  uart_receiveByte(void){
 	while (uart_rx_head == uart_rx_tail);
-	uart_rx_tail = (uart_rx_tail + 1) & UART_BUFFER_MASK;
+	uart_rx_tail = (uart_rx_tail+1) & UART_BUFFER_MASK;
 	return uart_buff_rx[uart_rx_tail];
 }
 
 void uart_transmitByte(uint8_t  data){
-	uart_tx_head = (uart_tx_head + 1) & UART_BUFFER_MASK;
+	uart_tx_head = (uart_tx_head+1) & UART_BUFFER_MASK;
 	while (uart_tx_head == uart_tx_tail);
 	uart_buff_tx[uart_tx_head] = data;
 	UARTTXEN();
@@ -38,8 +38,8 @@ void uart_transmitln(const char* data) {
 
 void uart_prompt(void) {
 	uart_transmit("\r\n>");
-
 }
+
 void uart_isr_udre(void) {
 	if (uart_tx_head != uart_tx_tail) {
 		uart_tx_tail = ( uart_tx_tail + 1 ) & UART_BUFFER_MASK;
@@ -91,8 +91,8 @@ uint8_t uart_receivedAvailable(void) {
 }
 
 uint8_t uart_transmitAvailable(void) {
-	if(uart_tx_head>=uart_rx_tail)	return uart_tx_head-uart_tx_tail;
-	return uart_tx_head + UART_BUFFER_SIZE - uart_tx_tail;
+	if(uart_tx_head>=uart_rx_tail)	return (uart_tx_head-uart_tx_tail);
+	return (uart_tx_head + UART_BUFFER_SIZE - uart_tx_tail);
 }
 
 void uart_rx_printEmptyBuffer(void) {
@@ -148,7 +148,11 @@ void cmd_process(void) {
 		cmd_buffer[i++]=uart_receiveByte();
 	}
 	cmd_buffer[i-1]=NULLCHAR;
+	uart_transmitln("");
+	uart_transmitln((char *)cmd_buffer);
 	cmd_parse();
+	uart_transmitln((char *)cmd_buffer);
+	uart_transmitByte(48+nbParams);
 	for (uint8_t cmd = 0; cmd < NB_COMMANDS; cmd++) {
 
 		if (cmd_cmp(cmd_table[cmd].str, (char *)cmd_buffer)) {
@@ -161,15 +165,14 @@ void cmd_process(void) {
 }
 
 void cmd_parse(void) {//TODO check
-	int l, p=0;
+	uint8_t l;
 	nbParams = 0;
 	for (l=0;l<MAXPARAM;l++)params[l] = NULL;
 
-	for (l = 0, p = 0; cmd_buffer[l] != NULLCHAR; l++) {
+	for (l = 0; cmd_buffer[l] != NULLCHAR; l++) {
 		if (cmd_buffer[l] == ' ') {
 			cmd_buffer[l] = NULLCHAR;
-			params[p++] = &cmd_buffer[l] + 1;
-			nbParams++;
+			params[nbParams++] = &cmd_buffer[l] + 1;
 		}
 	}
 }

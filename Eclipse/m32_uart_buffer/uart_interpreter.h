@@ -50,8 +50,8 @@ void uart_isr_rxc(void);
 //uart command interpreter handling
 
 #define MAXPARAM 5
-static unsigned char* params[MAXPARAM];
-static uint8_t nbParams;
+volatile unsigned char* params[MAXPARAM];
+volatile uint8_t nbParams;
 static unsigned char cmd_buffer[256];
 static unsigned char last_cmd[256];
 
