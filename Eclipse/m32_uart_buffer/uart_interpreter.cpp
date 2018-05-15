@@ -40,8 +40,8 @@ void uart_transmitNb(uint8_t data,uint8_t mode) {
 			if(data&(1<<(9-i)))str[i]='1';
 		}
 		break;
-		case 'D':
-		default:
+	case 'D':
+	default:
 		sprintf(str,"%u",data);
 		break;
 	}
@@ -92,20 +92,26 @@ void uart_isr_rxc(void) {
 	case '\r':
 		cmd_process();
 		break;
+
 	case KILL:
 		uart_rx_emptyBuffer();
-		uart_transmitnl("Killed all running processes");
+		uart_transmitnl("Killed all running processes.");
+		uart_transmitnl("Press 'SHIFT+K' to resume.");
 		uart_prompt();
 		break;
+
 	case PREV:
 		uart_rx_loadBuffer(last_cmd);
 		uart_rx_printBuffer();//TODO redraw command
 		break;
+
 	case BACKSPACE:
 		uart_buff_rx_removeLast();// TODO fix this
-		uart_transmit("\r>");
-		uart_rx_printBuffer();
+		uart_transmitByte('\b');
+		uart_transmitByte(' ');
+		uart_transmitByte('\b');
 		break;
+
 	default:
 		uart_transmitByte(uart_buff_rx[uart_rx_head]);
 		break;
@@ -160,7 +166,7 @@ uint8_t cmd_cmp(const char* cmd, const char* entry) {
 		if(cmd[c]!=entry[c])return 0;
 		c++;
 	}
-	if(cmd[c]==NULLCHAR)return 1;
+	if(entry[c]==NULLCHAR)return 1;
 	return 0;
 }
 

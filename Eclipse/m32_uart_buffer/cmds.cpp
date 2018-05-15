@@ -30,7 +30,7 @@ void cmd_info(void) {
 }
 
 void cmd_help(void){
-	uart_transmitnl("Type [cmd] ? to get specific command help.");
+	uart_transmitnl("Type [cmd] ? to get specific command help.\r\nType \"info\" for a command list");
 	uart_prompt();
 }
 void cmd_param(void){
