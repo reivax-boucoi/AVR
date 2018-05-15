@@ -60,9 +60,14 @@ void uart_transmitln(const char* data) {
 	uart_transmitByte('\n');
 }
 
+void uart_transmitnl(const char* data) {
+	uart_transmitByte('\r');
+	uart_transmitByte('\n');
+	uart_transmit(data);
+}
+
 void uart_prompt(void) {
 	uart_transmit("\r\n>");
-
 }
 void uart_isr_udre(void) {
 	if (uart_tx_head != uart_tx_tail) {
@@ -89,7 +94,7 @@ void uart_isr_rxc(void) {
 		break;
 	case KILL:
 		uart_rx_emptyBuffer();
-		uart_transmit("\r\nKilled all running processes");
+		uart_transmitnl("Killed all running processes");
 		uart_prompt();
 		break;
 	case PREV:
@@ -176,11 +181,16 @@ void cmd_process(void) {
 	for (uint8_t cmd = 0; cmd < NB_COMMANDS; cmd++) {
 
 		if (cmd_cmp(cmd_table[cmd].str, (char *)cmd_buffer)) {
-			cmd_table[cmd].fptr_t();
+			if(nbParams>0 && *params[0]=='?'){
+				uart_transmitnl(cmd_table[cmd].descr);
+				uart_prompt();
+			}else{
+				cmd_table[cmd].fptr_t();
+			}
 			return;
 		}
 	}
-	uart_transmit("\r\nUnknown command, type \"help\" for help");
+	uart_transmitnl("Unknown command, type \"help\" for help");
 	uart_prompt();
 }
 
@@ -205,3 +215,5 @@ void cmd_parse(void) {//TODO check
 uint8_t param_int(uint8_t nb){
 	return atoi((char*)params[nb]);
 }
+
+

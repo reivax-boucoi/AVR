@@ -7,6 +7,7 @@ int main(void){
 	uart_init();
 	DDRC|=0xFC;
 	sei();
+	uart_prompt();
 	while(1) {
 
 	}

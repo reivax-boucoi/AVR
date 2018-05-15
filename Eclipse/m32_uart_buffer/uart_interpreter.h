@@ -38,6 +38,7 @@ void uart_transmitByte(uint8_t  data);
 void uart_transmit(const char  *data);
 void uart_transmitNb(uint8_t data, uint8_t mode);
 void uart_transmitln(const char  *data);
+void uart_transmitnl(const char  *data);
 uint8_t uart_receivedAvailable(void);
 uint8_t uart_transmitAvailable(void);
 void uart_buff_rx_removeLast(void);
