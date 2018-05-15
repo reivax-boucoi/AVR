@@ -1,13 +1,12 @@
 #include "avr/io.h"
 #include "avr/interrupt.h"
-#include "cmds.h"
 #include "uart_interpreter.h"
+#include "cmds.h"
 
 int main(void){
 	uart_init();
-	DDRB|=(1<<PB0);
+	DDRC|=0xFC;
 	sei();
-	cmd_clear();
 	while(1) {
 
 	}
