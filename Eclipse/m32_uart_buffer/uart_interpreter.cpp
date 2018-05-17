@@ -28,7 +28,7 @@ static void uart_rx_printEmptyBuffer(void);
 static uint8_t cmd_cmp(const char* s1,const char* s2);
 static void cmd_process(void);
 static void cmd_parse(void);
- 
+
 // Function definitions
 void uart_init(void){
 	UBRRH = (BAUDRATE>>8);
@@ -214,13 +214,8 @@ static void cmd_process(void) {
 	cmd_parse();
 	for (uint8_t cmd = 0; cmd < NB_COMMANDS; cmd++) {
 
-		if (!strcmp(cmd_table[cmd].str, (char *)cmd_buffer)) {
-			if(nbParams>0 && *params[0]=='?'){
-				uart_transmitnl(cmd_table[cmd].descr);
-				uart_prompt();
-			}else{
-				cmd_table[cmd].fptr_t();
-			}
+		if (cmd_cmp(cmd_table[cmd].str, (char *)cmd_buffer)) {
+			cmd_table[cmd].fptr_t();
 			return;
 		}
 	}

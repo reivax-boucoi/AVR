@@ -139,7 +139,7 @@
             			
             <storageModule moduleId="cdtBuildSystem" version="4.0.0">
                 				
-                <configuration artifactName="${ProjName}" buildArtefactType="de.innot.avreclipse.buildArtefactType.app" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=de.innot.avreclipse.buildArtefactType.app,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" description="" id="de.innot.avreclipse.configuration.app.release.2035709465" name="Release" parent="de.innot.avreclipse.configuration.app.release">
+                <configuration artifactName="${ProjName}" buildArtefactType="de.innot.avreclipse.buildArtefactType.app" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=de.innot.avreclipse.buildArtefactType.app,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" description="" id="de.innot.avreclipse.configuration.app.release.2035709465" name="Release" parent="de.innot.avreclipse.configuration.app.release" prebuildStep="make clean">
                     					
                     <folderInfo id="de.innot.avreclipse.configuration.app.release.2035709465." name="/" resourcePath="">
                         						
@@ -153,7 +153,7 @@
                             							
                             <option id="de.innot.avreclipse.toolchain.options.toolchain.size.app.release.708324178" name="Print Size" superClass="de.innot.avreclipse.toolchain.options.toolchain.size.app.release"/>
                             							
-                            <option id="de.innot.avreclipse.toolchain.options.toolchain.avrdude.app.release.1086120664" name="AVRDude" superClass="de.innot.avreclipse.toolchain.options.toolchain.avrdude.app.release" value="true" valueType="boolean"/>
+                            <option id="de.innot.avreclipse.toolchain.options.toolchain.avrdude.app.release.1086120664" name="AVRDude" superClass="de.innot.avreclipse.toolchain.options.toolchain.avrdude.app.release" value="false" valueType="boolean"/>
                             							
                             <targetPlatform id="de.innot.avreclipse.targetplatform.winavr.app.release.420385008" name="AVR Cross-Target" superClass="de.innot.avreclipse.targetplatform.winavr.app.release"/>
                             							
@@ -193,7 +193,7 @@
                                 								
                                 <option id="de.innot.avreclipse.cpplinker.option.otherlinkargs.237428261" name="Other Arguments" superClass="de.innot.avreclipse.cpplinker.option.otherlinkargs" useByScannerDiscovery="false" value="" valueType="string"/>
                                 								
-                                <option id="de.innot.avreclipse.cpplinker.option.libs.1235139071" name="Libraries (-l)" superClass="de.innot.avreclipse.cpplinker.option.libs" useByScannerDiscovery="false" valueType="libs"/>
+                                <option id="de.innot.avreclipse.cpplinker.option.libs.1235139071" name="Libraries (-l)" superClass="de.innot.avreclipse.cpplinker.option.libs" useByScannerDiscovery="false"/>
                                 								
                                 <inputType id="de.innot.avreclipse.tool.cpplinker.input.803189994" name="OBJ Files" superClass="de.innot.avreclipse.tool.cpplinker.input">
                                     									
@@ -215,7 +215,7 @@
                             							
                             <tool id="de.innot.avreclipse.tool.size.winavr.app.release.218458399" name="Print Size" superClass="de.innot.avreclipse.tool.size.winavr.app.release">
                                 								
-                                <option id="de.innot.avreclipse.size.option.formatwithavr.668740957" name="Size Format" superClass="de.innot.avreclipse.size.option.formatwithavr" useByScannerDiscovery="false" value="de.innot.avreclipse.size.option.format.avr" valueType="enumerated"/>
+                                <option id="de.innot.avreclipse.size.option.formatwithavr.668740957" name="Size Format" superClass="de.innot.avreclipse.size.option.formatwithavr" useByScannerDiscovery="false" value="de.innot.avreclipse.size.option.format.berkeley" valueType="enumerated"/>
                                 							
                             </tool>
                             							
