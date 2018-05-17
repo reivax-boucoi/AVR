@@ -17,7 +17,7 @@ void cmd_help(void);
 void cmd_clear(void);
 void cmd_param(void);
 void cmd_reboot(void);
-
+//truc
 static const cmd_t cmd_table[] = {
 		{ cmd_onLed, "onLed"},
 		{ cmd_offLed, "offLed"},
