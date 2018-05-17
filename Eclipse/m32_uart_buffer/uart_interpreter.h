@@ -22,7 +22,7 @@
 #define PREV '&'
 #define BACKSPACE 127
 
-#define UART_BUFFER_SIZE 256     // 2 to 256 bytes
+#define UART_BUFFER_SIZE 64     // 2 to 256 bytes
 #define UART_BUFFER_MASK (UART_BUFFER_SIZE - 1)
 #define UARTTXEN()	UCSRB |= (1<<UDRIE)
 #define	UARTTXDIS() UCSRB &= ~(1<<UDRIE)
