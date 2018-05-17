@@ -1,8 +1,35 @@
 #include "uart_interpreter.h"
 
+// Global variable definitions
 unsigned char* params[MAXPARAM];
 uint8_t nbParams;
 
+// Static variable definitions
+static volatile uint8_t  uart_buff_rx[UART_BUFFER_SIZE];
+static volatile uint8_t  uart_rx_head;
+static volatile uint8_t  uart_rx_tail;
+
+static volatile uint8_t  uart_buff_tx[UART_BUFFER_SIZE];
+static volatile uint8_t  uart_tx_head;
+static volatile uint8_t  uart_tx_tail;
+
+static unsigned char cmd_buffer[UART_BUFFER_SIZE];
+static unsigned char last_cmd[UART_BUFFER_SIZE];
+
+// Static function declarations
+static uint8_t uart_receivedAvailable(void);
+static uint8_t uart_transmitAvailable(void);
+static void uart_buff_rx_removeLast(void);
+static void uart_rx_emptyBuffer(void);
+static void uart_rx_loadBuffer(const unsigned char* s);
+static void uart_rx_printBuffer(void);
+static void uart_rx_printEmptyBuffer(void);
+
+static uint8_t cmd_cmp(const char* s1,const char* s2);
+static void cmd_process(void);
+static void cmd_parse(void);
+ 
+// Function definitions
 void uart_init(void){
 	UBRRH = (BAUDRATE>>8);
 	UBRRL = BAUDRATE;
@@ -69,6 +96,7 @@ void uart_transmitnl(const char* data) {
 void uart_prompt(void) {
 	uart_transmit("\r\n>");
 }
+
 void uart_isr_udre(void) {
 	if (uart_tx_head != uart_tx_tail) {
 		uart_tx_tail = ( uart_tx_tail + 1 ) & UART_BUFFER_MASK;
@@ -119,20 +147,20 @@ void uart_isr_rxc(void) {
 	sei();
 }
 
-uint8_t uart_receivedAvailable(void) {
+static uint8_t uart_receivedAvailable(void) {
 	if(uart_rx_head>=uart_rx_tail)	return uart_rx_head-uart_rx_tail;
 	return uart_rx_head + UART_BUFFER_SIZE - uart_rx_tail;
 }
 
-uint8_t uart_transmitAvailable(void) {
+static uint8_t uart_transmitAvailable(void) {
 	if(uart_tx_head>=uart_rx_tail)	return uart_tx_head-uart_tx_tail;
 	return uart_tx_head + UART_BUFFER_SIZE - uart_tx_tail;
 }
 
-void uart_rx_printEmptyBuffer(void) {
+static void uart_rx_printEmptyBuffer(void) {
 	while(uart_receivedAvailable()>0)uart_transmitByte(uart_receiveByte());
 }
-void uart_rx_printBuffer(void) {
+static void uart_rx_printBuffer(void) {
 	uart_transmit("");
 	uint8_t i=uart_rx_tail;
 	while(i!=uart_rx_head){
@@ -140,27 +168,27 @@ void uart_rx_printBuffer(void) {
 		i = (i+1) & UART_BUFFER_MASK;
 	}
 }
-void uart_rx_emptyBuffer(void) {
+static void uart_rx_emptyBuffer(void) {
 	while(uart_receivedAvailable()>0)uart_receiveByte();
 }
-void uart_rx_loadBuffer(const unsigned char* s) {
+static void uart_rx_loadBuffer(const unsigned char* s) {
 	for(uint8_t i=0, uart_rx_head=uart_rx_tail;s[i]!=NULLCHAR;i++){
 		uart_buff_rx[uart_rx_head]=s[i];
 		uart_rx_head= (uart_rx_head+1) & UART_BUFFER_MASK;
 	}
 }
 
-void uart_buff_rx_removeLast(void){
+static void uart_buff_rx_removeLast(void){
 	if(uart_rx_head!=uart_rx_tail){
 		if(uart_rx_head==0){
 			uart_rx_head=UART_BUFFER_MASK;
 		}else{
-			uart_rx_head=uart_rx_head-1;
+			uart_rx_head--;
 		}
 	}
 }
 
-uint8_t cmd_cmp(const char* cmd, const char* entry) {
+static uint8_t cmd_cmp(const char* cmd, const char* entry) {
 	uint8_t c=0;
 	while(cmd[c]!=NULLCHAR && entry[c]!=NULLCHAR){
 		if(cmd[c]!=entry[c])return 0;
@@ -171,7 +199,7 @@ uint8_t cmd_cmp(const char* cmd, const char* entry) {
 }
 
 
-void cmd_process(void) {
+static void cmd_process(void) {
 	uint8_t i=0;
 	if(uart_receivedAvailable()<=1){
 		uart_rx_emptyBuffer();
@@ -186,7 +214,7 @@ void cmd_process(void) {
 	cmd_parse();
 	for (uint8_t cmd = 0; cmd < NB_COMMANDS; cmd++) {
 
-		if (cmd_cmp(cmd_table[cmd].str, (char *)cmd_buffer)) {
+		if (!strcmp(cmd_table[cmd].str, (char *)cmd_buffer)) {
 			if(nbParams>0 && *params[0]=='?'){
 				uart_transmitnl(cmd_table[cmd].descr);
 				uart_prompt();
@@ -200,7 +228,7 @@ void cmd_process(void) {
 	uart_prompt();
 }
 
-void cmd_parse(void) {//TODO check
+static void cmd_parse(void) {//TODO check
 	int l;
 	nbParams = 0;
 	for (l=0;l<MAXPARAM;l++)params[l] = NULL;

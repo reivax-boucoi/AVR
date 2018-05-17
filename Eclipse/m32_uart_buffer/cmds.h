@@ -28,9 +28,9 @@ static const cmd_t cmd_table[] = {
 		{ cmd_help, "help","Displays available help, use help [cmd] to get specific command help" },
 		{ cmd_clear, "clear","Clears the screen" },
 		{ cmd_param, "param","Displays command parameters in a list" },
-		{cmd_reboot, "reboot","Reboot the target, immediate, no arguments" }
+		{ cmd_reboot, "reboot","Reboot the target, immediate, no arguments" }
 };
-static const uint8_t NB_COMMANDS = sizeof (cmd_table)/ sizeof (cmd_t);
 
+#define NB_COMMANDS (sizeof(cmd_table) / sizeof(cmd_table[0]))
 
 #endif /* CMDS_H_ */
