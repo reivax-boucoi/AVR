@@ -1,5 +1,6 @@
-#ifndef UART_INTERPRET_H
-#define UART_INTERPRET_H
+#ifndef UART_INTERPRETER_H_
+#define UART_INTERPRETER_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <avr/io.h>
@@ -46,5 +47,5 @@ void uart_isr_rxc(void);
 // uart command interpreter handling
 uint8_t param_int(uint8_t nb);
 
-#endif
+#endif /* UART_INTERPRETER_H_  */
 

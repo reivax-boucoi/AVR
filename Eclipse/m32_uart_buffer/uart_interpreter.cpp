@@ -96,6 +96,7 @@ void uart_transmitnl(const char* data) {
 void uart_prompt(void) {
 	uart_transmit("\r\n>");
 }
+
 void uart_isr_udre(void) {
 	if (uart_tx_head != uart_tx_tail) {
 		uart_tx_tail = ( uart_tx_tail + 1 ) & UART_BUFFER_MASK;
