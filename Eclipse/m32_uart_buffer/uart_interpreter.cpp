@@ -213,7 +213,7 @@ static void cmd_process(void) {
 	cmd_parse();
 	for (uint8_t cmd = 0; cmd < NB_COMMANDS; cmd++) {
 
-		if (cmd_cmp(cmd_table[cmd].str, (char *)cmd_buffer)) {
+		if (!strcmp(cmd_table[cmd].str, (char *)cmd_buffer)) {
 			if(nbParams>0 && *params[0]=='?'){
 				uart_transmitnl(cmd_table[cmd].descr);
 				uart_prompt();
