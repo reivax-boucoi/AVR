@@ -11,13 +11,13 @@ void uart_transmit (uint8_t data){
     while (!( UCSR0A & (1<<UDRE0)));	// wait while register is free
     UDR0 = data;	// load data in the register
 }
-void uart_transmitMult(char *Data){
+void uart_transmitMult(const char *Data){
 	while(*Data>0){
 		uart_transmit(*Data++);
 	}
 }
 uint8_t uart_recieve (void){
-    while(!(UCSR0A) & (1<<RXC0));	// wait while data is being received
+    while(!((UCSR0A) & (1<<RXC0)));	// wait while data is being received
     return UDR0;	// return 8-bit data
 }
 
