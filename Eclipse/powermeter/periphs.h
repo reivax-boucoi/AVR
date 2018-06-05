@@ -16,7 +16,7 @@
 
 void uart_init (void);
 void uart_transmit (uint8_t data);
-void uart_transmitMult(char *Data);
+void uart_transmitMult(const char *Data);
 uint8_t uart_recieve (void);
 void spi_masterInit(void);
 uint8_t spi_rxtx(uint8_t data);
