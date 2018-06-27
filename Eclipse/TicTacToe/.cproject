@@ -47,7 +47,11 @@
 							<tool id="de.innot.avreclipse.tool.objdump.winavr.app.release.127606480" name="AVR Create Extended Listing" superClass="de.innot.avreclipse.tool.objdump.winavr.app.release"/>
 							<tool id="de.innot.avreclipse.tool.objcopy.flash.winavr.app.release.1471380420" name="AVR Create Flash image" superClass="de.innot.avreclipse.tool.objcopy.flash.winavr.app.release"/>
 							<tool id="de.innot.avreclipse.tool.objcopy.eeprom.winavr.app.release.958564112" name="AVR Create EEPROM image" superClass="de.innot.avreclipse.tool.objcopy.eeprom.winavr.app.release"/>
-							<tool id="de.innot.avreclipse.tool.size.winavr.app.release.48009256" name="Print Size" superClass="de.innot.avreclipse.tool.size.winavr.app.release"/>
+							<tool id="de.innot.avreclipse.tool.size.winavr.app.release.48009256" name="Print Size" superClass="de.innot.avreclipse.tool.size.winavr.app.release">
+								<option id="de.innot.avreclipse.size.option.totals.22395692" name="Show Totals" superClass="de.innot.avreclipse.size.option.totals" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="de.innot.avreclipse.size.option.hex.225092185" superClass="de.innot.avreclipse.size.option.hex" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="de.innot.avreclipse.size.option.format.906110185" superClass="de.innot.avreclipse.size.option.format" useByScannerDiscovery="false" value="de.innot.avreclipse.size.option.format.sysv" valueType="enumerated"/>
+							</tool>
 							<tool id="de.innot.avreclipse.tool.avrdude.app.release.536707059" name="AVRDude" superClass="de.innot.avreclipse.tool.avrdude.app.release"/>
 						</toolChain>
 					</folderInfo>
