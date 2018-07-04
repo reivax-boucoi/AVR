@@ -169,7 +169,13 @@ static void cmd_process(void) {
 	for (uint8_t cmd = 0; cmd < NB_COMMANDS; cmd++) {
 
 		if (cmd_cmp(cmd_table[cmd].str, (char *)cmd_buffer)) {
-			cmd_table[cmd].fptr_t();
+			if(nbParams>0 && *params[0]=='?'){
+				uart_transmit(cmd_table[cmd].descr);
+				//uart_transmit_P((char *)pgm_read_word(cmd_table[cmd].descr)); TODO
+				uart_prompt();
+			}else{
+				cmd_table[cmd].fptr_t();
+			}
 			return;
 		}
 	}
