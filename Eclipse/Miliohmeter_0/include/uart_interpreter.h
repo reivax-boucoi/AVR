@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <avr/io.h>
 #include <string.h>
-#include <util/delay.h>
 #include <avr/interrupt.h>
 #include "cmds.h"
 
@@ -19,10 +18,8 @@
 #endif
 
 #define KILL 'K'
-#define PREV '&'
-#define BACKSPACE 127
 
-#define UART_BUFFER_SIZE 256     // 2 to 256 bytes
+#define UART_BUFFER_SIZE 128     // 2 to 256 bytes
 #define UART_BUFFER_MASK (UART_BUFFER_SIZE - 1)
 #define UARTTXEN()	UCSRB |= (1<<UDRIE)
 #define	UARTTXDIS() UCSRB &= ~(1<<UDRIE)
@@ -36,6 +33,7 @@ uint8_t uart_receiveByte(void);
 void uart_transmitByte(uint8_t data);
 void uart_transmit(const char *data);
 void uart_transmitNb(uint8_t data, uint8_t mode);
+void uart_transmitNb(float data);
 void uart_transmitln(const char *data);
 void uart_transmitnl(const char *data);
 void uart_prompt(void);
@@ -46,6 +44,7 @@ void uart_isr_rxc(void);
 
 // uart command interpreter handling
 uint8_t param_int(uint8_t nb);
+float param_float(uint8_t nb);
 
 #endif /* UART_INTERPRETER_H_  */
 

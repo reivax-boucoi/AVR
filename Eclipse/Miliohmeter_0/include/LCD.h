@@ -25,6 +25,7 @@ public:
 	static uint8_t setNb(float nb);
 	static void clear(void);
 	static void blink(uint16_t t);
+	static void blink();
 private:
 	struct digit{
 		uint8_t s[7];

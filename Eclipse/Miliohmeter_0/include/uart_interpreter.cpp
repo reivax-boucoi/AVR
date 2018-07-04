@@ -1,5 +1,6 @@
 #include "uart_interpreter.h"
 
+
 // Global variable definitions
 unsigned char* params[MAXPARAM];
 uint8_t nbParams;
@@ -14,7 +15,6 @@ static volatile uint8_t  uart_tx_head;
 static volatile uint8_t  uart_tx_tail;
 
 static unsigned char cmd_buffer[UART_BUFFER_SIZE];
-static unsigned char last_cmd[UART_BUFFER_SIZE];
 
 // Static function declarations
 static uint8_t uart_receivedAvailable(void);
@@ -75,6 +75,15 @@ void uart_transmitNb(uint8_t data,uint8_t mode) {
 	uart_transmit(str);
 }
 
+
+void uart_transmitNb(float data) {
+	char str[6];
+	int8_t t = sprintf(str,"%4.2f",data);
+	uart_transmit(str);
+	uart_transmit("\t");
+	uart_transmitNb(t,'B');
+}
+
 void uart_transmit(const char* data) {
 	while(*data>0){
 		uart_transmitByte(*data++);
@@ -128,18 +137,6 @@ void uart_isr_rxc(void) {
 		uart_prompt();
 		break;
 
-	case PREV:
-		uart_rx_loadBuffer(last_cmd);
-		uart_rx_printBuffer();//TODO redraw command
-		break;
-
-	case BACKSPACE:
-		uart_buff_rx_removeLast();// TODO fix this
-		uart_transmitByte('\b');
-		uart_transmitByte(' ');
-		uart_transmitByte('\b');
-		break;
-
 	default:
 		uart_transmitByte(uart_buff_rx[uart_rx_head]);
 		break;
@@ -152,14 +149,6 @@ static uint8_t uart_receivedAvailable(void) {
 	return uart_rx_head + UART_BUFFER_SIZE - uart_rx_tail;
 }
 
-static uint8_t uart_transmitAvailable(void) {
-	if(uart_tx_head>=uart_rx_tail)	return uart_tx_head-uart_tx_tail;
-	return uart_tx_head + UART_BUFFER_SIZE - uart_tx_tail;
-}
-
-static void uart_rx_printEmptyBuffer(void) {
-	while(uart_receivedAvailable()>0)uart_transmitByte(uart_receiveByte());
-}
 static void uart_rx_printBuffer(void) {
 	uart_transmit("");
 	uint8_t i=uart_rx_tail;
@@ -206,7 +195,6 @@ static void cmd_process(void) {
 		uart_prompt();
 		return;
 	}
-	memcpy(last_cmd,cmd_buffer,sizeof(cmd_buffer));
 	while(uart_receivedAvailable()>0){
 		cmd_buffer[i++]=uart_receiveByte();
 	}
@@ -244,5 +232,6 @@ static void cmd_parse(void) {//TODO check
 uint8_t param_int(uint8_t nb){
 	return atoi((char*)params[nb]);
 }
-
-
+float param_float(uint8_t nb){
+	return atof((char*)params[nb]);
+}

@@ -135,6 +135,10 @@ void LCD::blink(uint16_t t) {
 		_delay_ms(15);
 	}
 }
+void LCD::blink(void) {
+	blink(1);
+}
+
 
 uint8_t LCD::setNb(int32_t nb) {// TODO 10ms !
 	if(nb>999999 || nb <-99999){
@@ -153,6 +157,7 @@ uint8_t LCD::setNb(int32_t nb) {// TODO 10ms !
 		if(nb==0)break;
 	}
 	while(d>=min)setDigit(d--,Blank);
+	setDP(false);
 	return 0;
 }
 
@@ -174,6 +179,7 @@ uint8_t LCD::setNb(float fnb) {// TODO 10ms !
 		if(nb==0 && d<3)break;
 	}
 	while(d>=min)setDigit(d--,Blank);
+	setDP(true);
 	return 0;
 }
 
