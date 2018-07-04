@@ -37,8 +37,6 @@ void uart_transmit(const char *data);
 void uart_transmit_P(const char *data);
 void uart_transmitNb(uint8_t data, uint8_t mode);
 void uart_transmitNb(float data);
-void uart_transmitln(const char *data);
-void uart_transmitnl(const char *data);
 void uart_prompt(void);
 
 // uart isr

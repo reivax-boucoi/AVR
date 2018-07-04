@@ -89,18 +89,6 @@ void uart_transmit_P(const char* data) {
 		uart_transmitByte(pgm_read_byte(data++));
 }
 
-void uart_transmitln(const char* data) {
-	uart_transmit(data);
-	uart_transmitByte('\r');
-	uart_transmitByte('\n');
-}
-
-void uart_transmitnl(const char* data) {
-	uart_transmitByte('\r');
-	uart_transmitByte('\n');
-	uart_transmit(data);
-}
-
 void uart_prompt(void) {
 	uart_transmit("\r\n>");
 }

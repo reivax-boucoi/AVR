@@ -10,8 +10,8 @@ LCD::digit LCD::digits[]={
 		{{0,0,0,1,1,1,1},{&LCDDR0,&LCDDR5,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR0,&LCDDR5}}};
 
 LCD::LCD(){
-	DDRB |= (1 << PB0);
-	PORTB |= (1<<PB0);
+	DDRB |=(1<<PB0);
+	PORTB |=(1<<PB0);
 	LCDCRB|=(1<<LCDMUX1)|(1<<LCDMUX0);
 
 	if(F_CPU<6000000UL){
