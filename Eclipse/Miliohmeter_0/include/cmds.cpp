@@ -1,5 +1,4 @@
 #include "cmds.h"
-#include <avr/io.h>
 
 //TODO
 extern float LCDval;
@@ -38,8 +37,7 @@ void cmd_help(void){
 }
 
 void cmd_reboot(void) {
-	WDTCR|=(1<< WDE)|(1<<WDP0)|(1<<WDP1)|(1<<WDP2);
-	while(1);
+	//FLAG|=F_SHUTDOWN;
 }
 
 void cmd_clear(void) {

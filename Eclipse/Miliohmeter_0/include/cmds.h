@@ -16,12 +16,12 @@ void cmd_clear(void);
 void cmd_reboot(void);
 
 static const cmd_t cmd_table[] = {
-		{ cmd_display, PSTR("display")},
-		{ cmd_gain, PSTR("gain")},
-		{ cmd_info, PSTR("info")},
-		{ cmd_help, PSTR("help")},
-		{ cmd_clear, PSTR("clear")},
-		{ cmd_reboot, PSTR("reboot")}
+		{ cmd_display, "display"},
+		{ cmd_gain, "gain"},
+		{ cmd_info, "info"},
+		{ cmd_help, "help"},
+		{ cmd_clear, "clear"},
+		{ cmd_reboot, "reboot"}
 };
 
 #define NB_COMMANDS (uint8_t)(sizeof(cmd_table) / sizeof(cmd_table[0]))

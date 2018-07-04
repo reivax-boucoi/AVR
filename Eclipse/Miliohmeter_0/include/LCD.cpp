@@ -13,6 +13,7 @@ LCD::LCD(){
 	DDRB |= (1 << PB0);
 	PORTB |= (1<<PB0);
 	LCDCRB|=(1<<LCDMUX1)|(1<<LCDMUX0);
+
 	if(F_CPU<6000000UL){
 		LCDFRR|=(1<<LCDPS2)|(1<<LCDCD2); // prescaler 512, division factor 5 & K=8 for duty 1/4
 	}else if(F_CPU<12000000UL){
@@ -26,7 +27,7 @@ LCD::LCD(){
 
 LCD::~LCD() {
 	LCDCRA|=(1<<LCDBL);
-	_delay_ms(500);
+	for(uint16_t i=0xFFFF;i>0;i--)_NOP();
 	LCDCRA&=~(1<<LCDEN);
 }
 
