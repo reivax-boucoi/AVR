@@ -119,12 +119,11 @@ void LCD::setClk(bool b) {
 	}
 }
 
-bool LCD::getDP(void) {
-	return (LCDDR15 & (1<<4));
-}
+uint8_t LCD::setText(char t[7]) {
+	for(int8_t i=5;i>0;i--){
 
-bool LCD::getClk(void) {
-	return (LCDDR16 & 1);
+	}
+	return 0;
 }
 
 void LCD::blink(uint16_t t) {
@@ -145,7 +144,7 @@ uint8_t LCD::setNb(int32_t nb) {// TODO 10ms !
 	if(nb<0){
 		setDigit(0,Minus);
 		min++;
-		nb=(~nb)+1;
+		nb=(~nb)+1; // to check
 	}
 	while(d>=min){
 		setDigit(d--,nb%10);
@@ -154,11 +153,4 @@ uint8_t LCD::setNb(int32_t nb) {// TODO 10ms !
 	}
 	while(d>=min)setDigit(d--,Blank);
 	return 0;
-}
-
-void LCD::clear(void) {
-	setBattery(NONE);
-	setClk(false);
-	setDP(false);
-	for(int8_t i=5;i>=0;i--)setDigit(i,Blank);
 }

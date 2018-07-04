@@ -1,0 +1,13 @@
+Display : 6 digits, 88:88.88 + battery ?->voltage sense
+	Fixed display 9999.99 mOhms, hide last digit if insignificant
+	Display test @ startup, overflow
+
+Current range / fixed ? (typ 50mA)-> 5ma for medium value Rs ?
+Voltage ENOB 16-17 bits, PGA 1,2,4,8, autoranging on 1 and 8 gains ?
+
+Reading @ ~3.5SPSn moving average filter to keep sample rate ?
+
+Power : transformer and/or battery ? with charger ?-> battery=3.3v, less headroom for current.
+
+Interface : hold button, power switch (complete), range ?, zero adjust pot / software button ?
+	Power led/locked measurement led ?
