@@ -1,6 +1,6 @@
 #include "LCD.h"
 
-const uint8_t LCD::NbMap[]={0x3F,0x6,0x5B,0x4F,0x66,0x6D,0x7D,0x7,0x7F,0x6F};
+const uint8_t LCD::NbMap[]PROGMEM ={0x3F,0x6,0x5B,0x4F,0x66,0x6D,0x7D,0x7,0x7F,0x6F};
 LCD::digit LCD::digits[]={
 		{{2,2,2,3,3,3,3},{&LCDDR1,&LCDDR6,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR1,&LCDDR6}},
 		{{0,0,0,1,1,1,1},{&LCDDR1,&LCDDR6,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR1,&LCDDR6}},
@@ -32,7 +32,7 @@ LCD::~LCD() {
 
 void LCD::setDigit(uint8_t dig, uint8_t nb) {
 	for(uint8_t j=0;j<8;j++){
-		if(NbMap[nb] & (1<<j)){
+		if(pgm_read_byte(&NbMap[nb]) & (1<<j)){
 			*(digits[dig].dr[j]) |= (1<<digits[dig].s[j]);
 		}else{
 			*(digits[dig].dr[j]) &= ~(1<<digits[dig].s[j]);
@@ -126,19 +126,6 @@ bool LCD::getDP(void) {
 bool LCD::getClk(void) {
 	return (LCDDR16 & 1);
 }
-
-void LCD::blink(uint16_t t) {
-	for(uint16_t i=0;i<t;i++){
-		PORTB|=(1<<PB0);
-		_delay_ms(15);
-		PORTB&=~(1<<PB0);
-		_delay_ms(15);
-	}
-}
-void LCD::blink(void) {
-	blink(1);
-}
-
 
 uint8_t LCD::setNb(int32_t nb) {// TODO 10ms !
 	if(nb>999999 || nb <-99999){

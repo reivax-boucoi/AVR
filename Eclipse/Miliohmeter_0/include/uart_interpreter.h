@@ -6,6 +6,7 @@
 #include <avr/io.h>
 #include <string.h>
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 #include "cmds.h"
 
 #define BAUD 38400
@@ -21,6 +22,7 @@
 
 #define UART_BUFFER_SIZE 128     // 2 to 256 bytes
 #define UART_BUFFER_MASK (UART_BUFFER_SIZE - 1)
+
 #define UARTTXEN()	UCSRB |= (1<<UDRIE)
 #define	UARTTXDIS() UCSRB &= ~(1<<UDRIE)
 
@@ -32,6 +34,7 @@ void uart_init(void);
 uint8_t uart_receiveByte(void);
 void uart_transmitByte(uint8_t data);
 void uart_transmit(const char *data);
+void uart_transmit_P(const char *data);
 void uart_transmitNb(uint8_t data, uint8_t mode);
 void uart_transmitNb(float data);
 void uart_transmitln(const char *data);

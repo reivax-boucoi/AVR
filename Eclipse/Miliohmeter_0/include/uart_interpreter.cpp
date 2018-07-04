@@ -1,6 +1,5 @@
 #include "uart_interpreter.h"
 
-
 // Global variable definitions
 unsigned char* params[MAXPARAM];
 uint8_t nbParams;
@@ -18,12 +17,7 @@ static unsigned char cmd_buffer[UART_BUFFER_SIZE];
 
 // Static function declarations
 static uint8_t uart_receivedAvailable(void);
-static uint8_t uart_transmitAvailable(void);
-static void uart_buff_rx_removeLast(void);
 static void uart_rx_emptyBuffer(void);
-static void uart_rx_loadBuffer(const unsigned char* s);
-static void uart_rx_printBuffer(void);
-static void uart_rx_printEmptyBuffer(void);
 
 static uint8_t cmd_cmp(const char* s1,const char* s2);
 static void cmd_process(void);
@@ -90,6 +84,11 @@ void uart_transmit(const char* data) {
 	}
 }
 
+void uart_transmit_P(const char* data) {
+	while (pgm_read_byte(data) != 0x00)
+		uart_transmitByte(pgm_read_byte(data++));
+}
+
 void uart_transmitln(const char* data) {
 	uart_transmit(data);
 	uart_transmitByte('\r');
@@ -107,12 +106,14 @@ void uart_prompt(void) {
 }
 
 void uart_isr_udre(void) {
+	cli();
 	if (uart_tx_head != uart_tx_tail) {
 		uart_tx_tail = ( uart_tx_tail + 1 ) & UART_BUFFER_MASK;
 		UDR = uart_buff_tx[uart_tx_tail];
 	} else {
 		UARTTXDIS();
 	}
+	sei();
 }
 
 
@@ -121,7 +122,7 @@ void uart_isr_rxc(void) {
 	uart_rx_head = (uart_rx_head + 1) & UART_BUFFER_MASK;
 	if (uart_rx_head == uart_rx_tail) {
 		// Ooops ! buffer overflow !
-		uart_transmitln("Receive buffer full !");
+		uart_transmit_P(PSTR("Receive buffer full !\r\n"));
 	}
 	uart_buff_rx[uart_rx_head] = UDR;
 	switch (uart_buff_rx[uart_rx_head]){
@@ -132,8 +133,8 @@ void uart_isr_rxc(void) {
 
 	case KILL:
 		uart_rx_emptyBuffer();
-		uart_transmitnl("Killed all running processes.");
-		uart_transmitnl("Press 'SHIFT+K' to resume.");
+		uart_transmit_P(PSTR("\n\rKilled all running processes."));
+		uart_transmit_P(PSTR("\r\nPress 'SHIFT+K' to resume."));
 		uart_prompt();
 		break;
 
@@ -149,32 +150,9 @@ static uint8_t uart_receivedAvailable(void) {
 	return uart_rx_head + UART_BUFFER_SIZE - uart_rx_tail;
 }
 
-static void uart_rx_printBuffer(void) {
-	uart_transmit("");
-	uint8_t i=uart_rx_tail;
-	while(i!=uart_rx_head){
-		uart_transmitByte(uart_buff_rx[i]);
-		i = (i+1) & UART_BUFFER_MASK;
-	}
-}
+
 static void uart_rx_emptyBuffer(void) {
 	while(uart_receivedAvailable()>0)uart_receiveByte();
-}
-static void uart_rx_loadBuffer(const unsigned char* s) {
-	for(uint8_t i=0, uart_rx_head=uart_rx_tail;s[i]!=NULLCHAR;i++){
-		uart_buff_rx[uart_rx_head]=s[i];
-		uart_rx_head= (uart_rx_head+1) & UART_BUFFER_MASK;
-	}
-}
-
-static void uart_buff_rx_removeLast(void){
-	if(uart_rx_head!=uart_rx_tail){
-		if(uart_rx_head==0){
-			uart_rx_head=UART_BUFFER_MASK;
-		}else{
-			uart_rx_head--;
-		}
-	}
 }
 
 static uint8_t cmd_cmp(const char* cmd, const char* entry) {
@@ -207,7 +185,7 @@ static void cmd_process(void) {
 			return;
 		}
 	}
-	uart_transmitnl("Unknown command, type \"help\" for help");
+	uart_transmit_P(PSTR("\r\nUnknown command, type \"help\" for help"));
 	uart_prompt();
 }
 
@@ -218,7 +196,7 @@ static void cmd_parse(void) {//TODO check
 
 	for (l = 0; cmd_buffer[l] != NULLCHAR; l++) {
 		if(nbParams>=MAXPARAM){
-			uart_transmitln("Max number of parameters exceeded !");
+			uart_transmit_P(PSTR("Max number of parameters exceeded !\r\n"));
 			break;
 		}
 		if (cmd_buffer[l] == ' ') {
@@ -235,3 +213,4 @@ uint8_t param_int(uint8_t nb){
 float param_float(uint8_t nb){
 	return atof((char*)params[nb]);
 }
+

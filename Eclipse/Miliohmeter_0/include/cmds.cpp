@@ -24,8 +24,7 @@ void cmd_gain(void) {
 }
 
 void cmd_info(void) {
-	uart_transmitnl("Terminal running version");
-	uart_transmitln(" 0.3\r\nAvailable commands :");
+	uart_transmit_P(PSTR("\r\nTerminal running version 0.3\r\nAvailable commands :\r\n\r\n"));
 	for(int cmd = 0; cmd < NB_COMMANDS; cmd++){
 		uart_transmitByte(9);
 		uart_transmitln((char*)cmd_table[cmd].str);
@@ -34,7 +33,7 @@ void cmd_info(void) {
 }
 
 void cmd_help(void){
-	uart_transmitnl("Type [cmd] ? to get specific command help.\r\nType \"info\" for a command list");
+	uart_transmit_P(PSTR("\r\nType [cmd] ? to get specific command help.\r\nType \"info\" for a command list"));
 	uart_prompt();
 }
 
