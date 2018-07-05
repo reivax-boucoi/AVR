@@ -73,9 +73,9 @@ void uart_transmitNb(uint8_t data,uint8_t mode) {
 void uart_transmitNb(float data) {
 	char str[6];
 	int8_t t = sprintf(str,"%4.2f",data);
-	uart_transmit(str);
+	uart_transmit(str);/*
 	uart_transmit("\t");
-	uart_transmitNb(t,'B');
+	uart_transmitNb(t,'B');*/
 }
 
 void uart_transmit(const char* data) {
@@ -168,13 +168,13 @@ static void cmd_process(void) {
 	cmd_parse();
 	for (uint8_t cmd = 0; cmd < NB_COMMANDS; cmd++) {
 
-		if (cmd_cmp(cmd_table[cmd].str, (char *)cmd_buffer)) {
+		if (cmd_cmp(cmd_table_str[cmd], (char *)cmd_buffer)) {
 			if(nbParams>0 && *params[0]=='?'){
-				uart_transmit(cmd_table[cmd].descr);
-				//uart_transmit_P((char *)pgm_read_word(cmd_table[cmd].descr)); TODO
+				uart_transmit("\r\n\t");
+				uart_transmit_P((char *)pgm_read_word(&cmd_table_descr[cmd]));
 				uart_prompt();
 			}else{
-				cmd_table[cmd].fptr_t();
+				cmd_table_ptr[cmd]();
 			}
 			return;
 		}

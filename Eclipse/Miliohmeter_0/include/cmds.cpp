@@ -26,7 +26,7 @@ void cmd_info(void) {
 	uart_transmit_P(PSTR("\r\nTerminal running version 0.3\r\nAvailable commands :\r\n"));
 	for(int cmd = 0; cmd < NB_COMMANDS; cmd++){
 		uart_transmit("\r\n\t");
-		uart_transmit((char*)cmd_table[cmd].str);
+		uart_transmit((char*)cmd_table_str[cmd]);
 	}
 	uart_prompt();
 }

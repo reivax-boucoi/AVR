@@ -2,7 +2,7 @@
 #define F_AGC 0x02
 #define F_KILL 0x04
 #define F_HOLD 0x08
-#define F_1 0x10
+#define F_STREAM 0x10
 #define F_2 0x20
 #define F_3 0x40
 #define F_4 0x80
