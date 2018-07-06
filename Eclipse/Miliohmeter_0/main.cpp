@@ -7,28 +7,42 @@
 #define F_3 0x40
 #define F_4 0x80
 
+#define EE_LCDVAL 0
+#define EE_ZERO 32
+#define EE_GAIN 64
+
 #include <avr/io.h>
-#include <avr/cpufunc.h>
+#include <avr/eeprom.h>
 #include "include/cmds.h"
 #include "include/periphs.h"
 #include "include/LCD.h"
 
 LCD myLCD;
 volatile float LCDval=0.0;
+volatile uint8_t gain=1;
 volatile uint8_t FLAG=0x00;
 
 int main(void){
 	periphs_init();
-	for(uint16_t i=0xFFFF;i>0;i--)_NOP();
 	sei();
 	uart_transmit_P(PSTR("\r\n\tHello World !"));
 	uart_prompt();
+
+	LCDval=eeprom_read_float(EE_LCDVAL);
+	if(LCDval != LCDval)LCDval=1.23;
+
 	while(1){
 		if(FLAG&F_SHUTDOWN){
-			uart_transmit_P(PSTR("Shutting down..."));
+			uart_transmit_P(PSTR("\r\nShutting down..."));
+			eeprom_update_float(EE_LCDVAL,LCDval);
 			WDTCR|=(1<< WDE)|(1<<WDP0)|(1<<WDP1)|(1<<WDP2);
 			while(1);
 		}
+		if(FLAG&F_KILL){
+			FLAG&=~(0xFD);//exclude AGC // TODO
+			FLAG=0x00;
+		}
+
 	}
 	return 0;
 }
@@ -47,7 +61,14 @@ ISR(TIMER2_OVF_vect){
 
 ISR(TIMER1_OVF_vect){
 	LCDval+=.01;
-	myLCD.setNb(LCDval);
+	if((FLAG&F_HOLD)){
+	}else{
+		myLCD.setNb(LCDval);
+	}
 }
 ISR(TIMER0_OVF_vect){
+	if(FLAG&F_STREAM){
+		uart_transmitNb(LCDval);
+		uart_transmit_P(PSTR("\r\n\t"));
+	}
 }

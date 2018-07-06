@@ -1,5 +1,7 @@
 #include "uart_interpreter.h"
 
+extern uint8_t FLAG;
+
 // Global variable definitions
 unsigned char* params[MAXPARAM];
 uint8_t nbParams;
@@ -72,9 +74,9 @@ void uart_transmitNb(uint8_t data,uint8_t mode) {
 
 void uart_transmitNb(float data) {
 	char str[6];
-	int8_t t = sprintf(str,"%4.2f",data);
-	uart_transmit(str);/*
-	uart_transmit("\t");
+	/*int8_t t = */sprintf(str,"%4.2f",data);
+	uart_transmit(str);
+	/*uart_transmit("\t");
 	uart_transmitNb(t,'B');*/
 }
 
@@ -122,7 +124,8 @@ void uart_isr_rxc(void) {
 	case KILL:
 		uart_rx_emptyBuffer();
 		uart_transmit_P(PSTR("\n\rKilled all running processes."));
-		uart_transmit_P(PSTR("\r\nPress 'SHIFT+K' to resume."));
+		//uart_transmit_P(PSTR("\r\nPress 'ESC' to resume."));
+		FLAG|=0x04;
 		uart_prompt();
 		break;
 

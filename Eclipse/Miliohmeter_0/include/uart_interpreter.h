@@ -18,7 +18,7 @@
 #define NULLCHAR '\0'
 #endif
 
-#define KILL 'K'
+#define KILL 27//'K'
 
 #define UART_BUFFER_SIZE 128     // 2 to 256 bytes
 #define UART_BUFFER_MASK (UART_BUFFER_SIZE - 1)
