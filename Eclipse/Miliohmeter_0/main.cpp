@@ -20,7 +20,6 @@
 LCD myLCD;
 volatile float LCDval=0.0;
 volatile uint8_t gain=1;
-volatile uint8_t FLAG=0x00;
 
 int main(void){
 	periphs_init();
@@ -32,15 +31,14 @@ int main(void){
 	if(LCDval != LCDval)LCDval=1.23;
 
 	while(1){
-		if(FLAG&F_SHUTDOWN){
+		if(GPIOR0&F_SHUTDOWN){
 			uart_transmit_P(PSTR("\r\nShutting down..."));
 			eeprom_update_float(EE_LCDVAL,LCDval);
 			WDTCR|=(1<< WDE)|(1<<WDP0)|(1<<WDP1)|(1<<WDP2);
 			while(1);
 		}
-		if(FLAG&F_KILL){
-			FLAG&=~(0xFD);//exclude AGC // TODO
-			FLAG=0x00;
+		if(GPIOR0&F_KILL){
+			GPIOR0&=~(0xFD);//exclude AGC // TODO check
 		}
 
 	}
@@ -61,13 +59,13 @@ ISR(TIMER2_OVF_vect){
 
 ISR(TIMER1_OVF_vect){
 	LCDval+=.01;
-	if((FLAG&F_HOLD)){
+	if((GPIOR0&F_HOLD)){
 	}else{
 		myLCD.setNb(LCDval);
 	}
 }
 ISR(TIMER0_OVF_vect){
-	if(FLAG&F_STREAM){
+	if(GPIOR0&F_STREAM){
 		uart_transmitNb(LCDval);
 		uart_transmit_P(PSTR("\r\n\t"));
 	}

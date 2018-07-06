@@ -2,8 +2,6 @@
 
 //TODO
 extern volatile float LCDval;
-extern volatile uint8_t FLAG;
-extern volatile uint8_t gain;
 
 void cmd_display(void) {
 	if(nbParams>0){
@@ -39,15 +37,15 @@ void cmd_help(void){
 }
 
 void cmd_reboot(void) {
-	FLAG|=1;
+	GPIOR0|=1;
 }
 void cmd_stream(void) {
-	FLAG|=0x10;
+	GPIOR0|=0x10;
 	uart_prompt();
 }
 void cmd_hold(void) {
-	//FLAG^=(0x08);
-	uart_transmitNb(FLAG,'H');
+	//GPIOR0^=(0x08);
+	//uart_transmitNb(GPIOR0,'H');
 	uart_prompt();
 }
 

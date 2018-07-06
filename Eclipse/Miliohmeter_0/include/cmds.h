@@ -26,7 +26,7 @@ static const fptr_t cmd_table_ptr[]={
 		cmd_hold
 };
 
-static const char* const cmd_table_str[] ={
+static const char* cmd_table_str[] ={
 		"display",
 		"gain",
 		"info",

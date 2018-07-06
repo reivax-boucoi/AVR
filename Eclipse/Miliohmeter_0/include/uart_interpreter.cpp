@@ -1,6 +1,5 @@
 #include "uart_interpreter.h"
 
-extern uint8_t FLAG;
 
 // Global variable definitions
 unsigned char* params[MAXPARAM];
@@ -21,7 +20,7 @@ static unsigned char cmd_buffer[UART_BUFFER_SIZE];
 static uint8_t uart_receivedAvailable(void);
 static void uart_rx_emptyBuffer(void);
 
-static uint8_t cmd_cmp(const char* s1,const char* s2);
+static bool cmd_cmp(const char* s1,const char* s2);
 static void cmd_process(void);
 static void cmd_parse(void);
 
@@ -125,7 +124,7 @@ void uart_isr_rxc(void) {
 		uart_rx_emptyBuffer();
 		uart_transmit_P(PSTR("\n\rKilled all running processes."));
 		//uart_transmit_P(PSTR("\r\nPress 'ESC' to resume."));
-		FLAG|=0x04;
+		GPIOR0|=0x04;
 		uart_prompt();
 		break;
 
@@ -146,14 +145,14 @@ static void uart_rx_emptyBuffer(void) {
 	while(uart_receivedAvailable()>0)uart_receiveByte();
 }
 
-static uint8_t cmd_cmp(const char* cmd, const char* entry) {
+static bool cmd_cmp(const char* cmd, const char* entry) {
 	uint8_t c=0;
 	while(cmd[c]!=NULLCHAR && entry[c]!=NULLCHAR){
-		if(cmd[c]!=entry[c])return 0;
+		if(cmd[c]!=entry[c])return false;
 		c++;
 	}
-	if(entry[c]==NULLCHAR)return 1;
-	return 0;
+	if(entry[c]==NULLCHAR)return true;
+	return false;
 }
 
 
@@ -170,7 +169,6 @@ static void cmd_process(void) {
 	cmd_buffer[i-1]=NULLCHAR;
 	cmd_parse();
 	for (uint8_t cmd = 0; cmd < NB_COMMANDS; cmd++) {
-
 		if (cmd_cmp(cmd_table_str[cmd], (char *)cmd_buffer)) {
 			if(nbParams>0 && *params[0]=='?'){
 				uart_transmit("\r\n\t");
