@@ -13,7 +13,6 @@ void cmd_help(void);
 void cmd_clear(void);
 void cmd_reboot(void);
 void cmd_stream(void);
-void cmd_hold(void);
 
 static const fptr_t cmd_table_ptr[]={
 		cmd_display,
@@ -23,7 +22,6 @@ static const fptr_t cmd_table_ptr[]={
 		cmd_clear,
 		cmd_reboot,
 		cmd_stream,
-		cmd_hold
 };
 
 static const char* cmd_table_str[] ={
@@ -34,7 +32,6 @@ static const char* cmd_table_str[] ={
 		"clear",
 		"reboot",
 		"stream",
-		"hold"
 };
 
 static const char descr1[] PROGMEM = "Returns display value, sets display value with first argument";
@@ -44,7 +41,6 @@ static const char descr4[] PROGMEM = "Displays available help, use help [cmd] to
 static const char descr5[] PROGMEM = "Clears the screen";
 static const char descr6[] PROGMEM = "Reboot the target, immediate, no arguments";
 static const char descr7[] PROGMEM = "Streams the display value, press ESC to kill";
-static const char descr8[] PROGMEM = "Frezzes reading, call hold again to unfrezze";
 
 static const char* const cmd_table_descr[] PROGMEM ={
 		descr1,
@@ -54,7 +50,6 @@ static const char* const cmd_table_descr[] PROGMEM ={
 		descr5,
 		descr6,
 		descr7,
-		descr8
 };
 
 #define NB_COMMANDS (uint8_t)(sizeof(cmd_table_ptr) / sizeof(cmd_table_ptr[0]))

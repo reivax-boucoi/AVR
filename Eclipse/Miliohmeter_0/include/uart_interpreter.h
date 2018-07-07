@@ -44,6 +44,7 @@ void uart_isr_udre(void);
 void uart_isr_rxc(void);
 
 // uart command interpreter handling
+bool cmd_cmp(const char* s1,const char* s2);
 uint8_t param_int(uint8_t nb);
 float param_float(uint8_t nb);
 

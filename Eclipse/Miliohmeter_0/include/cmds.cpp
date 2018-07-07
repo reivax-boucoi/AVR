@@ -32,8 +32,19 @@ void cmd_info(void) {
 }
 
 void cmd_help(void){
-	uart_transmit_P(PSTR("\r\nType [cmd] ? to get specific command help.\r\nType \"info\" for a command list"));
-	uart_prompt();
+	if(nbParams>0){
+		for (uint8_t cmd = 0; cmd < NB_COMMANDS; cmd++) {
+			if (cmd_cmp(cmd_table_str[cmd], (char *)params[cmd])) {
+				uart_transmit("\r\n\t");
+				uart_transmit_P((char *)pgm_read_word(&cmd_table_descr[cmd]));
+				uart_prompt();
+				return;
+			}
+		}
+	}else{
+		uart_transmit_P(PSTR("\r\nType [cmd] ? to get specific command help.\r\nType \"info\" for a command list"));
+		uart_prompt();
+	}
 }
 
 void cmd_reboot(void) {
@@ -43,11 +54,7 @@ void cmd_stream(void) {
 	GPIOR0|=0x10;
 	uart_prompt();
 }
-void cmd_hold(void) {
-	//GPIOR0^=(0x08);
-	//uart_transmitNb(GPIOR0,'H');
-	uart_prompt();
-}
+
 
 void cmd_clear(void) {
 	for(uint8_t i=0;i<50;i++){
@@ -55,3 +62,4 @@ void cmd_clear(void) {
 	}
 	uart_prompt();
 }
+

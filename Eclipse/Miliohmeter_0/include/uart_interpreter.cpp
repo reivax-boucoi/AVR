@@ -20,7 +20,6 @@ static unsigned char cmd_buffer[UART_BUFFER_SIZE];
 static uint8_t uart_receivedAvailable(void);
 static void uart_rx_emptyBuffer(void);
 
-static bool cmd_cmp(const char* s1,const char* s2);
 static void cmd_process(void);
 static void cmd_parse(void);
 
@@ -145,7 +144,7 @@ static void uart_rx_emptyBuffer(void) {
 	while(uart_receivedAvailable()>0)uart_receiveByte();
 }
 
-static bool cmd_cmp(const char* cmd, const char* entry) {
+bool cmd_cmp(const char* cmd, const char* entry) {
 	uint8_t c=0;
 	while(cmd[c]!=NULLCHAR && entry[c]!=NULLCHAR){
 		if(cmd[c]!=entry[c])return false;
