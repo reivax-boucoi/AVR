@@ -12,6 +12,8 @@ int main(void){
 		PORTF^=(1<<PF0);
 		_delay_ms(500);
 	}
+	myLCD.clear();
+	delete &myLCD;
 	return 1;
 }
 

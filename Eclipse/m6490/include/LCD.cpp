@@ -126,16 +126,31 @@ void LCD::setBargraphMode(Bargraph b) {
 }
 
 void LCD::setBargraphLevel(uint8_t l) {//TODO pin
+	if(l>10)return;
 	switch(bargraphMode){
 	case SINGLE:
-
+		for(uint8_t i=0;i<12;i++){
+			if(i==(l+2)){//TODO check offset
+				*(bargraph[i].dr) |= (1<<bargraph[i].s);
+			}else{
+				*(bargraph[i].dr) &= ~(1<<bargraph[i].s);
+			}
+		}
 		break;
 	case STACK:
-
+		for(uint8_t i=0;i<12;i++){
+			if(i<(l+2)){ // TODO check offset
+				*(bargraph[i].dr) |= (1<<bargraph[i].s);
+			}else{
+				*(bargraph[i].dr) &= ~(1<<bargraph[i].s);
+			}
+		}
 		break;
 	case OFF:
-	default:
-
+	//default:
+		for(uint8_t i=0;i<12;i++){
+			*(bargraph[i].dr) &= ~(1<<bargraph[i].s);
+		}
 		break;
 	}
 }
@@ -151,17 +166,17 @@ void LCD::setArrow(Arrow a, bool b) {
 void LCD::clear(void) {//TODO
 }
 
-void LCD::setMinus(bool b) {
+void LCD::setMinus(bool b) {//TODO pin
 }
 
-void LCD::setPlus(bool b) {
+void LCD::setPlus(bool b) {//TODO pin
 }
 
-bool LCD::getMinus(void) {
+bool LCD::getMinus(void) {//TODO pin
 	return false;
 }
 
-bool LCD::getPlus(void) {
+bool LCD::getPlus(void) {//TODO pin
 	return false;
 }
 
