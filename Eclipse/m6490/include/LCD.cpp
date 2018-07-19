@@ -1,20 +1,28 @@
 #include "LCD.h"
 
 const uint8_t LCD::NbMap[]={0x3F,0x6,0x5B,0x4F,0x66,0x6D,0x7D,0x7,0x7F,0x6F};
-LCD::display LCD::dSmall[]={
-		{{2,2,2,3,3,3,3},{&LCDDR01,&LCDDR06,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR01,&LCDDR06}},
-		{{0,0,0,1,1,1,1},{&LCDDR01,&LCDDR06,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR01,&LCDDR06}},
-		{{6,6,6,7,7,7,7},{&LCDDR00,&LCDDR05,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR00,&LCDDR05}},
-		{{0,0,0,1,1,1,1},{&LCDDR00,&LCDDR05,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR00,&LCDDR05}}};
-LCD::display LCD::dBig[]={
-		{{2,2,2,3,3,3,3},{&LCDDR01,&LCDDR06,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR01,&LCDDR06}},
-		{{0,0,0,1,1,1,1},{&LCDDR01,&LCDDR06,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR01,&LCDDR06}},
-		{{6,6,6,7,7,7,7},{&LCDDR00,&LCDDR05,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR00,&LCDDR05}},
-		{{2,2,2,3,3,3,3},{&LCDDR01,&LCDDR06,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR01,&LCDDR06}},
-		{{0,0,0,1,1,1,1},{&LCDDR01,&LCDDR06,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR01,&LCDDR06}},
-		{{6,6,6,7,7,7,7},{&LCDDR00,&LCDDR05,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR00,&LCDDR05}},
-		{{0,0,0,1,1,1,1},{&LCDDR00,&LCDDR05,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR00,&LCDDR05}}};
-
+LCD::Bargraph bargraphMode=LCD::OFF;/*
+LCD::dSmall_t LCD::dSmall[]={//TODO swap struct
+		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
+		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
+		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
+		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}
+};
+LCD::dBig_t LCD::dBig[]={//TODO swap struct
+		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
+		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
+		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
+		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
+		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
+		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
+		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}
+};*/
+LCD::seg LCD::arrow[]={//TODO pin
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00}
+};
 LCD::LCD(){
 	LCDCRB|=(1<<LCDMUX0)|(1<<LCDMUX1)|(1<<LCDPM3)|(1<<LCDPM2)|(1<<LCDPM1)|(1<<LCDPM0);
 	LCDFRR|=(1<<LCDPS0)|(1<<LCDPS1)|(1<<LCDPS2)|(1<<LCDCD2);	//8MHz/(4096*8*5)=48.8Hz
@@ -32,88 +40,27 @@ void LCD::setDigit(uint8_t dig, uint8_t nb, bool display) {
 	for(uint8_t j=0;j<8;j++){
 		if(NbMap[nb] & (1<<j)){
 			if(display==DSMALL){
-				*(dSmall[dig].dr[j]) |= (1<<dSmall[dig].s[j]);
+				*(dSmall[dig].segs[j].dr) |= (1<<dSmall[dig].segs[j].s);
 			}else{
-				*(dBig[dig].dr[j]) |= (1<<dBig[dig].s[j]);
+				*(dBig[dig].segs[j].dr) |= (1<<dBig[dig].segs[j].s);
 			}
 		}else{
 			if(display==DSMALL){
-				*(dSmall[dig].dr[j]) &= ~(1<<dSmall[dig].s[j]);
+				*(dSmall[dig].segs[j].dr) &= ~(1<<dSmall[dig].segs[j].s);
 			}else{
-				*(dBig[dig].dr[j]) &= ~(1<<dBig[dig].s[j]);
+				*(dBig[dig].segs[j].dr) &= ~(1<<dBig[dig].segs[j].s);
 			}
 		}
 	}
 }
 
-void LCD::setDigit(uint8_t dig, Symbol sy, bool display) {
+void LCD::setDigit(uint8_t dig, Symbol sy) {
 	for(uint8_t j=0;j<8;j++){
 		if(sy & (1<<j)){
-			if(display==DSMALL){
-				*(dSmall[dig].dr[j]) |= (1<<dSmall[dig].s[j]);
-			}else{
-				*(dBig[dig].dr[j]) |= (1<<dBig[dig].s[j]);
-			}
+			*(dSmall[dig].segs[j].dr) |= (1<<dSmall[dig].segs[j].s);
 		}else{
-			if(display==DSMALL){
-				*(dSmall[dig].dr[j]) &= ~(1<<dSmall[dig].s[j]);
-			}else{
-				*(dBig[dig].dr[j]) &= ~(1<<dBig[dig].s[j]);
-			}
+			*(dSmall[dig].segs[j].dr) &= ~(1<<dSmall[dig].segs[j].s);
 		}
-	}
-}
-
-void LCD::setBattery(Battery b) {
-	switch(b){
-	case NONE:
-		LCDDR01 &=~(1<<4);
-		LCDDR06 &=~(1<<4);
-		LCDDR11 &=~(1<<4);
-		LCDDR16 &=~(1<<4);
-		break;
-	case EMPTY:
-		LCDDR01 |=(1<<4);
-		LCDDR06 &=~(1<<4);
-		LCDDR11 &=~(1<<4);
-		LCDDR16 &=~(1<<4);
-		break;
-	case FIRST:
-		LCDDR01 &=~(1<<4);
-		LCDDR06 &=~(1<<4);
-		LCDDR11 &=~(1<<4);
-		LCDDR16 |=(1<<4);
-		break;
-	case SECOND:
-		LCDDR01 &=~(1<<4);
-		LCDDR06 &=~(1<<4);
-		LCDDR11 |=(1<<4);
-		LCDDR16 &=~(1<<4);
-		break;
-	case THIRD:
-		LCDDR01 &=~(1<<4);
-		LCDDR06 |=(1<<4);
-		LCDDR11 &=~(1<<4);
-		LCDDR16 &=~(1<<4);
-		break;
-	case ONEBAR:
-		LCDDR01 |=(1<<4);
-		LCDDR06 &=~(1<<4);
-		LCDDR11 &=~(1<<4);
-		LCDDR16 |=(1<<4);
-		break;
-	case TWOBAR:
-		LCDDR01 |=(1<<4);
-		LCDDR06 &=~(1<<4);
-		LCDDR11 |=(1<<4);
-		LCDDR16 |=(1<<4);
-		break;
-	case FULL:
-		LCDDR01 |=(1<<4);
-		LCDDR06 |=(1<<4);
-		LCDDR11 |=(1<<4);
-		LCDDR16 |=(1<<4);
-		break;
 	}
 }
 
@@ -150,6 +97,36 @@ uint8_t LCD::setNb(int32_t nb, bool display) {// TODO 10ms !
 	return 0;
 }
 
+void LCD::setBattery(Battery b) {
+}
+
+void LCD::setBargraphMode(Bargraph b) {
+	bargraphMode=b;
+}
+
+void LCD::setBargraphLevel(uint8_t l) {//TODO pin
+	switch(bargraphMode){
+	case SINGLE:
+
+		break;
+	case STACK:
+
+		break;
+	case OFF:
+	default:
+
+		break;
+	}
+}
+
+void LCD::setArrow(Arrow a, bool b) {
+	if(b){
+		*(arrow[a].dr) |= (1<<arrow[a].s);
+	}else{
+		*(arrow[a].dr) &= ~(1<<arrow[a].s);
+	}
+}
+
 void LCD::clear(void) {//TODO
 }
 
@@ -165,4 +142,10 @@ bool LCD::getMinus(void) {
 
 bool LCD::getPlus(void) {
 	return false;
+}
+
+void LCD::clearArrows(void) {
+}
+
+void LCD::clearDisplay(bool display) {
 }
