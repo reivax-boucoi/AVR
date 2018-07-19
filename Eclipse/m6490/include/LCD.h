@@ -9,7 +9,14 @@ On display
 	pin 36 is battery
 	pin 35 is arrows
 	pin 42 is µmHF
+	m on 00:3
+	µ on 05:3
+	clk dSMALL on 06:2
+	olimex on 07:2
+	F on 10:3
+	H on 15:3
  */
+namespace nLCD{
 #define DBIG false
 #define DSMALL true
 
@@ -56,7 +63,7 @@ private:
 	 seg segs[8];//classic 7 segment+DP
 	};
 	struct dBig_t{//extended alphanumeric segments+DP
-		 seg segs[15];
+		 seg segs[16];
 	};
 
 	static dSmall_t dSmall[4]; // 4 7seg digits
@@ -68,5 +75,5 @@ private:
 	static const uint16_t CharMap[44];//0-9,A-Z,<,>,_,',°,=
 	static Bargraph bargraphMode;
 };
-
+}
 #endif
