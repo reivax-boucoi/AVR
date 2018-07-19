@@ -1,6 +1,5 @@
 #include <avr/io.h>
-#include <util/delay.h>
-
+#include "include/LCD.h"
 //float LCDval=0.0;
 int main(void){
 	DDRF|=(1<<PF0);

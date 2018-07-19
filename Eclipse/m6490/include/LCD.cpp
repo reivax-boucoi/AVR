@@ -1,12 +1,18 @@
 #include "LCD.h"
 
 const uint8_t LCD::NbMap[]={0x3F,0x6,0x5B,0x4F,0x66,0x6D,0x7D,0x7,0x7F,0x6F};
-LCD::display LCD::display1[]={
+LCD::display LCD::dSmall[]={
 		{{2,2,2,3,3,3,3},{&LCDDR01,&LCDDR06,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR01,&LCDDR06}},
 		{{0,0,0,1,1,1,1},{&LCDDR01,&LCDDR06,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR01,&LCDDR06}},
 		{{6,6,6,7,7,7,7},{&LCDDR00,&LCDDR05,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR00,&LCDDR05}},
-		{{4,4,4,5,5,5,5},{&LCDDR00,&LCDDR05,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR00,&LCDDR05}},
-		{{2,2,2,3,3,3,3},{&LCDDR00,&LCDDR05,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR00,&LCDDR05}},
+		{{0,0,0,1,1,1,1},{&LCDDR00,&LCDDR05,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR00,&LCDDR05}}};
+LCD::display LCD::dBig[]={
+		{{2,2,2,3,3,3,3},{&LCDDR01,&LCDDR06,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR01,&LCDDR06}},
+		{{0,0,0,1,1,1,1},{&LCDDR01,&LCDDR06,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR01,&LCDDR06}},
+		{{6,6,6,7,7,7,7},{&LCDDR00,&LCDDR05,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR00,&LCDDR05}},
+		{{2,2,2,3,3,3,3},{&LCDDR01,&LCDDR06,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR01,&LCDDR06}},
+		{{0,0,0,1,1,1,1},{&LCDDR01,&LCDDR06,&LCDDR11,&LCDDR16,&LCDDR11,&LCDDR01,&LCDDR06}},
+		{{6,6,6,7,7,7,7},{&LCDDR00,&LCDDR05,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR00,&LCDDR05}},
 		{{0,0,0,1,1,1,1},{&LCDDR00,&LCDDR05,&LCDDR10,&LCDDR15,&LCDDR10,&LCDDR00,&LCDDR05}}};
 
 LCD::LCD(){
@@ -22,22 +28,38 @@ LCD::~LCD() {
 	LCDCRA&=~(1<<LCDEN);
 }
 
-void LCD::setDigit(uint8_t dig, uint8_t nb) {
+void LCD::setDigit(uint8_t dig, uint8_t nb, bool display) {
 	for(uint8_t j=0;j<8;j++){
 		if(NbMap[nb] & (1<<j)){
-			*(display1[dig].dr[j]) |= (1<<display1[dig].s[j]);
+			if(display==DSMALL){
+				*(dSmall[dig].dr[j]) |= (1<<dSmall[dig].s[j]);
+			}else{
+				*(dBig[dig].dr[j]) |= (1<<dBig[dig].s[j]);
+			}
 		}else{
-			*(display1[dig].dr[j]) &= ~(1<<display1[dig].s[j]);
-		}	
+			if(display==DSMALL){
+				*(dSmall[dig].dr[j]) &= ~(1<<dSmall[dig].s[j]);
+			}else{
+				*(dBig[dig].dr[j]) &= ~(1<<dBig[dig].s[j]);
+			}
+		}
 	}
 }
 
-void LCD::setDigit(uint8_t dig, Symbol sy) {
+void LCD::setDigit(uint8_t dig, Symbol sy, bool display) {
 	for(uint8_t j=0;j<8;j++){
 		if(sy & (1<<j)){
-			*(display1[dig].dr[j]) |= (1<<display1[dig].s[j]);
+			if(display==DSMALL){
+				*(dSmall[dig].dr[j]) |= (1<<dSmall[dig].s[j]);
+			}else{
+				*(dBig[dig].dr[j]) |= (1<<dBig[dig].s[j]);
+			}
 		}else{
-			*(display1[dig].dr[j]) &= ~(1<<display1[dig].s[j]);
+			if(display==DSMALL){
+				*(dSmall[dig].dr[j]) &= ~(1<<dSmall[dig].s[j]);
+			}else{
+				*(dBig[dig].dr[j]) &= ~(1<<dBig[dig].s[j]);
+			}
 		}
 	}
 }
@@ -119,25 +141,30 @@ bool LCD::getClk(void) {
 	return (LCDDR16 & 1);
 }
 
-void LCD::blink(uint16_t t) {
-	for(uint16_t i=0;i<t;i++){
-		PORTB|=(1<<PB0);
-		_delay_ms(15);
-		PORTB&=~(1<<PB0);
-		_delay_ms(15);
-	}
-}
 
 uint8_t LCD::setNb(int32_t nb, bool display) {// TODO 10ms !
 	if((DBIG && (nb>9999999 || nb <9999999)) || (DSMALL && (nb>9999 || nb<-999))){
 		return 1;
 	}
-	int8_t d=5;
+	int8_t d;
+	if(display==DSMALL){
+		d=3;
+	}else{
+		d=6;
+	}
 	uint8_t min=0;
 	if(nb<0 && display == DSMALL){
 		setDigit(0,Minus,display);
 		min++;
 		nb=(~nb)+1;
+	}else if(display == DBIG){
+		if(nb<0){
+			setMinus(true);
+			setPlus(false);
+		}else{
+			setMinus(false);
+			setPlus(true);
+		}
 	}
 	while(d>=min){
 		setDigit(d--,nb%10,display);
@@ -148,9 +175,5 @@ uint8_t LCD::setNb(int32_t nb, bool display) {// TODO 10ms !
 	return 0;
 }
 
-void LCD::clear(void) {
-	setBattery(NONE);
-	setClk(false);
-	setDP(false);
-	for(int8_t i=5;i>=0;i--)setDigit(i,Blank);
+void LCD::clear(void) {//TODO
 }

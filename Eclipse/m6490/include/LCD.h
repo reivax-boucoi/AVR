@@ -1,6 +1,5 @@
 #ifndef LCD_H_
 #define LCD_H_
-
 #include <avr/io.h>
 #include <util/delay.h>
 
@@ -17,22 +16,22 @@ public:
 
 
 
-	static void setDigit(uint8_t dig, Symbol s);
-	static void setDigit(uint8_t dig, uint8_t nb);
+	static void setDigit(uint8_t dig, Symbol s, bool display);
+	static void setDigit(uint8_t dig, uint8_t nb, bool display);
 	static void setBattery(Battery b);
 	static void setDP(bool b);
 	static void setClk(bool b);
 	static bool getDP(void);
 	static bool getClk(void);
-	static uint8_t setNb(int32_t nb);
+	static uint8_t setNb(int32_t nb, bool display);
 	static void clear(void);
-	static void blink(uint16_t t);
 private:
-	struct digit{
+	struct display{
 		uint8_t s[7];
 		volatile uint8_t* dr[7];
 	};
-	static digit digits[6];
+	static display dSmall[4];
+	static display dBig[7];
 	static const uint8_t NbMap[10];
 
 };
