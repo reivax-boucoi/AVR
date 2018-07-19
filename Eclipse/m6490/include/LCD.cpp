@@ -125,7 +125,7 @@ void LCD::setBargraphMode(Bargraph b) {
 	bargraphMode=b;
 }
 
-void LCD::setBargraphLevel(uint8_t l) {//TODO pin
+void LCD::setBargraphLevel(uint8_t l) {
 	if(l>10)return;
 	switch(bargraphMode){
 	case SINGLE:
@@ -147,7 +147,7 @@ void LCD::setBargraphLevel(uint8_t l) {//TODO pin
 		}
 		break;
 	case OFF:
-	//default:
+	default:
 		for(uint8_t i=0;i<12;i++){
 			*(bargraph[i].dr) &= ~(1<<bargraph[i].s);
 		}
