@@ -1,22 +1,24 @@
 #include "LCD.h"
 
 const uint8_t LCD::NbMap[]={0x3F,0x6,0x5B,0x4F,0x66,0x6D,0x7D,0x7,0x7F,0x6F}; //DP,G,F,E,D,C,B,A
-const uint16_t LCD::CharMap={};//DP,G,F,E,D,C,B,A
+const uint16_t LCD::CharMap[]={0x003F,0x0006,0x045B,0x044F,0x0466,0x046D,0x047D,0x0007,0x047F,0x046F,
+		0x0477,0x250F,0x0071,0x210F,0x0079,0x0071,0x043D,0x0476,0x2100,0x0017,0x2B00,0x0038,0x02B6,0x08B6,0x045C,0x0473,0x083F,0x0C73,0x0879,0x2101,0x003E,0x1230,0x1836,0x1A80,0x1280,0x1209,
+		0x0A00,0x1080,0x1800,0x0008,0x0200,0x0463,0x0448,0x3F00};//CLK,DP,P,Q,N,M,K,J,H,G,F,E,D,C,B,A
 LCD::Bargraph bargraphMode=LCD::OFF;
 LCD::dSmall_t LCD::dSmall[]={//TODO pin & fix
+		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},//Rightmost digit, segs DP-A
 		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},
 		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},
-		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},
-		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}}
+		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}}//Leftmost digit, segs DP-A
 };
 LCD::dBig_t LCD::dBig[]={//TODO pin & fix
+		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},//Rightmost digit, segs CLK-A
 		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},
 		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},
 		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},
 		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},
 		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},
-		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},
-		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}}
+		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{1,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}}//Leftmost digit, segs CLK-A
 };
 LCD::seg LCD::arrow[]={//TODO pin
 		{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}
@@ -149,14 +151,14 @@ void LCD::setBattery(Battery b) {
 	}
 }
 
-void LCD::setBargraphMode(Bargraph b) {
-	bargraphMode=b;
+void LCD::setBargraphMode(Bargraph b) {//TODO fix undefined reference
+	//bargraphMode=b;
 	if(b==OFF)setBargraphLevel(0);
 }
 
-void LCD::setBargraphLevel(uint8_t l) {
+void LCD::setBargraphLevel(uint8_t l) {//TODO fix undefined reference
 	if(l>10)return;
-	switch(bargraphMode){
+	/*switch(bargraphMode){
 	case SINGLE:
 		for(uint8_t i=0;i<12;i++){
 			if(i==(l+2)){//TODO check offset
@@ -181,7 +183,7 @@ void LCD::setBargraphLevel(uint8_t l) {
 			*(bargraph[i].dr) &= ~(1<<bargraph[i].s);
 		}
 		break;
-	}
+	}*/
 }
 
 void LCD::setArrow(Arrow a, bool b) {
