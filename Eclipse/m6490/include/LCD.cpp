@@ -2,13 +2,13 @@
 
 const uint8_t LCD::NbMap[]={0x3F,0x6,0x5B,0x4F,0x66,0x6D,0x7D,0x7,0x7F,0x6F};
 LCD::Bargraph bargraphMode=LCD::OFF;/*
-LCD::dSmall_t LCD::dSmall[]={//TODO swap struct
+LCD::dSmall_t LCD::dSmall[]={//TODO pin & fix
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}
 };
-LCD::dBig_t LCD::dBig[]={//TODO swap struct
+LCD::dBig_t LCD::dBig[]={//TODO pin & fix
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
@@ -23,6 +23,27 @@ LCD::seg LCD::arrow[]={//TODO pin
 		{0,&LCDDR00},
 		{0,&LCDDR00}
 };
+LCD::seg LCD::battery[]={//TODO pin
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00}
+};
+LCD::seg LCD::bargraph[]={//TODO pin
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00},
+		{0,&LCDDR00}
+};
+
 LCD::LCD(){
 	LCDCRB|=(1<<LCDMUX0)|(1<<LCDMUX1)|(1<<LCDPM3)|(1<<LCDPM2)|(1<<LCDPM1)|(1<<LCDPM0);
 	LCDFRR|=(1<<LCDPS0)|(1<<LCDPS1)|(1<<LCDPS2)|(1<<LCDCD2);	//8MHz/(4096*8*5)=48.8Hz
@@ -145,7 +166,23 @@ bool LCD::getPlus(void) {
 }
 
 void LCD::clearArrows(void) {
+	for(uint8_t i=0;i<4;i++){
+		*(arrow[i].dr) &= ~(1<<arrow[i].s);
+	}
 }
 
 void LCD::clearDisplay(bool display) {
+	if(display==DBIG){
+		for(uint8_t j=0;j<7;j++){
+			for(uint8_t i=0;i<15;i++){
+				*(dBig[j].segs[i].dr) &= ~(1<<dBig[j].segs[i].s);
+			}
+		}
+	}else{
+		for(uint8_t j=0;j<4;j++){
+			for(uint8_t i=0;i<8;i++){
+				*(dSmall[j].segs[i].dr) &= ~(1<<dSmall[j].segs[i].s);
+			}
+		}
+	}
 }

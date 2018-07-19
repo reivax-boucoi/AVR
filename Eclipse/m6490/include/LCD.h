@@ -3,6 +3,13 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+
+/*Atmega6490 is missing 2 segment pins :
+On display
+	pin 36 is battery
+	pin 35 is arrows
+	pin 42 is µmHF
+*/
 #define DBIG false
 #define DSMALL true
 
