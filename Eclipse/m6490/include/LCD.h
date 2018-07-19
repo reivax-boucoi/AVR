@@ -49,14 +49,14 @@ public:
 private:
 
 	struct seg{
-		static uint8_t s;
+		uint8_t s;
 		volatile uint8_t* dr;
 	};
 	struct dSmall_t{
-		static seg segs[8];//classic 7 segment+DP
+	 seg segs[8];//classic 7 segment+DP
 	};
 	struct dBig_t{//extended alphanumeric segments+DP
-		static seg segs[15];
+		 seg segs[15];
 	};
 
 	static dSmall_t dSmall[4]; // 4 7seg digits

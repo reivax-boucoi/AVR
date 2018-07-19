@@ -1,6 +1,6 @@
 #include "LCD.h"
 
-const uint8_t LCD::NbMap[]={0x3F,0x6,0x5B,0x4F,0x66,0x6D,0x7D,0x7,0x7F,0x6F};
+const uint8_t LCD::NbMap[]={0x3F,0x6,0x5B,0x4F,0x66,0x6D,0x7D,0x7,0x7F,0x6F}; //DP,G,F,E,D,C,B,A
 LCD::Bargraph bargraphMode=LCD::OFF;
 LCD::dSmall_t LCD::dSmall[]={//TODO pin & fix
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
@@ -173,6 +173,11 @@ void LCD::setMinus(bool b) {//TODO pin
 }
 
 void LCD::setPlus(bool b) {//TODO pin
+	if(b){
+		LCDDR00|=1<<0;
+	}else{
+		LCDDR00&=~(1<<0);
+}
 }
 
 bool LCD::getMinus(void) {//TODO pin
