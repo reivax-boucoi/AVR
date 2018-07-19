@@ -1,6 +1,7 @@
 #include "LCD.h"
 
 const uint8_t LCD::NbMap[]={0x3F,0x6,0x5B,0x4F,0x66,0x6D,0x7D,0x7,0x7F,0x6F}; //DP,G,F,E,D,C,B,A
+const uint16_t LCD::CharMap={};//DP,G,F,E,D,C,B,A
 LCD::Bargraph bargraphMode=LCD::OFF;
 LCD::dSmall_t LCD::dSmall[]={//TODO pin & fix
 		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},
@@ -18,30 +19,14 @@ LCD::dBig_t LCD::dBig[]={//TODO pin & fix
 		{{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}}
 };
 LCD::seg LCD::arrow[]={//TODO pin
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00}
+		{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}
 };
 LCD::seg LCD::battery[]={//TODO pin
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00}
+		{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}
 };
 LCD::seg LCD::bargraph[]={//TODO pin
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00},
-		{0,&LCDDR00}
+		{0,&LCDDR00},{0,&LCDDR00},//Ends
+		{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}
 };
 
 LCD::LCD(){
@@ -58,16 +43,18 @@ LCD::~LCD() {
 }
 
 void LCD::setDigit(uint8_t dig, uint8_t nb, bool display) {
-	for(uint8_t j=0;j<8;j++){
-		if(NbMap[nb] & (1<<j)){
-			if(display==DSMALL){
+	if(display==DSMALL){
+		for(uint8_t j=1;j<9;j++){//avoid DP
+			if(NbMap[nb] & (1<<j)){
 				*(dSmall[dig].segs[j].dr) |= (1<<dSmall[dig].segs[j].s);
 			}else{
-				*(dBig[dig].segs[j].dr) |= (1<<dBig[dig].segs[j].s);
-			}
-		}else{
-			if(display==DSMALL){
 				*(dSmall[dig].segs[j].dr) &= ~(1<<dSmall[dig].segs[j].s);
+			}
+		}
+	}else{
+		for(uint8_t j=1;j<16;j++){	//alphanumeric, avoid DP
+			if(CharMap[nb] & (1<<j)){
+				*(dBig[dig].segs[j].dr) |= (1<<dBig[dig].segs[j].s);
 			}else{
 				*(dBig[dig].segs[j].dr) &= ~(1<<dBig[dig].segs[j].s);
 			}
@@ -75,7 +62,7 @@ void LCD::setDigit(uint8_t dig, uint8_t nb, bool display) {
 	}
 }
 
-void LCD::setDigit(uint8_t dig, Symbol sy) {
+void LCD::setDigit(uint8_t dig, Symbol sy) {// only available on small display
 	for(uint8_t j=0;j<8;j++){
 		if(sy & (1<<j)){
 			*(dSmall[dig].segs[j].dr) |= (1<<dSmall[dig].segs[j].s);
@@ -119,10 +106,52 @@ uint8_t LCD::setNb(int32_t nb, bool display) {// TODO 10ms !
 }
 
 void LCD::setBattery(Battery b) {
+	uint8_t i=0;
+	bool m=false;
+	switch(b){
+	case NONE:
+		i=0;
+		break;
+	case EMPTY:
+		i=1;
+		break;
+	case FIRST:
+		i=2;
+		break;
+	case SECOND:
+		i=3;
+		break;
+	case THIRD:
+		i=4;
+		break;
+	case ONEBAR:
+		i=2;
+		m=true;
+		break;
+	case TWOBAR:
+		i=3;
+		m=true;
+		break;
+	case FULL:
+		i=4;
+		m=true;
+		break;
+	default :
+		//Mayday
+		break;
+	}
+	for(uint8_t j=0;j<4;j++){
+		if((m && (j<i)) || ((!m) && (j+1)==i)){
+			*(battery[j].dr) |= (1<<battery[j].s);
+		}else{
+			*(battery[j].dr) &= ~(1<<battery[j].s);
+		}
+	}
 }
 
 void LCD::setBargraphMode(Bargraph b) {
 	bargraphMode=b;
+	if(b==OFF)setBargraphLevel(0);
 }
 
 void LCD::setBargraphLevel(uint8_t l) {
@@ -167,6 +196,8 @@ void LCD::clear(void) {//TODO
 	clearArrows();
 	clearDisplay(DBIG);
 	clearDisplay(DSMALL);
+	setBargraphMode(OFF);
+	setBattery(NONE);
 }
 
 void LCD::setMinus(bool b) {//TODO pin
@@ -177,7 +208,7 @@ void LCD::setPlus(bool b) {//TODO pin
 		LCDDR00|=1<<0;
 	}else{
 		LCDDR00&=~(1<<0);
-}
+	}
 }
 
 bool LCD::getMinus(void) {//TODO pin

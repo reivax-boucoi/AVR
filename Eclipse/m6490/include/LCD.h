@@ -64,7 +64,8 @@ private:
 	static seg arrow[4];
 	static seg bargraph[12];
 	static seg battery[4];
-	static const uint8_t NbMap[10];
+	static const uint8_t NbMap[10];//0-9
+	static const uint16_t CharMap[33];//0-9,A-Z,<,>,_,',°,=
 	static Bargraph bargraphMode;
 };
 
