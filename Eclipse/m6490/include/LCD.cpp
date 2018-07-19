@@ -67,80 +67,55 @@ void LCD::setDigit(uint8_t dig, Symbol sy, bool display) {
 void LCD::setBattery(Battery b) {
 	switch(b){
 	case NONE:
-		LCDDR1 &=~(1<<4);
-		LCDDR6 &=~(1<<4);
+		LCDDR01 &=~(1<<4);
+		LCDDR06 &=~(1<<4);
 		LCDDR11 &=~(1<<4);
 		LCDDR16 &=~(1<<4);
 		break;
 	case EMPTY:
-		LCDDR1 |=(1<<4);
-		LCDDR6 &=~(1<<4);
+		LCDDR01 |=(1<<4);
+		LCDDR06 &=~(1<<4);
 		LCDDR11 &=~(1<<4);
 		LCDDR16 &=~(1<<4);
 		break;
 	case FIRST:
-		LCDDR1 &=~(1<<4);
-		LCDDR6 &=~(1<<4);
+		LCDDR01 &=~(1<<4);
+		LCDDR06 &=~(1<<4);
 		LCDDR11 &=~(1<<4);
 		LCDDR16 |=(1<<4);
 		break;
 	case SECOND:
-		LCDDR1 &=~(1<<4);
-		LCDDR6 &=~(1<<4);
+		LCDDR01 &=~(1<<4);
+		LCDDR06 &=~(1<<4);
 		LCDDR11 |=(1<<4);
 		LCDDR16 &=~(1<<4);
 		break;
 	case THIRD:
-		LCDDR1 &=~(1<<4);
-		LCDDR6 |=(1<<4);
+		LCDDR01 &=~(1<<4);
+		LCDDR06 |=(1<<4);
 		LCDDR11 &=~(1<<4);
 		LCDDR16 &=~(1<<4);
 		break;
 	case ONEBAR:
-		LCDDR1 |=(1<<4);
-		LCDDR6 &=~(1<<4);
+		LCDDR01 |=(1<<4);
+		LCDDR06 &=~(1<<4);
 		LCDDR11 &=~(1<<4);
 		LCDDR16 |=(1<<4);
 		break;
 	case TWOBAR:
-		LCDDR1 |=(1<<4);
-		LCDDR6 &=~(1<<4);
+		LCDDR01 |=(1<<4);
+		LCDDR06 &=~(1<<4);
 		LCDDR11 |=(1<<4);
 		LCDDR16 |=(1<<4);
 		break;
 	case FULL:
-		LCDDR1 |=(1<<4);
-		LCDDR6 |=(1<<4);
+		LCDDR01 |=(1<<4);
+		LCDDR06 |=(1<<4);
 		LCDDR11 |=(1<<4);
 		LCDDR16 |=(1<<4);
 		break;
 	}
 }
-
-void LCD::setDP(bool b) {
-	if(b){
-		LCDDR15|=(1<<4);
-	}else{
-		LCDDR15&=~(1<<4);
-	}
-}
-
-void LCD::setClk(bool b) {
-	if(b){
-		LCDDR16|=1;
-	}else{
-		LCDDR16&=~1;
-	}
-}
-
-bool LCD::getDP(void) {
-	return (LCDDR15 & (1<<4));
-}
-
-bool LCD::getClk(void) {
-	return (LCDDR16 & 1);
-}
-
 
 uint8_t LCD::setNb(int32_t nb, bool display) {// TODO 10ms !
 	if((DBIG && (nb>9999999 || nb <9999999)) || (DSMALL && (nb>9999 || nb<-999))){
@@ -176,4 +151,18 @@ uint8_t LCD::setNb(int32_t nb, bool display) {// TODO 10ms !
 }
 
 void LCD::clear(void) {//TODO
+}
+
+void LCD::setMinus(bool b) {
+}
+
+void LCD::setPlus(bool b) {
+}
+
+bool LCD::getMinus(void) {
+	return false;
+}
+
+bool LCD::getPlus(void) {
+	return false;
 }
