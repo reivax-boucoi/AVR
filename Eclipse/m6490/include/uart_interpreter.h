@@ -9,7 +9,7 @@
 #include <avr/pgmspace.h>
 #include "cmds.h"
 
-#define BAUD 38400
+#define BAUD 4800
 #define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
 
 #define MAXPARAM 5
