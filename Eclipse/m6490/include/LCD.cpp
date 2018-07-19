@@ -1,7 +1,7 @@
 #include "LCD.h"
 
 const uint8_t LCD::NbMap[]={0x3F,0x6,0x5B,0x4F,0x66,0x6D,0x7D,0x7,0x7F,0x6F};
-LCD::Bargraph bargraphMode=LCD::OFF;/*
+LCD::Bargraph bargraphMode=LCD::OFF;
 LCD::dSmall_t LCD::dSmall[]={//TODO pin & fix
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
@@ -16,7 +16,7 @@ LCD::dBig_t LCD::dBig[]={//TODO pin & fix
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}},
 		{{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}
-};*/
+};
 LCD::seg LCD::arrow[]={//TODO pin
 		{0,&LCDDR00},
 		{0,&LCDDR00},
@@ -164,6 +164,9 @@ void LCD::setArrow(Arrow a, bool b) {
 }
 
 void LCD::clear(void) {//TODO
+	clearArrows();
+	clearDisplay(DBIG);
+	clearDisplay(DSMALL);
 }
 
 void LCD::setMinus(bool b) {//TODO pin
@@ -184,6 +187,14 @@ void LCD::clearArrows(void) {
 	for(uint8_t i=0;i<4;i++){
 		*(arrow[i].dr) &= ~(1<<arrow[i].s);
 	}
+}
+/*
+uint8_t LCD::setNb(float nb, bool display) {//TODO
+	return 0;
+}*/
+
+uint8_t LCD::setNb(char* str[]) {//TODO
+	return 0;
 }
 
 void LCD::clearDisplay(bool display) {

@@ -9,7 +9,7 @@ On display
 	pin 36 is battery
 	pin 35 is arrows
 	pin 42 is µmHF
-*/
+ */
 #define DBIG false
 #define DSMALL true
 
@@ -24,13 +24,13 @@ public:
 	enum Bargraph {OFF,STACK,SINGLE};
 
 
-//high level
+	//high level
 	static uint8_t setNb(int32_t nb, bool display);
-	static uint8_t setNb(float nb, bool display);
+	//static uint8_t setNb(float nb, bool display);
 	static uint8_t setNb(char* str[]);//only available on big display
 	static void clear(void);
 
-//mid level
+	//mid level
 	static void setDigit(uint8_t dig, Symbol s);// only available on small display
 	static void setDigit(uint8_t dig, uint8_t nb, bool display);
 	static void setBattery(Battery b);
@@ -49,7 +49,7 @@ public:
 private:
 
 	struct seg{
-		uint8_t s;
+		static uint8_t s;
 		volatile uint8_t* dr;
 	};
 	struct dSmall_t{
