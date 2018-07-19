@@ -193,10 +193,10 @@ void LCD::clearArrows(void) {
 		*(arrow[i].dr) &= ~(1<<arrow[i].s);
 	}
 }
-/*
+
 uint8_t LCD::setNb(float nb, bool display) {//TODO
 	return 0;
-}*/
+}
 
 uint8_t LCD::setNb(char* str[]) {//TODO
 	return 0;

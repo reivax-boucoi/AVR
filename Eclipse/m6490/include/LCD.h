@@ -26,7 +26,7 @@ public:
 
 	//high level
 	static uint8_t setNb(int32_t nb, bool display);
-	//static uint8_t setNb(float nb, bool display);
+	static uint8_t setNb(float nb, bool display);
 	static uint8_t setNb(char* str[]);//only available on big display
 	static void clear(void);
 
