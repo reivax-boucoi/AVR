@@ -16,7 +16,6 @@ On display
 	F on 10:3
 	H on 15:3
  */
-namespace nLCD{
 #define DBIG false
 #define DSMALL true
 
@@ -26,14 +25,14 @@ public:
 	~LCD();
 	enum Symbol {A=0x77,b=0x7C,C=0x39,d=0x5E,E=0x79,F=0x71,H=0x76,L=0x38,P=0x73,U=0x3E,
 		Minus=0x40,Blank=0x00,Equal=0x48,Degree=0xC3};
-	enum Battery {NONE,EMPTY,FIRST,SECOND,THIRD,ONEBAR,TWOBAR,FULL};
+	enum /*class*/ Battery {NONE,EMPTY,FIRST,SECOND,THIRD,ONEBAR,TWOBAR,FULL};
 	enum Arrow {LEFT,RIGHT,UP,DOWN};
 	enum Bargraph {OFF,STACK,SINGLE};
 
 
 	//high level
 	static uint8_t setNb(int32_t nb, bool display);
-	static uint8_t setNb(float nb, bool display);
+	//static uint8_t setNb(float nb, bool display);
 	static uint8_t setNb(char* str[]);//only available on big display
 	static void clear(void);
 
@@ -75,5 +74,4 @@ private:
 	static const uint16_t CharMap[44];//0-9,A-Z,<,>,_,',°,=
 	static Bargraph bargraphMode;
 };
-}
 #endif
