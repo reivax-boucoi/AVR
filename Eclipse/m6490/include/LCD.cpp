@@ -2,18 +2,18 @@
 const uint8_t LCD::NbMap[]={0x3F,0x6,0x5B,0x4F,0x66,0x6D,0x7D,0x7,0x7F,0x6F}; //DP,G,F,E,D,C,B,A
 const uint16_t LCD::CharMap[]={0x003F,0x0006,0x045B,0x044F,0x0466,0x046D,0x047D,0x0007,0x047F,0x046F,
 		0x0477,0x250F,0x0071,0x210F,0x0079,0x0071,0x043D,0x0476,0x2100,0x0017,0x2B00,0x0038,0x02B6,0x08B6,0x045C,0x0473,0x083F,0x0C73,0x0879,0x2101,0x003E,0x1230,0x1836,0x1A80,0x1280,0x1209,
-		0x0A00,0x1080,0x1800,0x0008,0x0200,0x0463,0x0448,0x3F00};//CLK,DP,P,Q,N,M,K,J,H,G,F,E,D,C,B,A
+		0x0A00,0x1080,0x1800,0x0008,0x0200,0x0463,0x0448,0x3F00,0x0000};//CLK,DP,P,Q,N,M,K,J,H,G,F,E,D,C,B,A
 
 LCD::Bargraph bargraphMode=LCD::OFF;
 
 LCD::dSmall_t LCD::dSmall[]={//TODO pin
-		{{{0,&LCDDR00},{3,&LCDDR16},{4,&LCDDR16},{4,&LCDDR01},{3,&LCDDR06},{3,&LCDDR01},{3,&LCDDR11},{4,&LCDDR11}}},//Rightmost digit, segs DP-A
-		{{{0,&LCDDR00},{1,&LCDDR16},{2,&LCDDR16},{2,&LCDDR01},{1,&LCDDR06},{1,&LCDDR01},{1,&LCDDR11},{2,&LCDDR11}}},
+		{{{6,&LCDDR05},{4,&LCDDR18},{4,&LCDDR13},{4,&LCDDR03},{4,&LCDDR08},{6,&LCDDR00},{6,&LCDDR15},{6,&LCDDR10}}},//Leftmost digit, segs DP-A
 		{{{7,&LCDDR05},{0,&LCDDR16},{0,&LCDDR11},{0,&LCDDR01},{0,&LCDDR06},{7,&LCDDR00},{7,&LCDDR15},{7,&LCDDR10}}},
-		{{{6,&LCDDR05},{4,&LCDDR18},{4,&LCDDR13},{4,&LCDDR03},{4,&LCDDR08},{6,&LCDDR00},{6,&LCDDR15},{6,&LCDDR10}}}//Leftmost digit, segs DP-A
+		{{{0,&LCDDR00},{1,&LCDDR16},{2,&LCDDR16},{2,&LCDDR01},{1,&LCDDR06},{1,&LCDDR01},{1,&LCDDR11},{2,&LCDDR11}}},
+		{{{0,&LCDDR00},{3,&LCDDR16},{4,&LCDDR16},{4,&LCDDR01},{3,&LCDDR06},{3,&LCDDR01},{3,&LCDDR11},{4,&LCDDR11}}}//Rightmost digit, segs DP-A
 };
 LCD::dBig_t LCD::dBig[]={//TODO pin
-				//CLK		DP			P				Q			N			M			K				J			H			G			F			E				D			C			B				A
+		//CLK		DP			P				Q			N			M			K				J			H			G			F			E				D			C			B				A
 		{{{0,&LCDDR00},{0,&LCDDR00},{1,&LCDDR12},{1,&LCDDR17},{0,&LCDDR00},{7,&LCDDR16},{7,&LCDDR01},{0,&LCDDR00},{1,&LCDDR07},{1,&LCDDR02},{2,&LCDDR02},{2,&LCDDR17},{0,&LCDDR00},{0,&LCDDR17},{0,&LCDDR02},{0,&LCDDR07}}},//Rightmost digit, segs CLK-A
 		{{{0,&LCDDR00},{2,&LCDDR12},{5,&LCDDR12},{5,&LCDDR17},{4,&LCDDR12},{4,&LCDDR17},{4,&LCDDR02},{4,&LCDDR07},{5,&LCDDR07},{5,&LCDDR02},{6,&LCDDR02},{6,&LCDDR17},{3,&LCDDR12},{3,&LCDDR17},{3,&LCDDR02},{3,&LCDDR07}}},
 		{{{6,&LCDDR07},{6,&LCDDR12},{0,&LCDDR00},{0,&LCDDR00},{7,&LCDDR12},{7,&LCDDR17},{7,&LCDDR02},{7,&LCDDR07},{0,&LCDDR00},{0,&LCDDR00},{1,&LCDDR03},{1,&LCDDR18},{2,&LCDDR13},{2,&LCDDR18},{2,&LCDDR03},{2,&LCDDR08}}},
@@ -48,8 +48,8 @@ LCD::~LCD() {
 
 void LCD::setDigit(uint8_t dig, uint8_t nb, bool display) {
 	if(display==DSMALL){
-		for(uint8_t j=1;j<9;j++){//avoid DP
-			if(NbMap[nb] & (1<<j)){
+		for(uint8_t j=0;j<8;j++){//avoid DP
+			if(NbMap[nb] & (1<<(7-j))){
 				*(dSmall[dig].segs[j].dr) |= (1<<dSmall[dig].segs[j].s);
 			}else{
 				*(dSmall[dig].segs[j].dr) &= ~(1<<dSmall[dig].segs[j].s);
@@ -68,7 +68,7 @@ void LCD::setDigit(uint8_t dig, uint8_t nb, bool display) {
 
 void LCD::setDigit(uint8_t dig, Symbol sy) {// only available on small display
 	for(uint8_t j=0;j<8;j++){
-		if(sy & (1<<j)){
+		if(sy & (1<<(7-j))){
 			*(dSmall[dig].segs[j].dr) |= (1<<dSmall[dig].segs[j].s);
 		}else{
 			*(dSmall[dig].segs[j].dr) &= ~(1<<dSmall[dig].segs[j].s);
@@ -77,7 +77,7 @@ void LCD::setDigit(uint8_t dig, Symbol sy) {// only available on small display
 }
 
 uint8_t LCD::setNb(int32_t nb, bool display) {// TODO 10ms !
-	if((DBIG && (nb>9999999 || nb <9999999)) || (DSMALL && (nb>9999 || nb<-999))){
+	if((display==DBIG && (nb>9999999 || nb <9999999)) || (display==DSMALL && (nb>9999 || nb<-999))){
 		return 1;
 	}
 	int8_t d;
@@ -87,26 +87,34 @@ uint8_t LCD::setNb(int32_t nb, bool display) {// TODO 10ms !
 		d=6;
 	}
 	uint8_t min=0;
-	if(nb<0 && display == DSMALL){
-		setDigit(0,Minus,display);
+	if(nb<0){
 		min++;
 		nb=(~nb)+1;
-	}else if(display == DBIG){
-		if(nb<0){
+		if(display == DSMALL){
+			setDigit(0,Minus);
+		}else{
 			setMinus(true);
 			setPlus(false);
-		}else{
+		}
+	}else{
+		if(display == DBIG){
 			setMinus(false);
 			setPlus(true);
 		}
 	}
-	while(d>=min){
-		setDigit(d--,nb%10,display);
-		nb/=10;
-		if(nb==0)break;
+while(d>=min){
+	setDigit(d--,nb%10,display);
+	nb/=10;
+	if(nb==0)break;
+}
+while(d>=min){
+	if(display==DSMALL){
+		setDigit(d--,Blank);
+	}else{
+		setDigit(d--,CharMap[44],DBIG);
 	}
-	while(d>=min)setDigit(d--,Blank,display);
-	return 0;
+}
+return 0;
 }
 
 void LCD::setBattery(Battery b) {
@@ -154,35 +162,35 @@ void LCD::setBattery(Battery b) {
 }
 
 void LCD::setBargraphMode(Bargraph b) {//TODO fix undefined reference
-//	bargraphMode=b;
+	//	bargraphMode=b;
 	if(b==OFF)setBargraphLevel(0);
 }
 
 void LCD::setBargraphLevel(uint8_t l) {//TODO fix undefined reference
 	if(l>10)return;
-//	switch(bargraphMode){
-//	case SINGLE:
-		for(uint8_t i=0;i<12;i++){//range 0-9
-			if(i==(l+2)){
-				*(bargraph[i].dr) |= (1<<bargraph[i].s);
-			}else{
-				*(bargraph[i].dr) &= ~(1<<bargraph[i].s);
-			}
+	//	switch(bargraphMode){
+	//	case SINGLE:
+	for(uint8_t i=0;i<12;i++){//range 0-9
+		if(i==(l+2)){
+			*(bargraph[i].dr) |= (1<<bargraph[i].s);
+		}else{
+			*(bargraph[i].dr) &= ~(1<<bargraph[i].s);
 		}
+	}
 	/*	break;
 	case STACK:
 		for(uint8_t i=0;i<12;i++){
 			if(i<(l+2)){
-				*(bargraph[i].dr) |= (1<<bargraph[i].s);
+	 *(bargraph[i].dr) |= (1<<bargraph[i].s);
 			}else{
-				*(bargraph[i].dr) &= ~(1<<bargraph[i].s);
+	 *(bargraph[i].dr) &= ~(1<<bargraph[i].s);
 			}
 		}
 		break;
 	case OFF:
 	default:
 		for(uint8_t i=0;i<12;i++){
-			*(bargraph[i].dr) &= ~(1<<bargraph[i].s);
+	 *(bargraph[i].dr) &= ~(1<<bargraph[i].s);
 		}
 		break;
 	}*/
@@ -206,10 +214,10 @@ void LCD::clear(void) {//TODO
 
 void LCD::setMinus(bool b) {
 	if(b){
-	LCDDR10|=(1<<0);
-}else{
-	LCDDR10&=~(1<<0);
-}
+		LCDDR10|=(1<<0);
+	}else{
+		LCDDR10&=~(1<<0);
+	}
 }
 void LCD::setPlus(bool b) {
 	if(b){
@@ -236,7 +244,7 @@ void LCD::clearArrows(void) {
 uint8_t LCD::setNb(float nb, bool display) {//TODO
 	return 0;
 }
-*/
+ */
 uint8_t LCD::setNb(char* str[]) {//TODO
 	return 0;
 }

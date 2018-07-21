@@ -71,7 +71,7 @@ private:
 	static seg bargraph[12];
 	static seg battery[4];
 	static const uint8_t NbMap[10];//0-9
-	static const uint16_t CharMap[44];//0-9,A-Z,<,>,_,',°,=
+	static const uint16_t CharMap[45];//0-9,A-Z,<,>,_,',°,=,BLANK
 	static Bargraph bargraphMode;
 };
 #endif
