@@ -1,7 +1,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include "include/LCD.h"
-//float LCDval=0.0;
+
 int8_t i=1;
 LCD myLcd;
 int main(void){
