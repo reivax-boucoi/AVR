@@ -66,7 +66,7 @@ ISR( TIM1_OVF_vect ){
     //RTC_readTime(&currentTime);
     //setLeds(currentTime,leds,currentColor);
     if(state){
-    sendData(0b00000011000000000000);
+    sendData(0b00000000110000000000);
     }else{
     sendData(0b00000000000000000000);
     }state=1-state;
