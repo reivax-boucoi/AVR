@@ -6,7 +6,7 @@
 #include "Led.h"
 #include "RTC.h"
 
-void sendData(uint32_t data){
+void sendRawData(uint32_t data){
     PORTA &=~(STROBE|CLK);
     for(uint8_t i=0;i<20;i++){
         if((data>>i) & 0x00000001){
@@ -20,7 +20,13 @@ void sendData(uint32_t data){
     PORTA|=STROBE;
     PORTA&=~STROBE;
 }
-
+uint8_t ledr=0;
+uint8_t ledb=0;
+void sendData(uint32_t data){
+    if(ledr)data|=LEDR;
+    if(ledb)data|=LEDB;
+    sendRawData(data);
+}
 volatile uint8_t state=0;
 Led leds[NBLEDS];
 
@@ -33,19 +39,19 @@ int main(void){
     TIMSK0|=(1<<TOIE0);
     sei();
     
-    /*sendData(0b11111100001111111111);
+    sendData(0b11111100001111111111 | LEDB);
     _delay_ms(250);
     sendData(0b11000000001111111111);
     _delay_ms(250);
-    sendData(0b00001100001111111111);
+    sendData(0b00001100001111111111 | LEDR);
     _delay_ms(250);
     sendData(0b00110000001111111111);
-    _delay_ms(250);*/
-    //#ifdef DELLONG
-		//TCCR1B|=(1<<CS12)|(1<<CS10);
-	//#else
+    _delay_ms(250);
+    #ifdef DELLONG
+		TCCR1B|=(1<<CS12)|(1<<CS10);
+	#else
 		TCCR1B|=(1<<CS12);//|(1<<CS10);
-	//#endif
+	#endif
 	
 	TCCR0B|=(1<<CS01)|(1<<CS00);
     
@@ -53,7 +59,7 @@ int main(void){
     setCurrentTime(15,45,7,11);
 	//RTC_readTime(&currentTime);
     currentTime.temp=11;
-    //setLeds(currentTime,leds,currentColor);
+    setLeds(currentTime,leds,currentColor);
     
     while(1){
        
@@ -62,17 +68,12 @@ int main(void){
     
 }
 ISR( TIM1_OVF_vect ){
-    PORTA^=LED;
+    ledb=1-ledb;
     //RTC_readTime(&currentTime);
-    //setLeds(currentTime,leds,currentColor);
-    if(state){
-    sendData(0b00000000100000000000);
-    }else{
-    sendData(0b00000000000000000000);
-    }state=1-state;
+    setLeds(currentTime,leds,currentColor);
 }
 ISR( TIM0_OVF_vect ){
-   /* switch(state){
+    switch(state){
         case 0:
             sendData(R2 | getDataByColor(tcolor(1,0,0),0,leds));
             break;
@@ -93,5 +94,5 @@ ISR( TIM0_OVF_vect ){
             break;
     }
     state++;
-    if(state>5)state=0;*/
+    if(state>5)state=0;
 }
