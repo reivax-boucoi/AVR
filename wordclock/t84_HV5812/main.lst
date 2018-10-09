@@ -296,10 +296,10 @@
  232 006e 8091 0000 		lds r24,state
  233 0072 8823      		tst r24
  234 0074 01F0      		breq .L10
-  69:main.c        ****     sendData(0b00000000110000000000);
+  69:main.c        ****     sendData(0b00000000100000000000);
  235               		.loc 1 69 0
  236 0076 60E0      		ldi r22,0
- 237 0078 7CE0      		ldi r23,lo8(12)
+ 237 0078 78E0      		ldi r23,lo8(8)
  238 007a 80E0      		ldi r24,0
  239 007c 90E0      		ldi r25,0
  240 007e 00C0      		rjmp .L12
@@ -409,19 +409,19 @@
  321               		.file 4 "Led.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/cc5d7L1i.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cc5d7L1i.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cc5d7L1i.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cc5d7L1i.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cc5d7L1i.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cc5d7L1i.s:12     .text:0000000000000000 sendData
-     /tmp/cc5d7L1i.s:90     .text.startup:0000000000000000 main
+     /tmp/ccXde8a0.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccXde8a0.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccXde8a0.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccXde8a0.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccXde8a0.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccXde8a0.s:12     .text:0000000000000000 sendData
+     /tmp/ccXde8a0.s:90     .text.startup:0000000000000000 main
                             *COM*:000000000000005f leds
                             *COM*:0000000000000003 currentColor
                             *COM*:0000000000000005 currentTime
-     /tmp/cc5d7L1i.s:159    .text:0000000000000044 __vector_8
-     /tmp/cc5d7L1i.s:312    .bss:0000000000000000 state
-     /tmp/cc5d7L1i.s:278    .text:00000000000000b6 __vector_11
+     /tmp/ccXde8a0.s:159    .text:0000000000000044 __vector_8
+     /tmp/ccXde8a0.s:312    .bss:0000000000000000 state
+     /tmp/ccXde8a0.s:278    .text:00000000000000b6 __vector_11
                             *COM*:0000000000000001 USI_I2C_Master_State
 
 UNDEFINED SYMBOLS

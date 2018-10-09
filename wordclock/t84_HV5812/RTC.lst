@@ -1223,21 +1223,21 @@
  763               		.file 4 "RTC.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 RTC.c
-     /tmp/ccf4Fohw.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccf4Fohw.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccf4Fohw.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccf4Fohw.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccf4Fohw.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccf4Fohw.s:12     .text:0000000000000000 setCurrentTime
+     /tmp/ccOSu2e4.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccOSu2e4.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccOSu2e4.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccOSu2e4.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccOSu2e4.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccOSu2e4.s:12     .text:0000000000000000 setCurrentTime
                             *COM*:0000000000000005 currentTime
-     /tmp/ccf4Fohw.s:38     .text:000000000000000e minquad
-     /tmp/ccf4Fohw.s:105    .text:000000000000003e bcdToDec
-     /tmp/ccf4Fohw.s:131    .text:000000000000004e i2c_in_transfer
-     /tmp/ccf4Fohw.s:198    .text:0000000000000078 i2c_in_transmit
+     /tmp/ccOSu2e4.s:38     .text:000000000000000e minquad
+     /tmp/ccOSu2e4.s:105    .text:000000000000003e bcdToDec
+     /tmp/ccOSu2e4.s:131    .text:000000000000004e i2c_in_transfer
+     /tmp/ccOSu2e4.s:198    .text:0000000000000078 i2c_in_transmit
                             *COM*:0000000000000001 USI_I2C_Master_State
-     /tmp/ccf4Fohw.s:427    .text:0000000000000142 i2c_write
-     /tmp/ccf4Fohw.s:481    .text:000000000000016a i2c_read
-     /tmp/ccf4Fohw.s:658    .text:0000000000000222 RTC_readTime
+     /tmp/ccOSu2e4.s:427    .text:0000000000000142 i2c_write
+     /tmp/ccOSu2e4.s:481    .text:000000000000016a i2c_read
+     /tmp/ccOSu2e4.s:658    .text:0000000000000222 RTC_readTime
 
 UNDEFINED SYMBOLS
 __mulqi3

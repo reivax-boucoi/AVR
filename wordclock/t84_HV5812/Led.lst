@@ -1170,26 +1170,26 @@
  1027               		.file 4 "Led.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Led.c
-     /tmp/ccbUFQ7n.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccbUFQ7n.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccbUFQ7n.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccbUFQ7n.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccbUFQ7n.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccbUFQ7n.s:12     .text:0000000000000000 tcolor
-     /tmp/ccbUFQ7n.s:35     .text:0000000000000008 tcolorV
-     /tmp/ccbUFQ7n.s:77     .text:0000000000000028 ledInit
-     /tmp/ccbUFQ7n.s:130    .text:0000000000000050 getColorByLed
-     /tmp/ccbUFQ7n.s:239    .text:00000000000000b2 getDataByColor
-     /tmp/ccbUFQ7n.s:361    .text:000000000000012e ledOff
-     /tmp/ccbUFQ7n.s:383    .text:0000000000000138 ledOn
-     /tmp/ccbUFQ7n.s:407    .text:0000000000000144 ledOnC
-     /tmp/ccbUFQ7n.s:427    .text:000000000000014e ledOnV
-     /tmp/ccbUFQ7n.s:448    .text:0000000000000158 ledIsOff
-     /tmp/ccbUFQ7n.s:513    .text:0000000000000190 ledIsOn
-     /tmp/ccbUFQ7n.s:571    .text:00000000000001c6 setLeds
+     /tmp/ccnkg1I4.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccnkg1I4.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccnkg1I4.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccnkg1I4.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccnkg1I4.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccnkg1I4.s:12     .text:0000000000000000 tcolor
+     /tmp/ccnkg1I4.s:35     .text:0000000000000008 tcolorV
+     /tmp/ccnkg1I4.s:77     .text:0000000000000028 ledInit
+     /tmp/ccnkg1I4.s:130    .text:0000000000000050 getColorByLed
+     /tmp/ccnkg1I4.s:239    .text:00000000000000b2 getDataByColor
+     /tmp/ccnkg1I4.s:361    .text:000000000000012e ledOff
+     /tmp/ccnkg1I4.s:383    .text:0000000000000138 ledOn
+     /tmp/ccnkg1I4.s:407    .text:0000000000000144 ledOnC
+     /tmp/ccnkg1I4.s:427    .text:000000000000014e ledOnV
+     /tmp/ccnkg1I4.s:448    .text:0000000000000158 ledIsOff
+     /tmp/ccnkg1I4.s:513    .text:0000000000000190 ledIsOn
+     /tmp/ccnkg1I4.s:571    .text:00000000000001c6 setLeds
                             *COM*:0000000000000005 currentTime
-     /tmp/ccbUFQ7n.s:1008   .rodata:0000000000000000 ledMap
-     /tmp/ccbUFQ7n.s:842    .text:00000000000002cc setLedsNb
+     /tmp/ccnkg1I4.s:1008   .rodata:0000000000000000 ledMap
+     /tmp/ccnkg1I4.s:842    .text:00000000000002cc setLedsNb
                             *COM*:0000000000000003 currentColor
                             *COM*:0000000000000001 USI_I2C_Master_State
 
