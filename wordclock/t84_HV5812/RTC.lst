@@ -1223,21 +1223,21 @@
  763               		.file 4 "RTC.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 RTC.c
-     /tmp/ccBLF8c6.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccBLF8c6.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccBLF8c6.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccBLF8c6.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccBLF8c6.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccBLF8c6.s:12     .text:0000000000000000 setCurrentTime
+     /tmp/ccijpEq3.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccijpEq3.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccijpEq3.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccijpEq3.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccijpEq3.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccijpEq3.s:12     .text:0000000000000000 setCurrentTime
                             *COM*:0000000000000005 currentTime
-     /tmp/ccBLF8c6.s:38     .text:000000000000000e minquad
-     /tmp/ccBLF8c6.s:105    .text:000000000000003e bcdToDec
-     /tmp/ccBLF8c6.s:131    .text:000000000000004e i2c_in_transfer
-     /tmp/ccBLF8c6.s:198    .text:0000000000000078 i2c_in_transmit
+     /tmp/ccijpEq3.s:38     .text:000000000000000e minquad
+     /tmp/ccijpEq3.s:105    .text:000000000000003e bcdToDec
+     /tmp/ccijpEq3.s:131    .text:000000000000004e i2c_in_transfer
+     /tmp/ccijpEq3.s:198    .text:0000000000000078 i2c_in_transmit
                             *COM*:0000000000000001 USI_I2C_Master_State
-     /tmp/ccBLF8c6.s:427    .text:0000000000000142 i2c_write
-     /tmp/ccBLF8c6.s:481    .text:000000000000016a i2c_read
-     /tmp/ccBLF8c6.s:658    .text:0000000000000222 RTC_readTime
+     /tmp/ccijpEq3.s:427    .text:0000000000000142 i2c_write
+     /tmp/ccijpEq3.s:481    .text:000000000000016a i2c_read
+     /tmp/ccijpEq3.s:658    .text:0000000000000222 RTC_readTime
 
 UNDEFINED SYMBOLS
 __mulqi3

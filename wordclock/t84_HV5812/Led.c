@@ -24,6 +24,7 @@ void ledInit(Led* leds){
         leds[i].c.g=0;
         leds[i].c.b=0;
     }
+    leds[1].c.g=1;
 }
 uint32_t getColorByLed(Led l){
     uint32_t d=0;
