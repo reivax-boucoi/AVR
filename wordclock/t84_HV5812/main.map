@@ -145,7 +145,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000      0x8f0
+.text           0x0000000000000000      0x794
  *(.vectors)
  .vectors       0x0000000000000000       0x22 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr25/crtattiny84.o
                 0x0000000000000000                __vectors
@@ -219,130 +219,130 @@ END GROUP
                 0x0000000000000058                __vector_14
                 0x0000000000000058                __vector_10
                 0x0000000000000058                __vector_16
- .text          0x000000000000005a      0x192 main.o
+ .text          0x000000000000005a       0x9c main.o
                 0x000000000000005a                sendRawData
                 0x000000000000009e                sendData
                 0x00000000000000b0                __vector_8
-                0x00000000000000fc                __vector_11
- .text          0x00000000000001ec      0x364 Led.o
-                0x00000000000001ec                tcolor
-                0x00000000000001f4                tcolorV
-                0x0000000000000214                ledInit
-                0x0000000000000244                getColorByLed
-                0x00000000000002a6                getDataByColor
-                0x0000000000000322                ledOff
-                0x000000000000032c                ledOn
-                0x0000000000000338                ledOnC
-                0x0000000000000342                ledOnV
-                0x000000000000034c                ledIsOff
-                0x0000000000000384                ledIsOn
-                0x00000000000003ba                setLeds
-                0x00000000000004c0                setLedsNb
- .text          0x0000000000000550      0x290 RTC.o
-                0x0000000000000550                setCurrentTime
-                0x000000000000055e                minquad
-                0x000000000000058e                bcdToDec
-                0x000000000000059e                i2c_in_transfer
-                0x00000000000005c8                i2c_in_transmit
-                0x0000000000000692                i2c_write
-                0x00000000000006ba                i2c_read
-                0x0000000000000772                RTC_readTime
- .text          0x00000000000007e0        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
- .text          0x00000000000007e0        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
- .text          0x00000000000007e0        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
- .text          0x00000000000007e0        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
- .text          0x00000000000007e0        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
- .text          0x00000000000007e0        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
-                0x00000000000007e0                . = ALIGN (0x2)
+                0x00000000000000e2                __vector_11
+ .text          0x00000000000000f6      0x364 Led.o
+                0x00000000000000f6                tcolor
+                0x00000000000000fe                tcolorV
+                0x000000000000011e                ledInit
+                0x000000000000014e                getColorByLed
+                0x00000000000001b0                getDataByColor
+                0x000000000000022c                ledOff
+                0x0000000000000236                ledOn
+                0x0000000000000242                ledOnC
+                0x000000000000024c                ledOnV
+                0x0000000000000256                ledIsOff
+                0x000000000000028e                ledIsOn
+                0x00000000000002c4                setLeds
+                0x00000000000003ca                setLedsNb
+ .text          0x000000000000045a      0x290 RTC.o
+                0x000000000000045a                setCurrentTime
+                0x0000000000000468                minquad
+                0x0000000000000498                bcdToDec
+                0x00000000000004a8                i2c_in_transfer
+                0x00000000000004d2                i2c_in_transmit
+                0x000000000000059c                i2c_write
+                0x00000000000005c4                i2c_read
+                0x000000000000067c                RTC_readTime
+ .text          0x00000000000006ea        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
+ .text          0x00000000000006ea        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
+ .text          0x00000000000006ea        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
+ .text          0x00000000000006ea        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
+ .text          0x00000000000006ea        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
+ .text          0x00000000000006ea        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
+                0x00000000000006ea                . = ALIGN (0x2)
  *(.text.*)
- .text.startup  0x00000000000007e0       0xc0 main.o
-                0x00000000000007e0                main
+ .text.startup  0x00000000000006ea       0x5a main.o
+                0x00000000000006ea                main
  .text.libgcc.mul
-                0x00000000000008a0       0x12 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
-                0x00000000000008a0                __mulqi3
+                0x0000000000000744       0x12 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
+                0x0000000000000744                __mulqi3
  .text.libgcc.div
-                0x00000000000008b2        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
- .text.libgcc   0x00000000000008b2        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
+                0x0000000000000756        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
+ .text.libgcc   0x0000000000000756        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
  .text.libgcc.prologue
-                0x00000000000008b2        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
+                0x0000000000000756        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
  .text.libgcc.builtins
-                0x00000000000008b2        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
+                0x0000000000000756        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
  .text.libgcc.fmul
-                0x00000000000008b2        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
+                0x0000000000000756        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
  .text.libgcc.fixed
-                0x00000000000008b2        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
+                0x0000000000000756        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulqi3.o)
  .text.libgcc.mul
-                0x00000000000008b2       0x22 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
-                0x00000000000008b2                __mulhi3
+                0x0000000000000756       0x22 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
+                0x0000000000000756                __mulhi3
  .text.libgcc.div
-                0x00000000000008d4        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
- .text.libgcc   0x00000000000008d4        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
+                0x0000000000000778        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
+ .text.libgcc   0x0000000000000778        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
  .text.libgcc.prologue
-                0x00000000000008d4        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
+                0x0000000000000778        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
  .text.libgcc.builtins
-                0x00000000000008d4        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
+                0x0000000000000778        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
  .text.libgcc.fmul
-                0x00000000000008d4        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
+                0x0000000000000778        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
  .text.libgcc.fixed
-                0x00000000000008d4        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
+                0x0000000000000778        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_mulhi3.o)
  .text.libgcc.mul
-                0x00000000000008d4        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
+                0x0000000000000778        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
  .text.libgcc.div
-                0x00000000000008d4       0x18 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
-                0x00000000000008d4                __udivmodqi4
- .text.libgcc   0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
+                0x0000000000000778       0x18 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
+                0x0000000000000778                __udivmodqi4
+ .text.libgcc   0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
  .text.libgcc.prologue
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
  .text.libgcc.builtins
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
  .text.libgcc.fmul
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
  .text.libgcc.fixed
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_udivmodqi4.o)
  .text.libgcc.mul
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
  .text.libgcc.div
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
- .text.libgcc   0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
+ .text.libgcc   0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
  .text.libgcc.prologue
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
  .text.libgcc.builtins
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
  .text.libgcc.fmul
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
  .text.libgcc.fixed
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
  .text.libgcc.mul
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
  .text.libgcc.div
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
- .text.libgcc   0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
+ .text.libgcc   0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
  .text.libgcc.prologue
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
  .text.libgcc.builtins
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
  .text.libgcc.fmul
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
  .text.libgcc.fixed
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_copy_data.o)
  .text.libgcc.mul
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
  .text.libgcc.div
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
- .text.libgcc   0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
  .text.libgcc.prologue
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
  .text.libgcc.builtins
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
  .text.libgcc.fmul
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
  .text.libgcc.fixed
-                0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
-                0x00000000000008ec                . = ALIGN (0x2)
+                0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_clear_bss.o)
+                0x0000000000000790                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000000000008ec        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
-                0x00000000000008ec                exit
-                0x00000000000008ec                _exit
+ .fini9         0x0000000000000790        0x0 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
+                0x0000000000000790                exit
+                0x0000000000000790                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -361,11 +361,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000000000008ec        0x4 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
+ .fini0         0x0000000000000790        0x4 /usr/lib/gcc/avr/5.4.0/avr25/libgcc.a(_exit.o)
  *(.fini0)
-                0x00000000000008f0                _etext = .
+                0x0000000000000794                _etext = .
 
-.data           0x0000000000800060        0xc load address 0x00000000000008f0
+.data           0x0000000000800060        0xc load address 0x0000000000000794
                 0x0000000000800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x0000000000800060        0x0 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr25/crtattiny84.o
@@ -412,8 +412,8 @@ END GROUP
                 0x00000000008000cf                currentTime
                 0x00000000008000d4                currentColor
                 0x00000000008000d7                PROVIDE (__bss_end, .)
-                0x00000000000008f0                __data_load_start = LOADADDR (.data)
-                0x00000000000008fc                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000000000000794                __data_load_start = LOADADDR (.data)
+                0x00000000000007a0                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00000000008000d7        0x0
                 [!provide]                        PROVIDE (__noinit_start, .)
@@ -498,48 +498,48 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0x193f
+.debug_info     0x0000000000000000     0x1619
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x0000000000000000      0x420 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr25/crtattiny84.o
- .debug_info    0x0000000000000420      0x69e main.o
- .debug_info    0x0000000000000abe      0x7da Led.o
- .debug_info    0x0000000000001298      0x6a7 RTC.o
+ .debug_info    0x0000000000000420      0x378 main.o
+ .debug_info    0x0000000000000798      0x7da Led.o
+ .debug_info    0x0000000000000f72      0x6a7 RTC.o
 
-.debug_abbrev   0x0000000000000000      0xaa7
+.debug_abbrev   0x0000000000000000      0xa3d
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000      0x3e8 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr25/crtattiny84.o
- .debug_abbrev  0x00000000000003e8      0x213 main.o
- .debug_abbrev  0x00000000000005fb      0x26e Led.o
- .debug_abbrev  0x0000000000000869      0x23e RTC.o
+ .debug_abbrev  0x00000000000003e8      0x1a9 main.o
+ .debug_abbrev  0x0000000000000591      0x26e Led.o
+ .debug_abbrev  0x00000000000007ff      0x23e RTC.o
 
-.debug_line     0x0000000000000000      0x8e2
+.debug_line     0x0000000000000000      0x80f
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x0000000000000000       0x1a /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr25/crtattiny84.o
- .debug_line    0x000000000000001a      0x22c main.o
- .debug_line    0x0000000000000246      0x34d Led.o
- .debug_line    0x0000000000000593      0x34f RTC.o
+ .debug_line    0x000000000000001a      0x159 main.o
+ .debug_line    0x0000000000000173      0x34d Led.o
+ .debug_line    0x00000000000004c0      0x34f RTC.o
 
-.debug_frame    0x0000000000000000      0x3b4
+.debug_frame    0x0000000000000000      0x36c
  *(.debug_frame)
- .debug_frame   0x0000000000000000       0xdc main.o
- .debug_frame   0x00000000000000dc      0x1a0 Led.o
- .debug_frame   0x000000000000027c      0x138 RTC.o
+ .debug_frame   0x0000000000000000       0x94 main.o
+ .debug_frame   0x0000000000000094      0x1a0 Led.o
+ .debug_frame   0x0000000000000234      0x138 RTC.o
 
-.debug_str      0x0000000000000000      0x4be
+.debug_str      0x0000000000000000      0x4af
  *(.debug_str)
  .debug_str     0x0000000000000000      0x173 /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr25/crtattiny84.o
- .debug_str     0x0000000000000173      0x24a main.o
-                                        0x28a (size before relaxing)
- .debug_str     0x00000000000003bd       0x6b Led.o
+ .debug_str     0x0000000000000173      0x1f2 main.o
+                                        0x232 (size before relaxing)
+ .debug_str     0x0000000000000365       0x81 Led.o
                                         0x25c (size before relaxing)
- .debug_str     0x0000000000000428       0x96 RTC.o
+ .debug_str     0x00000000000003e6       0xc9 RTC.o
                                         0x292 (size before relaxing)
 
-.debug_loc      0x0000000000000000     0x11e3
+.debug_loc      0x0000000000000000     0x1027
  *(.debug_loc)
- .debug_loc     0x0000000000000000      0x2ce main.o
- .debug_loc     0x00000000000002ce      0x7d2 Led.o
- .debug_loc     0x0000000000000aa0      0x743 RTC.o
+ .debug_loc     0x0000000000000000      0x112 main.o
+ .debug_loc     0x0000000000000112      0x7d2 Led.o
+ .debug_loc     0x00000000000008e4      0x743 RTC.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -628,7 +628,6 @@ exit                                              /usr/lib/gcc/avr/5.4.0/avr25/l
                                                   /usr/lib/gcc/avr/5.4.0/../../../avr/lib/avr25/crtattiny84.o
 getColorByLed                                     Led.o
 getDataByColor                                    Led.o
-                                                  main.o
 i2c_in_transfer                                   RTC.o
 i2c_in_transmit                                   RTC.o
 i2c_read                                          RTC.o
@@ -656,6 +655,5 @@ setLeds                                           Led.o
 setLedsNb                                         Led.o
 state                                             main.o
 tcolor                                            Led.o
-                                                  main.o
 tcolorV                                           Led.o
                                                   main.o
