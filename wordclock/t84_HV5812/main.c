@@ -41,9 +41,14 @@ int main(void){
     _delay_ms(250);
     sendData(0b00110000001111111111);
     _delay_ms(250);
-    
-    TCCR1B|=(1<<CS12);//|(1<<CS10);
-    TCCR0B|=(1<<CS01)|(1<<CS00);
+	
+    #ifdef DELLONG
+		TCCR1B|=(1<<CS12)|(1<<CS10);
+	#else
+		TCCR1B|=(1<<CS12);//|(1<<CS10);
+	#endif
+	
+	TCCR0B|=(1<<CS01)|(1<<CS00);
     
     currentColor=tcolorV(RED);
     //setCurrentTime(15,45,7,11);
