@@ -1,0 +1,1002 @@
+   1               		.file	"main.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               	.global	sendData
+  12               	sendData:
+  13               	.LFB6:
+  14               		.file 1 "main.c"
+   1:main.c        **** #define F_CPU 16000000UL
+   2:main.c        **** #include <avr/io.h>
+   3:main.c        **** #include <avr/interrupt.h>
+   4:main.c        **** #include <util/delay.h>
+   5:main.c        **** #include "defines.h"
+   6:main.c        **** #include "Led.h"
+   7:main.c        **** #include "RTC.h"
+   8:main.c        **** 
+   9:main.c        **** void sendData(uint32_t data){
+  15               		.loc 1 9 29
+  16               		.cfi_startproc
+  17               	.LVL0:
+  18 0000 0F93      		push r16
+  19               	.LCFI0:
+  20               		.cfi_def_cfa_offset 3
+  21               		.cfi_offset 16, -2
+  22 0002 1F93      		push r17
+  23               	.LCFI1:
+  24               		.cfi_def_cfa_offset 4
+  25               		.cfi_offset 17, -3
+  26               	/* prologue: function */
+  27               	/* frame size = 0 */
+  28               	/* stack size = 2 */
+  29               	.L__stack_usage = 2
+  10:main.c        ****     PORTA &=~(STROBE|CLK);
+  30               		.loc 1 10 5
+  31               		.loc 1 10 11 is_stmt 0
+  32 0004 2BB3      		in r18,0x1b
+  33 0006 237F      		andi r18,lo8(-13)
+  34 0008 2BBB      		out 0x1b,r18
+  11:main.c        ****     for(uint8_t i=0;i<20;i++){
+  35               		.loc 1 11 5 is_stmt 1
+  36               	.LBB10:
+  37               		.loc 1 11 9
+  38               	.LVL1:
+  39               	.LBE10:
+  10:main.c        ****     PORTA &=~(STROBE|CLK);
+  40               		.loc 1 10 11 is_stmt 0
+  41 000a 50E0      		ldi r21,0
+  42 000c 40E0      		ldi r20,0
+  43               	.LVL2:
+  44               	.L4:
+  45               	.LBB11:
+  12:main.c        ****         if((data>>i) & 0x00000001){
+  46               		.loc 1 12 9 is_stmt 1
+  47               		.loc 1 12 17 is_stmt 0
+  48 000e 8B01      		movw r16,r22
+  49 0010 9C01      		movw r18,r24
+  50 0012 042E      		mov r0,r20
+  51 0014 00C0      		rjmp 2f
+  52               		1:
+  53 0016 3695      		lsr r19
+  54 0018 2795      		ror r18
+  55 001a 1795      		ror r17
+  56 001c 0795      		ror r16
+  57               		2:
+  58 001e 0A94      		dec r0
+  59 0020 02F4      		brpl 1b
+  60               		.loc 1 12 11
+  61 0022 00FF      		sbrs r16,0
+  62 0024 00C0      		rjmp .L2
+  13:main.c        ****             PORTA|=DATA;
+  63               		.loc 1 13 13 is_stmt 1
+  64               		.loc 1 13 18 is_stmt 0
+  65 0026 D99A      		sbi 0x1b,1
+  66               	.L3:
+  14:main.c        ****         }else{
+  15:main.c        ****             PORTA&=~DATA;
+  16:main.c        ****         }
+  17:main.c        ****         PORTA|=CLK;
+  67               		.loc 1 17 9 is_stmt 1 discriminator 2
+  68               		.loc 1 17 14 is_stmt 0 discriminator 2
+  69 0028 DB9A      		sbi 0x1b,3
+  18:main.c        ****         PORTA&=~CLK;
+  70               		.loc 1 18 9 is_stmt 1 discriminator 2
+  71               		.loc 1 18 14 is_stmt 0 discriminator 2
+  72 002a DB98      		cbi 0x1b,3
+  73               	.LVL3:
+  74 002c 4F5F      		subi r20,-1
+  75 002e 5F4F      		sbci r21,-1
+  76               	.LVL4:
+  11:main.c        ****         if((data>>i) & 0x00000001){
+  77               		.loc 1 11 5 discriminator 2
+  78 0030 4431      		cpi r20,20
+  79 0032 5105      		cpc r21,__zero_reg__
+  80 0034 01F4      		brne .L4
+  81               	.LBE11:
+  19:main.c        ****     }
+  20:main.c        ****     PORTA|=STROBE;
+  82               		.loc 1 20 5 is_stmt 1
+  83               		.loc 1 20 10 is_stmt 0
+  84 0036 DA9A      		sbi 0x1b,2
+  21:main.c        ****     PORTA&=~STROBE;
+  85               		.loc 1 21 5 is_stmt 1
+  86               		.loc 1 21 10 is_stmt 0
+  87 0038 DA98      		cbi 0x1b,2
+  88               	/* epilogue start */
+  22:main.c        **** }
+  89               		.loc 1 22 1
+  90 003a 1F91      		pop r17
+  91 003c 0F91      		pop r16
+  92 003e 0895      		ret
+  93               	.L2:
+  94               	.LBB12:
+  15:main.c        ****         }
+  95               		.loc 1 15 13 is_stmt 1
+  15:main.c        ****         }
+  96               		.loc 1 15 18 is_stmt 0
+  97 0040 D998      		cbi 0x1b,1
+  98 0042 00C0      		rjmp .L3
+  99               	.LBE12:
+ 100               		.cfi_endproc
+ 101               	.LFE6:
+ 103               		.section	.text.startup,"ax",@progbits
+ 104               	.global	main
+ 106               	main:
+ 107               	.LFB7:
+  23:main.c        **** 
+  24:main.c        **** volatile uint8_t state=0;
+  25:main.c        **** Led leds[NBLEDS];
+  26:main.c        **** 
+  27:main.c        **** int main(void){    
+ 108               		.loc 1 27 15 is_stmt 1
+ 109               		.cfi_startproc
+ 110               	/* prologue: function */
+ 111               	/* frame size = 0 */
+ 112               	/* stack size = 0 */
+ 113               	.L__stack_usage = 0
+  28:main.c        ****     DDRA |= CLK|DATA|STROBE|LED;
+ 114               		.loc 1 28 5
+ 115               		.loc 1 28 10 is_stmt 0
+ 116 0000 8AB3      		in r24,0x1a
+ 117 0002 8F60      		ori r24,lo8(15)
+ 118 0004 8ABB      		out 0x1a,r24
+  29:main.c        ****     PORTA &= ~(CLK|DATA|STROBE|LED);
+ 119               		.loc 1 29 5 is_stmt 1
+ 120               		.loc 1 29 11 is_stmt 0
+ 121 0006 8BB3      		in r24,0x1b
+ 122 0008 807F      		andi r24,lo8(-16)
+ 123 000a 8BBB      		out 0x1b,r24
+  30:main.c        ****     ledInit(leds);
+ 124               		.loc 1 30 5 is_stmt 1
+ 125 000c 80E0      		ldi r24,lo8(leds)
+ 126 000e 90E0      		ldi r25,hi8(leds)
+ 127 0010 00D0      		rcall ledInit
+ 128               	.LVL5:
+  31:main.c        ****     
+  32:main.c        ****     TIMSK1|=(1<<TOIE1);
+ 129               		.loc 1 32 5
+ 130               		.loc 1 32 11 is_stmt 0
+ 131 0012 609A      		sbi 0xc,0
+  33:main.c        ****     TIMSK0|=(1<<TOIE0);
+ 132               		.loc 1 33 5 is_stmt 1
+ 133               		.loc 1 33 11 is_stmt 0
+ 134 0014 89B7      		in r24,0x39
+ 135 0016 8160      		ori r24,lo8(1)
+ 136 0018 89BF      		out 0x39,r24
+  34:main.c        ****     sei();
+ 137               		.loc 1 34 5 is_stmt 1
+ 138               	/* #APP */
+ 139               	 ;  34 "main.c" 1
+ 140 001a 7894      		sei
+ 141               	 ;  0 "" 2
+  35:main.c        ****     
+  36:main.c        ****     sendData(0b11111100001111111111);
+ 142               		.loc 1 36 5
+ 143               	/* #NOAPP */
+ 144 001c 6FEF      		ldi r22,lo8(-1)
+ 145 001e 73EC      		ldi r23,lo8(-61)
+ 146 0020 8FE0      		ldi r24,lo8(15)
+ 147 0022 90E0      		ldi r25,0
+ 148 0024 00D0      		rcall sendData
+ 149               	.LVL6:
+  37:main.c        ****     _delay_ms(250);
+ 150               		.loc 1 37 5
+ 151               	.LBB13:
+ 152               	.LBB14:
+ 153               		.file 2 "c:\\winavr-20100110\\avr\\include\\util\\delay.h"
+   1:c:\winavr-20100110\avr\include\util\delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:c:\winavr-20100110\avr\include\util\delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:c:\winavr-20100110\avr\include\util\delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:c:\winavr-20100110\avr\include\util\delay.h ****    All rights reserved.
+   5:c:\winavr-20100110\avr\include\util\delay.h **** 
+   6:c:\winavr-20100110\avr\include\util\delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:c:\winavr-20100110\avr\include\util\delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:c:\winavr-20100110\avr\include\util\delay.h **** 
+   9:c:\winavr-20100110\avr\include\util\delay.h ****    * Redistributions of source code must retain the above copyright
+  10:c:\winavr-20100110\avr\include\util\delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:c:\winavr-20100110\avr\include\util\delay.h **** 
+  12:c:\winavr-20100110\avr\include\util\delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:c:\winavr-20100110\avr\include\util\delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:c:\winavr-20100110\avr\include\util\delay.h ****      the documentation and/or other materials provided with the
+  15:c:\winavr-20100110\avr\include\util\delay.h ****      distribution.
+  16:c:\winavr-20100110\avr\include\util\delay.h **** 
+  17:c:\winavr-20100110\avr\include\util\delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:c:\winavr-20100110\avr\include\util\delay.h ****      contributors may be used to endorse or promote products derived
+  19:c:\winavr-20100110\avr\include\util\delay.h ****      from this software without specific prior written permission.
+  20:c:\winavr-20100110\avr\include\util\delay.h **** 
+  21:c:\winavr-20100110\avr\include\util\delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:c:\winavr-20100110\avr\include\util\delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:c:\winavr-20100110\avr\include\util\delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:c:\winavr-20100110\avr\include\util\delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:c:\winavr-20100110\avr\include\util\delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:c:\winavr-20100110\avr\include\util\delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:c:\winavr-20100110\avr\include\util\delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:c:\winavr-20100110\avr\include\util\delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:c:\winavr-20100110\avr\include\util\delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:c:\winavr-20100110\avr\include\util\delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:c:\winavr-20100110\avr\include\util\delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:c:\winavr-20100110\avr\include\util\delay.h **** 
+  33:c:\winavr-20100110\avr\include\util\delay.h **** /* $Id: delay.h.in 2506 2016-02-08 10:05:45Z joerg_wunsch $ */
+  34:c:\winavr-20100110\avr\include\util\delay.h **** 
+  35:c:\winavr-20100110\avr\include\util\delay.h **** #ifndef _UTIL_DELAY_H_
+  36:c:\winavr-20100110\avr\include\util\delay.h **** #define _UTIL_DELAY_H_ 1
+  37:c:\winavr-20100110\avr\include\util\delay.h **** 
+  38:c:\winavr-20100110\avr\include\util\delay.h **** #ifndef __DOXYGEN__
+  39:c:\winavr-20100110\avr\include\util\delay.h **** #  ifndef __HAS_DELAY_CYCLES
+  40:c:\winavr-20100110\avr\include\util\delay.h **** #    define __HAS_DELAY_CYCLES 1
+  41:c:\winavr-20100110\avr\include\util\delay.h **** #  endif
+  42:c:\winavr-20100110\avr\include\util\delay.h **** #endif  /* __DOXYGEN__ */
+  43:c:\winavr-20100110\avr\include\util\delay.h **** 
+  44:c:\winavr-20100110\avr\include\util\delay.h **** #include <inttypes.h>
+  45:c:\winavr-20100110\avr\include\util\delay.h **** #include <util/delay_basic.h>
+  46:c:\winavr-20100110\avr\include\util\delay.h **** #include <math.h>
+  47:c:\winavr-20100110\avr\include\util\delay.h **** 
+  48:c:\winavr-20100110\avr\include\util\delay.h **** /** \file */
+  49:c:\winavr-20100110\avr\include\util\delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  50:c:\winavr-20100110\avr\include\util\delay.h ****     \code
+  51:c:\winavr-20100110\avr\include\util\delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  52:c:\winavr-20100110\avr\include\util\delay.h ****     //#define F_CPU 14.7456E6
+  53:c:\winavr-20100110\avr\include\util\delay.h ****     #include <util/delay.h>
+  54:c:\winavr-20100110\avr\include\util\delay.h ****     \endcode
+  55:c:\winavr-20100110\avr\include\util\delay.h **** 
+  56:c:\winavr-20100110\avr\include\util\delay.h ****     \note As an alternative method, it is possible to pass the
+  57:c:\winavr-20100110\avr\include\util\delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  58:c:\winavr-20100110\avr\include\util\delay.h ****     Obviously, in that case, no \c \#define statement should be
+  59:c:\winavr-20100110\avr\include\util\delay.h ****     used.
+  60:c:\winavr-20100110\avr\include\util\delay.h **** 
+  61:c:\winavr-20100110\avr\include\util\delay.h ****     The functions in this header file are wrappers around the basic
+  62:c:\winavr-20100110\avr\include\util\delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  63:c:\winavr-20100110\avr\include\util\delay.h ****     convenience functions where actual time values can be specified
+  64:c:\winavr-20100110\avr\include\util\delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  65:c:\winavr-20100110\avr\include\util\delay.h ****     that compile-time constant expressions will be eliminated by
+  66:c:\winavr-20100110\avr\include\util\delay.h ****     compiler optimization so floating-point expressions can be used
+  67:c:\winavr-20100110\avr\include\util\delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  68:c:\winavr-20100110\avr\include\util\delay.h ****     frequency passed by the macro F_CPU.
+  69:c:\winavr-20100110\avr\include\util\delay.h **** 
+  70:c:\winavr-20100110\avr\include\util\delay.h ****     \note In order for these functions to work as intended, compiler
+  71:c:\winavr-20100110\avr\include\util\delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  72:c:\winavr-20100110\avr\include\util\delay.h ****     <em>must</em> be an expression that is a known constant at
+  73:c:\winavr-20100110\avr\include\util\delay.h ****     compile-time.  If these requirements are not met, the resulting
+  74:c:\winavr-20100110\avr\include\util\delay.h ****     delay will be much longer (and basically unpredictable), and
+  75:c:\winavr-20100110\avr\include\util\delay.h ****     applications that otherwise do not use floating-point calculations
+  76:c:\winavr-20100110\avr\include\util\delay.h ****     will experience severe code bloat by the floating-point library
+  77:c:\winavr-20100110\avr\include\util\delay.h ****     routines linked into the application.
+  78:c:\winavr-20100110\avr\include\util\delay.h **** 
+  79:c:\winavr-20100110\avr\include\util\delay.h ****     The functions available allow the specification of microsecond, and
+  80:c:\winavr-20100110\avr\include\util\delay.h ****     millisecond delays directly, using the application-supplied macro
+  81:c:\winavr-20100110\avr\include\util\delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  82:c:\winavr-20100110\avr\include\util\delay.h **** 
+  83:c:\winavr-20100110\avr\include\util\delay.h **** */
+  84:c:\winavr-20100110\avr\include\util\delay.h **** 
+  85:c:\winavr-20100110\avr\include\util\delay.h **** #if !defined(__DOXYGEN__)
+  86:c:\winavr-20100110\avr\include\util\delay.h **** static __inline__ void _delay_us(double __us) __attribute__((__always_inline__));
+  87:c:\winavr-20100110\avr\include\util\delay.h **** static __inline__ void _delay_ms(double __ms) __attribute__((__always_inline__));
+  88:c:\winavr-20100110\avr\include\util\delay.h **** #endif
+  89:c:\winavr-20100110\avr\include\util\delay.h **** 
+  90:c:\winavr-20100110\avr\include\util\delay.h **** #ifndef F_CPU
+  91:c:\winavr-20100110\avr\include\util\delay.h **** /* prevent compiler error by supplying a default */
+  92:c:\winavr-20100110\avr\include\util\delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  93:c:\winavr-20100110\avr\include\util\delay.h **** /** \ingroup util_delay
+  94:c:\winavr-20100110\avr\include\util\delay.h ****     \def F_CPU
+  95:c:\winavr-20100110\avr\include\util\delay.h ****     \brief CPU frequency in Hz
+  96:c:\winavr-20100110\avr\include\util\delay.h **** 
+  97:c:\winavr-20100110\avr\include\util\delay.h ****     The macro F_CPU specifies the CPU frequency to be considered by
+  98:c:\winavr-20100110\avr\include\util\delay.h ****     the delay macros.  This macro is normally supplied by the
+  99:c:\winavr-20100110\avr\include\util\delay.h ****     environment (e.g. from within a project header, or the project's
+ 100:c:\winavr-20100110\avr\include\util\delay.h ****     Makefile).  The value 1 MHz here is only provided as a "vanilla"
+ 101:c:\winavr-20100110\avr\include\util\delay.h ****     fallback if no such user-provided definition could be found.
+ 102:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 103:c:\winavr-20100110\avr\include\util\delay.h ****     In terms of the delay functions, the CPU frequency can be given as
+ 104:c:\winavr-20100110\avr\include\util\delay.h ****     a floating-point constant (e.g. 3.6864E6 for 3.6864 MHz).
+ 105:c:\winavr-20100110\avr\include\util\delay.h ****     However, the macros in <util/setbaud.h> require it to be an
+ 106:c:\winavr-20100110\avr\include\util\delay.h ****     integer value.
+ 107:c:\winavr-20100110\avr\include\util\delay.h ****  */
+ 108:c:\winavr-20100110\avr\include\util\delay.h **** # define F_CPU 1000000UL
+ 109:c:\winavr-20100110\avr\include\util\delay.h **** #endif
+ 110:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 111:c:\winavr-20100110\avr\include\util\delay.h **** #ifndef __OPTIMIZE__
+ 112:c:\winavr-20100110\avr\include\util\delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+ 113:c:\winavr-20100110\avr\include\util\delay.h **** #endif
+ 114:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 115:c:\winavr-20100110\avr\include\util\delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 116:c:\winavr-20100110\avr\include\util\delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 117:c:\winavr-20100110\avr\include\util\delay.h ****   __STDC_HOSTED__
+ 118:c:\winavr-20100110\avr\include\util\delay.h **** #  include <math.h>
+ 119:c:\winavr-20100110\avr\include\util\delay.h **** #endif
+ 120:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 121:c:\winavr-20100110\avr\include\util\delay.h **** /**
+ 122:c:\winavr-20100110\avr\include\util\delay.h ****    \ingroup util_delay
+ 123:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 124:c:\winavr-20100110\avr\include\util\delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+ 125:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 126:c:\winavr-20100110\avr\include\util\delay.h ****    The macro F_CPU is supposed to be defined to a
+ 127:c:\winavr-20100110\avr\include\util\delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 128:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 129:c:\winavr-20100110\avr\include\util\delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 130:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 131:c:\winavr-20100110\avr\include\util\delay.h ****    When the user request delay which exceed the maximum possible one,
+ 132:c:\winavr-20100110\avr\include\util\delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 133:c:\winavr-20100110\avr\include\util\delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 134:c:\winavr-20100110\avr\include\util\delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 135:c:\winavr-20100110\avr\include\util\delay.h ****    user will not be informed about decreased resolution.
+ 136:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 137:c:\winavr-20100110\avr\include\util\delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles()
+ 138:c:\winavr-20100110\avr\include\util\delay.h ****    support, maximal possible delay is 4294967.295 ms/ F_CPU in MHz. For
+ 139:c:\winavr-20100110\avr\include\util\delay.h ****    values greater than the maximal possible delay, overflows results in
+ 140:c:\winavr-20100110\avr\include\util\delay.h ****    no delay i.e., 0ms.
+ 141:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 142:c:\winavr-20100110\avr\include\util\delay.h ****    Conversion of \c __ms into clock cycles may not always result in
+ 143:c:\winavr-20100110\avr\include\util\delay.h ****    integer.  By default, the clock cycles rounded up to next
+ 144:c:\winavr-20100110\avr\include\util\delay.h ****    integer. This ensures that the user gets at least \c __ms
+ 145:c:\winavr-20100110\avr\include\util\delay.h ****    microseconds of delay.
+ 146:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 147:c:\winavr-20100110\avr\include\util\delay.h ****    Alternatively, by defining the macro \c __DELAY_ROUND_DOWN__, or
+ 148:c:\winavr-20100110\avr\include\util\delay.h ****    \c __DELAY_ROUND_CLOSEST__, before including this header file, the
+ 149:c:\winavr-20100110\avr\include\util\delay.h ****    algorithm can be made to round down, or round to closest integer,
+ 150:c:\winavr-20100110\avr\include\util\delay.h ****    respectively.
+ 151:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 152:c:\winavr-20100110\avr\include\util\delay.h ****    \note
+ 153:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 154:c:\winavr-20100110\avr\include\util\delay.h ****    The implementation of _delay_ms() based on
+ 155:c:\winavr-20100110\avr\include\util\delay.h ****    __builtin_avr_delay_cycles() is not backward compatible with older
+ 156:c:\winavr-20100110\avr\include\util\delay.h ****    implementations.  In order to get functionality backward compatible
+ 157:c:\winavr-20100110\avr\include\util\delay.h ****    with previous versions, the macro \c "__DELAY_BACKWARD_COMPATIBLE__"
+ 158:c:\winavr-20100110\avr\include\util\delay.h ****    must be defined before including this header file. Also, the
+ 159:c:\winavr-20100110\avr\include\util\delay.h ****    backward compatible algorithm will be chosen if the code is
+ 160:c:\winavr-20100110\avr\include\util\delay.h ****    compiled in a <em>freestanding environment</em> (GCC option
+ 161:c:\winavr-20100110\avr\include\util\delay.h ****    \c -ffreestanding), as the math functions required for rounding are
+ 162:c:\winavr-20100110\avr\include\util\delay.h ****    not available to the compiler then.
+ 163:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 164:c:\winavr-20100110\avr\include\util\delay.h ****  */
+ 165:c:\winavr-20100110\avr\include\util\delay.h **** void
+ 166:c:\winavr-20100110\avr\include\util\delay.h **** _delay_ms(double __ms)
+ 167:c:\winavr-20100110\avr\include\util\delay.h **** {
+ 168:c:\winavr-20100110\avr\include\util\delay.h **** 	double __tmp ;
+ 154               		.loc 2 168 2
+ 169:c:\winavr-20100110\avr\include\util\delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 170:c:\winavr-20100110\avr\include\util\delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 171:c:\winavr-20100110\avr\include\util\delay.h ****   __STDC_HOSTED__
+ 172:c:\winavr-20100110\avr\include\util\delay.h **** 	uint32_t __ticks_dc;
+ 155               		.loc 2 172 2
+ 173:c:\winavr-20100110\avr\include\util\delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 156               		.loc 2 173 2
+ 174:c:\winavr-20100110\avr\include\util\delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 157               		.loc 2 174 2
+ 175:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 176:c:\winavr-20100110\avr\include\util\delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 177:c:\winavr-20100110\avr\include\util\delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 178:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 179:c:\winavr-20100110\avr\include\util\delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 180:c:\winavr-20100110\avr\include\util\delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 181:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 182:c:\winavr-20100110\avr\include\util\delay.h **** 	#else
+ 183:c:\winavr-20100110\avr\include\util\delay.h **** 		//round up by default
+ 184:c:\winavr-20100110\avr\include\util\delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 158               		.loc 2 184 3
+ 185:c:\winavr-20100110\avr\include\util\delay.h **** 	#endif
+ 186:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 187:c:\winavr-20100110\avr\include\util\delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 159               		.loc 2 187 2
+ 160 0026 2FEF      		ldi r18,lo8(799999)
+ 161 0028 84E3      		ldi r24,hi8(799999)
+ 162 002a 9CE0      		ldi r25,hlo8(799999)
+ 163 002c 2150      	1:	subi r18,1
+ 164 002e 8040      		sbci r24,0
+ 165 0030 9040      		sbci r25,0
+ 166 0032 01F4      		brne 1b
+ 167 0034 00C0      		rjmp .
+ 168 0036 0000      		nop
+ 169               	.LVL7:
+ 170               	.LBE14:
+ 171               	.LBE13:
+  38:main.c        ****     sendData(0b11000000001111111111);
+ 172               		.loc 1 38 5
+ 173 0038 6FEF      		ldi r22,lo8(-1)
+ 174 003a 73E0      		ldi r23,lo8(3)
+ 175 003c 8CE0      		ldi r24,lo8(12)
+ 176 003e 90E0      		ldi r25,0
+ 177 0040 00D0      		rcall sendData
+ 178               	.LVL8:
+  39:main.c        ****     _delay_ms(250);
+ 179               		.loc 1 39 5
+ 180               	.LBB15:
+ 181               	.LBB16:
+ 168:c:\winavr-20100110\avr\include\util\delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 182               		.loc 2 168 2
+ 172:c:\winavr-20100110\avr\include\util\delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 183               		.loc 2 172 2
+ 173:c:\winavr-20100110\avr\include\util\delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 184               		.loc 2 173 2
+ 174:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 185               		.loc 2 174 2
+ 184:c:\winavr-20100110\avr\include\util\delay.h **** 	#endif
+ 186               		.loc 2 184 3
+ 187               		.loc 2 187 2
+ 188 0042 2FEF      		ldi r18,lo8(799999)
+ 189 0044 84E3      		ldi r24,hi8(799999)
+ 190 0046 9CE0      		ldi r25,hlo8(799999)
+ 191 0048 2150      	1:	subi r18,1
+ 192 004a 8040      		sbci r24,0
+ 193 004c 9040      		sbci r25,0
+ 194 004e 01F4      		brne 1b
+ 195 0050 00C0      		rjmp .
+ 196 0052 0000      		nop
+ 197               	.LVL9:
+ 198               	.LBE16:
+ 199               	.LBE15:
+  40:main.c        ****     sendData(0b00001100001111111111);
+ 200               		.loc 1 40 5
+ 201 0054 6FEF      		ldi r22,lo8(-1)
+ 202 0056 73EC      		ldi r23,lo8(-61)
+ 203 0058 80E0      		ldi r24,0
+ 204 005a 90E0      		ldi r25,0
+ 205 005c 00D0      		rcall sendData
+ 206               	.LVL10:
+  41:main.c        ****     _delay_ms(250);
+ 207               		.loc 1 41 5
+ 208               	.LBB17:
+ 209               	.LBB18:
+ 168:c:\winavr-20100110\avr\include\util\delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 210               		.loc 2 168 2
+ 172:c:\winavr-20100110\avr\include\util\delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 211               		.loc 2 172 2
+ 173:c:\winavr-20100110\avr\include\util\delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 212               		.loc 2 173 2
+ 174:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 213               		.loc 2 174 2
+ 184:c:\winavr-20100110\avr\include\util\delay.h **** 	#endif
+ 214               		.loc 2 184 3
+ 215               		.loc 2 187 2
+ 216 005e 2FEF      		ldi r18,lo8(799999)
+ 217 0060 84E3      		ldi r24,hi8(799999)
+ 218 0062 9CE0      		ldi r25,hlo8(799999)
+ 219 0064 2150      	1:	subi r18,1
+ 220 0066 8040      		sbci r24,0
+ 221 0068 9040      		sbci r25,0
+ 222 006a 01F4      		brne 1b
+ 223 006c 00C0      		rjmp .
+ 224 006e 0000      		nop
+ 225               	.LVL11:
+ 226               	.LBE18:
+ 227               	.LBE17:
+  42:main.c        ****     sendData(0b00110000001111111111);
+ 228               		.loc 1 42 5
+ 229 0070 6FEF      		ldi r22,lo8(-1)
+ 230 0072 73E0      		ldi r23,lo8(3)
+ 231 0074 83E0      		ldi r24,lo8(3)
+ 232 0076 90E0      		ldi r25,0
+ 233 0078 00D0      		rcall sendData
+ 234               	.LVL12:
+  43:main.c        ****     _delay_ms(250);
+ 235               		.loc 1 43 5
+ 236               	.LBB19:
+ 237               	.LBB20:
+ 168:c:\winavr-20100110\avr\include\util\delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 238               		.loc 2 168 2
+ 172:c:\winavr-20100110\avr\include\util\delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 239               		.loc 2 172 2
+ 173:c:\winavr-20100110\avr\include\util\delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 240               		.loc 2 173 2
+ 174:c:\winavr-20100110\avr\include\util\delay.h **** 
+ 241               		.loc 2 174 2
+ 184:c:\winavr-20100110\avr\include\util\delay.h **** 	#endif
+ 242               		.loc 2 184 3
+ 243               		.loc 2 187 2
+ 244 007a 2FEF      		ldi r18,lo8(799999)
+ 245 007c 84E3      		ldi r24,hi8(799999)
+ 246 007e 9CE0      		ldi r25,hlo8(799999)
+ 247 0080 2150      	1:	subi r18,1
+ 248 0082 8040      		sbci r24,0
+ 249 0084 9040      		sbci r25,0
+ 250 0086 01F4      		brne 1b
+ 251 0088 00C0      		rjmp .
+ 252 008a 0000      		nop
+ 253               	.LVL13:
+ 254               	.LBE20:
+ 255               	.LBE19:
+  44:main.c        ****     
+  45:main.c        ****     TCCR1B|=(1<<CS12);//|(1<<CS10);
+ 256               		.loc 1 45 5
+ 257               		.loc 1 45 11 is_stmt 0
+ 258 008c 8EB5      		in r24,0x2e
+ 259 008e 8460      		ori r24,lo8(4)
+ 260 0090 8EBD      		out 0x2e,r24
+  46:main.c        ****     TCCR0B|=(1<<CS01)|(1<<CS00);
+ 261               		.loc 1 46 5 is_stmt 1
+ 262               		.loc 1 46 11 is_stmt 0
+ 263 0092 83B7      		in r24,0x33
+ 264 0094 8360      		ori r24,lo8(3)
+ 265 0096 83BF      		out 0x33,r24
+  47:main.c        ****     
+  48:main.c        ****     currentColor=tcolorV(RED);
+ 266               		.loc 1 48 5 is_stmt 1
+ 267               		.loc 1 48 18 is_stmt 0
+ 268 0098 60E0      		ldi r22,0
+ 269 009a 70E0      		ldi r23,0
+ 270 009c 8FEF      		ldi r24,lo8(-1)
+ 271 009e 90E0      		ldi r25,0
+ 272 00a0 00D0      		rcall tcolorV
+ 273               	.LVL14:
+ 274 00a2 6093 0000 		sts currentColor,r22
+ 275 00a6 7093 0000 		sts currentColor+1,r23
+ 276 00aa 8093 0000 		sts currentColor+2,r24
+  49:main.c        ****     //setCurrentTime(15,45,7,11);
+  50:main.c        **** 	RTC_readTime(&currentTime);
+ 277               		.loc 1 50 2 is_stmt 1
+ 278 00ae 80E0      		ldi r24,lo8(currentTime)
+ 279 00b0 90E0      		ldi r25,hi8(currentTime)
+ 280 00b2 00D0      		rcall RTC_readTime
+ 281               	.LVL15:
+  51:main.c        ****     currentTime.temp=11;
+ 282               		.loc 1 51 5
+ 283               		.loc 1 51 21 is_stmt 0
+ 284 00b4 8BE0      		ldi r24,lo8(11)
+ 285 00b6 8093 0000 		sts currentTime+4,r24
+  52:main.c        ****     setLeds(currentTime,leds,currentColor);
+ 286               		.loc 1 52 5 is_stmt 1
+ 287 00ba E090 0000 		lds r14,currentColor
+ 288 00be F090 0000 		lds r15,currentColor+1
+ 289 00c2 0091 0000 		lds r16,currentColor+2
+ 290 00c6 20E0      		ldi r18,lo8(leds)
+ 291 00c8 30E0      		ldi r19,hi8(leds)
+ 292 00ca 4091 0000 		lds r20,currentTime
+ 293 00ce 5091 0000 		lds r21,currentTime+1
+ 294 00d2 6091 0000 		lds r22,currentTime+2
+ 295 00d6 7091 0000 		lds r23,currentTime+3
+ 296 00da 00D0      		rcall setLeds
+ 297               	.LVL16:
+ 298               	.L7:
+  53:main.c        ****     
+  54:main.c        ****     while(1){
+ 299               		.loc 1 54 5 discriminator 1
+  55:main.c        ****        
+  56:main.c        ****     }
+ 300               		.loc 1 56 5 discriminator 1
+ 301 00dc 00C0      		rjmp .L7
+ 302               		.cfi_endproc
+ 303               	.LFE7:
+ 305               		.text
+ 306               	.global	__vector_8
+ 308               	__vector_8:
+ 309               	.LFB8:
+  57:main.c        ****     return(0);
+  58:main.c        ****     
+  59:main.c        **** }
+  60:main.c        **** ISR( TIM1_OVF_vect ){
+ 310               		.loc 1 60 21
+ 311               		.cfi_startproc
+ 312 0044 1F92      		push r1
+ 313               	.LCFI2:
+ 314               		.cfi_def_cfa_offset 3
+ 315               		.cfi_offset 1, -2
+ 316 0046 0F92      		push r0
+ 317               	.LCFI3:
+ 318               		.cfi_def_cfa_offset 4
+ 319               		.cfi_offset 0, -3
+ 320 0048 0FB6      		in r0,__SREG__
+ 321 004a 0F92      		push r0
+ 322 004c 1124      		clr __zero_reg__
+ 323 004e EF92      		push r14
+ 324               	.LCFI4:
+ 325               		.cfi_def_cfa_offset 5
+ 326               		.cfi_offset 14, -4
+ 327 0050 FF92      		push r15
+ 328               	.LCFI5:
+ 329               		.cfi_def_cfa_offset 6
+ 330               		.cfi_offset 15, -5
+ 331 0052 0F93      		push r16
+ 332               	.LCFI6:
+ 333               		.cfi_def_cfa_offset 7
+ 334               		.cfi_offset 16, -6
+ 335 0054 2F93      		push r18
+ 336               	.LCFI7:
+ 337               		.cfi_def_cfa_offset 8
+ 338               		.cfi_offset 18, -7
+ 339 0056 3F93      		push r19
+ 340               	.LCFI8:
+ 341               		.cfi_def_cfa_offset 9
+ 342               		.cfi_offset 19, -8
+ 343 0058 4F93      		push r20
+ 344               	.LCFI9:
+ 345               		.cfi_def_cfa_offset 10
+ 346               		.cfi_offset 20, -9
+ 347 005a 5F93      		push r21
+ 348               	.LCFI10:
+ 349               		.cfi_def_cfa_offset 11
+ 350               		.cfi_offset 21, -10
+ 351 005c 6F93      		push r22
+ 352               	.LCFI11:
+ 353               		.cfi_def_cfa_offset 12
+ 354               		.cfi_offset 22, -11
+ 355 005e 7F93      		push r23
+ 356               	.LCFI12:
+ 357               		.cfi_def_cfa_offset 13
+ 358               		.cfi_offset 23, -12
+ 359 0060 8F93      		push r24
+ 360               	.LCFI13:
+ 361               		.cfi_def_cfa_offset 14
+ 362               		.cfi_offset 24, -13
+ 363 0062 9F93      		push r25
+ 364               	.LCFI14:
+ 365               		.cfi_def_cfa_offset 15
+ 366               		.cfi_offset 25, -14
+ 367 0064 AF93      		push r26
+ 368               	.LCFI15:
+ 369               		.cfi_def_cfa_offset 16
+ 370               		.cfi_offset 26, -15
+ 371 0066 BF93      		push r27
+ 372               	.LCFI16:
+ 373               		.cfi_def_cfa_offset 17
+ 374               		.cfi_offset 27, -16
+ 375 0068 EF93      		push r30
+ 376               	.LCFI17:
+ 377               		.cfi_def_cfa_offset 18
+ 378               		.cfi_offset 30, -17
+ 379 006a FF93      		push r31
+ 380               	.LCFI18:
+ 381               		.cfi_def_cfa_offset 19
+ 382               		.cfi_offset 31, -18
+ 383               	/* prologue: Signal */
+ 384               	/* frame size = 0 */
+ 385               	/* stack size = 18 */
+ 386               	.L__stack_usage = 18
+  61:main.c        ****     PORTA^=LED;
+ 387               		.loc 1 61 5
+ 388               		.loc 1 61 10 is_stmt 0
+ 389 006c 8BB3      		in r24,0x1b
+ 390 006e 91E0      		ldi r25,lo8(1)
+ 391 0070 8927      		eor r24,r25
+ 392 0072 8BBB      		out 0x1b,r24
+  62:main.c        ****     RTC_readTime(&currentTime);
+ 393               		.loc 1 62 5 is_stmt 1
+ 394 0074 80E0      		ldi r24,lo8(currentTime)
+ 395 0076 90E0      		ldi r25,hi8(currentTime)
+ 396 0078 00D0      		rcall RTC_readTime
+ 397               	.LVL17:
+  63:main.c        ****     setLeds(currentTime,leds,currentColor);
+ 398               		.loc 1 63 5
+ 399 007a E090 0000 		lds r14,currentColor
+ 400 007e F090 0000 		lds r15,currentColor+1
+ 401 0082 0091 0000 		lds r16,currentColor+2
+ 402 0086 20E0      		ldi r18,lo8(leds)
+ 403 0088 30E0      		ldi r19,hi8(leds)
+ 404 008a 4091 0000 		lds r20,currentTime
+ 405 008e 5091 0000 		lds r21,currentTime+1
+ 406 0092 6091 0000 		lds r22,currentTime+2
+ 407 0096 7091 0000 		lds r23,currentTime+3
+ 408 009a 8091 0000 		lds r24,currentTime+4
+ 409 009e 00D0      		rcall setLeds
+ 410               	.LVL18:
+ 411               	/* epilogue start */
+  64:main.c        **** }
+ 412               		.loc 1 64 1 is_stmt 0
+ 413 00a0 FF91      		pop r31
+ 414 00a2 EF91      		pop r30
+ 415 00a4 BF91      		pop r27
+ 416 00a6 AF91      		pop r26
+ 417 00a8 9F91      		pop r25
+ 418 00aa 8F91      		pop r24
+ 419 00ac 7F91      		pop r23
+ 420 00ae 6F91      		pop r22
+ 421 00b0 5F91      		pop r21
+ 422 00b2 4F91      		pop r20
+ 423 00b4 3F91      		pop r19
+ 424 00b6 2F91      		pop r18
+ 425 00b8 0F91      		pop r16
+ 426 00ba FF90      		pop r15
+ 427 00bc EF90      		pop r14
+ 428 00be 0F90      		pop r0
+ 429 00c0 0FBE      		out __SREG__,r0
+ 430 00c2 0F90      		pop r0
+ 431 00c4 1F90      		pop r1
+ 432 00c6 1895      		reti
+ 433               		.cfi_endproc
+ 434               	.LFE8:
+ 436               	.global	__vector_11
+ 438               	__vector_11:
+ 439               	.LFB9:
+  65:main.c        **** ISR( TIM0_OVF_vect ){
+ 440               		.loc 1 65 21 is_stmt 1
+ 441               		.cfi_startproc
+ 442 00c8 1F92      		push r1
+ 443               	.LCFI19:
+ 444               		.cfi_def_cfa_offset 3
+ 445               		.cfi_offset 1, -2
+ 446 00ca 0F92      		push r0
+ 447               	.LCFI20:
+ 448               		.cfi_def_cfa_offset 4
+ 449               		.cfi_offset 0, -3
+ 450 00cc 0FB6      		in r0,__SREG__
+ 451 00ce 0F92      		push r0
+ 452 00d0 1124      		clr __zero_reg__
+ 453 00d2 2F93      		push r18
+ 454               	.LCFI21:
+ 455               		.cfi_def_cfa_offset 5
+ 456               		.cfi_offset 18, -4
+ 457 00d4 3F93      		push r19
+ 458               	.LCFI22:
+ 459               		.cfi_def_cfa_offset 6
+ 460               		.cfi_offset 19, -5
+ 461 00d6 4F93      		push r20
+ 462               	.LCFI23:
+ 463               		.cfi_def_cfa_offset 7
+ 464               		.cfi_offset 20, -6
+ 465 00d8 5F93      		push r21
+ 466               	.LCFI24:
+ 467               		.cfi_def_cfa_offset 8
+ 468               		.cfi_offset 21, -7
+ 469 00da 6F93      		push r22
+ 470               	.LCFI25:
+ 471               		.cfi_def_cfa_offset 9
+ 472               		.cfi_offset 22, -8
+ 473 00dc 7F93      		push r23
+ 474               	.LCFI26:
+ 475               		.cfi_def_cfa_offset 10
+ 476               		.cfi_offset 23, -9
+ 477 00de 8F93      		push r24
+ 478               	.LCFI27:
+ 479               		.cfi_def_cfa_offset 11
+ 480               		.cfi_offset 24, -10
+ 481 00e0 9F93      		push r25
+ 482               	.LCFI28:
+ 483               		.cfi_def_cfa_offset 12
+ 484               		.cfi_offset 25, -11
+ 485 00e2 AF93      		push r26
+ 486               	.LCFI29:
+ 487               		.cfi_def_cfa_offset 13
+ 488               		.cfi_offset 26, -12
+ 489 00e4 BF93      		push r27
+ 490               	.LCFI30:
+ 491               		.cfi_def_cfa_offset 14
+ 492               		.cfi_offset 27, -13
+ 493 00e6 EF93      		push r30
+ 494               	.LCFI31:
+ 495               		.cfi_def_cfa_offset 15
+ 496               		.cfi_offset 30, -14
+ 497 00e8 FF93      		push r31
+ 498               	.LCFI32:
+ 499               		.cfi_def_cfa_offset 16
+ 500               		.cfi_offset 31, -15
+ 501               	/* prologue: Signal */
+ 502               	/* frame size = 0 */
+ 503               	/* stack size = 15 */
+ 504               	.L__stack_usage = 15
+  66:main.c        ****     switch(state){
+ 505               		.loc 1 66 5
+ 506 00ea 8091 0000 		lds r24,state
+ 507 00ee 8230      		cpi r24,lo8(2)
+ 508 00f0 01F4      		brne .+2
+ 509 00f2 00C0      		rjmp .L10
+ 510 00f4 00F4      		brsh .L11
+ 511 00f6 8823      		tst r24
+ 512 00f8 01F0      		breq .L12
+ 513 00fa 8130      		cpi r24,lo8(1)
+ 514 00fc 01F0      		breq .L13
+ 515               	.L14:
+  67:main.c        ****         case 0:
+  68:main.c        ****             sendData(R2 | getDataByColor(tcolor(1,0,0),0,leds));
+  69:main.c        ****             break;
+  70:main.c        ****         case 1:
+  71:main.c        ****             sendData(R1 | getDataByColor(tcolor(1,0,0),1,leds));
+  72:main.c        ****             break;
+  73:main.c        ****         case 2:
+  74:main.c        ****             sendData(G2 | getDataByColor(tcolor(0,1,0),0,leds));
+  75:main.c        ****             break;
+  76:main.c        ****         case 3:
+  77:main.c        ****             sendData(G1 | getDataByColor(tcolor(0,1,0),1,leds));
+  78:main.c        ****             break;
+  79:main.c        ****         case 4:
+  80:main.c        ****             sendData(B2 | getDataByColor(tcolor(0,0,1),0,leds));
+  81:main.c        ****             break;
+  82:main.c        ****         case 5:
+  83:main.c        ****             sendData(B1 | getDataByColor(tcolor(0,0,1),1,leds));
+  84:main.c        ****             break;
+  85:main.c        ****     }
+  86:main.c        ****     state++;
+ 516               		.loc 1 86 5
+ 517               		.loc 1 86 10 is_stmt 0
+ 518 00fe 8091 0000 		lds r24,state
+ 519 0102 8F5F      		subi r24,lo8(-(1))
+ 520 0104 8093 0000 		sts state,r24
+  87:main.c        ****     if(state>5)state=0;
+ 521               		.loc 1 87 5 is_stmt 1
+ 522               		.loc 1 87 13 is_stmt 0
+ 523 0108 8091 0000 		lds r24,state
+ 524               		.loc 1 87 7
+ 525 010c 8630      		cpi r24,lo8(6)
+ 526 010e 00F0      		brlo .L9
+ 527               		.loc 1 87 16 is_stmt 1 discriminator 1
+ 528               		.loc 1 87 21 is_stmt 0 discriminator 1
+ 529 0110 1092 0000 		sts state,__zero_reg__
+ 530               	.L9:
+ 531               	/* epilogue start */
+  88:main.c        **** }
+ 532               		.loc 1 88 1
+ 533 0114 FF91      		pop r31
+ 534 0116 EF91      		pop r30
+ 535 0118 BF91      		pop r27
+ 536 011a AF91      		pop r26
+ 537 011c 9F91      		pop r25
+ 538 011e 8F91      		pop r24
+ 539 0120 7F91      		pop r23
+ 540 0122 6F91      		pop r22
+ 541 0124 5F91      		pop r21
+ 542 0126 4F91      		pop r20
+ 543 0128 3F91      		pop r19
+ 544 012a 2F91      		pop r18
+ 545 012c 0F90      		pop r0
+ 546 012e 0FBE      		out __SREG__,r0
+ 547 0130 0F90      		pop r0
+ 548 0132 1F90      		pop r1
+ 549 0134 1895      		reti
+ 550               	.L11:
+ 551 0136 8430      		cpi r24,lo8(4)
+ 552 0138 01F0      		breq .L15
+ 553 013a 00F0      		brlo .L16
+ 554 013c 8530      		cpi r24,lo8(5)
+ 555 013e 01F4      		brne .L14
+  83:main.c        ****             break;
+ 556               		.loc 1 83 13 is_stmt 1
+  83:main.c        ****             break;
+ 557               		.loc 1 83 27 is_stmt 0
+ 558 0140 41E0      		ldi r20,lo8(1)
+ 559 0142 60E0      		ldi r22,0
+ 560 0144 80E0      		ldi r24,0
+ 561 0146 00D0      		rcall tcolor
+ 562               	.LVL19:
+ 563 0148 20E0      		ldi r18,lo8(leds)
+ 564 014a 30E0      		ldi r19,hi8(leds)
+ 565 014c 41E0      		ldi r20,lo8(1)
+ 566 014e 00D0      		rcall getDataByColor
+ 567               	.LVL20:
+  83:main.c        ****             break;
+ 568               		.loc 1 83 13
+ 569 0150 8160      		ori r24,1
+ 570 0152 00C0      		rjmp .L19
+ 571               	.L12:
+  68:main.c        ****             break;
+ 572               		.loc 1 68 13 is_stmt 1
+  68:main.c        ****             break;
+ 573               		.loc 1 68 27 is_stmt 0
+ 574 0154 40E0      		ldi r20,0
+ 575 0156 60E0      		ldi r22,0
+ 576 0158 81E0      		ldi r24,lo8(1)
+ 577 015a 00D0      		rcall tcolor
+ 578               	.LVL21:
+ 579 015c 20E0      		ldi r18,lo8(leds)
+ 580 015e 30E0      		ldi r19,hi8(leds)
+ 581 0160 40E0      		ldi r20,0
+ 582 0162 00D0      		rcall getDataByColor
+ 583               	.LVL22:
+  68:main.c        ****             break;
+ 584               		.loc 1 68 13
+ 585 0164 7064      		ori r23,64
+ 586               	.L19:
+  83:main.c        ****             break;
+ 587               		.loc 1 83 13
+ 588 0166 00D0      		rcall sendData
+ 589               	.LVL23:
+  84:main.c        ****     }
+ 590               		.loc 1 84 13 is_stmt 1
+ 591 0168 00C0      		rjmp .L14
+ 592               	.L13:
+  71:main.c        ****             break;
+ 593               		.loc 1 71 13
+  71:main.c        ****             break;
+ 594               		.loc 1 71 27 is_stmt 0
+ 595 016a 40E0      		ldi r20,0
+ 596 016c 60E0      		ldi r22,0
+ 597 016e 81E0      		ldi r24,lo8(1)
+ 598 0170 00D0      		rcall tcolor
+ 599               	.LVL24:
+ 600 0172 20E0      		ldi r18,lo8(leds)
+ 601 0174 30E0      		ldi r19,hi8(leds)
+ 602 0176 41E0      		ldi r20,lo8(1)
+ 603 0178 00D0      		rcall getDataByColor
+ 604               	.LVL25:
+  71:main.c        ****             break;
+ 605               		.loc 1 71 13
+ 606 017a 7068      		ori r23,128
+ 607 017c 00C0      		rjmp .L19
+ 608               	.L10:
+  74:main.c        ****             break;
+ 609               		.loc 1 74 13 is_stmt 1
+  74:main.c        ****             break;
+ 610               		.loc 1 74 27 is_stmt 0
+ 611 017e 40E0      		ldi r20,0
+ 612 0180 61E0      		ldi r22,lo8(1)
+ 613 0182 80E0      		ldi r24,0
+ 614 0184 00D0      		rcall tcolor
+ 615               	.LVL26:
+ 616 0186 20E0      		ldi r18,lo8(leds)
+ 617 0188 30E0      		ldi r19,hi8(leds)
+ 618 018a 40E0      		ldi r20,0
+ 619 018c 00D0      		rcall getDataByColor
+ 620               	.LVL27:
+  74:main.c        ****             break;
+ 621               		.loc 1 74 13
+ 622 018e 8460      		ori r24,4
+ 623 0190 00C0      		rjmp .L19
+ 624               	.L16:
+  77:main.c        ****             break;
+ 625               		.loc 1 77 13 is_stmt 1
+  77:main.c        ****             break;
+ 626               		.loc 1 77 27 is_stmt 0
+ 627 0192 40E0      		ldi r20,0
+ 628 0194 61E0      		ldi r22,lo8(1)
+ 629 0196 80E0      		ldi r24,0
+ 630 0198 00D0      		rcall tcolor
+ 631               	.LVL28:
+ 632 019a 20E0      		ldi r18,lo8(leds)
+ 633 019c 30E0      		ldi r19,hi8(leds)
+ 634 019e 41E0      		ldi r20,lo8(1)
+ 635 01a0 00D0      		rcall getDataByColor
+ 636               	.LVL29:
+  77:main.c        ****             break;
+ 637               		.loc 1 77 13
+ 638 01a2 8860      		ori r24,8
+ 639 01a4 00C0      		rjmp .L19
+ 640               	.L15:
+  80:main.c        ****             break;
+ 641               		.loc 1 80 13 is_stmt 1
+  80:main.c        ****             break;
+ 642               		.loc 1 80 27 is_stmt 0
+ 643 01a6 41E0      		ldi r20,lo8(1)
+ 644 01a8 60E0      		ldi r22,0
+ 645 01aa 80E0      		ldi r24,0
+ 646 01ac 00D0      		rcall tcolor
+ 647               	.LVL30:
+ 648 01ae 20E0      		ldi r18,lo8(leds)
+ 649 01b0 30E0      		ldi r19,hi8(leds)
+ 650 01b2 40E0      		ldi r20,0
+ 651 01b4 00D0      		rcall getDataByColor
+ 652               	.LVL31:
+  80:main.c        ****             break;
+ 653               		.loc 1 80 13
+ 654 01b6 8260      		ori r24,2
+ 655 01b8 00C0      		rjmp .L19
+ 656               		.cfi_endproc
+ 657               	.LFE9:
+ 659               		.comm	leds,95,1
+ 660               	.global	state
+ 661               		.section .bss
+ 664               	state:
+ 665 0000 00        		.zero	1
+ 666               		.comm	currentColor,3,1
+ 667               		.comm	USI_I2C_Master_State,1,1
+ 668               		.comm	currentTime,5,1
+ 669               		.text
+ 670               	.Letext0:
+ 671               		.file 3 "c:\\winavr-20100110\\avr\\include\\stdint.h"
+ 672               		.file 4 "RTC.h"
+ 673               		.file 5 "Led.h"
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\User\AppData\Local\Temp\ccqgZj77.s:2      *ABS*:0000003e __SP_H__
+C:\Users\User\AppData\Local\Temp\ccqgZj77.s:3      *ABS*:0000003d __SP_L__
+C:\Users\User\AppData\Local\Temp\ccqgZj77.s:4      *ABS*:0000003f __SREG__
+C:\Users\User\AppData\Local\Temp\ccqgZj77.s:5      *ABS*:00000000 __tmp_reg__
+C:\Users\User\AppData\Local\Temp\ccqgZj77.s:6      *ABS*:00000001 __zero_reg__
+C:\Users\User\AppData\Local\Temp\ccqgZj77.s:12     .text:00000000 sendData
+C:\Users\User\AppData\Local\Temp\ccqgZj77.s:106    .text.startup:00000000 main
+                            *COM*:0000005f leds
+                            *COM*:00000003 currentColor
+                            *COM*:00000005 currentTime
+C:\Users\User\AppData\Local\Temp\ccqgZj77.s:308    .text:00000044 __vector_8
+C:\Users\User\AppData\Local\Temp\ccqgZj77.s:438    .text:000000c8 __vector_11
+C:\Users\User\AppData\Local\Temp\ccqgZj77.s:664    .bss:00000000 state
+                            *COM*:00000001 USI_I2C_Master_State
+
+UNDEFINED SYMBOLS
+ledInit
+tcolorV
+RTC_readTime
+setLeds
+tcolor
+getDataByColor
+__do_clear_bss
