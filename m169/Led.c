@@ -91,7 +91,11 @@ void setLeds(Ttime t,Led* l,Tcolor c){
             ledOnC(&l[MIDI],c);
             break;
         default :
-            ledOnC(&l[ledMap[(currentTime.hour%12)-1]],c);
+            if(currentTime.min>55){
+                ledOnC(&l[ledMap[(currentTime.hour%12)]],c);
+            }else{
+                ledOnC(&l[ledMap[(currentTime.hour%12)-1]],c);
+            }
             ledOnC(&l[HEURE],c);
             break;
     }
@@ -111,4 +115,27 @@ void setLeds(Ttime t,Led* l,Tcolor c){
             ledOnC(&l[ETDEMIE],c);
             break;
     }
+}
+
+void setLedsNb(int8_t nb, Led* l, Tcolor c){
+    uint8_t i=0;
+    for(;i<NBLEDS;i++){
+        ledOff(&l[i]);
+    }
+    if(nb < 0){
+        ledOnC(&l[MOINS],c);
+        nb=-nb;
+    }
+    if(nb>30){
+        ledOnC(&l[VINGT],c);
+        ledOnC(&l[DIX],c);
+        nb=nb-30;
+    }else if(nb>20){
+        ledOnC(&l[VINGT],c);
+        nb=nb-10;
+    }else if(nb>11){
+        ledOnC(&l[DIX],c);
+        nb=nb-10;
+    }
+    ledOnC(&l[ledMap[nb-1]],c);
 }

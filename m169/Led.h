@@ -30,5 +30,6 @@ uint8_t ledIsOff(Led l);
 uint8_t ledIsOn(Led l);
 
 void setLeds(Ttime t, Led* l, Tcolor c);
+void setLedsNb(int8_t nb, Led* l, Tcolor c);
 
 #endif

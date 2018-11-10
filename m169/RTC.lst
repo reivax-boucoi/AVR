@@ -51,29 +51,29 @@
   44               	/* frame size = 0 */
   45               	/* stack size = 0 */
   46               	.L__stack_usage = 0
-  11:RTC.c         **** 	if(min >= 5){
+  11:RTC.c         **** 	if(min > 5){
   47               		.loc 1 11 0
-  48 000e 8530      		cpi r24,lo8(5)
+  48 000e 8630      		cpi r24,lo8(6)
   49 0010 00F0      		brlo .L9
-  12:RTC.c         **** 		if(min >= 15){
+  12:RTC.c         **** 		if(min > 15){
   50               		.loc 1 12 0
-  51 0012 8F30      		cpi r24,lo8(15)
+  51 0012 8031      		cpi r24,lo8(16)
   52 0014 00F0      		brlo .L5
-  13:RTC.c         **** 			if(min >= 25){
+  13:RTC.c         **** 			if(min > 25){
   53               		.loc 1 13 0
-  54 0016 8931      		cpi r24,lo8(25)
+  54 0016 8A31      		cpi r24,lo8(26)
   55 0018 00F0      		brlo .L6
-  14:RTC.c         **** 				if(min >= 35){
+  14:RTC.c         **** 				if(min > 35){
   56               		.loc 1 14 0
-  57 001a 8332      		cpi r24,lo8(35)
+  57 001a 8432      		cpi r24,lo8(36)
   58 001c 00F0      		brlo .L7
-  15:RTC.c         **** 					if(min >= 45){
+  15:RTC.c         **** 					if(min > 45){
   59               		.loc 1 15 0
-  60 001e 8D32      		cpi r24,lo8(45)
+  60 001e 8E32      		cpi r24,lo8(46)
   61 0020 00F0      		brlo .L8
-  16:RTC.c         **** 						if(min >= 55){
+  16:RTC.c         **** 						if(min > 55){
   62               		.loc 1 16 0
-  63 0022 8733      		cpi r24,lo8(55)
+  63 0022 8833      		cpi r24,lo8(56)
   64 0024 00F4      		brsh .L9
   17:RTC.c         **** 							return 0;
   18:RTC.c         **** 						}else{return 50;}
@@ -151,21 +151,21 @@
  125 004e 0895      		ret
  126               		.cfi_endproc
  127               	.LFE2:
- 129               		.comm	currentTime,4,1
+ 129               		.comm	currentTime,5,1
  130               	.Letext0:
- 131               		.file 2 "RTC.h"
- 132               		.file 3 "/usr/lib/avr/include/stdint.h"
+ 131               		.file 2 "/usr/lib/avr/include/stdint.h"
+ 132               		.file 3 "RTC.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 RTC.c
-     /tmp/ccYQm6NK.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccYQm6NK.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccYQm6NK.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccYQm6NK.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccYQm6NK.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccYQm6NK.s:12     .text:0000000000000000 setCurrentTime
-                            *COM*:0000000000000004 currentTime
-     /tmp/ccYQm6NK.s:38     .text:000000000000000e minquad
-     /tmp/ccYQm6NK.s:105    .text:000000000000003e bcdToDec
+     /tmp/cceZxRvT.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cceZxRvT.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cceZxRvT.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cceZxRvT.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cceZxRvT.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cceZxRvT.s:12     .text:0000000000000000 setCurrentTime
+                            *COM*:0000000000000005 currentTime
+     /tmp/cceZxRvT.s:38     .text:000000000000000e minquad
+     /tmp/cceZxRvT.s:105    .text:000000000000003e bcdToDec
 
 UNDEFINED SYMBOLS
 __do_clear_bss

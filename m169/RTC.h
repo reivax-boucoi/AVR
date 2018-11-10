@@ -5,6 +5,7 @@
 
 struct Ttime {
 	uint8_t hour, min, monthDay, month;
+    int8_t temp;
 }currentTime;
 typedef struct Ttime Ttime;
 

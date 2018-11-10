@@ -8,12 +8,12 @@ void setCurrentTime(uint8_t hour,uint8_t min,uint8_t monthDay,uint8_t month){
 }
 
 uint8_t minquad(uint8_t min){
-	if(min >= 5){
-		if(min >= 15){
-			if(min >= 25){
-				if(min >= 35){
-					if(min >= 45){
-						if(min >= 55){
+	if(min > 5){
+		if(min > 15){
+			if(min > 25){
+				if(min > 35){
+					if(min > 45){
+						if(min > 55){
 							return 0;
 						}else{return 50;}
 					}else{return 40;}

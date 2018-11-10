@@ -36,25 +36,42 @@ int main(void){
     TIMSK1|=(1<<TOIE1);
     TIMSK2|=(1<<TOIE2);
     sei();
-    setCurrentTime(0,01,7,11);
-    sendData(0b11111100001111111111);
-    _delay_ms(1000);
     
-    TCCR1B|=(1<<CS12)|(1<<CS10);
+    sendData(0b11111100001111111111);
+    _delay_ms(250);
+    sendData(0b11000000001111111111);
+    _delay_ms(250);
+    sendData(0b00001100001111111111);
+    _delay_ms(250);
+    sendData(0b00110000001111111111);
+    _delay_ms(250);
+    
+    TCCR1B|=(1<<CS12);//|(1<<CS10);
     TCCR2A|=(1<<CS22)|(1<<CS20);
     
-    currentColor=tcolorV(WHITE);
+    currentColor=tcolorV(RED);
+    setCurrentTime(15,45,7,11);
+    currentTime.temp=11;
     setLeds(currentTime,leds,currentColor);
     
     while(1){
-        
+       
     }
     return(0);
     
 }
 ISR( TIMER1_OVF_vect ){
-    
     PORTB^=(1<<PB0);
+    currentTime.min++;
+    if(currentTime.min>59){
+        currentTime.min=0;
+        currentTime.hour++;
+        if(currentTime.hour>23){
+            currentTime.hour=0;
+            currentTime.monthDay++;
+        }
+    }
+    setLeds(currentTime,leds,currentColor);
 }
 ISR( TIMER2_OVF_vect ){
     switch(state){
