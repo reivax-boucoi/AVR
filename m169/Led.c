@@ -5,6 +5,11 @@ Tcolor tcolor(uint8_t r,uint8_t g,uint8_t b){
     return c;
 }
 
+Tcolor tcolorV(uint32_t v){
+ Tcolor c={(v>>16)&0xFF,(v>>8)&0xFF,v&0xFF};
+ return c;
+}
+
 void ledInit(Led* leds){
     for(uint8_t i=0;i<NBLEDS;i++){
         leds[i].row=i%2;//leds[0]=0, leds[1]=1
@@ -54,6 +59,15 @@ void ledOn(Led* l){
     l->c.g=255;
     l->c.b=255;
 }
+
+void ledOnC(Led* l,Tcolor c){
+ l->c=c;   
+}
+
+void ledOnV(Led* l,uint32_t v){
+    l->c=tcolorV(v);
+}
+
 uint8_t ledIsOff(Led l){
     return !ledIsOn(l);
 }
