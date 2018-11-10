@@ -784,7 +784,7 @@
   91:Led.c         ****             ledOnC(&l[MIDI],c);
   92:Led.c         ****             break;
   93:Led.c         ****         default :
-  94:Led.c         ****             if(currentTime.min>55){
+  94:Led.c         ****             if(currentTime.min>35){
  699               		.loc 1 94 0
  700 022a 9091 0000 		lds r25,currentTime+1
   95:Led.c         ****                 ledOnC(&l[ledMap[(currentTime.hour%12)]],c);
@@ -792,7 +792,7 @@
  702 022e 6CE0      		ldi r22,lo8(12)
   94:Led.c         ****                 ledOnC(&l[ledMap[(currentTime.hour%12)]],c);
  703               		.loc 1 94 0
- 704 0230 9833      		cpi r25,lo8(56)
+ 704 0230 9432      		cpi r25,lo8(36)
  705 0232 00F0      		brlo .L69
  706               		.loc 1 95 0
  707 0234 0E94 0000 		call __udivmodqi4
@@ -1150,26 +1150,26 @@
  1008               		.file 4 "Led.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Led.c
-     /tmp/ccoM7SHf.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccoM7SHf.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccoM7SHf.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccoM7SHf.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccoM7SHf.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccoM7SHf.s:12     .text:0000000000000000 tcolor
-     /tmp/ccoM7SHf.s:35     .text:0000000000000008 tcolorV
-     /tmp/ccoM7SHf.s:77     .text:0000000000000028 ledInit
-     /tmp/ccoM7SHf.s:130    .text:0000000000000050 getColorByLed
-     /tmp/ccoM7SHf.s:239    .text:00000000000000b2 getDataByColor
-     /tmp/ccoM7SHf.s:361    .text:000000000000012e ledOff
-     /tmp/ccoM7SHf.s:383    .text:0000000000000138 ledOn
-     /tmp/ccoM7SHf.s:407    .text:0000000000000144 ledOnC
-     /tmp/ccoM7SHf.s:427    .text:000000000000014e ledOnV
-     /tmp/ccoM7SHf.s:448    .text:0000000000000158 ledIsOff
-     /tmp/ccoM7SHf.s:513    .text:0000000000000190 ledIsOn
-     /tmp/ccoM7SHf.s:571    .text:00000000000001c6 setLeds
+     /tmp/ccDzGXT1.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccDzGXT1.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccDzGXT1.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccDzGXT1.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccDzGXT1.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccDzGXT1.s:12     .text:0000000000000000 tcolor
+     /tmp/ccDzGXT1.s:35     .text:0000000000000008 tcolorV
+     /tmp/ccDzGXT1.s:77     .text:0000000000000028 ledInit
+     /tmp/ccDzGXT1.s:130    .text:0000000000000050 getColorByLed
+     /tmp/ccDzGXT1.s:239    .text:00000000000000b2 getDataByColor
+     /tmp/ccDzGXT1.s:361    .text:000000000000012e ledOff
+     /tmp/ccDzGXT1.s:383    .text:0000000000000138 ledOn
+     /tmp/ccDzGXT1.s:407    .text:0000000000000144 ledOnC
+     /tmp/ccDzGXT1.s:427    .text:000000000000014e ledOnV
+     /tmp/ccDzGXT1.s:448    .text:0000000000000158 ledIsOff
+     /tmp/ccDzGXT1.s:513    .text:0000000000000190 ledIsOn
+     /tmp/ccDzGXT1.s:571    .text:00000000000001c6 setLeds
                             *COM*:0000000000000005 currentTime
-     /tmp/ccoM7SHf.s:990    .rodata:0000000000000000 ledMap
-     /tmp/ccoM7SHf.s:841    .text:00000000000002d0 setLedsNb
+     /tmp/ccDzGXT1.s:990    .rodata:0000000000000000 ledMap
+     /tmp/ccDzGXT1.s:841    .text:00000000000002d0 setLedsNb
                             *COM*:0000000000000003 currentColor
 
 UNDEFINED SYMBOLS

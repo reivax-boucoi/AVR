@@ -91,7 +91,7 @@ void setLeds(Ttime t,Led* l,Tcolor c){
             ledOnC(&l[MIDI],c);
             break;
         default :
-            if(currentTime.min>55){
+            if(currentTime.min>35){
                 ledOnC(&l[ledMap[(currentTime.hour%12)]],c);
             }else{
                 ledOnC(&l[ledMap[(currentTime.hour%12)-1]],c);

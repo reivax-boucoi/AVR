@@ -897,7 +897,7 @@ void ledOnC(Led* l,Tcolor c){
             ledOnC(&l[MIDI],c);
             break;
         default :
-            if(currentTime.min>55){
+            if(currentTime.min>35){
  4c4:	90 91 6d 01 	lds	r25, 0x016D	; 0x80016d <currentTime+0x1>
                 ledOnC(&l[ledMap[(currentTime.hour%12)]],c);
  4c8:	6c e0       	ldi	r22, 0x0C	; 12
@@ -906,8 +906,8 @@ void ledOnC(Led* l,Tcolor c){
             ledOnC(&l[MIDI],c);
             break;
         default :
-            if(currentTime.min>55){
- 4ca:	98 33       	cpi	r25, 0x38	; 56
+            if(currentTime.min>35){
+ 4ca:	94 32       	cpi	r25, 0x24	; 36
  4cc:	38 f0       	brcs	.+14     	; 0x4dc <setLeds+0x7c>
                 ledOnC(&l[ledMap[(currentTime.hour%12)]],c);
  4ce:	0e 94 a3 03 	call	0x746	; 0x746 <__udivmodqi4>
