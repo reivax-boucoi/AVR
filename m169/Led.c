@@ -1,13 +1,15 @@
 #include "Led.h" 
 
+static const uint8_t ledMap[11]={7,8,10,14,0,4,17,2,12,6,16};
+
 Tcolor tcolor(uint8_t r,uint8_t g,uint8_t b){
     Tcolor c={r,g,b};
     return c;
 }
 
 Tcolor tcolorV(uint32_t v){
- Tcolor c={(v>>16)&0xFF,(v>>8)&0xFF,v&0xFF};
- return c;
+    Tcolor c={(v>>16)&0xFF,(v>>8)&0xFF,v&0xFF};
+    return c;
 }
 
 void ledInit(Led* leds){
@@ -61,7 +63,7 @@ void ledOn(Led* l){
 }
 
 void ledOnC(Led* l,Tcolor c){
- l->c=c;   
+    l->c=c;   
 }
 
 void ledOnV(Led* l,uint32_t v){
@@ -73,4 +75,40 @@ uint8_t ledIsOff(Led l){
 }
 uint8_t ledIsOn(Led l){
     return l.c.r || l.c.g || l.c.b;
+}
+void setLeds(Ttime t,Led* l,Tcolor c){
+    uint8_t i=0;
+    for(;i<NBLEDS;i++){
+        ledOff(&l[i]);
+    }
+    ledOnC(&l[ILEST],c);
+    
+    switch(currentTime.hour){
+        case 0 :
+            ledOnC(&l[MINUIT],c);
+            break;
+        case 12 :
+            ledOnC(&l[MIDI],c);
+            break;
+        default :
+            ledOnC(&l[ledMap[(currentTime.hour%12)-1]],c);
+            ledOnC(&l[HEURE],c);
+            break;
+    }
+    uint8_t mins = minquad(currentTime.min); 
+    if(mins > 30){
+        ledOnC(&l[MOINS],c);
+        mins=60-mins;
+    }
+    switch(mins){
+        case 10 :
+            ledOnC(&l[DIX],c);
+            break;
+        case 20 :
+            ledOnC(&l[VINGT],c);
+            break;
+        case 30 :
+            ledOnC(&l[ETDEMIE],c);
+            break;
+    }
 }

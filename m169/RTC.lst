@@ -13,170 +13,159 @@
   14               		.file 1 "RTC.c"
    1:RTC.c         **** #include "RTC.h" 
    2:RTC.c         **** 
-   3:RTC.c         **** void setCurrentTime(uint8_t hour,uint8_t min,uint8_t minquad,uint8_t monthDay,uint8_t month){
+   3:RTC.c         **** void setCurrentTime(uint8_t hour,uint8_t min,uint8_t monthDay,uint8_t month){
   15               		.loc 1 3 0
   16               		.cfi_startproc
   17               	.LVL0:
-  18 0000 0F93      		push r16
-  19               	.LCFI0:
-  20               		.cfi_def_cfa_offset 3
-  21               		.cfi_offset 16, -2
-  22               	/* prologue: function */
-  23               	/* frame size = 0 */
-  24               	/* stack size = 1 */
-  25               	.L__stack_usage = 1
+  18               	/* prologue: function */
+  19               	/* frame size = 0 */
+  20               	/* stack size = 0 */
+  21               	.L__stack_usage = 0
    4:RTC.c         ****     currentTime.hour=hour;
-  26               		.loc 1 4 0
-  27 0002 E0E0      		ldi r30,lo8(currentTime)
-  28 0004 F0E0      		ldi r31,hi8(currentTime)
-  29 0006 8083      		st Z,r24
+  22               		.loc 1 4 0
+  23 0000 E0E0      		ldi r30,lo8(currentTime)
+  24 0002 F0E0      		ldi r31,hi8(currentTime)
+  25 0004 8083      		st Z,r24
    5:RTC.c         ****     currentTime.min=min;
-  30               		.loc 1 5 0
-  31 0008 6183      		std Z+1,r22
-   6:RTC.c         ****     currentTime.minquad=minquad;
-  32               		.loc 1 6 0
-  33 000a 4283      		std Z+2,r20
-   7:RTC.c         ****     currentTime.monthDay=monthDay;
-  34               		.loc 1 7 0
-  35 000c 2383      		std Z+3,r18
-   8:RTC.c         ****     currentTime.month=month;
-  36               		.loc 1 8 0
-  37 000e 0483      		std Z+4,r16
-  38               	/* epilogue start */
-   9:RTC.c         **** }
-  39               		.loc 1 9 0
-  40 0010 0F91      		pop r16
-  41               	.LVL1:
-  42 0012 0895      		ret
-  43               		.cfi_endproc
-  44               	.LFE0:
-  46               	.global	minquad
-  48               	minquad:
-  49               	.LFB1:
-  10:RTC.c         **** 
-  11:RTC.c         **** uint8_t minquad(uint8_t min){
-  50               		.loc 1 11 0
-  51               		.cfi_startproc
-  52               	.LVL2:
-  53               	/* prologue: function */
-  54               	/* frame size = 0 */
-  55               	/* stack size = 0 */
-  56               	.L__stack_usage = 0
-  12:RTC.c         **** 	if(min >= 5){
-  57               		.loc 1 12 0
-  58 0014 8530      		cpi r24,lo8(5)
-  59 0016 00F0      		brlo .L9
-  13:RTC.c         **** 		if(min >= 15){
-  60               		.loc 1 13 0
-  61 0018 8F30      		cpi r24,lo8(15)
-  62 001a 00F0      		brlo .L5
-  14:RTC.c         **** 			if(min >= 25){
-  63               		.loc 1 14 0
-  64 001c 8931      		cpi r24,lo8(25)
-  65 001e 00F0      		brlo .L6
-  15:RTC.c         **** 				if(min >= 35){
-  66               		.loc 1 15 0
-  67 0020 8332      		cpi r24,lo8(35)
-  68 0022 00F0      		brlo .L7
-  16:RTC.c         **** 					if(min >= 45){
-  69               		.loc 1 16 0
-  70 0024 8D32      		cpi r24,lo8(45)
-  71 0026 00F0      		brlo .L8
-  17:RTC.c         **** 						if(min >= 55){
-  72               		.loc 1 17 0
-  73 0028 8733      		cpi r24,lo8(55)
-  74 002a 00F4      		brsh .L9
-  18:RTC.c         **** 							return 0;
-  19:RTC.c         **** 						}else{return 50;}
-  75               		.loc 1 19 0
-  76 002c 82E3      		ldi r24,lo8(50)
-  77               	.LVL3:
-  78 002e 0895      		ret
-  79               	.LVL4:
-  80               	.L5:
-  20:RTC.c         **** 					}else{return 40;}
-  21:RTC.c         **** 				}else{return 30;}
-  22:RTC.c         **** 			}else{return 20;}
-  23:RTC.c         **** 		}else{return 10;}
-  81               		.loc 1 23 0
-  82 0030 8AE0      		ldi r24,lo8(10)
-  83               	.LVL5:
-  84 0032 0895      		ret
-  85               	.LVL6:
-  86               	.L6:
-  22:RTC.c         **** 		}else{return 10;}
-  87               		.loc 1 22 0
-  88 0034 84E1      		ldi r24,lo8(20)
-  89               	.LVL7:
-  90 0036 0895      		ret
-  91               	.LVL8:
-  92               	.L7:
+  26               		.loc 1 5 0
+  27 0006 6183      		std Z+1,r22
+   6:RTC.c         ****     currentTime.monthDay=monthDay;
+  28               		.loc 1 6 0
+  29 0008 4283      		std Z+2,r20
+   7:RTC.c         ****     currentTime.month=month;
+  30               		.loc 1 7 0
+  31 000a 2383      		std Z+3,r18
+  32 000c 0895      		ret
+  33               		.cfi_endproc
+  34               	.LFE0:
+  36               	.global	minquad
+  38               	minquad:
+  39               	.LFB1:
+   8:RTC.c         **** }
+   9:RTC.c         **** 
+  10:RTC.c         **** uint8_t minquad(uint8_t min){
+  40               		.loc 1 10 0
+  41               		.cfi_startproc
+  42               	.LVL1:
+  43               	/* prologue: function */
+  44               	/* frame size = 0 */
+  45               	/* stack size = 0 */
+  46               	.L__stack_usage = 0
+  11:RTC.c         **** 	if(min >= 5){
+  47               		.loc 1 11 0
+  48 000e 8530      		cpi r24,lo8(5)
+  49 0010 00F0      		brlo .L9
+  12:RTC.c         **** 		if(min >= 15){
+  50               		.loc 1 12 0
+  51 0012 8F30      		cpi r24,lo8(15)
+  52 0014 00F0      		brlo .L5
+  13:RTC.c         **** 			if(min >= 25){
+  53               		.loc 1 13 0
+  54 0016 8931      		cpi r24,lo8(25)
+  55 0018 00F0      		brlo .L6
+  14:RTC.c         **** 				if(min >= 35){
+  56               		.loc 1 14 0
+  57 001a 8332      		cpi r24,lo8(35)
+  58 001c 00F0      		brlo .L7
+  15:RTC.c         **** 					if(min >= 45){
+  59               		.loc 1 15 0
+  60 001e 8D32      		cpi r24,lo8(45)
+  61 0020 00F0      		brlo .L8
+  16:RTC.c         **** 						if(min >= 55){
+  62               		.loc 1 16 0
+  63 0022 8733      		cpi r24,lo8(55)
+  64 0024 00F4      		brsh .L9
+  17:RTC.c         **** 							return 0;
+  18:RTC.c         **** 						}else{return 50;}
+  65               		.loc 1 18 0
+  66 0026 82E3      		ldi r24,lo8(50)
+  67               	.LVL2:
+  68 0028 0895      		ret
+  69               	.LVL3:
+  70               	.L5:
+  19:RTC.c         **** 					}else{return 40;}
+  20:RTC.c         **** 				}else{return 30;}
   21:RTC.c         **** 			}else{return 20;}
-  93               		.loc 1 21 0
-  94 0038 8EE1      		ldi r24,lo8(30)
-  95               	.LVL9:
-  96 003a 0895      		ret
-  97               	.LVL10:
-  98               	.L8:
-  20:RTC.c         **** 					}else{return 40;}
-  99               		.loc 1 20 0
- 100 003c 88E2      		ldi r24,lo8(40)
- 101               	.LVL11:
- 102 003e 0895      		ret
- 103               	.LVL12:
- 104               	.L9:
-  24:RTC.c         **** 	}else{return 0;}
- 105               		.loc 1 24 0
- 106 0040 80E0      		ldi r24,0
- 107               	.LVL13:
-  25:RTC.c         **** }
- 108               		.loc 1 25 0
- 109 0042 0895      		ret
- 110               		.cfi_endproc
- 111               	.LFE1:
- 113               	.global	bcdToDec
- 115               	bcdToDec:
- 116               	.LFB2:
-  26:RTC.c         **** 
-  27:RTC.c         **** uint8_t bcdToDec(uint8_t val){
- 117               		.loc 1 27 0
- 118               		.cfi_startproc
+  22:RTC.c         **** 		}else{return 10;}
+  71               		.loc 1 22 0
+  72 002a 8AE0      		ldi r24,lo8(10)
+  73               	.LVL4:
+  74 002c 0895      		ret
+  75               	.LVL5:
+  76               	.L6:
+  21:RTC.c         **** 		}else{return 10;}
+  77               		.loc 1 21 0
+  78 002e 84E1      		ldi r24,lo8(20)
+  79               	.LVL6:
+  80 0030 0895      		ret
+  81               	.LVL7:
+  82               	.L7:
+  20:RTC.c         **** 			}else{return 20;}
+  83               		.loc 1 20 0
+  84 0032 8EE1      		ldi r24,lo8(30)
+  85               	.LVL8:
+  86 0034 0895      		ret
+  87               	.LVL9:
+  88               	.L8:
+  19:RTC.c         **** 					}else{return 40;}
+  89               		.loc 1 19 0
+  90 0036 88E2      		ldi r24,lo8(40)
+  91               	.LVL10:
+  92 0038 0895      		ret
+  93               	.LVL11:
+  94               	.L9:
+  23:RTC.c         **** 	}else{return 0;}
+  95               		.loc 1 23 0
+  96 003a 80E0      		ldi r24,0
+  97               	.LVL12:
+  24:RTC.c         **** }
+  98               		.loc 1 24 0
+  99 003c 0895      		ret
+ 100               		.cfi_endproc
+ 101               	.LFE1:
+ 103               	.global	bcdToDec
+ 105               	bcdToDec:
+ 106               	.LFB2:
+  25:RTC.c         **** 
+  26:RTC.c         **** uint8_t bcdToDec(uint8_t val){
+ 107               		.loc 1 26 0
+ 108               		.cfi_startproc
+ 109               	.LVL13:
+ 110               	/* prologue: function */
+ 111               	/* frame size = 0 */
+ 112               	/* stack size = 0 */
+ 113               	.L__stack_usage = 0
+  27:RTC.c         ****   return ((val/16*10) + (val%16));
+ 114               		.loc 1 27 0
+ 115 003e 982F      		mov r25,r24
+ 116 0040 9295      		swap r25
+ 117 0042 9F70      		andi r25,lo8(15)
+ 118 0044 8F70      		andi r24,lo8(15)
  119               	.LVL14:
- 120               	/* prologue: function */
- 121               	/* frame size = 0 */
- 122               	/* stack size = 0 */
- 123               	.L__stack_usage = 0
-  28:RTC.c         ****   return ((val/16*10) + (val%16));
- 124               		.loc 1 28 0
- 125 0044 982F      		mov r25,r24
- 126 0046 9295      		swap r25
- 127 0048 9F70      		andi r25,lo8(15)
- 128 004a 8F70      		andi r24,lo8(15)
- 129               	.LVL15:
-  29:RTC.c         **** }
- 130               		.loc 1 29 0
- 131 004c 2AE0      		ldi r18,lo8(10)
- 132 004e 929F      		mul r25,r18
- 133 0050 800D      		add r24,r0
- 134 0052 1124      		clr __zero_reg__
- 135 0054 0895      		ret
- 136               		.cfi_endproc
- 137               	.LFE2:
- 139               		.comm	currentTime,5,1
- 140               	.Letext0:
- 141               		.file 2 "RTC.h"
- 142               		.file 3 "/usr/lib/avr/include/stdint.h"
+  28:RTC.c         **** }
+ 120               		.loc 1 28 0
+ 121 0046 2AE0      		ldi r18,lo8(10)
+ 122 0048 929F      		mul r25,r18
+ 123 004a 800D      		add r24,r0
+ 124 004c 1124      		clr __zero_reg__
+ 125 004e 0895      		ret
+ 126               		.cfi_endproc
+ 127               	.LFE2:
+ 129               		.comm	currentTime,4,1
+ 130               	.Letext0:
+ 131               		.file 2 "RTC.h"
+ 132               		.file 3 "/usr/lib/avr/include/stdint.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 RTC.c
-     /tmp/cc4pge5j.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cc4pge5j.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cc4pge5j.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cc4pge5j.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cc4pge5j.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cc4pge5j.s:12     .text:0000000000000000 setCurrentTime
-                            *COM*:0000000000000005 currentTime
-     /tmp/cc4pge5j.s:48     .text:0000000000000014 minquad
-     /tmp/cc4pge5j.s:115    .text:0000000000000044 bcdToDec
+     /tmp/ccYQm6NK.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccYQm6NK.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccYQm6NK.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccYQm6NK.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccYQm6NK.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccYQm6NK.s:12     .text:0000000000000000 setCurrentTime
+                            *COM*:0000000000000004 currentTime
+     /tmp/ccYQm6NK.s:38     .text:000000000000000e minquad
+     /tmp/ccYQm6NK.s:105    .text:000000000000003e bcdToDec
 
 UNDEFINED SYMBOLS
 __do_clear_bss

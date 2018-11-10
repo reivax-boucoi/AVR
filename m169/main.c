@@ -5,8 +5,7 @@
 #include "defines.h"
 #include "Led.h"
 #include "RTC.h"
-
-uint8_t ledMap[11]={0,0,0,0,0,0,0,0,0,0,0};
+//0->5
 
 void sendData(uint32_t data){
     PORTA &=~(STROBE|CLK);
@@ -37,15 +36,15 @@ int main(void){
     TIMSK1|=(1<<TOIE1);
     TIMSK2|=(1<<TOIE2);
     sei();
-    setCurrentTime(12,5,minquad(5),7,11);
+    setCurrentTime(0,01,7,11);
     sendData(0b11111100001111111111);
     _delay_ms(1000);
     
     TCCR1B|=(1<<CS12)|(1<<CS10);
     TCCR2A|=(1<<CS22)|(1<<CS20);
-    ledOnV(&leds[0],RED);
-    ledOnV(&leds[2],WHITE);
-    ledOnV(&leds[4],CYAN);
+    
+    currentColor=tcolorV(WHITE);
+    setLeds(currentTime,leds,currentColor);
     
     while(1){
         

@@ -26,13 +26,13 @@
 #define MAGENTA 0xFF00FF
 #define YELLOW  0xFFFF00
 
-#define ILEST
-#define HEURE
-#define MIDI
-#define MINUIT
-#define MOINS
-#define DIX
-#define ETDEMIE
-#define VINGT
+#define ILEST 18
+#define HEURE 15
+#define MIDI 13
+#define MINUIT 3
+#define MOINS 9
+#define DIX 5
+#define ETDEMIE 1
+#define VINGT 11
 
 #endif 

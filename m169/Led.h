@@ -1,6 +1,7 @@
 #ifndef LED_H
 #define LED_H
 #include "defines.h"
+#include "RTC.h"
 #include <avr/io.h>
 
 struct Tcolor{
@@ -27,5 +28,7 @@ void ledOnC(Led* l,Tcolor c);
 void ledOnV(Led* l,uint32_t v);
 uint8_t ledIsOff(Led l);
 uint8_t ledIsOn(Led l);
+
+void setLeds(Ttime t, Led* l, Tcolor c);
 
 #endif
