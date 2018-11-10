@@ -37,7 +37,7 @@ int main(void){
     TIMSK1|=(1<<TOIE1);
     TIMSK2|=(1<<TOIE2);
     sei();
-    
+    setCurrentTime(12,5,minquad(5),7,11);
     sendData(0b11111100001111111111);
     _delay_ms(1000);
     
@@ -59,22 +59,22 @@ ISR( TIMER1_OVF_vect ){
 ISR( TIMER2_OVF_vect ){
     switch(state){
         case 0:
-            sendData(R2 | getDataByColor(1,0,0,0,leds));
+            sendData(R2 | getDataByColor(tcolor(1,0,0),0,leds));
             break;
         case 1:
-            sendData(R1 | getDataByColor(1,0,0,1,leds));
+            sendData(R1 | getDataByColor(tcolor(1,0,0),1,leds));
             break;
         case 2:
-            sendData(G2 | getDataByColor(0,1,0,0,leds));
+            sendData(G2 | getDataByColor(tcolor(0,1,0),0,leds));
             break;
         case 3:
-            sendData(G1 | getDataByColor(0,1,0,1,leds));
+            sendData(G1 | getDataByColor(tcolor(0,1,0),1,leds));
             break;
         case 4:
-            sendData(B2 | getDataByColor(0,0,1,0,leds));
+            sendData(B2 | getDataByColor(tcolor(0,0,1),0,leds));
             break;
         case 5:
-            sendData(B1 | getDataByColor(0,0,1,1,leds));
+            sendData(B1 | getDataByColor(tcolor(0,0,1),1,leds));
             break;
     }
     state++;

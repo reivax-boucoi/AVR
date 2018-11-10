@@ -1,5 +1,9 @@
 #include "Led.h" 
 
+Tcolor tcolor(uint8_t r,uint8_t g,uint8_t b){
+    Tcolor c={r,g,b};
+    return c;
+}
 
 void ledInit(Led* leds){
     for(uint8_t i=0;i<NBLEDS;i++){
@@ -9,30 +13,30 @@ void ledInit(Led* leds){
         }else{
             leds[i].col=i-9;//1-9
         }
-        leds[i].r=0;
-        leds[i].g=0;
-        leds[i].b=0;
+        leds[i].c.r=0;
+        leds[i].c.g=0;
+        leds[i].c.b=0;
     }
 }
 uint32_t getColorByLed(Led l){
     uint32_t d=0;
     if(l.row){
-        if(l.r)d|=R2;
-        if(l.g)d|=G2;
-        if(l.b)d|=B2;
+        if(l.c.r)d|=R2;
+        if(l.c.g)d|=G2;
+        if(l.c.b)d|=B2;
     }else{
-        if(l.r)d|=R1;
-        if(l.g)d|=G1;
-        if(l.b)d|=B1;
+        if(l.c.r)d|=R1;
+        if(l.c.g)d|=G1;
+        if(l.c.b)d|=B1;
     }
     return d;
 }
 
-uint32_t getDataByColor(uint8_t r,uint8_t g,uint8_t b,uint8_t mode,Led* leds){
+uint32_t getDataByColor(Tcolor c, uint8_t mode, Led* leds){
     uint32_t data=0;
     for(uint8_t i=0;i<NBLEDS;i++){
         if(leds[i].row==mode){
-            if((leds[i].r && r) || (leds[i].g && g) || (leds[i].b && b)){
+            if((leds[i].c.r && c.r) || (leds[i].c.g && c.g) || (leds[i].c.b && c.b)){
                 data|=(1<<leds[i].col);
             }
         }
@@ -41,18 +45,18 @@ uint32_t getDataByColor(uint8_t r,uint8_t g,uint8_t b,uint8_t mode,Led* leds){
 }
 
 void ledOff(Led* l){
-    l->r=0;
-    l->g=0;
-    l->b=0;
+    l->c.r=0;
+    l->c.g=0;
+    l->c.b=0;
 }
 void ledOn(Led* l){
-    l->r=255;
-    l->g=255;
-    l->b=255;
+    l->c.r=255;
+    l->c.g=255;
+    l->c.b=255;
 }
 uint8_t ledIsOff(Led l){
     return !ledIsOn(l);
 }
 uint8_t ledIsOn(Led l){
-    return l.r || l.g || l.b;
+    return l.c.r || l.c.g || l.c.b;
 }

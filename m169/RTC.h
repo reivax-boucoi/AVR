@@ -9,4 +9,5 @@ struct Ttime {
 typedef struct Ttime Ttime;
 
 void setCurrentTime(uint8_t hour,uint8_t min,uint8_t minquad,uint8_t monthDay,uint8_t month);
+uint8_t minquad(uint8_t min);
 #endif
