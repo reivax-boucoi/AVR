@@ -41,13 +41,14 @@ int main(void){
     sendData(0b11111100001111111111);
     _delay_ms(1000);
     
-    TCCR1B|=(1<<CS12);//|(1<<CS10);
-    TCCR2A|=(1<<CS22)|(1<<CS21);
-    ledOn(&leds[0]);
-    ledOn(&leds[2]);
-    ledOn(&leds[4]);
+    TCCR1B|=(1<<CS12)|(1<<CS10);
+    TCCR2A|=(1<<CS22)|(1<<CS20);
+    ledOnV(&leds[0],RED);
+    ledOnV(&leds[2],WHITE);
+    ledOnV(&leds[4],CYAN);
     
     while(1){
+        
     }
     return(0);
     

@@ -17,6 +17,15 @@
 #define R1 0b00001000000000000000
 #define R2 0b00000100000000000000
 
+#define WHITE   0xFFFFFF
+#define BLACK   0x000000
+#define RED     0xFF0000
+#define GREEN   0x00FF00
+#define BLUE    0x0000FF
+#define CYAN    0x00FFFF
+#define MAGENTA 0xFF00FF
+#define YELLOW  0xFFFF00
+
 #define ILEST
 #define HEURE
 #define MIDI
