@@ -1,4 +1,4 @@
-#define F_CPU 12000000UL
+#define F_CPU 16000000UL
 #define F_I2C 400000UL
 
 #include <avr/io.h>

@@ -14,7 +14,7 @@ avr-gcc -g -mmcu=attiny84 -o main.elf main.o
 avr-objcopy -j .text -j .data -O ihex main.elf main.hex
 
 :COMMAND
-avrdude -P usb -p t84 -c usbasp -U flash:w:main.hex && (
+avrdude -P usb -p t84 -c usbtiny -U flash:w:main.hex && (
   echo Trouve Programmeur !
 ) || (
   echo Pas de programmeur !
