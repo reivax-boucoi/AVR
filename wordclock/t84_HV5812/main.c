@@ -51,8 +51,8 @@ int main(void){
 	TCCR0B|=(1<<CS01)|(1<<CS00);
     
     currentColor=tcolorV(RED);
-    //setCurrentTime(15,45,7,11);
-	RTC_readTime(&currentTime);
+    setCurrentTime(15,45,7,11);
+	//RTC_readTime(&currentTime);
     currentTime.temp=11;
     setLeds(currentTime,leds,currentColor);
     
@@ -64,7 +64,7 @@ int main(void){
 }
 ISR( TIM1_OVF_vect ){
     PORTA^=LED;
-    RTC_readTime(&currentTime);
+    //RTC_readTime(&currentTime);
     setLeds(currentTime,leds,currentColor);
 }
 ISR( TIM0_OVF_vect ){
