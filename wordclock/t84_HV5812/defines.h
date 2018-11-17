@@ -23,7 +23,7 @@
 #define PIN_USI_SCL         PINA4
 
 #define NBLEDS 19
-#define DELLONG 0
+//#define DELLONG
 
 #define G1 0b10000000000000000000
 #define G2 0b01000000000000000000

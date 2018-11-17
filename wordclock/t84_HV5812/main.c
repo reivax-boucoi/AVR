@@ -41,11 +41,11 @@ int main(void){
     _delay_ms(250);
     sendData(0b00110000001111111111);
     _delay_ms(250);*/
-    #ifdef DELLONG
-		TCCR1B|=(1<<CS12)|(1<<CS10);
-	#else
+    //#ifdef DELLONG
+		//TCCR1B|=(1<<CS12)|(1<<CS10);
+	//#else
 		TCCR1B|=(1<<CS12);//|(1<<CS10);
-	#endif
+	//#endif
 	
 	TCCR0B|=(1<<CS01)|(1<<CS00);
     
@@ -66,7 +66,7 @@ ISR( TIM1_OVF_vect ){
     //RTC_readTime(&currentTime);
     //setLeds(currentTime,leds,currentColor);
     if(state){
-    sendData(0b00000011110000000000);
+    sendData(0b00000010000000000000);
     }else{
     sendData(0b00000000000000000000);
     }state=1-state;
