@@ -33,15 +33,19 @@ int main(void){
     TIMSK0|=(1<<TOIE0);
     sei();
     
-    sendData(0b11111100001111111111);
+    /*sendData(0b11111100001111111111);
     _delay_ms(250);
     sendData(0b11000000001111111111);
     _delay_ms(250);
     sendData(0b00001100001111111111);
     _delay_ms(250);
     sendData(0b00110000001111111111);
+    _delay_ms(250);*/
+    sendData(0b00000000000000000000);
+	_delay_ms(250);
+    sendData(0b11111111111111111111);
     _delay_ms(250);
-	
+    sendData(0b00000000000000000000);
     #ifdef DELLONG
 		TCCR1B|=(1<<CS12)|(1<<CS10);
 	#else
@@ -54,7 +58,7 @@ int main(void){
     setCurrentTime(15,45,7,11);
 	//RTC_readTime(&currentTime);
     currentTime.temp=11;
-    setLeds(currentTime,leds,currentColor);
+    //setLeds(currentTime,leds,currentColor);
     
     while(1){
        
@@ -65,10 +69,15 @@ int main(void){
 ISR( TIM1_OVF_vect ){
     PORTA^=LED;
     //RTC_readTime(&currentTime);
-    setLeds(currentTime,leds,currentColor);
+    //setLeds(currentTime,leds,currentColor);
+    if(state){
+    sendData(0b11111111111111111111);
+    }else{
+    sendData(0b00000000000000000000);
+    }state=1-state;
 }
 ISR( TIM0_OVF_vect ){
-    switch(state){
+   /* switch(state){
         case 0:
             sendData(R2 | getDataByColor(tcolor(1,0,0),0,leds));
             break;
@@ -89,5 +98,5 @@ ISR( TIM0_OVF_vect ){
             break;
     }
     state++;
-    if(state>5)state=0;
+    if(state>5)state=0;*/
 }
