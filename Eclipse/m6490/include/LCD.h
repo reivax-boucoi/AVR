@@ -25,7 +25,7 @@ public:
 	~LCD();
 	enum Symbol {A=0x77,b=0x7C,C=0x39,d=0x5E,E=0x79,F=0x71,H=0x76,L=0x38,P=0x73,U=0x3E,
 		Minus=0x40,Blank=0x00,Equal=0x48,Degree=0xC3};
-	enum /*class*/ Battery {NONE,EMPTY,FIRST,SECOND,THIRD,ONEBAR,TWOBAR,FULL};
+	enum Battery {NONE,EMPTY,FIRST,SECOND,THIRD,ONEBAR,TWOBAR,FULL};
 	enum Arrow {LEFT,RIGHT,UP,DOWN};
 	enum Bargraph {OFF,STACK,SINGLE};
 
