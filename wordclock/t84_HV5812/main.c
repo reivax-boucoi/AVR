@@ -5,9 +5,8 @@
 #include "defines.h"
 #include "Led.h"
 #include "RTC.h"
-//0->5
 
-void sendData(uint32_t data){
+void sendRawData(uint32_t data){
     PORTA &=~(STROBE|CLK);
     for(uint8_t i=0;i<20;i++){
         if((data>>i) & 0x00000001){
@@ -21,38 +20,47 @@ void sendData(uint32_t data){
     PORTA|=STROBE;
     PORTA&=~STROBE;
 }
-
+uint8_t ledr=0;
+uint8_t ledb=0;
+void sendData(uint32_t data){
+    if(ledr)data|=LEDR;
+    if(ledb)data|=LEDB;
+    sendRawData(data);
+}
 volatile uint8_t state=0;
 Led leds[NBLEDS];
 
-int main(void){
-    DDRB|=1<<PORTB0;
-    PORTB &= ~(1<<PB0);
-    
-    DDRA |= CLK|DATA|STROBE;
-    PORTA &= ~(CLK|DATA|STROBE);
+int main(void){    
+    DDRA |= CLK|DATA|STROBE|LED;
+    PORTA &= ~(CLK|DATA|STROBE|LED);
     ledInit(leds);
     
     TIMSK1|=(1<<TOIE1);
-    TIMSK2|=(1<<TOIE2);
+    TIMSK0|=(1<<TOIE0);
     sei();
-    
-    sendData(0b11111100001111111111);
-    _delay_ms(250);
+    /*
+    sendData(0b11111100001111111111 | LEDB);
+    _delay_ms(2500);
     sendData(0b11000000001111111111);
-    _delay_ms(250);
-    sendData(0b00001100001111111111);
-    _delay_ms(250);
+    _delay_ms(2500);
+    sendData(0b00001100001111111111 | LEDR);
+    _delay_ms(2500);
     sendData(0b00110000001111111111);
-    _delay_ms(250);
-    
-    TCCR1B|=(1<<CS12);//|(1<<CS10);
-    TCCR2A|=(1<<CS22)|(1<<CS20);
+    _delay_ms(2500);*/
+    sendData(0b00000100000000000001 | LEDR);
+    #ifdef DELLONG
+		TCCR1B|=(1<<CS12)|(1<<CS10);
+	#else
+		TCCR1B|=(1<<CS12);//|(1<<CS10);
+	#endif
+	
+	TCCR0B|=(1<<CS01)|(1<<CS00);
     
     currentColor=tcolorV(RED);
     setCurrentTime(15,45,7,11);
+	//RTC_readTime(&currentTime);
     currentTime.temp=11;
-    setLeds(currentTime,leds,currentColor);
+    //setLeds(currentTime,leds,currentColor);
     
     while(1){
        
@@ -60,20 +68,13 @@ int main(void){
     return(0);
     
 }
-ISR( TIMER1_OVF_vect ){
-    PORTB^=(1<<PB0);
-    currentTime.min++;
-    if(currentTime.min>59){
-        currentTime.min=0;
-        currentTime.hour++;
-        if(currentTime.hour>23){
-            currentTime.hour=0;
-            currentTime.monthDay++;
-        }
-    }
-    setLeds(currentTime,leds,currentColor);
+ISR( TIM1_OVF_vect ){
+    ledb=1-ledb;
+    ledr=!ledb;
+    //RTC_readTime(&currentTime);
+    //setLeds(currentTime,leds,currentColor);
 }
-ISR( TIMER2_OVF_vect ){
+ISR( TIM0_OVF_vect ){/*
     switch(state){
         case 0:
             sendData(R2 | getDataByColor(tcolor(1,0,0),0,leds));
@@ -95,5 +96,5 @@ ISR( TIMER2_OVF_vect ){
             break;
     }
     state++;
-    if(state>5)state=0;
+    if(state>5)state=0;*/
 }

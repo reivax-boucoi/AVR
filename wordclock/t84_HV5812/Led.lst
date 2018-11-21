@@ -1,0 +1,1205 @@
+   1               		.file	"Led.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               	.global	tcolor
+  12               	tcolor:
+  13               	.LFB6:
+  14               		.file 1 "Led.c"
+   1:Led.c         **** #include "Led.h" 
+   2:Led.c         **** 
+   3:Led.c         **** static const uint8_t ledMap[11]={7,8,10,14,0,4,17,2,12,6,16};
+   4:Led.c         **** 
+   5:Led.c         **** Tcolor tcolor(uint8_t r,uint8_t g,uint8_t b){
+  15               		.loc 1 5 0
+  16               		.cfi_startproc
+  17               	.LVL0:
+  18               	/* prologue: function */
+  19               	/* frame size = 0 */
+  20               	/* stack size = 0 */
+  21               	.L__stack_usage = 0
+  22 0000 762F      		mov r23,r22
+  23               	.LVL1:
+   6:Led.c         ****     Tcolor c={r,g,b};
+   7:Led.c         ****     return c;
+   8:Led.c         **** }
+  24               		.loc 1 8 0
+  25 0002 682F      		mov r22,r24
+  26               	.LVL2:
+  27 0004 842F      		mov r24,r20
+  28               	.LVL3:
+  29 0006 0895      		ret
+  30               		.cfi_endproc
+  31               	.LFE6:
+  33               	.global	tcolorV
+  35               	tcolorV:
+  36               	.LFB7:
+   9:Led.c         **** 
+  10:Led.c         **** Tcolor tcolorV(uint32_t v){
+  37               		.loc 1 10 0
+  38               		.cfi_startproc
+  39               	.LVL4:
+  40 0008 0F93      		push r16
+  41               	.LCFI0:
+  42               		.cfi_def_cfa_offset 3
+  43               		.cfi_offset 16, -2
+  44 000a 1F93      		push r17
+  45               	.LCFI1:
+  46               		.cfi_def_cfa_offset 4
+  47               		.cfi_offset 17, -3
+  48               	/* prologue: function */
+  49               	/* frame size = 0 */
+  50               	/* stack size = 2 */
+  51               	.L__stack_usage = 2
+  52 000c DC01      		movw r26,r24
+  53 000e CB01      		movw r24,r22
+  54               	.LVL5:
+  11:Led.c         ****     Tcolor c={(v>>16)&0xFF,(v>>8)&0xFF,v&0xFF};
+  12:Led.c         ****     return c;
+  55               		.loc 1 12 0
+  56 0010 AD01      		movw r20,r26
+  57 0012 6627      		clr r22
+  58 0014 7727      		clr r23
+  59 0016 092F      		mov r16,r25
+  60 0018 1A2F      		mov r17,r26
+  61 001a 2B2F      		mov r18,r27
+  62 001c 3327      		clr r19
+  63               	.LVL6:
+  13:Led.c         **** }
+  64               		.loc 1 13 0
+  65 001e 642F      		mov r22,r20
+  66               	.LVL7:
+  67 0020 702F      		mov r23,r16
+  68               	/* epilogue start */
+  69 0022 1F91      		pop r17
+  70 0024 0F91      		pop r16
+  71 0026 0895      		ret
+  72               		.cfi_endproc
+  73               	.LFE7:
+  75               	.global	ledInit
+  77               	ledInit:
+  78               	.LFB8:
+  14:Led.c         **** 
+  15:Led.c         **** void ledInit(Led* leds){
+  79               		.loc 1 15 0
+  80               		.cfi_startproc
+  81               	.LVL8:
+  82               	/* prologue: function */
+  83               	/* frame size = 0 */
+  84               	/* stack size = 0 */
+  85               	.L__stack_usage = 0
+  86 0028 DC01      		movw r26,r24
+  87               	.LVL9:
+  88 002a FC01      		movw r30,r24
+  89               	.LBB42:
+  16:Led.c         ****     for(uint8_t i=0;i<NBLEDS;i++){
+  90               		.loc 1 16 0
+  91 002c 90E0      		ldi r25,0
+  92               	.LVL10:
+  93               	.L6:
+  17:Led.c         ****         leds[i].row=i%2;//leds[0]=0, leds[1]=1
+  94               		.loc 1 17 0
+  95 002e 892F      		mov r24,r25
+  96 0030 8170      		andi r24,lo8(1)
+  97 0032 8183      		std Z+1,r24
+  18:Led.c         ****         if(i<10){
+  98               		.loc 1 18 0
+  99 0034 9A30      		cpi r25,lo8(10)
+ 100 0036 00F4      		brsh .L4
+  19:Led.c         ****             leds[i].col=i;//0-9
+ 101               		.loc 1 19 0
+ 102 0038 9083      		st Z,r25
+ 103 003a 00C0      		rjmp .L5
+ 104               	.L4:
+  20:Led.c         ****         }else{
+  21:Led.c         ****             leds[i].col=i-9;//1-9
+ 105               		.loc 1 21 0
+ 106 003c 87EF      		ldi r24,lo8(-9)
+ 107 003e 890F      		add r24,r25
+ 108 0040 8083      		st Z,r24
+ 109               	.L5:
+  22:Led.c         ****         }
+  23:Led.c         ****         leds[i].c.r=0;
+ 110               		.loc 1 23 0 discriminator 2
+ 111 0042 1282      		std Z+2,__zero_reg__
+  24:Led.c         ****         leds[i].c.g=0;
+ 112               		.loc 1 24 0 discriminator 2
+ 113 0044 1382      		std Z+3,__zero_reg__
+  25:Led.c         ****         leds[i].c.b=0;
+ 114               		.loc 1 25 0 discriminator 2
+ 115 0046 1482      		std Z+4,__zero_reg__
+  16:Led.c         ****         leds[i].row=i%2;//leds[0]=0, leds[1]=1
+ 116               		.loc 1 16 0 discriminator 2
+ 117 0048 9F5F      		subi r25,lo8(-(1))
+ 118               	.LVL11:
+ 119 004a 3596      		adiw r30,5
+ 120 004c 9331      		cpi r25,lo8(19)
+ 121 004e 01F4      		brne .L6
+ 122               	.LBE42:
+  26:Led.c         ****     }
+  27:Led.c         ****     leds[1].c.g=1;
+ 123               		.loc 1 27 0
+ 124 0050 81E0      		ldi r24,lo8(1)
+ 125 0052 1896      		adiw r26,8
+ 126 0054 8C93      		st X,r24
+ 127 0056 0895      		ret
+ 128               		.cfi_endproc
+ 129               	.LFE8:
+ 131               	.global	getColorByLed
+ 133               	getColorByLed:
+ 134               	.LFB9:
+  28:Led.c         **** }
+  29:Led.c         **** uint32_t getColorByLed(Led l){
+ 135               		.loc 1 29 0
+ 136               		.cfi_startproc
+ 137 0058 CF93      		push r28
+ 138               	.LCFI2:
+ 139               		.cfi_def_cfa_offset 3
+ 140               		.cfi_offset 28, -2
+ 141 005a DF93      		push r29
+ 142               	.LCFI3:
+ 143               		.cfi_def_cfa_offset 4
+ 144               		.cfi_offset 29, -3
+ 145 005c 00D0      		rcall .
+ 146 005e 00D0      		rcall .
+ 147 0060 1F92      		push __zero_reg__
+ 148               	.LCFI4:
+ 149               		.cfi_def_cfa_offset 9
+ 150 0062 CDB7      		in r28,__SP_L__
+ 151 0064 DEB7      		in r29,__SP_H__
+ 152               	.LCFI5:
+ 153               		.cfi_def_cfa_register 28
+ 154               	/* prologue: function */
+ 155               	/* frame size = 5 */
+ 156               	/* stack size = 7 */
+ 157               	.L__stack_usage = 7
+ 158               	.LVL12:
+ 159 0066 272F      		mov r18,r23
+ 160               	.LVL13:
+ 161 0068 382F      		mov r19,r24
+ 162               	.LVL14:
+  30:Led.c         ****     uint32_t d=0;
+  31:Led.c         ****     if(l.row){
+ 163               		.loc 1 31 0
+ 164 006a 5523      		tst r21
+ 165 006c 01F0      		breq .L10
+  32:Led.c         ****         if(l.c.r)d|=R2;
+ 166               		.loc 1 32 0
+ 167 006e 6623      		tst r22
+ 168 0070 01F0      		breq .L16
+ 169 0072 60E0      		ldi r22,0
+ 170 0074 70E4      		ldi r23,lo8(64)
+ 171 0076 80E0      		ldi r24,0
+ 172 0078 90E0      		ldi r25,0
+ 173               	.LVL15:
+ 174 007a 00C0      		rjmp .L11
+ 175               	.LVL16:
+ 176               	.L16:
+  30:Led.c         ****     uint32_t d=0;
+ 177               		.loc 1 30 0
+ 178 007c 60E0      		ldi r22,0
+ 179 007e 70E0      		ldi r23,0
+ 180 0080 CB01      		movw r24,r22
+ 181               	.LVL17:
+ 182               	.L11:
+  33:Led.c         ****         if(l.c.g)d|=G2;
+ 183               		.loc 1 33 0
+ 184 0082 2111      		cpse r18,__zero_reg__
+ 185               		.loc 1 33 0 is_stmt 0 discriminator 1
+ 186 0084 8460      		ori r24,4
+ 187               	.LVL18:
+ 188               	.L12:
+  34:Led.c         ****         if(l.c.b)d|=B2;
+ 189               		.loc 1 34 0 is_stmt 1
+ 190 0086 3323      		tst r19
+ 191 0088 01F0      		breq .L13
+ 192               		.loc 1 34 0 is_stmt 0 discriminator 1
+ 193 008a 8260      		ori r24,2
+ 194               	.LVL19:
+ 195 008c 00C0      		rjmp .L13
+ 196               	.LVL20:
+ 197               	.L10:
+  35:Led.c         ****     }else{
+  36:Led.c         ****         if(l.c.r)d|=R1;
+ 198               		.loc 1 36 0 is_stmt 1
+ 199 008e 6623      		tst r22
+ 200 0090 01F0      		breq .L17
+ 201 0092 60E0      		ldi r22,0
+ 202 0094 70E8      		ldi r23,lo8(-128)
+ 203 0096 80E0      		ldi r24,0
+ 204 0098 90E0      		ldi r25,0
+ 205               	.LVL21:
+ 206 009a 00C0      		rjmp .L14
+ 207               	.LVL22:
+ 208               	.L17:
+  30:Led.c         ****     if(l.row){
+ 209               		.loc 1 30 0
+ 210 009c 60E0      		ldi r22,0
+ 211 009e 70E0      		ldi r23,0
+ 212 00a0 CB01      		movw r24,r22
+ 213               	.LVL23:
+ 214               	.L14:
+  37:Led.c         ****         if(l.c.g)d|=G1;
+ 215               		.loc 1 37 0
+ 216 00a2 2111      		cpse r18,__zero_reg__
+ 217               		.loc 1 37 0 is_stmt 0 discriminator 1
+ 218 00a4 8860      		ori r24,8
+ 219               	.LVL24:
+ 220               	.L15:
+  38:Led.c         ****         if(l.c.b)d|=B1;
+ 221               		.loc 1 38 0 is_stmt 1
+ 222 00a6 3111      		cpse r19,__zero_reg__
+ 223               		.loc 1 38 0 is_stmt 0 discriminator 1
+ 224 00a8 8160      		ori r24,1
+ 225               	.LVL25:
+ 226               	.L13:
+ 227               	/* epilogue start */
+  39:Led.c         ****     }
+  40:Led.c         ****     return d;
+  41:Led.c         **** }
+ 228               		.loc 1 41 0 is_stmt 1
+ 229 00aa 0F90      		pop __tmp_reg__
+ 230 00ac 0F90      		pop __tmp_reg__
+ 231 00ae 0F90      		pop __tmp_reg__
+ 232 00b0 0F90      		pop __tmp_reg__
+ 233 00b2 0F90      		pop __tmp_reg__
+ 234 00b4 DF91      		pop r29
+ 235 00b6 CF91      		pop r28
+ 236 00b8 0895      		ret
+ 237               		.cfi_endproc
+ 238               	.LFE9:
+ 240               	.global	getDataByColor
+ 242               	getDataByColor:
+ 243               	.LFB10:
+  42:Led.c         **** 
+  43:Led.c         **** uint32_t getDataByColor(Tcolor c, uint8_t mode, Led* leds){
+ 244               		.loc 1 43 0
+ 245               		.cfi_startproc
+ 246               	.LVL26:
+ 247 00ba EF92      		push r14
+ 248               	.LCFI6:
+ 249               		.cfi_def_cfa_offset 3
+ 250               		.cfi_offset 14, -2
+ 251 00bc FF92      		push r15
+ 252               	.LCFI7:
+ 253               		.cfi_def_cfa_offset 4
+ 254               		.cfi_offset 15, -3
+ 255 00be 0F93      		push r16
+ 256               	.LCFI8:
+ 257               		.cfi_def_cfa_offset 5
+ 258               		.cfi_offset 16, -4
+ 259 00c0 1F93      		push r17
+ 260               	.LCFI9:
+ 261               		.cfi_def_cfa_offset 6
+ 262               		.cfi_offset 17, -5
+ 263 00c2 CF93      		push r28
+ 264               	.LCFI10:
+ 265               		.cfi_def_cfa_offset 7
+ 266               		.cfi_offset 28, -6
+ 267 00c4 DF93      		push r29
+ 268               	.LCFI11:
+ 269               		.cfi_def_cfa_offset 8
+ 270               		.cfi_offset 29, -7
+ 271               	/* prologue: function */
+ 272               	/* frame size = 0 */
+ 273               	/* stack size = 6 */
+ 274               	.L__stack_usage = 6
+ 275 00c6 562F      		mov r21,r22
+ 276 00c8 F72E      		mov r15,r23
+ 277 00ca E82E      		mov r14,r24
+ 278 00cc F901      		movw r30,r18
+ 279               	.LVL27:
+ 280 00ce D901      		movw r26,r18
+ 281 00d0 A15A      		subi r26,-95
+ 282 00d2 BF4F      		sbci r27,-1
+  44:Led.c         ****     uint32_t data=0;
+ 283               		.loc 1 44 0
+ 284 00d4 60E0      		ldi r22,0
+ 285 00d6 70E0      		ldi r23,0
+ 286 00d8 CB01      		movw r24,r22
+ 287               	.LVL28:
+ 288               	.LBB43:
+  45:Led.c         ****     for(uint8_t i=0;i<NBLEDS;i++){
+  46:Led.c         ****         if(leds[i].row==mode){
+  47:Led.c         ****             if((leds[i].c.r && c.r) || (leds[i].c.g && c.g) || (leds[i].c.b && c.b)){
+  48:Led.c         ****                 data|=(1<<leds[i].col);
+ 289               		.loc 1 48 0
+ 290 00da C1E0      		ldi r28,lo8(1)
+ 291 00dc D0E0      		ldi r29,0
+ 292               	.LVL29:
+ 293               	.L35:
+  46:Led.c         ****             if((leds[i].c.r && c.r) || (leds[i].c.g && c.g) || (leds[i].c.b && c.b)){
+ 294               		.loc 1 46 0
+ 295 00de 2181      		ldd r18,Z+1
+ 296 00e0 2413      		cpse r18,r20
+ 297 00e2 00C0      		rjmp .L31
+  47:Led.c         ****                 data|=(1<<leds[i].col);
+ 298               		.loc 1 47 0
+ 299 00e4 2281      		ldd r18,Z+2
+ 300 00e6 2223      		tst r18
+ 301 00e8 01F0      		breq .L32
+  47:Led.c         ****                 data|=(1<<leds[i].col);
+ 302               		.loc 1 47 0 is_stmt 0 discriminator 1
+ 303 00ea 5111      		cpse r21,__zero_reg__
+ 304 00ec 00C0      		rjmp .L33
+ 305               	.L32:
+  47:Led.c         ****                 data|=(1<<leds[i].col);
+ 306               		.loc 1 47 0 discriminator 3
+ 307 00ee 2381      		ldd r18,Z+3
+ 308 00f0 2223      		tst r18
+ 309 00f2 01F0      		breq .L34
+ 310               	.LVL30:
+  47:Led.c         ****                 data|=(1<<leds[i].col);
+ 311               		.loc 1 47 0 discriminator 4
+ 312 00f4 F110      		cpse r15,__zero_reg__
+ 313 00f6 00C0      		rjmp .L33
+ 314               	.L34:
+  47:Led.c         ****                 data|=(1<<leds[i].col);
+ 315               		.loc 1 47 0 discriminator 6
+ 316 00f8 2481      		ldd r18,Z+4
+ 317 00fa 2223      		tst r18
+ 318 00fc 01F0      		breq .L31
+ 319               	.LVL31:
+  47:Led.c         ****                 data|=(1<<leds[i].col);
+ 320               		.loc 1 47 0 discriminator 7
+ 321 00fe EE20      		tst r14
+ 322 0100 01F0      		breq .L31
+ 323               	.L33:
+ 324               		.loc 1 48 0 is_stmt 1
+ 325 0102 8E01      		movw r16,r28
+ 326 0104 0080      		ld r0,Z
+ 327 0106 00C0      		rjmp 2f
+ 328               		1:
+ 329 0108 000F      		lsl r16
+ 330 010a 111F      		rol r17
+ 331               		2:
+ 332 010c 0A94      		dec r0
+ 333 010e 02F4      		brpl 1b
+ 334 0110 012E      		mov __tmp_reg__,r17
+ 335 0112 000C      		lsl r0
+ 336 0114 220B      		sbc r18,r18
+ 337 0116 330B      		sbc r19,r19
+ 338 0118 602B      		or r22,r16
+ 339 011a 712B      		or r23,r17
+ 340 011c 822B      		or r24,r18
+ 341 011e 932B      		or r25,r19
+ 342               	.LVL32:
+ 343               	.L31:
+ 344 0120 3596      		adiw r30,5
+  45:Led.c         ****     for(uint8_t i=0;i<NBLEDS;i++){
+ 345               		.loc 1 45 0 discriminator 2
+ 346 0122 EA17      		cp r30,r26
+ 347 0124 FB07      		cpc r31,r27
+ 348 0126 01F4      		brne .L35
+ 349               	/* epilogue start */
+ 350               	.LBE43:
+  49:Led.c         ****             }
+  50:Led.c         ****         }
+  51:Led.c         ****     }
+  52:Led.c         ****     return data;
+  53:Led.c         **** }
+ 351               		.loc 1 53 0
+ 352 0128 DF91      		pop r29
+ 353 012a CF91      		pop r28
+ 354 012c 1F91      		pop r17
+ 355 012e 0F91      		pop r16
+ 356 0130 FF90      		pop r15
+ 357 0132 EF90      		pop r14
+ 358 0134 0895      		ret
+ 359               		.cfi_endproc
+ 360               	.LFE10:
+ 362               	.global	ledOff
+ 364               	ledOff:
+ 365               	.LFB11:
+  54:Led.c         **** 
+  55:Led.c         **** void ledOff(Led* l){
+ 366               		.loc 1 55 0
+ 367               		.cfi_startproc
+ 368               	.LVL33:
+ 369               	/* prologue: function */
+ 370               	/* frame size = 0 */
+ 371               	/* stack size = 0 */
+ 372               	.L__stack_usage = 0
+ 373 0136 FC01      		movw r30,r24
+  56:Led.c         ****     l->c.r=0;
+ 374               		.loc 1 56 0
+ 375 0138 1282      		std Z+2,__zero_reg__
+  57:Led.c         ****     l->c.g=0;
+ 376               		.loc 1 57 0
+ 377 013a 1382      		std Z+3,__zero_reg__
+  58:Led.c         ****     l->c.b=0;
+ 378               		.loc 1 58 0
+ 379 013c 1482      		std Z+4,__zero_reg__
+ 380 013e 0895      		ret
+ 381               		.cfi_endproc
+ 382               	.LFE11:
+ 384               	.global	ledOn
+ 386               	ledOn:
+ 387               	.LFB12:
+  59:Led.c         **** }
+  60:Led.c         **** void ledOn(Led* l){
+ 388               		.loc 1 60 0
+ 389               		.cfi_startproc
+ 390               	.LVL34:
+ 391               	/* prologue: function */
+ 392               	/* frame size = 0 */
+ 393               	/* stack size = 0 */
+ 394               	.L__stack_usage = 0
+ 395 0140 FC01      		movw r30,r24
+  61:Led.c         ****     l->c.r=255;
+ 396               		.loc 1 61 0
+ 397 0142 8FEF      		ldi r24,lo8(-1)
+ 398               	.LVL35:
+ 399 0144 8283      		std Z+2,r24
+  62:Led.c         ****     l->c.g=255;
+ 400               		.loc 1 62 0
+ 401 0146 8383      		std Z+3,r24
+  63:Led.c         ****     l->c.b=255;
+ 402               		.loc 1 63 0
+ 403 0148 8483      		std Z+4,r24
+ 404 014a 0895      		ret
+ 405               		.cfi_endproc
+ 406               	.LFE12:
+ 408               	.global	ledOnC
+ 410               	ledOnC:
+ 411               	.LFB13:
+  64:Led.c         **** }
+  65:Led.c         **** 
+  66:Led.c         **** void ledOnC(Led* l,Tcolor c){
+ 412               		.loc 1 66 0
+ 413               		.cfi_startproc
+ 414               	.LVL36:
+ 415               	/* prologue: function */
+ 416               	/* frame size = 0 */
+ 417               	/* stack size = 0 */
+ 418               	.L__stack_usage = 0
+  67:Led.c         ****     l->c=c;   
+ 419               		.loc 1 67 0
+ 420 014c FC01      		movw r30,r24
+ 421 014e 4283      		std Z+2,r20
+ 422 0150 5383      		std Z+3,r21
+ 423 0152 6483      		std Z+4,r22
+ 424 0154 0895      		ret
+ 425               		.cfi_endproc
+ 426               	.LFE13:
+ 428               	.global	ledOnV
+ 430               	ledOnV:
+ 431               	.LFB14:
+  68:Led.c         **** }
+  69:Led.c         **** 
+  70:Led.c         **** void ledOnV(Led* l,uint32_t v){
+ 432               		.loc 1 70 0
+ 433               		.cfi_startproc
+ 434               	.LVL37:
+ 435               	/* prologue: function */
+ 436               	/* frame size = 0 */
+ 437               	/* stack size = 0 */
+ 438               	.L__stack_usage = 0
+ 439 0156 FC01      		movw r30,r24
+ 440               	.LVL38:
+  71:Led.c         ****     l->c=tcolorV(v);
+ 441               		.loc 1 71 0
+ 442 0158 6283      		std Z+2,r22
+ 443 015a 5383      		std Z+3,r21
+ 444 015c 4483      		std Z+4,r20
+ 445 015e 0895      		ret
+ 446               		.cfi_endproc
+ 447               	.LFE14:
+ 449               	.global	ledIsOff
+ 451               	ledIsOff:
+ 452               	.LFB15:
+  72:Led.c         **** }
+  73:Led.c         **** 
+  74:Led.c         **** uint8_t ledIsOff(Led l){
+ 453               		.loc 1 74 0
+ 454               		.cfi_startproc
+ 455 0160 CF93      		push r28
+ 456               	.LCFI12:
+ 457               		.cfi_def_cfa_offset 3
+ 458               		.cfi_offset 28, -2
+ 459 0162 DF93      		push r29
+ 460               	.LCFI13:
+ 461               		.cfi_def_cfa_offset 4
+ 462               		.cfi_offset 29, -3
+ 463 0164 00D0      		rcall .
+ 464 0166 00D0      		rcall .
+ 465 0168 1F92      		push __zero_reg__
+ 466               	.LCFI14:
+ 467               		.cfi_def_cfa_offset 9
+ 468 016a CDB7      		in r28,__SP_L__
+ 469 016c DEB7      		in r29,__SP_H__
+ 470               	.LCFI15:
+ 471               		.cfi_def_cfa_register 28
+ 472               	/* prologue: function */
+ 473               	/* frame size = 5 */
+ 474               	/* stack size = 7 */
+ 475               	.L__stack_usage = 7
+ 476               	.LVL39:
+ 477               	.LBB44:
+ 478               	.LBB45:
+  75:Led.c         ****     return !ledIsOn(l);
+  76:Led.c         **** }
+  77:Led.c         **** uint8_t ledIsOn(Led l){
+  78:Led.c         ****     return l.c.r || l.c.g || l.c.b;
+ 479               		.loc 1 78 0
+ 480 016e 6111      		cpse r22,__zero_reg__
+ 481 0170 00C0      		rjmp .L57
+ 482 0172 7111      		cpse r23,__zero_reg__
+ 483 0174 00C0      		rjmp .L57
+ 484 0176 91E0      		ldi r25,lo8(1)
+ 485 0178 8111      		cpse r24,__zero_reg__
+ 486 017a 00C0      		rjmp .L55
+ 487 017c 90E0      		ldi r25,0
+ 488               	.L55:
+ 489 017e 892F      		mov r24,r25
+ 490               	.LVL40:
+ 491 0180 00C0      		rjmp .L54
+ 492               	.LVL41:
+ 493               	.L57:
+ 494 0182 81E0      		ldi r24,lo8(1)
+ 495               	.LVL42:
+ 496               	.L54:
+ 497               	.LBE45:
+ 498               	.LBE44:
+  76:Led.c         **** uint8_t ledIsOn(Led l){
+ 499               		.loc 1 76 0
+ 500 0184 91E0      		ldi r25,lo8(1)
+ 501 0186 8927      		eor r24,r25
+ 502               	/* epilogue start */
+ 503 0188 0F90      		pop __tmp_reg__
+ 504 018a 0F90      		pop __tmp_reg__
+ 505 018c 0F90      		pop __tmp_reg__
+ 506 018e 0F90      		pop __tmp_reg__
+ 507 0190 0F90      		pop __tmp_reg__
+ 508 0192 DF91      		pop r29
+ 509 0194 CF91      		pop r28
+ 510 0196 0895      		ret
+ 511               		.cfi_endproc
+ 512               	.LFE15:
+ 514               	.global	ledIsOn
+ 516               	ledIsOn:
+ 517               	.LFB16:
+  77:Led.c         ****     return l.c.r || l.c.g || l.c.b;
+ 518               		.loc 1 77 0
+ 519               		.cfi_startproc
+ 520 0198 CF93      		push r28
+ 521               	.LCFI16:
+ 522               		.cfi_def_cfa_offset 3
+ 523               		.cfi_offset 28, -2
+ 524 019a DF93      		push r29
+ 525               	.LCFI17:
+ 526               		.cfi_def_cfa_offset 4
+ 527               		.cfi_offset 29, -3
+ 528 019c 00D0      		rcall .
+ 529 019e 00D0      		rcall .
+ 530 01a0 1F92      		push __zero_reg__
+ 531               	.LCFI18:
+ 532               		.cfi_def_cfa_offset 9
+ 533 01a2 CDB7      		in r28,__SP_L__
+ 534 01a4 DEB7      		in r29,__SP_H__
+ 535               	.LCFI19:
+ 536               		.cfi_def_cfa_register 28
+ 537               	/* prologue: function */
+ 538               	/* frame size = 5 */
+ 539               	/* stack size = 7 */
+ 540               	.L__stack_usage = 7
+ 541 01a6 8D83      		std Y+5,r24
+ 542               		.loc 1 78 0
+ 543 01a8 6111      		cpse r22,__zero_reg__
+ 544 01aa 00C0      		rjmp .L62
+ 545               		.loc 1 78 0 is_stmt 0 discriminator 2
+ 546 01ac 7111      		cpse r23,__zero_reg__
+ 547 01ae 00C0      		rjmp .L62
+ 548               		.loc 1 78 0 discriminator 4
+ 549 01b0 81E0      		ldi r24,lo8(1)
+ 550 01b2 9D81      		ldd r25,Y+5
+ 551 01b4 9111      		cpse r25,__zero_reg__
+ 552 01b6 00C0      		rjmp .L59
+ 553 01b8 80E0      		ldi r24,0
+ 554 01ba 00C0      		rjmp .L59
+ 555               	.L62:
+ 556               		.loc 1 78 0
+ 557 01bc 81E0      		ldi r24,lo8(1)
+ 558               	.L59:
+ 559               	/* epilogue start */
+  79:Led.c         **** }
+ 560               		.loc 1 79 0 is_stmt 1 discriminator 8
+ 561 01be 0F90      		pop __tmp_reg__
+ 562 01c0 0F90      		pop __tmp_reg__
+ 563 01c2 0F90      		pop __tmp_reg__
+ 564 01c4 0F90      		pop __tmp_reg__
+ 565 01c6 0F90      		pop __tmp_reg__
+ 566 01c8 DF91      		pop r29
+ 567 01ca CF91      		pop r28
+ 568 01cc 0895      		ret
+ 569               		.cfi_endproc
+ 570               	.LFE16:
+ 572               	.global	setLeds
+ 574               	setLeds:
+ 575               	.LFB17:
+  80:Led.c         **** void setLeds(Ttime t,Led* l,Tcolor c){
+ 576               		.loc 1 80 0
+ 577               		.cfi_startproc
+ 578               	.LVL43:
+ 579 01ce 6F92      		push r6
+ 580               	.LCFI20:
+ 581               		.cfi_def_cfa_offset 3
+ 582               		.cfi_offset 6, -2
+ 583 01d0 7F92      		push r7
+ 584               	.LCFI21:
+ 585               		.cfi_def_cfa_offset 4
+ 586               		.cfi_offset 7, -3
+ 587 01d2 8F92      		push r8
+ 588               	.LCFI22:
+ 589               		.cfi_def_cfa_offset 5
+ 590               		.cfi_offset 8, -4
+ 591 01d4 CF92      		push r12
+ 592               	.LCFI23:
+ 593               		.cfi_def_cfa_offset 6
+ 594               		.cfi_offset 12, -5
+ 595 01d6 DF92      		push r13
+ 596               	.LCFI24:
+ 597               		.cfi_def_cfa_offset 7
+ 598               		.cfi_offset 13, -6
+ 599 01d8 EF92      		push r14
+ 600               	.LCFI25:
+ 601               		.cfi_def_cfa_offset 8
+ 602               		.cfi_offset 14, -7
+ 603 01da FF92      		push r15
+ 604               	.LCFI26:
+ 605               		.cfi_def_cfa_offset 9
+ 606               		.cfi_offset 15, -8
+ 607 01dc 0F93      		push r16
+ 608               	.LCFI27:
+ 609               		.cfi_def_cfa_offset 10
+ 610               		.cfi_offset 16, -9
+ 611 01de CF93      		push r28
+ 612               	.LCFI28:
+ 613               		.cfi_def_cfa_offset 11
+ 614               		.cfi_offset 28, -10
+ 615 01e0 DF93      		push r29
+ 616               	.LCFI29:
+ 617               		.cfi_def_cfa_offset 12
+ 618               		.cfi_offset 29, -11
+ 619 01e2 00D0      		rcall .
+ 620 01e4 00D0      		rcall .
+ 621 01e6 1F92      		push __zero_reg__
+ 622               	.LCFI30:
+ 623               		.cfi_def_cfa_offset 17
+ 624 01e8 CDB7      		in r28,__SP_L__
+ 625 01ea DEB7      		in r29,__SP_H__
+ 626               	.LCFI31:
+ 627               		.cfi_def_cfa_register 28
+ 628               	/* prologue: function */
+ 629               	/* frame size = 5 */
+ 630               	/* stack size = 15 */
+ 631               	.L__stack_usage = 15
+ 632 01ec 6901      		movw r12,r18
+ 633 01ee 3701      		movw r6,r14
+ 634 01f0 802E      		mov r8,r16
+ 635               	.LVL44:
+ 636 01f2 F901      		movw r30,r18
+ 637 01f4 C901      		movw r24,r18
+ 638 01f6 815A      		subi r24,-95
+ 639 01f8 9F4F      		sbci r25,-1
+ 640               	.LVL45:
+ 641               	.L64:
+ 642               	.LBB46:
+ 643               	.LBB47:
+  56:Led.c         ****     l->c.g=0;
+ 644               		.loc 1 56 0 discriminator 2
+ 645 01fa 1282      		std Z+2,__zero_reg__
+  57:Led.c         ****     l->c.b=0;
+ 646               		.loc 1 57 0 discriminator 2
+ 647 01fc 1382      		std Z+3,__zero_reg__
+  58:Led.c         **** }
+ 648               		.loc 1 58 0 discriminator 2
+ 649 01fe 1482      		std Z+4,__zero_reg__
+ 650               	.LVL46:
+ 651 0200 3596      		adiw r30,5
+ 652               	.LBE47:
+ 653               	.LBE46:
+  81:Led.c         ****     uint8_t i=0;
+  82:Led.c         ****     for(;i<NBLEDS;i++){
+ 654               		.loc 1 82 0 discriminator 2
+ 655 0202 E817      		cp r30,r24
+ 656 0204 F907      		cpc r31,r25
+ 657 0206 01F4      		brne .L64
+ 658               	.LVL47:
+ 659               	.LBB48:
+ 660               	.LBB49:
+  67:Led.c         **** }
+ 661               		.loc 1 67 0
+ 662 0208 F601      		movw r30,r12
+ 663 020a E65A      		subi r30,-90
+ 664 020c FF4F      		sbci r31,-1
+ 665               	.LVL48:
+ 666 020e 6282      		std Z+2,r6
+ 667 0210 7382      		std Z+3,r7
+ 668 0212 8482      		std Z+4,r8
+ 669               	.LVL49:
+ 670               	.LBE49:
+ 671               	.LBE48:
+  83:Led.c         ****         ledOff(&l[i]);
+  84:Led.c         ****     }
+  85:Led.c         ****     ledOnC(&l[ILEST],c);
+  86:Led.c         ****     
+  87:Led.c         ****     switch(currentTime.hour){
+ 672               		.loc 1 87 0
+ 673 0214 8091 0000 		lds r24,currentTime
+ 674 0218 8823      		tst r24
+ 675 021a 01F0      		breq .L66
+ 676 021c 8C30      		cpi r24,lo8(12)
+ 677 021e 01F4      		brne .L80
+ 678               	.LVL50:
+ 679               	.LBB50:
+ 680               	.LBB51:
+  67:Led.c         **** }
+ 681               		.loc 1 67 0
+ 682 0220 F601      		movw r30,r12
+ 683 0222 EF5B      		subi r30,-65
+ 684 0224 FF4F      		sbci r31,-1
+ 685               	.LVL51:
+ 686 0226 00C0      		rjmp .L79
+ 687               	.LVL52:
+ 688               	.L66:
+ 689               	.LBE51:
+ 690               	.LBE50:
+ 691               	.LBB52:
+ 692               	.LBB53:
+ 693 0228 F601      		movw r30,r12
+ 694 022a 618A      		std Z+17,r6
+ 695 022c 728A      		std Z+18,r7
+ 696 022e 838A      		std Z+19,r8
+ 697 0230 00C0      		rjmp .L68
+ 698               	.LVL53:
+ 699               	.L80:
+ 700               	.LBE53:
+ 701               	.LBE52:
+  88:Led.c         ****         case 0 :
+  89:Led.c         ****             ledOnC(&l[MINUIT],c);
+  90:Led.c         ****             break;
+  91:Led.c         ****         case 12 :
+  92:Led.c         ****             ledOnC(&l[MIDI],c);
+  93:Led.c         ****             break;
+  94:Led.c         ****         default :
+  95:Led.c         ****             if(currentTime.min>35){
+ 702               		.loc 1 95 0
+ 703 0232 9091 0000 		lds r25,currentTime+1
+  96:Led.c         ****                 ledOnC(&l[ledMap[(currentTime.hour%12)]],c);
+ 704               		.loc 1 96 0
+ 705 0236 6CE0      		ldi r22,lo8(12)
+  95:Led.c         ****                 ledOnC(&l[ledMap[(currentTime.hour%12)]],c);
+ 706               		.loc 1 95 0
+ 707 0238 9432      		cpi r25,lo8(36)
+ 708 023a 00F0      		brlo .L69
+ 709               		.loc 1 96 0
+ 710 023c 00D0      		rcall __udivmodqi4
+ 711 023e E92F      		mov r30,r25
+ 712 0240 F0E0      		ldi r31,0
+ 713 0242 E050      		subi r30,lo8(-(ledMap))
+ 714 0244 F040      		sbci r31,hi8(-(ledMap))
+ 715 0246 00C0      		rjmp .L78
+ 716               	.L69:
+  97:Led.c         ****             }else{
+  98:Led.c         ****                 ledOnC(&l[ledMap[(currentTime.hour%12)-1]],c);
+ 717               		.loc 1 98 0
+ 718 0248 00D0      		rcall __udivmodqi4
+ 719 024a E92F      		mov r30,r25
+ 720 024c F0E0      		ldi r31,0
+ 721 024e E050      		subi r30,lo8(-(ledMap-1))
+ 722 0250 F040      		sbci r31,hi8(-(ledMap-1))
+ 723               	.L78:
+ 724 0252 8081      		ld r24,Z
+ 725 0254 90E0      		ldi r25,0
+ 726 0256 65E0      		ldi r22,lo8(5)
+ 727 0258 70E0      		ldi r23,0
+ 728 025a 00D0      		rcall __mulhi3
+ 729 025c 8C0D      		add r24,r12
+ 730 025e 9D1D      		adc r25,r13
+ 731               	.LVL54:
+ 732               	.LBB54:
+ 733               	.LBB55:
+  67:Led.c         **** }
+ 734               		.loc 1 67 0
+ 735 0260 FC01      		movw r30,r24
+ 736 0262 6282      		std Z+2,r6
+ 737 0264 7382      		std Z+3,r7
+ 738 0266 8482      		std Z+4,r8
+ 739               	.LVL55:
+ 740               	.LBE55:
+ 741               	.LBE54:
+ 742               	.LBB56:
+ 743               	.LBB57:
+ 744 0268 F601      		movw r30,r12
+ 745 026a E55B      		subi r30,-75
+ 746 026c FF4F      		sbci r31,-1
+ 747               	.LVL56:
+ 748               	.L79:
+ 749 026e 6282      		std Z+2,r6
+ 750 0270 7382      		std Z+3,r7
+ 751 0272 8482      		std Z+4,r8
+ 752               	.L68:
+ 753               	.LBE57:
+ 754               	.LBE56:
+  99:Led.c         ****             }
+ 100:Led.c         ****             ledOnC(&l[HEURE],c);
+ 101:Led.c         ****             break;
+ 102:Led.c         ****     }
+ 103:Led.c         ****     uint8_t mins = minquad(currentTime.min); 
+ 755               		.loc 1 103 0
+ 756 0274 8091 0000 		lds r24,currentTime+1
+ 757 0278 00D0      		rcall minquad
+ 758               	.LVL57:
+ 104:Led.c         ****     if(mins > 30){
+ 759               		.loc 1 104 0
+ 760 027a 8F31      		cpi r24,lo8(31)
+ 761 027c 00F0      		brlo .L71
+ 762               	.LVL58:
+ 763               	.LBB58:
+ 764               	.LBB59:
+  67:Led.c         **** }
+ 765               		.loc 1 67 0
+ 766 027e F601      		movw r30,r12
+ 767 0280 67A6      		std Z+47,r6
+ 768 0282 70AA      		std Z+48,r7
+ 769 0284 81AA      		std Z+49,r8
+ 770               	.LVL59:
+ 771               	.LBE59:
+ 772               	.LBE58:
+ 105:Led.c         ****         ledOnC(&l[MOINS],c);
+ 106:Led.c         ****         mins=60-mins;
+ 773               		.loc 1 106 0
+ 774 0286 9CE3      		ldi r25,lo8(60)
+ 775 0288 981B      		sub r25,r24
+ 776 028a 892F      		mov r24,r25
+ 777               	.LVL60:
+ 778               	.L71:
+ 107:Led.c         ****     }
+ 108:Led.c         ****     switch(mins){
+ 779               		.loc 1 108 0
+ 780 028c 8431      		cpi r24,lo8(20)
+ 781 028e 01F0      		breq .L73
+ 782 0290 8E31      		cpi r24,lo8(30)
+ 783 0292 01F0      		breq .L74
+ 784 0294 8A30      		cpi r24,lo8(10)
+ 785 0296 01F4      		brne .L63
+ 786               	.LVL61:
+ 787               	.LBB60:
+ 788               	.LBB61:
+  67:Led.c         **** }
+ 789               		.loc 1 67 0
+ 790 0298 F601      		movw r30,r12
+ 791 029a 638E      		std Z+27,r6
+ 792 029c 748E      		std Z+28,r7
+ 793 029e 858E      		std Z+29,r8
+ 794 02a0 00C0      		rjmp .L63
+ 795               	.LVL62:
+ 796               	.L73:
+ 797               	.LBE61:
+ 798               	.LBE60:
+ 799               	.LBB62:
+ 800               	.LBB63:
+ 801 02a2 F601      		movw r30,r12
+ 802 02a4 61AE      		std Z+57,r6
+ 803 02a6 72AE      		std Z+58,r7
+ 804 02a8 83AE      		std Z+59,r8
+ 805 02aa 00C0      		rjmp .L63
+ 806               	.LVL63:
+ 807               	.L74:
+ 808               	.LBE63:
+ 809               	.LBE62:
+ 810               	.LBB64:
+ 811               	.LBB65:
+ 812 02ac F601      		movw r30,r12
+ 813 02ae 6782      		std Z+7,r6
+ 814 02b0 7086      		std Z+8,r7
+ 815 02b2 8186      		std Z+9,r8
+ 816               	.LVL64:
+ 817               	.L63:
+ 818               	/* epilogue start */
+ 819               	.LBE65:
+ 820               	.LBE64:
+ 109:Led.c         ****         case 10 :
+ 110:Led.c         ****             ledOnC(&l[DIX],c);
+ 111:Led.c         ****             break;
+ 112:Led.c         ****         case 20 :
+ 113:Led.c         ****             ledOnC(&l[VINGT],c);
+ 114:Led.c         ****             break;
+ 115:Led.c         ****         case 30 :
+ 116:Led.c         ****             ledOnC(&l[ETDEMIE],c);
+ 117:Led.c         ****             break;
+ 118:Led.c         ****     }
+ 119:Led.c         **** }
+ 821               		.loc 1 119 0
+ 822 02b4 0F90      		pop __tmp_reg__
+ 823 02b6 0F90      		pop __tmp_reg__
+ 824 02b8 0F90      		pop __tmp_reg__
+ 825 02ba 0F90      		pop __tmp_reg__
+ 826 02bc 0F90      		pop __tmp_reg__
+ 827 02be DF91      		pop r29
+ 828 02c0 CF91      		pop r28
+ 829 02c2 0F91      		pop r16
+ 830 02c4 FF90      		pop r15
+ 831 02c6 EF90      		pop r14
+ 832 02c8 DF90      		pop r13
+ 833 02ca CF90      		pop r12
+ 834               	.LVL65:
+ 835 02cc 8F90      		pop r8
+ 836 02ce 7F90      		pop r7
+ 837 02d0 6F90      		pop r6
+ 838               	.LVL66:
+ 839 02d2 0895      		ret
+ 840               		.cfi_endproc
+ 841               	.LFE17:
+ 843               	.global	setLedsNb
+ 845               	setLedsNb:
+ 846               	.LFB18:
+ 120:Led.c         **** 
+ 121:Led.c         **** void setLedsNb(int8_t nb, Led* l, Tcolor c){
+ 847               		.loc 1 121 0
+ 848               		.cfi_startproc
+ 849               	.LVL67:
+ 850 02d4 CF93      		push r28
+ 851               	.LCFI32:
+ 852               		.cfi_def_cfa_offset 3
+ 853               		.cfi_offset 28, -2
+ 854 02d6 DF93      		push r29
+ 855               	.LCFI33:
+ 856               		.cfi_def_cfa_offset 4
+ 857               		.cfi_offset 29, -3
+ 858               	/* prologue: function */
+ 859               	/* frame size = 0 */
+ 860               	/* stack size = 2 */
+ 861               	.L__stack_usage = 2
+ 862 02d8 E82F      		mov r30,r24
+ 863 02da DB01      		movw r26,r22
+ 864               	.LVL68:
+ 865 02dc EB01      		movw r28,r22
+ 866 02de CB01      		movw r24,r22
+ 867               	.LVL69:
+ 868 02e0 815A      		subi r24,-95
+ 869 02e2 9F4F      		sbci r25,-1
+ 870               	.LVL70:
+ 871               	.L82:
+ 872               	.LBB66:
+ 873               	.LBB67:
+  56:Led.c         ****     l->c.g=0;
+ 874               		.loc 1 56 0 discriminator 2
+ 875 02e4 1A82      		std Y+2,__zero_reg__
+  57:Led.c         ****     l->c.b=0;
+ 876               		.loc 1 57 0 discriminator 2
+ 877 02e6 1B82      		std Y+3,__zero_reg__
+  58:Led.c         **** }
+ 878               		.loc 1 58 0 discriminator 2
+ 879 02e8 1C82      		std Y+4,__zero_reg__
+ 880               	.LVL71:
+ 881 02ea 2596      		adiw r28,5
+ 882               	.LBE67:
+ 883               	.LBE66:
+ 122:Led.c         ****     uint8_t i=0;
+ 123:Led.c         ****     for(;i<NBLEDS;i++){
+ 884               		.loc 1 123 0 discriminator 2
+ 885 02ec 8C17      		cp r24,r28
+ 886 02ee 9D07      		cpc r25,r29
+ 887 02f0 01F4      		brne .L82
+ 124:Led.c         ****         ledOff(&l[i]);
+ 125:Led.c         ****     }
+ 126:Led.c         ****     if(nb < 0){
+ 888               		.loc 1 126 0
+ 889 02f2 E7FF      		sbrs r30,7
+ 890 02f4 00C0      		rjmp .L83
+ 891               	.LVL72:
+ 892               	.LBB68:
+ 893               	.LBB69:
+  67:Led.c         **** }
+ 894               		.loc 1 67 0
+ 895 02f6 9F96      		adiw r26,47
+ 896 02f8 2D93      		st X+,r18
+ 897 02fa 3D93      		st X+,r19
+ 898 02fc 4C93      		st X,r20
+ 899 02fe D197      		sbiw r26,47+2
+ 900               	.LVL73:
+ 901               	.LBE69:
+ 902               	.LBE68:
+ 127:Led.c         ****         ledOnC(&l[MOINS],c);
+ 128:Led.c         ****         nb=-nb;
+ 903               		.loc 1 128 0
+ 904 0300 E195      		neg r30
+ 905               	.LVL74:
+ 906               	.L83:
+ 129:Led.c         ****     }
+ 130:Led.c         ****     if(nb>30){
+ 907               		.loc 1 130 0
+ 908 0302 EF31      		cpi r30,lo8(31)
+ 909 0304 04F0      		brlt .L84
+ 910               	.LVL75:
+ 911               	.LBB70:
+ 912               	.LBB71:
+  67:Led.c         **** }
+ 913               		.loc 1 67 0
+ 914 0306 D996      		adiw r26,57
+ 915 0308 2D93      		st X+,r18
+ 916 030a 3D93      		st X+,r19
+ 917 030c 4C93      		st X,r20
+ 918 030e DB97      		sbiw r26,57+2
+ 919               	.LVL76:
+ 920               	.LBE71:
+ 921               	.LBE70:
+ 922               	.LBB72:
+ 923               	.LBB73:
+ 924 0310 5B96      		adiw r26,27
+ 925 0312 2D93      		st X+,r18
+ 926 0314 3D93      		st X+,r19
+ 927 0316 4C93      		st X,r20
+ 928 0318 5D97      		sbiw r26,27+2
+ 929               	.LVL77:
+ 930               	.LBE73:
+ 931               	.LBE72:
+ 131:Led.c         ****         ledOnC(&l[VINGT],c);
+ 132:Led.c         ****         ledOnC(&l[DIX],c);
+ 133:Led.c         ****         nb=nb-30;
+ 932               		.loc 1 133 0
+ 933 031a EE51      		subi r30,lo8(-(-30))
+ 934               	.LVL78:
+ 935 031c 00C0      		rjmp .L85
+ 936               	.L84:
+ 134:Led.c         ****     }else if(nb>20){
+ 937               		.loc 1 134 0
+ 938 031e E531      		cpi r30,lo8(21)
+ 939 0320 04F0      		brlt .L86
+ 940               	.LVL79:
+ 941               	.LBB74:
+ 942               	.LBB75:
+  67:Led.c         **** }
+ 943               		.loc 1 67 0
+ 944 0322 D996      		adiw r26,57
+ 945 0324 2D93      		st X+,r18
+ 946 0326 3D93      		st X+,r19
+ 947 0328 4C93      		st X,r20
+ 948 032a DB97      		sbiw r26,57+2
+ 949               	.LVL80:
+ 950 032c 00C0      		rjmp .L88
+ 951               	.L86:
+ 952               	.LBE75:
+ 953               	.LBE74:
+ 135:Led.c         ****         ledOnC(&l[VINGT],c);
+ 136:Led.c         ****         nb=nb-10;
+ 137:Led.c         ****     }else if(nb>11){
+ 954               		.loc 1 137 0
+ 955 032e EC30      		cpi r30,lo8(12)
+ 956 0330 04F0      		brlt .L85
+ 957               	.LVL81:
+ 958               	.LBB76:
+ 959               	.LBB77:
+  67:Led.c         **** }
+ 960               		.loc 1 67 0
+ 961 0332 5B96      		adiw r26,27
+ 962 0334 2D93      		st X+,r18
+ 963 0336 3D93      		st X+,r19
+ 964 0338 4C93      		st X,r20
+ 965 033a 5D97      		sbiw r26,27+2
+ 966               	.LVL82:
+ 967               	.L88:
+ 968               	.LBE77:
+ 969               	.LBE76:
+ 138:Led.c         ****         ledOnC(&l[DIX],c);
+ 139:Led.c         ****         nb=nb-10;
+ 970               		.loc 1 139 0
+ 971 033c EA50      		subi r30,lo8(-(-10))
+ 972               	.LVL83:
+ 973               	.L85:
+ 140:Led.c         ****     }
+ 141:Led.c         ****     ledOnC(&l[ledMap[nb-1]],c);
+ 974               		.loc 1 141 0
+ 975 033e 0E2E      		mov __tmp_reg__,r30
+ 976 0340 000C      		lsl r0
+ 977 0342 FF0B      		sbc r31,r31
+ 978 0344 E050      		subi r30,lo8(-(ledMap-1))
+ 979 0346 F040      		sbci r31,hi8(-(ledMap-1))
+ 980               	.LVL84:
+ 981 0348 8081      		ld r24,Z
+ 982 034a 90E0      		ldi r25,0
+ 983 034c 65E0      		ldi r22,lo8(5)
+ 984 034e 70E0      		ldi r23,0
+ 985               	.LVL85:
+ 986 0350 00D0      		rcall __mulhi3
+ 987 0352 A80F      		add r26,r24
+ 988 0354 B91F      		adc r27,r25
+ 989               	.LVL86:
+ 990               	.LBB78:
+ 991               	.LBB79:
+  67:Led.c         **** }
+ 992               		.loc 1 67 0
+ 993 0356 1296      		adiw r26,2
+ 994 0358 2D93      		st X+,r18
+ 995 035a 3D93      		st X+,r19
+ 996 035c 4C93      		st X,r20
+ 997               	.LVL87:
+ 998               	/* epilogue start */
+ 999               	.LBE79:
+ 1000               	.LBE78:
+ 142:Led.c         **** }
+ 1001               		.loc 1 142 0
+ 1002 035e DF91      		pop r29
+ 1003 0360 CF91      		pop r28
+ 1004 0362 0895      		ret
+ 1005               		.cfi_endproc
+ 1006               	.LFE18:
+ 1008               		.section	.rodata
+ 1011               	ledMap:
+ 1012 0000 07        		.byte	7
+ 1013 0001 08        		.byte	8
+ 1014 0002 0A        		.byte	10
+ 1015 0003 0E        		.byte	14
+ 1016 0004 00        		.byte	0
+ 1017 0005 04        		.byte	4
+ 1018 0006 11        		.byte	17
+ 1019 0007 02        		.byte	2
+ 1020 0008 0C        		.byte	12
+ 1021 0009 06        		.byte	6
+ 1022 000a 10        		.byte	16
+ 1023               		.comm	currentColor,3,1
+ 1024               		.comm	USI_I2C_Master_State,1,1
+ 1025               		.comm	currentTime,5,1
+ 1026               		.text
+ 1027               	.Letext0:
+ 1028               		.file 2 "/usr/lib/avr/include/stdint.h"
+ 1029               		.file 3 "RTC.h"
+ 1030               		.file 4 "Led.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 Led.c
+     /tmp/cciQl4He.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cciQl4He.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cciQl4He.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cciQl4He.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cciQl4He.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cciQl4He.s:12     .text:0000000000000000 tcolor
+     /tmp/cciQl4He.s:35     .text:0000000000000008 tcolorV
+     /tmp/cciQl4He.s:77     .text:0000000000000028 ledInit
+     /tmp/cciQl4He.s:133    .text:0000000000000058 getColorByLed
+     /tmp/cciQl4He.s:242    .text:00000000000000ba getDataByColor
+     /tmp/cciQl4He.s:364    .text:0000000000000136 ledOff
+     /tmp/cciQl4He.s:386    .text:0000000000000140 ledOn
+     /tmp/cciQl4He.s:410    .text:000000000000014c ledOnC
+     /tmp/cciQl4He.s:430    .text:0000000000000156 ledOnV
+     /tmp/cciQl4He.s:451    .text:0000000000000160 ledIsOff
+     /tmp/cciQl4He.s:516    .text:0000000000000198 ledIsOn
+     /tmp/cciQl4He.s:574    .text:00000000000001ce setLeds
+                            *COM*:0000000000000005 currentTime
+     /tmp/cciQl4He.s:1011   .rodata:0000000000000000 ledMap
+     /tmp/cciQl4He.s:845    .text:00000000000002d4 setLedsNb
+                            *COM*:0000000000000003 currentColor
+                            *COM*:0000000000000001 USI_I2C_Master_State
+
+UNDEFINED SYMBOLS
+__udivmodqi4
+__mulhi3
+minquad
+__do_copy_data
+__do_clear_bss
