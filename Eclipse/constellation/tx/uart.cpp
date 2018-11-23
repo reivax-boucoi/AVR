@@ -52,21 +52,27 @@ static void cmd_process(void) {
 		switch(uart_buff_rx[i]){
 		case 'r':
 			nb=1;
+			setMode('u');
 			break;
 		case 'g':
 			nb=2;
+			setMode('u');
 			break;
 		case 'b':
 			nb=3;
+			setMode('u');
 			break;
 		case 'a':
 			printLed();
 			break;
 		case '?':
-			randomize();
+			setMode('?');
 			break;
 		case 'c':
-			cycle();
+			i++;
+			setMode('c',uart_buff_rx[i]-48);
+			uart_transmit("set mode to ");
+			uart_transmitNb(uart_buff_rx[i]-48);
 			break;
 		default :
 			uart_transmit("\r\nUnknown command !");

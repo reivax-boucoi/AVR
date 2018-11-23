@@ -16,5 +16,7 @@ void initLed(void);
 void printLed(void);
 void randomize(void);
 void cycle(void);
+void setMode(char b);
+void setMode(char b,uint8_t r);
 
 #endif /* LED_H_ */

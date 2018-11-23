@@ -14,8 +14,8 @@ int main(void){
 	setLed(128,0,0);
 	for(;;){
 		for(uint8_t i=0;i<8;i++){
-
-			_delay_ms(1000);
+			cycle();
+			_delay_ms(2000);
 		}
 	}
 }

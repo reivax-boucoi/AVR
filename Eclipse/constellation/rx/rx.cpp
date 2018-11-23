@@ -65,7 +65,7 @@ uint16_t measure(void){
 	TCCR1B = (1<<CS12)|(1<<CS11);	// T1 input start
 
 	while (TCNT1L == 0);
-	_delay_us(100900);
+	_delay_us(1009);
 	TCCR1B = 0;//stop counting
 
 	if ((TIFR & (1<<TOV1)) !=0) {//OVF
@@ -88,25 +88,26 @@ int main(void){
 	DDRA&=~(1<<FOUT);
 	DDRA|=(1<<S2)|(1<<S3)|(1<<S1);
 	DDRB|=(1<<S0);
-	setSpeed(1);
+	setSpeed(3);
 	uart_init();
 	uart_transmit("Hi\r\n");
 	uint16_t r,g,b;
 	for(;;){
 		setColor(0);
-		_delay_ms(2);
+		_delay_ms(1);
 		r=measure();
 		setColor(1);
-		_delay_ms(2);
+		_delay_ms(1);
 		g=measure();
 		setColor(2);
-		_delay_ms(2);
+		_delay_ms(1);
 		b=measure();
 
 		char str[50]="";
 //		sprintf(str,"%u,%u,%u,"BINTODECPATT"\r\n",r,g,b,BINTODEC(evaluate(r,g,b)));
 		sprintf(str,"%u,%u,%u\r\n",r,g,b);
 		uart_transmit(str);
+		_delay_ms(200);
 
 	}
 }
