@@ -1,7 +1,7 @@
 #include "Led.h"
 static char mode='c';//u:user set, r:randomize, c:cycle
 static uint8_t c =0;
-static uint8_t bits =8;
+static uint8_t bits =27;
 void setLed(uint8_t rgb, uint8_t val) {
 	uart_transmit("\r\nSet ");
 	switch(rgb){
@@ -64,7 +64,10 @@ void printLed(void) {
 		uart_transmit(", randomized");
 		break;
 	case 'c':
-		uart_transmit(", cycle");
+		uart_transmit(", cycle ");
+		uart_transmitNb(c);
+		uart_transmitByte('/');
+		uart_transmitNb(bits);
 		break;
 	}
 }
@@ -90,8 +93,7 @@ void setMode(char b,uint8_t r){
 void cycle(void) {
 	if(mode=='c'){
 		if(bits==8)setLed(255*(c%2),255*((c>>1)%2),255*((c>>2)%2));
-		if(bits==27)setLed(128*(c%3),128*((c/3)%3),128*((c/9)%2));
+		if(bits==27)setLed(127*(c%3),127*((c/3)%3),127*((c/9)%3));
 		c=(c+1)%bits;
-		printLed();
 	}
 }

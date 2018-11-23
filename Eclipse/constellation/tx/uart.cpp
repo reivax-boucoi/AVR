@@ -71,8 +71,6 @@ static void cmd_process(void) {
 		case 'c':
 			i++;
 			setMode('c',uart_buff_rx[i]-48);
-			uart_transmit("set mode to ");
-			uart_transmitNb(uart_buff_rx[i]-48);
 			break;
 		default :
 			uart_transmit("\r\nUnknown command !");

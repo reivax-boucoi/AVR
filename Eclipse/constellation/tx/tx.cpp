@@ -15,7 +15,7 @@ int main(void){
 	for(;;){
 		for(uint8_t i=0;i<8;i++){
 			cycle();
-			_delay_ms(2000);
+			_delay_ms(500);
 		}
 	}
 }

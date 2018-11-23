@@ -107,7 +107,7 @@ int main(void){
 //		sprintf(str,"%u,%u,%u,"BINTODECPATT"\r\n",r,g,b,BINTODEC(evaluate(r,g,b)));
 		sprintf(str,"%u,%u,%u\r\n",r,g,b);
 		uart_transmit(str);
-		_delay_ms(200);
+		_delay_ms(100);
 
 	}
 }
