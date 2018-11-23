@@ -1,5 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
 #include "uart.h"
 #include "Led.h"
 
@@ -12,7 +13,10 @@ int main(void){
 	uart_transmit("Hello world\r\n\r\n>");
 	setLed(128,0,0);
 	for(;;){
-		PORTB^=(1<<PB0);
+		for(uint8_t i=0;i<8;i++){
+
+			_delay_ms(1000);
+		}
 	}
 }
 

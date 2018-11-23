@@ -29,3 +29,13 @@ void uart_transmitNb(uint16_t nb){
 	uart_transmit(str);
 
 }
+
+void uart_transmitNb(uint16_t nb, uint8_t mode) {
+	if(mode=='d'){
+		uart_transmitNb(nb);
+	}else if(mode=='b'){
+		char str[]="0b00000000";
+		sprintf(str,"0b"BINTODECPATT,BINTODEC(nb));
+		uart_transmit(str);
+	}
+}

@@ -1,11 +1,43 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include "uart.h"
-#define FIN PA3
-#define S2 PA5 //TODO check S2 & S3 for reverse connection
-#define S3 PA6
+#define FOUT PA3 //T1 input
+#define S0 PB3
+#define S1 PA2
+#define S3 PA1
+#define S2 PA0
 
+#define BINTODECPATT "%c%c%c%c%c%c%c%c"
+#define BINTODEC(uint8_t)  \
+  (uint8_t & 0x80 ? '1' : '0'), \
+  (uint8_t & 0x40 ? '1' : '0'), \
+  (uint8_t & 0x20 ? '1' : '0'), \
+  (uint8_t & 0x10 ? '1' : '0'), \
+  (uint8_t & 0x08 ? '1' : '0'), \
+  (uint8_t & 0x04 ? '1' : '0'), \
+  (uint8_t & 0x02 ? '1' : '0'), \
+  (uint8_t & 0x01 ? '1' : '0')
 
+void setSpeed(uint8_t speed){
+	switch(speed){
+	case 0://power down
+		PORTB&=~(1<<S0);
+		PORTA&=~(1<<S1);
+		break;
+	case 1://2%, 12kHz
+		PORTB&=~(1<<S0);
+		PORTA|=(1<<S1);
+		break;
+	case 2://20% 120kHz
+		PORTB|=(1<<S0);
+		PORTA&=~(1<<S1);
+		break;
+	case 3://100% 600kHz
+		PORTB|=(1<<S0);
+		PORTA|=(1<<S1);
+		break;
+	}
+}
 void setColor(uint8_t rgb){//0:r 1:g 2:b 3:w
 	switch(rgb){
 	case 0:
@@ -44,10 +76,19 @@ uint16_t measure(void){
 	}
 	return fin;
 }
+uint8_t evaluate(uint16_t r,uint16_t g,uint16_t b){
+	uint8_t bit=0;
+	if(r>1300)bit|=(1<<2);
+	if(g>1530)bit|=(1<<1);
+	if(b>1765)bit|=(1<<0);
+	return bit;
+}
 int main(void){
 	DDRB|=(1<<PB0);
-	DDRA&=~(1<<FIN);
-	DDRA|=(1<<S2)|(1<<S3);
+	DDRA&=~(1<<FOUT);
+	DDRA|=(1<<S2)|(1<<S3)|(1<<S1);
+	DDRB|=(1<<S0);
+	setSpeed(1);
 	uart_init();
 	uart_transmit("Hi\r\n");
 	uint16_t r,g,b;
@@ -61,12 +102,12 @@ int main(void){
 		setColor(2);
 		_delay_ms(2);
 		b=measure();
-		uart_transmitNb(r);
-		uart_transmitByte(',');
-		uart_transmitNb(g);
-		uart_transmitByte(',');
-		uart_transmitNb(b);
-		uart_transmit("\r\n");
+
+		char str[50]="";
+//		sprintf(str,"%u,%u,%u,"BINTODECPATT"\r\n",r,g,b,BINTODEC(evaluate(r,g,b)));
+		sprintf(str,"%u,%u,%u\r\n",r,g,b);
+		uart_transmit(str);
+
 	}
 }
 

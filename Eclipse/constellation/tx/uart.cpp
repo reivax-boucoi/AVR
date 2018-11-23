@@ -62,6 +62,12 @@ static void cmd_process(void) {
 		case 'a':
 			printLed();
 			break;
+		case '?':
+			randomize();
+			break;
+		case 'c':
+			cycle();
+			break;
 		default :
 			uart_transmit("\r\nUnknown command !");
 			break;
