@@ -1,6 +1,5 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <util/delay.h>
 #include "uart.h"
 #include "Led.h"
 
@@ -10,13 +9,10 @@ int main(void){
 	uart_init();
 	initLed();
 	sei();
-	uart_transmit("Hello world\r\n\r\n>");
+	uart_transmit("\r\n\r\nr/g/b0-255 to set led\r\nv to verbose\r\na to get status\r\n? to randomize\r\nd1-255 to set delay\r\nc1-4 to cycle n bits\r\n");
 	setLed(128,0,0);
 	for(;;){
-		for(uint8_t i=0;i<8;i++){
-			cycle();
-			_delay_ms(500);
-		}
+		cycle();
 	}
 }
 

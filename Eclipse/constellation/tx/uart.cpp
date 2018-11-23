@@ -67,10 +67,23 @@ static void cmd_process(void) {
 			break;
 		case '?':
 			setMode('?');
+			randomize();
 			break;
 		case 'c':
 			i++;
 			setMode('c',uart_buff_rx[i]-48);
+			break;
+		case 'v':
+			verbose();
+			break;
+		case 'd':
+			i++;
+			while(i<uart_rx_head){
+				nb=(nb*10)+uart_buff_rx[i]-48;
+				i++;
+			}
+			setDelay(nb);
+			nb=0;
 			break;
 		default :
 			uart_transmit("\r\nUnknown command !");

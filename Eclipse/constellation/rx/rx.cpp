@@ -94,13 +94,13 @@ int main(void){
 	uint16_t r,g,b;
 	for(;;){
 		setColor(0);
-		_delay_ms(1);
+		_delay_ms(5);
 		r=measure();
 		setColor(1);
-		_delay_ms(1);
+		_delay_ms(5);
 		g=measure();
 		setColor(2);
-		_delay_ms(1);
+		_delay_ms(5);
 		b=measure();
 
 		char str[50]="";

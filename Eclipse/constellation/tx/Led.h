@@ -1,6 +1,7 @@
 #ifndef LED_H_
 #define LED_H_
 #include <avr/io.h>
+#include <util/delay.h>
 #include "uart.h"
 
 #define LEDR PA5
@@ -17,6 +18,8 @@ void printLed(void);
 void randomize(void);
 void cycle(void);
 void setMode(char b);
-void setMode(char b,uint8_t r);
+void setDelay(uint8_t d);
+void setMode(char b,uint8_t a);
+void verbose(void);
 
 #endif /* LED_H_ */

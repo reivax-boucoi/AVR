@@ -1,7 +1,11 @@
 #include "Led.h"
 static char mode='c';//u:user set, r:randomize, c:cycle
 static uint8_t c =0;
+static uint8_t r =3;
+static uint8_t v =0;
+static uint8_t del =49;
 static uint8_t bits =27;
+
 void setLed(uint8_t rgb, uint8_t val) {
 	uart_transmit("\r\nSet ");
 	switch(rgb){
@@ -73,27 +77,43 @@ void printLed(void) {
 }
 
 void randomize(void) {
-	if(mode=='?'){
-
-	}
 }
 
 void setMode(char b){
 	mode=b;
 }
-void setMode(char b,uint8_t r){
+void setMode(char b,uint8_t a){
 	if(b=='c'){
 		mode='c';
-		bits=(r+1);
-		bits=bits*bits*bits;
+		r=a;
+		bits=a*a*a;
+		c=0;
 	}else{
 		setMode(b);
 	}
 }
 void cycle(void) {
+	for(uint8_t i=0;i<=(del);i++)_delay_ms(10);
 	if(mode=='c'){
-		if(bits==8)setLed(255*(c%2),255*((c>>1)%2),255*((c>>2)%2));
-		if(bits==27)setLed(127*(c%3),127*((c/3)%3),127*((c/9)%3));
-		c=(c+1)%bits;
+		if(1==r){
+			if(c){
+				setLed(255,255,255);
+			}else{
+				setLed(0,0,0);
+			}
+			c=1-c;
+		}else{
+			uint8_t m=(256/(r-1))-1;
+			setLed(m*(c%r),m*((c/(r))%r),m*((c/(r*r))%r));
+			c=(c+1)%bits;
+		}
 	}
+	if(v)printLed();
+}
+void setDelay(uint8_t d){
+	del=d;
+}
+
+void verbose(void){
+	v=1-v;
 }
