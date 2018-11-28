@@ -5,8 +5,12 @@
 
 
 /*Atmega6490 is missing 2 segment pins :
- * Arrows(pin 35 display)
- * µmHF(pin 42 display)
+ * bargraph >
+ * bargraph <
+ * µ R01-0
+ * H R06-0
+ * colon dsmall r3-6
+ * olimex r04-7
 
  */
 #define DBIG false
@@ -16,10 +20,10 @@ enum Battery {NONE,EMPTY,FIRST,SECOND,THIRD,ONEBAR,TWOBAR,FULL};
 }
 namespace Arrow{
 enum Arrow {LEFT,RIGHT,UP,DOWN};
-}
+}/*
 namespace Bargraph{
 enum Bargraph {OFF,STACK,SINGLE};
-}
+}*/
 class LCD {
 public:
 	LCD();
@@ -38,8 +42,8 @@ public:
 	static void setDigit(uint8_t dig, Symbol s);// only available on small display
 	static void setDigit(uint8_t dig, uint8_t nb, bool display);
 	static void setBattery(Battery::Battery b);
-	static void setBargraphMode(Bargraph::Bargraph b);
-	static void setBargraphLevel(uint8_t l);
+	//static void setBargraphMode(Bargraph::Bargraph b);
+	//static void setBargraphLevel(uint8_t l);
 	static void setMinus(bool b);
 	static void setPlus(bool b);
 	static void setArrow(Arrow::Arrow a, bool b);
@@ -70,6 +74,6 @@ private:
 	static seg battery[4];
 	static const uint8_t NbMap[10];//0-9
 	static const uint16_t CharMap[45];//0-9,A-Z,<,>,_,',°,=,BLANK
-	static Bargraph::Bargraph bargraphMode;
+	//static Bargraph::Bargraph bargraphMode;
 };
 #endif

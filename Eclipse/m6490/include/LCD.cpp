@@ -4,42 +4,42 @@ const uint16_t LCD::CharMap[]={0x003F,0x0006,0x045B,0x044F,0x0466,0x046D,0x047D,
 		0x0477,0x250F,0x0071,0x210F,0x0079,0x0071,0x043D,0x0476,0x2100,0x0017,0x2B00,0x0038,0x02B6,0x08B6,0x045C,0x0473,0x083F,0x0C73,0x0879,0x2101,0x003E,0x1230,0x1836,0x1A80,0x1280,0x1209,
 		0x0A00,0x1080,0x1800,0x0008,0x0200,0x0463,0x0448,0x3F00,0x0000};//CLK,DP,P,Q,N,M,K,J,H,G,F,E,D,C,B,A
 
-Bargraph::Bargraph bargraphMode=Bargraph::OFF;
+//Bargraph::Bargraph bargraphMode=Bargraph::OFF;
 
 LCD::dSmall_t LCD::dSmall[]={//TODO pin
 		//		DP			G			F				E			D			C			B				A
-		{{{6,&LCDDR05},{5,&LCDDR07},{5,&LCDDR17},{4,&LCDDR03},{4,&LCDDR08},{6,&LCDDR00},{7,&LCDDR07},{7,&LCDDR17}}},//Leftmost digit, segs DP-A
-		{{{7,&LCDDR05},{1,&LCDDR08},{1,&LCDDR18},{0,&LCDDR01},{0,&LCDDR06},{7,&LCDDR00},{4,&LCDDR08},{4,&LCDDR18}}},
-		{{{0,&LCDDR00},{1,&LCDDR09},{0,&LCDDR00},{2,&LCDDR01},{1,&LCDDR06},{1,&LCDDR01},{1,&LCDDR19},{6,&LCDDR18}}},
+		{{{7,&LCDDR02},{5,&LCDDR07},{5,&LCDDR17},{4,&LCDDR03},{5,&LCDDR02},{6,&LCDDR00},{7,&LCDDR07},{7,&LCDDR17}}},//Leftmost digit, segs DP-A
+		{{{4,&LCDDR03},{1,&LCDDR08},{1,&LCDDR18},{0,&LCDDR01},{1,&LCDDR03},{7,&LCDDR00},{4,&LCDDR08},{4,&LCDDR18}}},
+		{{{3,&LCDDR04},{1,&LCDDR09},{0,&LCDDR00},{2,&LCDDR01},{1,&LCDDR04},{1,&LCDDR01},{1,&LCDDR19},{6,&LCDDR18}}},
 		{{{0,&LCDDR00},{0,&LCDDR00},{3,&LCDDR09},{4,&LCDDR01},{3,&LCDDR06},{3,&LCDDR01},{0,&LCDDR00},{3,&LCDDR19}}}//Rightmost digit, segs DP-A
 };
 LCD::dBig_t LCD::dBig[]={//TODO pin
 			//CLK		DP		    	P				Q			N			M			K				J			H			G			F			E				D			C			B				A
-		{{{0,&LCDDR00},{0,&LCDDR00},{5,&LCDDR19},{5,&LCDDR09},{6,&LCDDR19},{6,&LCDDR09},{7,&LCDDR01},{0,&LCDDR00},{1,&LCDDR07},{1,&LCDDR02},{2,&LCDDR02},{7,&LCDDR09},{4,&LCDDR19},{3,&LCDDR09},{0,&LCDDR02},{0,&LCDDR07}}},//Rightmost digit, segs CLK-A
-		{{{0,&LCDDR00},{7,&LCDDR19},{0,&LCDDR19},{0,&LCDDR09},{0,&LCDDR00},{0,&LCDDR00},{4,&LCDDR02},{4,&LCDDR07},{5,&LCDDR07},{5,&LCDDR02},{6,&LCDDR02},{7,&LCDDR08},{2,&LCDDR19},{0,&LCDDR00},{3,&LCDDR02},{3,&LCDDR07}}},
-		{{{6,&LCDDR07},{6,&LCDDR18},{0,&LCDDR00},{0,&LCDDR00},{5,&LCDDR18},{0,&LCDDR00},{7,&LCDDR02},{7,&LCDDR07},{0,&LCDDR00},{0,&LCDDR00},{1,&LCDDR03},{0,&LCDDR08},{3,&LCDDR18},{3,&LCDDR08},{2,&LCDDR03},{2,&LCDDR08}}},
-		{{{1,&LCDDR08},{0,&LCDDR18},{7,&LCDDR16},{7,&LCDDR06},{6,&LCDDR17},{6,&LCDDR07},{3,&LCDDR03},{3,&LCDDR08},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{5,&LCDDR06},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}},
-		{{{0,&LCDDR00},{5,&LCDDR16},{1,&LCDDR16},{1,&LCDDR06},{6,&LCDDR16},{6,&LCDDR06},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{7,&LCDDR05},{3,&LCDDR16},{3,&LCDDR06},{0,&LCDDR00},{0,&LCDDR00}}},
-		{{{0,&LCDDR00},{7,&LCDDR15},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR05},{0,&LCDDR00},{0,&LCDDR00},{4,&LCDDR05},{0,&LCDDR00},{0,&LCDDR00}}},
-		{{{0,&LCDDR00},{0,&LCDDR15},{0,&LCDDR00},{3,&LCDDR05},{1,&LCDDR15},{1,&LCDDR05},{0,&LCDDR00},{7,&LCDDR06},{1,&LCDDR05},{1,&LCDDR00},{0,&LCDDR00},{5,&LCDDR05},{4,&LCDDR15},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00}}}//Leftmost digit, segs CLK-A
+		{{{0,&LCDDR00},{0,&LCDDR00},{5,&LCDDR19},{5,&LCDDR09},{6,&LCDDR19},{6,&LCDDR09},{7,&LCDDR01},{6,&LCDDR04},{5,&LCDDR04},{1,&LCDDR02},{2,&LCDDR02},{7,&LCDDR09},{4,&LCDDR19},{3,&LCDDR09},{0,&LCDDR02},{4,&LCDDR04}}},//Rightmost digit, segs CLK-A
+		{{{7,&LCDDR03},{7,&LCDDR19},{0,&LCDDR19},{0,&LCDDR09},{0,&LCDDR00},{0,&LCDDR00},{4,&LCDDR02},{2,&LCDDR02},{0,&LCDDR04},{5,&LCDDR02},{6,&LCDDR02},{7,&LCDDR08},{2,&LCDDR19},{0,&LCDDR00},{3,&LCDDR02},{2,&LCDDR04}}},
+		{{{0,&LCDDR03},{6,&LCDDR18},{0,&LCDDR00},{0,&LCDDR00},{5,&LCDDR18},{0,&LCDDR00},{7,&LCDDR02},{5,&LCDDR03},{2,&LCDDR03},{0,&LCDDR00},{1,&LCDDR03},{0,&LCDDR08},{3,&LCDDR18},{3,&LCDDR08},{2,&LCDDR03},{3,&LCDDR03}}},
+		{{{5,&LCDDR01},{0,&LCDDR18},{7,&LCDDR16},{7,&LCDDR06},{6,&LCDDR17},{6,&LCDDR07},{3,&LCDDR03},{6,&LCDDR02},{7,&LCDDR01},{0,&LCDDR00},{0,&LCDDR00},{5,&LCDDR06},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR00},{4,&LCDDR02}}},
+		{{{7,&LCDDR00},{5,&LCDDR16},{1,&LCDDR16},{1,&LCDDR06},{6,&LCDDR16},{6,&LCDDR06},{0,&LCDDR00},{6,&LCDDR01},{1,&LCDDR01},{0,&LCDDR00},{0,&LCDDR00},{7,&LCDDR05},{3,&LCDDR16},{4,&LCDDR05},{0,&LCDDR00},{3,&LCDDR01}}},
+		{{{0,&LCDDR00},{7,&LCDDR15},{0,&LCDDR00},{2,&LCDDR05},{0,&LCDDR00},{6,&LCDDR05},{0,&LCDDR00},{6,&LCDDR00},{2,&LCDDR00},{0,&LCDDR00},{0,&LCDDR10},{0,&LCDDR05},{0,&LCDDR00},{4,&LCDDR05},{4,&LCDDR10},{4,&LCDDR00}}},
+		{{{0,&LCDDR00},{0,&LCDDR15},{0,&LCDDR00},{3,&LCDDR05},{1,&LCDDR15},{1,&LCDDR05},{1,&LCDDR10},{1,&LCDDR00},{3,&LCDDR00},{3,&LCDDR10},{5,&LCDDR10},{5,&LCDDR05},{4,&LCDDR15},{0,&LCDDR00},{0,&LCDDR00},{0,&LCDDR02}}}//Leftmost digit, segs CLK-A
 };
 LCD::seg LCD::arrow[]={
-		{3,&LCDDR17},{4,&LCDDR00},{3,&LCDDR07},{4,&LCDDR05}//LEFT, RIGHT,UP,DOWN
+		{3,&LCDDR17},{0,&LCDDR00},{3,&LCDDR07},{3,&LCDDR02}//LEFT, RIGHT,UP,DOWN
 };
 LCD::seg LCD::battery[]={//TODO pin
-		{1,&LCDDR17},{5,&LCDDR05},{5,&LCDDR00},{1,&LCDDR07}//Both ends on battery[0]
-};
+		{1,&LCDDR17},{1,&LCDDR02},{5,&LCDDR00},{1,&LCDDR07}//Both ends on battery[0]
+};/*
 LCD::seg LCD::bargraph[]={//TODO pin
-		{6,&LCDDR06},{2,&LCDDR17},//Ends
+		{2,&LCDDR01},{2,&LCDDR17},//Ends
 		{6,&LCDDR01},{2,&LCDDR06},{2,&LCDDR16},{4,&LCDDR16},{0,&LCDDR00},{5,&LCDDR01},{5,&LCDDR06},{2,&LCDDR05},{2,&LCDDR00},{0,&LCDDR00}//Internal
-};
+};*/
 
 LCD::LCD(){
 	LCDCRB|=(1<<LCDMUX0)|(1<<LCDMUX1)|(1<<LCDPM3)|(1<<LCDPM2)|(1<<LCDPM1)|(1<<LCDPM0);
 	LCDFRR|=(1<<LCDPS0)|(1<<LCDPS1)|(1<<LCDPS2);
 	LCDFRR|=(1<<LCDCD2)|(1<<LCDCD1)|(1<<LCDCD0);//16Mhz/(4096*8*8)=61Hz
 	//8MHz/(4096*8*5)=48.8Hz
-	LCDCCR|=(1<<LCDCC3);
+	LCDCCR|=(1<<LCDCC3)|(1<<LCDCC2)|(1<<LCDCC1)|(1<<LCDCC0);
 	LCDCRA|=(1<<LCDEN);
 }
 
@@ -163,7 +163,7 @@ void LCD::setBattery(Battery::Battery b) {
 		}
 	}
 }
-
+/*
 void LCD::setBargraphMode(Bargraph::Bargraph b) {//TODO fix undefined reference
 	//	bargraphMode=b;
 	if(b==Bargraph::OFF)setBargraphLevel(0);
@@ -197,7 +197,7 @@ void LCD::setBargraphLevel(uint8_t l) {//TODO fix undefined reference
 		}
 		break;
 	}*/
-}
+//}
 
 void LCD::setArrow(Arrow::Arrow a, bool b) {
 	if(b){
@@ -211,22 +211,22 @@ void LCD::clear(void) {//TODO
 	clearArrows();
 	clearDisplay(DBIG);
 	clearDisplay(DSMALL);
-	setBargraphMode(Bargraph::OFF);
+	//setBargraphMode(Bargraph::OFF);
 	setBattery(Battery::NONE);
 }
 
 void LCD::setMinus(bool b) {//r15-5
 	if(b){
-		LCDDR00|=(1<<1);
+		LCDDR11|=(1<<3);
 	}else{
-		LCDDR00&=~(1<<1);
+		LCDDR11&=~(1<3);
 	}
 }
 void LCD::setPlus(bool b) {
 	if(b){
-		LCDDR00|=(1<<0);
+		LCDDR00|=(1<<5);
 	}else{
-		LCDDR00&=~(1<<0);
+		LCDDR00&=~(1<<5);
 	}
 }
 
