@@ -674,7 +674,7 @@
   80:main.c        ****         ledb=0;
  414               		.loc 1 80 0
  415 00b8 1092 0000 		sts ledb,__zero_reg__
-  81:main.c        ****     setLeds(currentTime,leds,tcolorV(MAGENTA));
+  81:main.c        ****         setLeds(currentTime,leds,tcolorV(MAGENTA));
  416               		.loc 1 81 0
  417 00bc 6FEF      		ldi r22,lo8(-1)
  418 00be 70E0      		ldi r23,0
@@ -973,22 +973,22 @@
  688               		.file 5 "Led.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/ccOiVtTO.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccOiVtTO.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccOiVtTO.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccOiVtTO.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccOiVtTO.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccOiVtTO.s:12     .text:0000000000000000 sendRawData
-     /tmp/ccOiVtTO.s:89     .text:0000000000000044 sendData
-     /tmp/ccOiVtTO.s:679    .bss:0000000000000002 ledr
-     /tmp/ccOiVtTO.s:674    .bss:0000000000000001 ledb
-     /tmp/ccOiVtTO.s:121    .text.startup:0000000000000000 main
+     /tmp/ccN7l62A.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccN7l62A.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccN7l62A.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccN7l62A.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccN7l62A.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccN7l62A.s:12     .text:0000000000000000 sendRawData
+     /tmp/ccN7l62A.s:89     .text:0000000000000044 sendData
+     /tmp/ccN7l62A.s:679    .bss:0000000000000002 ledr
+     /tmp/ccN7l62A.s:674    .bss:0000000000000001 ledb
+     /tmp/ccN7l62A.s:121    .text.startup:0000000000000000 main
                             *COM*:000000000000005f leds
                             *COM*:0000000000000003 currentColor
                             *COM*:0000000000000005 currentTime
-     /tmp/ccOiVtTO.s:299    .text:0000000000000056 __vector_8
-     /tmp/ccOiVtTO.s:461    .text:000000000000010a __vector_11
-     /tmp/ccOiVtTO.s:669    .bss:0000000000000000 state
+     /tmp/ccN7l62A.s:299    .text:0000000000000056 __vector_8
+     /tmp/ccN7l62A.s:461    .text:000000000000010a __vector_11
+     /tmp/ccN7l62A.s:669    .bss:0000000000000000 state
                             *COM*:0000000000000001 USI_I2C_Master_State
 
 UNDEFINED SYMBOLS

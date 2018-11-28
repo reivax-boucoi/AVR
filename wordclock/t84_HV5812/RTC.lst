@@ -1262,22 +1262,22 @@
  788               		.file 4 "RTC.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 RTC.c
-     /tmp/cccHaVG2.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cccHaVG2.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cccHaVG2.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cccHaVG2.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cccHaVG2.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cccHaVG2.s:12     .text:0000000000000000 setCurrentTime
+     /tmp/cc4ywz5M.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cc4ywz5M.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cc4ywz5M.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cc4ywz5M.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc4ywz5M.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc4ywz5M.s:12     .text:0000000000000000 setCurrentTime
                             *COM*:0000000000000005 currentTime
-     /tmp/cccHaVG2.s:38     .text:000000000000000e minquad
-     /tmp/cccHaVG2.s:105    .text:000000000000003e bcdToDec
-     /tmp/cccHaVG2.s:131    .text:000000000000004e i2c_in_transfer
-     /tmp/cccHaVG2.s:198    .text:0000000000000078 i2c_in_transmit
+     /tmp/cc4ywz5M.s:38     .text:000000000000000e minquad
+     /tmp/cc4ywz5M.s:105    .text:000000000000003e bcdToDec
+     /tmp/cc4ywz5M.s:131    .text:000000000000004e i2c_in_transfer
+     /tmp/cc4ywz5M.s:198    .text:0000000000000078 i2c_in_transmit
                             *COM*:0000000000000001 USI_I2C_Master_State
-     /tmp/cccHaVG2.s:427    .text:0000000000000142 i2c_write
-     /tmp/cccHaVG2.s:481    .text:000000000000016a i2c_read
-     /tmp/cccHaVG2.s:658    .text:0000000000000222 RTC_readTemp
-     /tmp/cccHaVG2.s:683    .text:0000000000000232 RTC_readTime
+     /tmp/cc4ywz5M.s:427    .text:0000000000000142 i2c_write
+     /tmp/cc4ywz5M.s:481    .text:000000000000016a i2c_read
+     /tmp/cc4ywz5M.s:658    .text:0000000000000222 RTC_readTemp
+     /tmp/cc4ywz5M.s:683    .text:0000000000000232 RTC_readTime
 
 UNDEFINED SYMBOLS
 __mulqi3
