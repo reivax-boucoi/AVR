@@ -78,7 +78,7 @@ ISR( TIM1_OVF_vect ){
     }else{
         ledr=1;
         ledb=0;
-    setLeds(currentTime,leds,tcolorV(MAGENTA));
+        setLeds(currentTime,leds,tcolorV(MAGENTA));
     }
     
 }
