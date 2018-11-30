@@ -1170,26 +1170,26 @@
  1027               		.file 4 "Led.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Led.c
-     /tmp/ccwxoq5l.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccwxoq5l.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccwxoq5l.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccwxoq5l.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccwxoq5l.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccwxoq5l.s:12     .text:0000000000000000 tcolor
-     /tmp/ccwxoq5l.s:35     .text:0000000000000008 tcolorV
-     /tmp/ccwxoq5l.s:77     .text:0000000000000028 ledInit
-     /tmp/ccwxoq5l.s:130    .text:0000000000000050 getColorByLed
-     /tmp/ccwxoq5l.s:239    .text:00000000000000b2 getDataByColor
-     /tmp/ccwxoq5l.s:361    .text:000000000000012e ledOff
-     /tmp/ccwxoq5l.s:383    .text:0000000000000138 ledOn
-     /tmp/ccwxoq5l.s:407    .text:0000000000000144 ledOnC
-     /tmp/ccwxoq5l.s:427    .text:000000000000014e ledOnV
-     /tmp/ccwxoq5l.s:448    .text:0000000000000158 ledIsOff
-     /tmp/ccwxoq5l.s:513    .text:0000000000000190 ledIsOn
-     /tmp/ccwxoq5l.s:571    .text:00000000000001c6 setLeds
+     /tmp/ccxYwp4U.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccxYwp4U.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccxYwp4U.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccxYwp4U.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccxYwp4U.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccxYwp4U.s:12     .text:0000000000000000 tcolor
+     /tmp/ccxYwp4U.s:35     .text:0000000000000008 tcolorV
+     /tmp/ccxYwp4U.s:77     .text:0000000000000028 ledInit
+     /tmp/ccxYwp4U.s:130    .text:0000000000000050 getColorByLed
+     /tmp/ccxYwp4U.s:239    .text:00000000000000b2 getDataByColor
+     /tmp/ccxYwp4U.s:361    .text:000000000000012e ledOff
+     /tmp/ccxYwp4U.s:383    .text:0000000000000138 ledOn
+     /tmp/ccxYwp4U.s:407    .text:0000000000000144 ledOnC
+     /tmp/ccxYwp4U.s:427    .text:000000000000014e ledOnV
+     /tmp/ccxYwp4U.s:448    .text:0000000000000158 ledIsOff
+     /tmp/ccxYwp4U.s:513    .text:0000000000000190 ledIsOn
+     /tmp/ccxYwp4U.s:571    .text:00000000000001c6 setLeds
                             *COM*:0000000000000005 currentTime
-     /tmp/ccwxoq5l.s:1008   .rodata:0000000000000000 ledMap
-     /tmp/ccwxoq5l.s:842    .text:00000000000002cc setLedsNb
+     /tmp/ccxYwp4U.s:1008   .rodata:0000000000000000 ledMap
+     /tmp/ccxYwp4U.s:842    .text:00000000000002cc setLedsNb
                             *COM*:0000000000000003 currentColor
                             *COM*:0000000000000001 USI_I2C_Master_State
 
