@@ -71,15 +71,15 @@ int main(void){
 ISR( TIM1_OVF_vect ){
    RTC_readTime(&currentTime);
      uint8_t a=RTC_readTemp();
-    if(a==0x18){
-        //setLedsNb(currentTime.temp,leds,tcolorV(BLUE));
+    if(currentTime.min%2){
+        setLedsNb(currentTime.temp,leds,tcolorV(YELLOW));
         ledb=1;
         ledr=0;
     }else{
         ledr=1;
         ledb=0;
+    setLeds(currentTime,leds,tcolorV(MAGENTA));
     }
-    setLeds(currentTime,leds,currentColor);
     
 }
 ISR( TIM0_OVF_vect ){
