@@ -957,22 +957,22 @@
  672               		.file 5 "Led.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/cctSMiPc.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cctSMiPc.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cctSMiPc.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cctSMiPc.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cctSMiPc.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cctSMiPc.s:12     .text:0000000000000000 sendRawData
-     /tmp/cctSMiPc.s:89     .text:0000000000000044 sendData
-     /tmp/cctSMiPc.s:663    .bss:0000000000000002 ledr
-     /tmp/cctSMiPc.s:658    .bss:0000000000000001 ledb
-     /tmp/cctSMiPc.s:121    .text.startup:0000000000000000 main
+     /tmp/ccyhAzbh.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccyhAzbh.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccyhAzbh.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccyhAzbh.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccyhAzbh.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccyhAzbh.s:12     .text:0000000000000000 sendRawData
+     /tmp/ccyhAzbh.s:89     .text:0000000000000044 sendData
+     /tmp/ccyhAzbh.s:663    .bss:0000000000000002 ledr
+     /tmp/ccyhAzbh.s:658    .bss:0000000000000001 ledb
+     /tmp/ccyhAzbh.s:121    .text.startup:0000000000000000 main
                             *COM*:000000000000005f leds
                             *COM*:0000000000000003 currentColor
                             *COM*:0000000000000005 currentTime
-     /tmp/cctSMiPc.s:299    .text:0000000000000056 __vector_8
-     /tmp/cctSMiPc.s:445    .text:00000000000000ee __vector_11
-     /tmp/cctSMiPc.s:653    .bss:0000000000000000 state
+     /tmp/ccyhAzbh.s:299    .text:0000000000000056 __vector_8
+     /tmp/ccyhAzbh.s:445    .text:00000000000000ee __vector_11
+     /tmp/ccyhAzbh.s:653    .bss:0000000000000000 state
                             *COM*:0000000000000001 USI_I2C_Master_State
 
 UNDEFINED SYMBOLS
