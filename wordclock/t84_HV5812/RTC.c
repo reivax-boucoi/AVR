@@ -23,10 +23,14 @@ uint8_t minquad(uint8_t min){
 	}else{return 0;}
 }
 
-uint8_t RTC_readTemp(void){
-	uint8_t data=0;
+int8_t RTC_readTemp(void){
+	int8_t data=0;
 	if(i2c_read(RTC_addr,1,0x11,data)){
-        return data;
+        if(data&0x80){
+            return -(data&0x7F);
+        }else{
+            return data&0x7F;
+        }
     }else{
         return 0;
     }
