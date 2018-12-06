@@ -56,12 +56,12 @@ int main(void){
 	
 	TCCR0B|=(1<<CS01)|(1<<CS00);
     
-    currentColor=tcolorV(RED);
+    currentColor=tcolorV(WHITE);
     setCurrentTime(15,45,7,11);
 	RTC_readTime(&currentTime);
-    currentTime.temp=11;
-    setLeds(currentTime,leds,currentColor);
-    
+    currentTime.temp=2;
+    //setLeds(currentTime,leds,currentColor);
+    setLedsNb(currentTime.temp,leds,currentColor);
     while(1){
        
     }
@@ -69,15 +69,19 @@ int main(void){
     
 }
 ISR( TIM1_OVF_vect ){
-    RTC_readTime(&currentTime);
-    if(currentTime.min){
+   RTC_readTime(&currentTime);
+     currentTime.temp=RTC_readTemp();
+    if(currentTime.min%2){
+        //setLedsNb(currentTime.temp,leds,tcolorV(BLUE));
         ledb=1;
         ledr=0;
     }else{
         ledr=1;
         ledb=0;
+        //setLeds(currentTime,leds,currentColor);
     }
-    setLeds(currentTime,leds,currentColor);
+    setLedsNb(14,leds,currentColor);
+    
 }
 ISR( TIM0_OVF_vect ){
     switch(state){

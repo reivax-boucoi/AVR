@@ -23,6 +23,15 @@ uint8_t minquad(uint8_t min){
 	}else{return 0;}
 }
 
+uint8_t RTC_readTemp(void){
+	uint8_t data=0;
+	if(i2c_read(RTC_addr,1,0x11,data)){
+        return data;
+    }else{
+        return 0;
+    }
+    
+}
 uint8_t bcdToDec(uint8_t val){
   return ((val/16*10) + (val%16));
 }

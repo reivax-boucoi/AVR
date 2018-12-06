@@ -125,10 +125,19 @@
  101               	.LFE7:
  103               	.global	bcdToDec
  105               	bcdToDec:
- 106               	.LFB8:
+ 106               	.LFB9:
   25:RTC.c         **** 
-  26:RTC.c         **** uint8_t bcdToDec(uint8_t val){
- 107               		.loc 1 26 0
+  26:RTC.c         **** uint8_t RTC_readTemp(void){
+  27:RTC.c         **** 	uint8_t data=0;
+  28:RTC.c         **** 	if(i2c_read(RTC_addr,1,0x11,data)){
+  29:RTC.c         ****         return data;
+  30:RTC.c         ****     }else{
+  31:RTC.c         ****         return 0;
+  32:RTC.c         ****     }
+  33:RTC.c         ****     
+  34:RTC.c         **** }
+  35:RTC.c         **** uint8_t bcdToDec(uint8_t val){
+ 107               		.loc 1 35 0
  108               		.cfi_startproc
  109               	.LVL13:
  110               	/* prologue: function */
@@ -136,8 +145,8 @@
  112               	/* stack size = 0 */
  113               	.L__stack_usage = 0
  114 003e 982F      		mov r25,r24
-  27:RTC.c         ****   return ((val/16*10) + (val%16));
- 115               		.loc 1 27 0
+  36:RTC.c         ****   return ((val/16*10) + (val%16));
+ 115               		.loc 1 36 0
  116 0040 8295      		swap r24
  117               	.LVL14:
  118 0042 8F70      		andi r24,lo8(15)
@@ -145,72 +154,72 @@
  120 0046 00D0      		rcall __mulqi3
  121 0048 9F70      		andi r25,lo8(15)
  122               	.LVL15:
-  28:RTC.c         **** }
- 123               		.loc 1 28 0
+  37:RTC.c         **** }
+ 123               		.loc 1 37 0
  124 004a 890F      		add r24,r25
  125 004c 0895      		ret
  126               		.cfi_endproc
- 127               	.LFE8:
+ 127               	.LFE9:
  129               	.global	i2c_in_transfer
  131               	i2c_in_transfer:
- 132               	.LFB12:
-  29:RTC.c         **** 
-  30:RTC.c         **** uint8_t RTC_readTime(struct Ttime *t){
-  31:RTC.c         **** 	uint8_t data[7] = {0};
-  32:RTC.c         **** 	if(i2c_read(RTC_addr,7,0x00,data)){
-  33:RTC.c         **** 		t->hour = bcdToDec(data[2]);
-  34:RTC.c         **** 		t->min = bcdToDec(data[1]);
-  35:RTC.c         **** 		t->monthDay = bcdToDec(data[4]);
-  36:RTC.c         **** 		t->month = bcdToDec(data[5]);
-  37:RTC.c         **** 		return 1;
-  38:RTC.c         **** 	}else{
-  39:RTC.c         **** 		return 0;
-  40:RTC.c         **** 	}
-  41:RTC.c         **** }
-  42:RTC.c         **** uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val){ // only supports 1 byte write
-  43:RTC.c         **** 	uint8_t i2c_buffer[3];
-  44:RTC.c         **** 	uint8_t i2c_buffer_len = 3;
-  45:RTC.c         **** 	i2c_buffer[0] = (addr << 1) | I2CWRITE ;
-  46:RTC.c         **** 	i2c_buffer[1] = adrs;
-  47:RTC.c         **** 	i2c_buffer[2] = val;
-  48:RTC.c         **** 	return i2c_in_transmit(i2c_buffer, i2c_buffer_len);
-  49:RTC.c         **** }
-  50:RTC.c         **** uint8_t i2c_read(uint8_t addr, uint8_t len, uint8_t adrs, uint8_t *buf){
-  51:RTC.c         **** 	//set register pointer to adrs
-  52:RTC.c         **** 	uint8_t i2c_buffer[len+1];
-  53:RTC.c         **** 	uint8_t i2c_buffer_len = 2;
-  54:RTC.c         **** 	i2c_buffer[0] = (addr << 1) | I2CWRITE;
+ 132               	.LFB13:
+  38:RTC.c         **** 
+  39:RTC.c         **** uint8_t RTC_readTime(struct Ttime *t){
+  40:RTC.c         **** 	uint8_t data[7] = {0};
+  41:RTC.c         **** 	if(i2c_read(RTC_addr,7,0x00,data)){
+  42:RTC.c         **** 		t->hour = bcdToDec(data[2]);
+  43:RTC.c         **** 		t->min = bcdToDec(data[1]);
+  44:RTC.c         **** 		t->monthDay = bcdToDec(data[4]);
+  45:RTC.c         **** 		t->month = bcdToDec(data[5]);
+  46:RTC.c         **** 		return 1;
+  47:RTC.c         **** 	}else{
+  48:RTC.c         **** 		return 0;
+  49:RTC.c         **** 	}
+  50:RTC.c         **** }
+  51:RTC.c         **** uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val){ // only supports 1 byte write
+  52:RTC.c         **** 	uint8_t i2c_buffer[3];
+  53:RTC.c         **** 	uint8_t i2c_buffer_len = 3;
+  54:RTC.c         **** 	i2c_buffer[0] = (addr << 1) | I2CWRITE ;
   55:RTC.c         **** 	i2c_buffer[1] = adrs;
-  56:RTC.c         **** 	i2c_in_transmit(i2c_buffer, i2c_buffer_len);
-  57:RTC.c         **** 	//read actual data
-  58:RTC.c         **** 	i2c_buffer_len = len+1;
-  59:RTC.c         **** 	i2c_buffer[0] = (addr << 1) | I2CREAD;
-  60:RTC.c         **** 	if(i2c_in_transmit(i2c_buffer, i2c_buffer_len)){
-  61:RTC.c         **** 		uint8_t i;
-  62:RTC.c         **** 		for(i=1;i<len+1;i++){ // fetch in buffer
-  63:RTC.c         **** 			buf[i-1]=i2c_buffer[i];
-  64:RTC.c         **** 		}
-  65:RTC.c         **** 		return 1; // provide success check
-  66:RTC.c         **** 	}else{
-  67:RTC.c         **** 		return 0;
-  68:RTC.c         **** 	}
-  69:RTC.c         **** }
-  70:RTC.c         **** 
-  71:RTC.c         **** uint8_t i2c_in_transfer(uint8_t USISR_temp){
- 133               		.loc 1 71 0
+  56:RTC.c         **** 	i2c_buffer[2] = val;
+  57:RTC.c         **** 	return i2c_in_transmit(i2c_buffer, i2c_buffer_len);
+  58:RTC.c         **** }
+  59:RTC.c         **** uint8_t i2c_read(uint8_t addr, uint8_t len, uint8_t adrs, uint8_t *buf){
+  60:RTC.c         **** 	//set register pointer to adrs
+  61:RTC.c         **** 	uint8_t i2c_buffer[len+1];
+  62:RTC.c         **** 	uint8_t i2c_buffer_len = 2;
+  63:RTC.c         **** 	i2c_buffer[0] = (addr << 1) | I2CWRITE;
+  64:RTC.c         **** 	i2c_buffer[1] = adrs;
+  65:RTC.c         **** 	i2c_in_transmit(i2c_buffer, i2c_buffer_len);
+  66:RTC.c         **** 	//read actual data
+  67:RTC.c         **** 	i2c_buffer_len = len+1;
+  68:RTC.c         **** 	i2c_buffer[0] = (addr << 1) | I2CREAD;
+  69:RTC.c         **** 	if(i2c_in_transmit(i2c_buffer, i2c_buffer_len)){
+  70:RTC.c         **** 		uint8_t i;
+  71:RTC.c         **** 		for(i=1;i<len+1;i++){ // fetch in buffer
+  72:RTC.c         **** 			buf[i-1]=i2c_buffer[i];
+  73:RTC.c         **** 		}
+  74:RTC.c         **** 		return 1; // provide success check
+  75:RTC.c         **** 	}else{
+  76:RTC.c         **** 		return 0;
+  77:RTC.c         **** 	}
+  78:RTC.c         **** }
+  79:RTC.c         **** 
+  80:RTC.c         **** uint8_t i2c_in_transfer(uint8_t USISR_temp){
+ 133               		.loc 1 80 0
  134               		.cfi_startproc
  135               	.LVL16:
  136               	/* prologue: function */
  137               	/* frame size = 0 */
  138               	/* stack size = 0 */
  139               	.L__stack_usage = 0
-  72:RTC.c         **** 	USISR = USISR_temp;								//Set USISR as requested by calling function
- 140               		.loc 1 72 0
+  81:RTC.c         **** 	USISR = USISR_temp;								//Set USISR as requested by calling function
+ 140               		.loc 1 81 0
  141 004e 8EB9      		out 0xe,r24
-  73:RTC.c         **** 	do{
-  74:RTC.c         **** 		_delay_us(I2C_TLOW);
-  75:RTC.c         **** 		USICR = 0b00101011;								//SCL Positive Edge
- 142               		.loc 1 75 0
+  82:RTC.c         **** 	do{
+  83:RTC.c         **** 		_delay_us(I2C_TLOW);
+  84:RTC.c         **** 		USICR = 0b00101011;								//SCL Positive Edge
+ 142               		.loc 1 84 0
  143 0050 8BE2      		ldi r24,lo8(43)
  144               	.LVL17:
  145               	.L14:
@@ -501,11 +510,11 @@
  154               	.LVL18:
  155               	.LBE19:
  156               	.LBE18:
- 157               		.loc 1 75 0
+ 157               		.loc 1 84 0
  158 005a 8DB9      		out 0xd,r24
  159               	.L13:
-  76:RTC.c         **** 		while (!(PIN_USI&(1<<PIN_USI_SCL)));		//Wait for SCL to go high
- 160               		.loc 1 76 0 discriminator 1
+  85:RTC.c         **** 		while (!(PIN_USI&(1<<PIN_USI_SCL)));		//Wait for SCL to go high
+ 160               		.loc 1 85 0 discriminator 1
  161 005c CC9B      		sbis 0x19,4
  162 005e 00C0      		rjmp .L13
  163               	.LVL19:
@@ -518,12 +527,12 @@
  170               	.LVL20:
  171               	.LBE21:
  172               	.LBE20:
-  77:RTC.c         **** 		_delay_us(I2C_THIGH);
-  78:RTC.c         **** 		USICR = 0b00101011;								//SCL Negative Edge
- 173               		.loc 1 78 0
+  86:RTC.c         **** 		_delay_us(I2C_THIGH);
+  87:RTC.c         **** 		USICR = 0b00101011;								//SCL Negative Edge
+ 173               		.loc 1 87 0
  174 0066 8DB9      		out 0xd,r24
-  79:RTC.c         **** 	}while (!(USISR&(1<<USIOIF)));					//Do until transfer is complete
- 175               		.loc 1 79 0
+  88:RTC.c         **** 	}while (!(USISR&(1<<USIOIF)));					//Do until transfer is complete
+ 175               		.loc 1 88 0
  176 0068 769B      		sbis 0xe,6
  177 006a 00C0      		rjmp .L14
  178               	.LVL21:
@@ -537,20 +546,20 @@
  186               	.LVL22:
  187               	.LBE23:
  188               	.LBE22:
-  80:RTC.c         **** 	_delay_us(I2C_TLOW);
-  81:RTC.c         **** 	return USIDR;
- 189               		.loc 1 81 0
+  89:RTC.c         **** 	_delay_us(I2C_TLOW);
+  90:RTC.c         **** 	return USIDR;
+ 189               		.loc 1 90 0
  190 0074 8FB1      		in r24,0xf
-  82:RTC.c         **** }
- 191               		.loc 1 82 0
+  91:RTC.c         **** }
+ 191               		.loc 1 91 0
  192 0076 0895      		ret
  193               		.cfi_endproc
- 194               	.LFE12:
+ 194               	.LFE13:
  196               	.global	i2c_in_transmit
  198               	i2c_in_transmit:
- 199               	.LFB13:
-  83:RTC.c         **** uint8_t i2c_in_transmit(uint8_t *msg, uint8_t msg_size){
- 200               		.loc 1 83 0
+ 199               	.LFB14:
+  92:RTC.c         **** uint8_t i2c_in_transmit(uint8_t *msg, uint8_t msg_size){
+ 200               		.loc 1 92 0
  201               		.cfi_startproc
  202               	.LVL23:
  203 0078 EF92      		push r14
@@ -583,17 +592,17 @@
  230               	.L__stack_usage = 6
  231 0084 EC01      		movw r28,r24
  232 0086 162F      		mov r17,r22
-  84:RTC.c         **** 	USI_I2C_Master_State = USI_ADDRESS;
- 233               		.loc 1 84 0
+  93:RTC.c         **** 	USI_I2C_Master_State = USI_ADDRESS;
+ 233               		.loc 1 93 0
  234 0088 1092 0000 		sts USI_I2C_Master_State,__zero_reg__
-  85:RTC.c         **** 
-  86:RTC.c         **** 	//   Start Condition
-  87:RTC.c         **** 	PORT_USI |=  (1 << PORT_USI_SCL); 						//Setting input makes line pull high
- 235               		.loc 1 87 0
+  94:RTC.c         **** 
+  95:RTC.c         **** 	//   Start Condition
+  96:RTC.c         **** 	PORT_USI |=  (1 << PORT_USI_SCL); 						//Setting input makes line pull high
+ 235               		.loc 1 96 0
  236 008c DC9A      		sbi 0x1b,4
  237               	.L20:
-  88:RTC.c         **** 	while (!(PIN_USI & (1<<PIN_USI_SCL)));		//Wait for SCL to go high
- 238               		.loc 1 88 0 discriminator 1
+  97:RTC.c         **** 	while (!(PIN_USI & (1<<PIN_USI_SCL)));		//Wait for SCL to go high
+ 238               		.loc 1 97 0 discriminator 1
  239 008e CC9B      		sbis 0x19,4
  240 0090 00C0      		rjmp .L20
  241               	.LVL24:
@@ -606,20 +615,20 @@
  248               	.LVL25:
  249               	.LBE25:
  250               	.LBE24:
-  89:RTC.c         **** 
-  90:RTC.c         **** 	#ifdef I2C_FAST_MODE
-  91:RTC.c         **** 		_delay_us(I2C_THIGH);
-  92:RTC.c         **** 	#else
-  93:RTC.c         **** 		_delay_us(I2C_TLOW);
-  94:RTC.c         **** 	#endif
-  95:RTC.c         **** 	DDR_USI |=  (1 << PORT_USI_SDA);
- 251               		.loc 1 95 0
+  98:RTC.c         **** 
+  99:RTC.c         **** 	#ifdef I2C_FAST_MODE
+ 100:RTC.c         **** 		_delay_us(I2C_THIGH);
+ 101:RTC.c         **** 	#else
+ 102:RTC.c         **** 		_delay_us(I2C_TLOW);
+ 103:RTC.c         **** 	#endif
+ 104:RTC.c         **** 	DDR_USI |=  (1 << PORT_USI_SDA);
+ 251               		.loc 1 104 0
  252 0098 D69A      		sbi 0x1a,6
-  96:RTC.c         **** 	DDR_USI |=  (1 << PORT_USI_SCL);
- 253               		.loc 1 96 0
+ 105:RTC.c         **** 	DDR_USI |=  (1 << PORT_USI_SCL);
+ 253               		.loc 1 105 0
  254 009a D49A      		sbi 0x1a,4
-  97:RTC.c         **** 	PORT_USI &= ~(1 << PORT_USI_SDA);
- 255               		.loc 1 97 0
+ 106:RTC.c         **** 	PORT_USI &= ~(1 << PORT_USI_SDA);
+ 255               		.loc 1 106 0
  256 009c DE98      		cbi 0x1b,6
  257               	.LVL26:
  258               	.LBB26:
@@ -631,9 +640,9 @@
  264               	.LVL27:
  265               	.LBE27:
  266               	.LBE26:
-  98:RTC.c         **** 	_delay_us(I2C_THIGH);;
-  99:RTC.c         **** 	PORT_USI &= ~(1 << PORT_USI_SCL);
- 267               		.loc 1 99 0
+ 107:RTC.c         **** 	_delay_us(I2C_THIGH);;
+ 108:RTC.c         **** 	PORT_USI &= ~(1 << PORT_USI_SCL);
+ 267               		.loc 1 108 0
  268 00a4 DC98      		cbi 0x1b,4
  269               	.LVL28:
  270               	.LBB28:
@@ -646,54 +655,54 @@
  277               	.LVL29:
  278               	.LBE29:
  279               	.LBE28:
- 100:RTC.c         **** 	_delay_us(I2C_TLOW);
- 101:RTC.c         **** 	PORT_USI |=  (1 << PORT_USI_SDA);
- 280               		.loc 1 101 0
+ 109:RTC.c         **** 	_delay_us(I2C_TLOW);
+ 110:RTC.c         **** 	PORT_USI |=  (1 << PORT_USI_SDA);
+ 280               		.loc 1 110 0
  281 00ae DE9A      		sbi 0x1b,6
- 102:RTC.c         **** 	
- 103:RTC.c         **** 	do{
- 104:RTC.c         **** 		switch(USI_I2C_Master_State){
- 105:RTC.c         **** 			case USI_ADDRESS:
- 106:RTC.c         **** 				if(!(*msg & 0x01)){
- 107:RTC.c         **** 					USI_I2C_Master_State = USI_WRITE;
- 108:RTC.c         **** 				}else{
- 109:RTC.c         **** 					USI_I2C_Master_State = USI_READ;
- 282               		.loc 1 109 0
+ 111:RTC.c         **** 	
+ 112:RTC.c         **** 	do{
+ 113:RTC.c         **** 		switch(USI_I2C_Master_State){
+ 114:RTC.c         **** 			case USI_ADDRESS:
+ 115:RTC.c         **** 				if(!(*msg & 0x01)){
+ 116:RTC.c         **** 					USI_I2C_Master_State = USI_WRITE;
+ 117:RTC.c         **** 				}else{
+ 118:RTC.c         **** 					USI_I2C_Master_State = USI_READ;
+ 282               		.loc 1 118 0
  283 00b0 02E0      		ldi r16,lo8(2)
- 107:RTC.c         **** 				}else{
- 284               		.loc 1 107 0
+ 116:RTC.c         **** 				}else{
+ 284               		.loc 1 116 0
  285 00b2 FF24      		clr r15
  286 00b4 F394      		inc r15
- 110:RTC.c         **** 				}//no break so goes to Write
- 111:RTC.c         **** 				
- 112:RTC.c         **** 			case USI_WRITE:
- 113:RTC.c         **** 				PORT_USI &= ~(1 << PORT_USI_SCL);
- 114:RTC.c         **** 				USIDR = *(msg);				//Load data			
- 115:RTC.c         **** 				msg++;						//Increment buffer pointer
- 116:RTC.c         **** 				i2c_in_transfer(0b11110000 | (0x00<<USICNT0));
- 117:RTC.c         **** 				DDR_USI &= ~(1 << PORT_USI_SDA);
- 118:RTC.c         **** 				if(i2c_in_transfer(0b11110000 | (0x0E<<USICNT0)) & 0x01){
- 119:RTC.c         **** 					PORT_USI |=  (1 << PORT_USI_SCL);
- 120:RTC.c         **** 					PORT_USI |=  (1 << PORT_USI_SDA);
- 121:RTC.c         **** 					return 0;
- 122:RTC.c         **** 				}
- 123:RTC.c         **** 				DDR_USI |=  (1 << PORT_USI_SDA);
- 124:RTC.c         **** 				break;
- 125:RTC.c         **** 
- 126:RTC.c         **** 			case USI_READ:
- 127:RTC.c         **** 				DDR_USI &= ~(1 << PORT_USI_SDA);
- 128:RTC.c         **** 				(*msg) = i2c_in_transfer(0b11110000 | (0x00<<USICNT0));			
- 129:RTC.c         **** 				msg++;
- 130:RTC.c         **** 				DDR_USI |=  (1 << PORT_USI_SDA);				
- 131:RTC.c         **** 				if(msg_size == 1){
- 132:RTC.c         **** 					USIDR = 0xFF;			//Load NACK to end transmission
- 287               		.loc 1 132 0
+ 119:RTC.c         **** 				}//no break so goes to Write
+ 120:RTC.c         **** 				
+ 121:RTC.c         **** 			case USI_WRITE:
+ 122:RTC.c         **** 				PORT_USI &= ~(1 << PORT_USI_SCL);
+ 123:RTC.c         **** 				USIDR = *(msg);				//Load data			
+ 124:RTC.c         **** 				msg++;						//Increment buffer pointer
+ 125:RTC.c         **** 				i2c_in_transfer(0b11110000 | (0x00<<USICNT0));
+ 126:RTC.c         **** 				DDR_USI &= ~(1 << PORT_USI_SDA);
+ 127:RTC.c         **** 				if(i2c_in_transfer(0b11110000 | (0x0E<<USICNT0)) & 0x01){
+ 128:RTC.c         **** 					PORT_USI |=  (1 << PORT_USI_SCL);
+ 129:RTC.c         **** 					PORT_USI |=  (1 << PORT_USI_SDA);
+ 130:RTC.c         **** 					return 0;
+ 131:RTC.c         **** 				}
+ 132:RTC.c         **** 				DDR_USI |=  (1 << PORT_USI_SDA);
+ 133:RTC.c         **** 				break;
+ 134:RTC.c         **** 
+ 135:RTC.c         **** 			case USI_READ:
+ 136:RTC.c         **** 				DDR_USI &= ~(1 << PORT_USI_SDA);
+ 137:RTC.c         **** 				(*msg) = i2c_in_transfer(0b11110000 | (0x00<<USICNT0));			
+ 138:RTC.c         **** 				msg++;
+ 139:RTC.c         **** 				DDR_USI |=  (1 << PORT_USI_SDA);				
+ 140:RTC.c         **** 				if(msg_size == 1){
+ 141:RTC.c         **** 					USIDR = 0xFF;			//Load NACK to end transmission
+ 287               		.loc 1 141 0
  288 00b6 EE24      		clr r14
  289 00b8 EA94      		dec r14
  290               	.LVL30:
  291               	.L30:
- 104:RTC.c         **** 			case USI_ADDRESS:
- 292               		.loc 1 104 0
+ 113:RTC.c         **** 			case USI_ADDRESS:
+ 292               		.loc 1 113 0
  293 00ba 8091 0000 		lds r24,USI_I2C_Master_State
  294 00be 8130      		cpi r24,lo8(1)
  295 00c0 01F0      		breq .L22
@@ -702,106 +711,106 @@
  298 00c6 01F0      		breq .L24
  299 00c8 00C0      		rjmp .L21
  300               	.L23:
- 106:RTC.c         **** 					USI_I2C_Master_State = USI_WRITE;
- 301               		.loc 1 106 0
+ 115:RTC.c         **** 					USI_I2C_Master_State = USI_WRITE;
+ 301               		.loc 1 115 0
  302 00ca 8881      		ld r24,Y
  303 00cc 80FD      		sbrc r24,0
  304 00ce 00C0      		rjmp .L25
- 107:RTC.c         **** 				}else{
- 305               		.loc 1 107 0
+ 116:RTC.c         **** 				}else{
+ 305               		.loc 1 116 0
  306 00d0 F092 0000 		sts USI_I2C_Master_State,r15
  307 00d4 00C0      		rjmp .L22
  308               	.L25:
- 109:RTC.c         **** 				}//no break so goes to Write
- 309               		.loc 1 109 0
+ 118:RTC.c         **** 				}//no break so goes to Write
+ 309               		.loc 1 118 0
  310 00d6 0093 0000 		sts USI_I2C_Master_State,r16
  311               	.L22:
- 113:RTC.c         **** 				USIDR = *(msg);				//Load data			
- 312               		.loc 1 113 0
+ 122:RTC.c         **** 				USIDR = *(msg);				//Load data			
+ 312               		.loc 1 122 0
  313 00da DC98      		cbi 0x1b,4
- 114:RTC.c         **** 				msg++;						//Increment buffer pointer
- 314               		.loc 1 114 0
+ 123:RTC.c         **** 				msg++;						//Increment buffer pointer
+ 314               		.loc 1 123 0
  315 00dc 8991      		ld r24,Y+
  316               	.LVL31:
  317 00de 8FB9      		out 0xf,r24
  318               	.LVL32:
- 116:RTC.c         **** 				DDR_USI &= ~(1 << PORT_USI_SDA);
- 319               		.loc 1 116 0
+ 125:RTC.c         **** 				DDR_USI &= ~(1 << PORT_USI_SDA);
+ 319               		.loc 1 125 0
  320 00e0 80EF      		ldi r24,lo8(-16)
  321 00e2 00D0      		rcall i2c_in_transfer
  322               	.LVL33:
- 117:RTC.c         **** 				if(i2c_in_transfer(0b11110000 | (0x0E<<USICNT0)) & 0x01){
- 323               		.loc 1 117 0
+ 126:RTC.c         **** 				if(i2c_in_transfer(0b11110000 | (0x0E<<USICNT0)) & 0x01){
+ 323               		.loc 1 126 0
  324 00e4 D698      		cbi 0x1a,6
- 118:RTC.c         **** 					PORT_USI |=  (1 << PORT_USI_SCL);
- 325               		.loc 1 118 0
+ 127:RTC.c         **** 					PORT_USI |=  (1 << PORT_USI_SCL);
+ 325               		.loc 1 127 0
  326 00e6 8EEF      		ldi r24,lo8(-2)
  327 00e8 00D0      		rcall i2c_in_transfer
  328               	.LVL34:
  329 00ea 80FF      		sbrs r24,0
  330 00ec 00C0      		rjmp .L26
- 119:RTC.c         **** 					PORT_USI |=  (1 << PORT_USI_SDA);
- 331               		.loc 1 119 0
+ 128:RTC.c         **** 					PORT_USI |=  (1 << PORT_USI_SDA);
+ 331               		.loc 1 128 0
  332 00ee DC9A      		sbi 0x1b,4
- 120:RTC.c         **** 					return 0;
- 333               		.loc 1 120 0
+ 129:RTC.c         **** 					return 0;
+ 333               		.loc 1 129 0
  334 00f0 DE9A      		sbi 0x1b,6
- 121:RTC.c         **** 				}
- 335               		.loc 1 121 0
+ 130:RTC.c         **** 				}
+ 335               		.loc 1 130 0
  336 00f2 80E0      		ldi r24,0
  337 00f4 00C0      		rjmp .L27
  338               	.L26:
- 123:RTC.c         **** 				break;
- 339               		.loc 1 123 0
+ 132:RTC.c         **** 				break;
+ 339               		.loc 1 132 0
  340 00f6 D69A      		sbi 0x1a,6
- 124:RTC.c         **** 
- 341               		.loc 1 124 0
+ 133:RTC.c         **** 
+ 341               		.loc 1 133 0
  342 00f8 00C0      		rjmp .L21
  343               	.L24:
- 127:RTC.c         **** 				(*msg) = i2c_in_transfer(0b11110000 | (0x00<<USICNT0));			
- 344               		.loc 1 127 0
+ 136:RTC.c         **** 				(*msg) = i2c_in_transfer(0b11110000 | (0x00<<USICNT0));			
+ 344               		.loc 1 136 0
  345 00fa D698      		cbi 0x1a,6
- 128:RTC.c         **** 				msg++;
- 346               		.loc 1 128 0
+ 137:RTC.c         **** 				msg++;
+ 346               		.loc 1 137 0
  347 00fc 80EF      		ldi r24,lo8(-16)
  348 00fe 00D0      		rcall i2c_in_transfer
  349               	.LVL35:
  350 0100 8993      		st Y+,r24
  351               	.LVL36:
- 130:RTC.c         **** 				if(msg_size == 1){
- 352               		.loc 1 130 0
+ 139:RTC.c         **** 				if(msg_size == 1){
+ 352               		.loc 1 139 0
  353 0102 D69A      		sbi 0x1a,6
- 131:RTC.c         **** 					USIDR = 0xFF;			//Load NACK to end transmission
- 354               		.loc 1 131 0
+ 140:RTC.c         **** 					USIDR = 0xFF;			//Load NACK to end transmission
+ 354               		.loc 1 140 0
  355 0104 1130      		cpi r17,lo8(1)
  356 0106 01F4      		brne .L28
- 357               		.loc 1 132 0
+ 357               		.loc 1 141 0
  358 0108 EFB8      		out 0xf,r14
  359 010a 00C0      		rjmp .L29
  360               	.L28:
- 133:RTC.c         **** 				}else{
- 134:RTC.c         **** 					USIDR = 0x00;			//Load ACK
- 361               		.loc 1 134 0
+ 142:RTC.c         **** 				}else{
+ 143:RTC.c         **** 					USIDR = 0x00;			//Load ACK
+ 361               		.loc 1 143 0
  362 010c 1FB8      		out 0xf,__zero_reg__
  363               	.L29:
- 135:RTC.c         **** 				}
- 136:RTC.c         **** 				i2c_in_transfer(0b11110000 | (0x0E<<USICNT0));
- 364               		.loc 1 136 0
+ 144:RTC.c         **** 				}
+ 145:RTC.c         **** 				i2c_in_transfer(0b11110000 | (0x0E<<USICNT0));
+ 364               		.loc 1 145 0
  365 010e 8EEF      		ldi r24,lo8(-2)
  366 0110 00D0      		rcall i2c_in_transfer
  367               	.LVL37:
  368               	.L21:
- 137:RTC.c         **** 				break;
- 138:RTC.c         **** 		}
- 139:RTC.c         **** 	}while(--msg_size);
- 369               		.loc 1 139 0
+ 146:RTC.c         **** 				break;
+ 147:RTC.c         **** 		}
+ 148:RTC.c         **** 	}while(--msg_size);
+ 369               		.loc 1 148 0
  370 0112 1150      		subi r17,lo8(-(-1))
  371               	.LVL38:
  372 0114 01F4      		brne .L30
- 140:RTC.c         **** 	
- 141:RTC.c         **** 	//Stop Condition
- 142:RTC.c         **** 	PORT_USI &= ~(1 << PORT_USI_SDA);           				// Pull SDA low.
- 373               		.loc 1 142 0
+ 149:RTC.c         **** 	
+ 150:RTC.c         **** 	//Stop Condition
+ 151:RTC.c         **** 	PORT_USI &= ~(1 << PORT_USI_SDA);           				// Pull SDA low.
+ 373               		.loc 1 151 0
  374 0116 DE98      		cbi 0x1b,6
  375               	.LVL39:
  376               	.LBB30:
@@ -814,13 +823,13 @@
  383               	.LVL40:
  384               	.LBE31:
  385               	.LBE30:
- 143:RTC.c         **** 	_delay_us(I2C_TLOW);
- 144:RTC.c         **** 	DDR_USI &= ~(1 << PORT_USI_SCL);            				// Release SCL.
- 386               		.loc 1 144 0
+ 152:RTC.c         **** 	_delay_us(I2C_TLOW);
+ 153:RTC.c         **** 	DDR_USI &= ~(1 << PORT_USI_SCL);            				// Release SCL.
+ 386               		.loc 1 153 0
  387 0120 D498      		cbi 0x1a,4
  388               	.L31:
- 145:RTC.c         **** 	while( !(PIN_USI & (1<<PIN_USI_SCL)) );  	// Wait for SCL to go high.  
- 389               		.loc 1 145 0 discriminator 1
+ 154:RTC.c         **** 	while( !(PIN_USI & (1<<PIN_USI_SCL)) );  	// Wait for SCL to go high.  
+ 389               		.loc 1 154 0 discriminator 1
  390 0122 CC9B      		sbis 0x19,4
  391 0124 00C0      		rjmp .L31
  392               	.LVL41:
@@ -833,22 +842,22 @@
  399               	.LVL42:
  400               	.LBE33:
  401               	.LBE32:
- 146:RTC.c         **** 	_delay_us(I2C_THIGH);
- 147:RTC.c         **** 	DDR_USI &= ~(1 << PORT_USI_SDA);            				// Release SDA.
- 402               		.loc 1 147 0
+ 155:RTC.c         **** 	_delay_us(I2C_THIGH);
+ 156:RTC.c         **** 	DDR_USI &= ~(1 << PORT_USI_SDA);            				// Release SDA.
+ 402               		.loc 1 156 0
  403 012c D698      		cbi 0x1a,6
  404               	.L32:
- 148:RTC.c         **** 	while( !(PIN_USI & (1<<PIN_USI_SDA)) );  	// Wait for SDA to go high. 
- 405               		.loc 1 148 0 discriminator 1
+ 157:RTC.c         **** 	while( !(PIN_USI & (1<<PIN_USI_SDA)) );  	// Wait for SDA to go high. 
+ 405               		.loc 1 157 0 discriminator 1
  406 012e CE9B      		sbis 0x19,6
  407 0130 00C0      		rjmp .L32
- 149:RTC.c         **** 	return 1;
- 408               		.loc 1 149 0
+ 158:RTC.c         **** 	return 1;
+ 408               		.loc 1 158 0
  409 0132 81E0      		ldi r24,lo8(1)
  410               	.L27:
  411               	/* epilogue start */
- 150:RTC.c         **** }...
- 412               		.loc 1 150 0
+ 159:RTC.c         **** }
+ 412               		.loc 1 159 0
  413 0134 DF91      		pop r29
  414 0136 CF91      		pop r28
  415               	.LVL43:
@@ -859,12 +868,12 @@
  420 013e EF90      		pop r14
  421 0140 0895      		ret
  422               		.cfi_endproc
- 423               	.LFE13:
+ 423               	.LFE14:
  425               	.global	i2c_write
  427               	i2c_write:
- 428               	.LFB10:
-  42:RTC.c         **** uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val){ // only supports 1 byte write
- 429               		.loc 1 42 0
+ 428               	.LFB11:
+  51:RTC.c         **** 	uint8_t i2c_buffer[3];
+ 429               		.loc 1 51 0
  430               		.cfi_startproc
  431               	.LVL45:
  432 0142 CF93      		push r28
@@ -888,19 +897,19 @@
  450               	/* stack size = 5 */
  451               	.L__stack_usage = 5
  452               	.LVL46:
-  45:RTC.c         **** 	i2c_buffer[0] = (addr << 1) | I2CWRITE ;
- 453               		.loc 1 45 0
+  54:RTC.c         **** 	i2c_buffer[1] = adrs;
+ 453               		.loc 1 54 0
  454 014e 880F      		lsl r24
  455               	.LVL47:
  456 0150 8983      		std Y+1,r24
-  46:RTC.c         **** 	i2c_buffer[1] = adrs;
- 457               		.loc 1 46 0
+  55:RTC.c         **** 	i2c_buffer[2] = val;
+ 457               		.loc 1 55 0
  458 0152 6A83      		std Y+2,r22
-  47:RTC.c         **** 	i2c_buffer[2] = val;
- 459               		.loc 1 47 0
+  56:RTC.c         **** 	return i2c_in_transmit(i2c_buffer, i2c_buffer_len);
+ 459               		.loc 1 56 0
  460 0154 4B83      		std Y+3,r20
-  48:RTC.c         **** 	return i2c_in_transmit(i2c_buffer, i2c_buffer_len);
- 461               		.loc 1 48 0
+  57:RTC.c         **** }
+ 461               		.loc 1 57 0
  462 0156 63E0      		ldi r22,lo8(3)
  463               	.LVL48:
  464 0158 CE01      		movw r24,r28
@@ -908,8 +917,8 @@
  466 015c 00D0      		rcall i2c_in_transmit
  467               	.LVL49:
  468               	/* epilogue start */
-  49:RTC.c         **** }
- 469               		.loc 1 49 0
+  58:RTC.c         **** uint8_t i2c_read(uint8_t addr, uint8_t len, uint8_t adrs, uint8_t *buf){
+ 469               		.loc 1 58 0
  470 015e 0F90      		pop __tmp_reg__
  471 0160 0F90      		pop __tmp_reg__
  472 0162 0F90      		pop __tmp_reg__
@@ -917,12 +926,12 @@
  474 0166 CF91      		pop r28
  475 0168 0895      		ret
  476               		.cfi_endproc
- 477               	.LFE10:
+ 477               	.LFE11:
  479               	.global	i2c_read
  481               	i2c_read:
- 482               	.LFB11:
-  50:RTC.c         **** uint8_t i2c_read(uint8_t addr, uint8_t len, uint8_t adrs, uint8_t *buf){
- 483               		.loc 1 50 0
+ 482               	.LFB12:
+  59:RTC.c         **** 	//set register pointer to adrs
+ 483               		.loc 1 59 0
  484               		.cfi_startproc
  485               	.LVL50:
  486 016a 8F92      		push r8
@@ -984,12 +993,12 @@
  542 0186 182F      		mov r17,r24
  543 0188 062F      		mov r16,r22
  544 018a 4901      		movw r8,r18
-  69:RTC.c         **** }
- 545               		.loc 1 69 0
+  78:RTC.c         **** 
+ 545               		.loc 1 78 0
  546 018c ADB6      		in r10,__SP_L__
  547 018e BEB6      		in r11,__SP_H__
-  52:RTC.c         **** 	uint8_t i2c_buffer[len+1];
- 548               		.loc 1 52 0
+  61:RTC.c         **** 	uint8_t i2c_buffer_len = 2;
+ 548               		.loc 1 61 0
  549 0190 C62E      		mov r12,r22
  550 0192 D12C      		mov r13,__zero_reg__
  551               	.LVL51:
@@ -1011,33 +1020,33 @@
  567 01ae 0196      		adiw r24,1
  568 01b0 7C01      		movw r14,r24
  569               	.LVL54:
-  54:RTC.c         **** 	i2c_buffer[0] = (addr << 1) | I2CWRITE;
- 570               		.loc 1 54 0
+  63:RTC.c         **** 	i2c_buffer[1] = adrs;
+ 570               		.loc 1 63 0
  571 01b2 812F      		mov r24,r17
  572 01b4 880F      		lsl r24
  573 01b6 EDB7      		in r30,__SP_L__
  574 01b8 FEB7      		in r31,__SP_H__
  575 01ba 8183      		std Z+1,r24
-  55:RTC.c         **** 	i2c_buffer[1] = adrs;
- 576               		.loc 1 55 0
+  64:RTC.c         **** 	i2c_in_transmit(i2c_buffer, i2c_buffer_len);
+ 576               		.loc 1 64 0
  577 01bc F701      		movw r30,r14
  578 01be 4183      		std Z+1,r20
-  56:RTC.c         **** 	i2c_in_transmit(i2c_buffer, i2c_buffer_len);
- 579               		.loc 1 56 0
+  65:RTC.c         **** 	//read actual data
+ 579               		.loc 1 65 0
  580 01c0 62E0      		ldi r22,lo8(2)
  581               	.LVL55:
  582 01c2 C701      		movw r24,r14
  583 01c4 00D0      		rcall i2c_in_transmit
  584               	.LVL56:
-  59:RTC.c         **** 	i2c_buffer[0] = (addr << 1) | I2CREAD;
- 585               		.loc 1 59 0
+  68:RTC.c         **** 	if(i2c_in_transmit(i2c_buffer, i2c_buffer_len)){
+ 585               		.loc 1 68 0
  586 01c6 110F      		lsl r17
  587               	.LVL57:
  588 01c8 1160      		ori r17,lo8(1)
  589 01ca F701      		movw r30,r14
  590 01cc 1083      		st Z,r17
-  60:RTC.c         **** 	if(i2c_in_transmit(i2c_buffer, i2c_buffer_len)){
- 591               		.loc 1 60 0
+  69:RTC.c         **** 		uint8_t i;
+ 591               		.loc 1 69 0
  592 01ce 61E0      		ldi r22,lo8(1)
  593 01d0 600F      		add r22,r16
  594               	.LVL58:
@@ -1050,15 +1059,15 @@
  601               	.L46:
  602               	.LVL60:
  603               	.LBB34:
-  62:RTC.c         **** 		for(i=1;i<len+1;i++){ // fetch in buffer
- 604               		.loc 1 62 0 discriminator 1
+  71:RTC.c         **** 			buf[i-1]=i2c_buffer[i];
+ 604               		.loc 1 71 0 discriminator 1
  605 01dc 822F      		mov r24,r18
  606 01de 90E0      		ldi r25,0
  607 01e0 C816      		cp r12,r24
  608 01e2 D906      		cpc r13,r25
  609 01e4 04F0      		brlt .L51
-  63:RTC.c         **** 			buf[i-1]=i2c_buffer[i];
- 610               		.loc 1 63 0 discriminator 3
+  72:RTC.c         **** 		}
+ 610               		.loc 1 72 0 discriminator 3
  611 01e6 F401      		movw r30,r8
  612 01e8 E80F      		add r30,r24
  613 01ea F91F      		adc r31,r25
@@ -1068,20 +1077,20 @@
  617 01f2 B91F      		adc r27,r25
  618 01f4 8C91      		ld r24,X
  619 01f6 8083      		st Z,r24
-  62:RTC.c         **** 		for(i=1;i<len+1;i++){ // fetch in buffer
- 620               		.loc 1 62 0 discriminator 3
+  71:RTC.c         **** 			buf[i-1]=i2c_buffer[i];
+ 620               		.loc 1 71 0 discriminator 3
  621 01f8 2F5F      		subi r18,lo8(-(1))
  622               	.LVL61:
  623 01fa 00C0      		rjmp .L46
  624               	.L51:
-  65:RTC.c         **** 		return 1; // provide success check
- 625               		.loc 1 65 0
+  74:RTC.c         **** 	}else{
+ 625               		.loc 1 74 0
  626 01fc 81E0      		ldi r24,lo8(1)
  627               	.LVL62:
  628               	.L45:
  629               	.LBE34:
-  69:RTC.c         **** }
- 630               		.loc 1 69 0
+  78:RTC.c         **** 
+ 630               		.loc 1 78 0
  631 01fe 0FB6      		in __tmp_reg__,__SREG__
  632 0200 F894      		cli
  633 0202 BEBE      		out __SP_H__,r11
@@ -1105,139 +1114,166 @@
  651               	.LVL65:
  652 0220 0895      		ret
  653               		.cfi_endproc
- 654               	.LFE11:
- 656               	.global	RTC_readTime
- 658               	RTC_readTime:
- 659               	.LFB9:
-  30:RTC.c         **** uint8_t RTC_readTime(struct Ttime *t){
- 660               		.loc 1 30 0
+ 654               	.LFE12:
+ 656               	.global	RTC_readTemp
+ 658               	RTC_readTemp:
+ 659               	.LFB8:
+  26:RTC.c         **** 	uint8_t data=0;
+ 660               		.loc 1 26 0
  661               		.cfi_startproc
- 662               	.LVL66:
- 663 0222 0F93      		push r16
- 664               	.LCFI23:
- 665               		.cfi_def_cfa_offset 3
- 666               		.cfi_offset 16, -2
- 667 0224 1F93      		push r17
- 668               	.LCFI24:
- 669               		.cfi_def_cfa_offset 4
- 670               		.cfi_offset 17, -3
- 671 0226 CF93      		push r28
- 672               	.LCFI25:
- 673               		.cfi_def_cfa_offset 5
- 674               		.cfi_offset 28, -4
- 675 0228 DF93      		push r29
- 676               	.LCFI26:
- 677               		.cfi_def_cfa_offset 6
- 678               		.cfi_offset 29, -5
- 679 022a CDB7      		in r28,__SP_L__
- 680 022c DEB7      		in r29,__SP_H__
- 681               	.LCFI27:
- 682               		.cfi_def_cfa_register 28
- 683 022e 2797      		sbiw r28,7
- 684               	.LCFI28:
- 685               		.cfi_def_cfa_offset 13
- 686 0230 0FB6      		in __tmp_reg__,__SREG__
- 687 0232 F894      		cli
- 688 0234 DEBF      		out __SP_H__,r29
- 689 0236 0FBE      		out __SREG__,__tmp_reg__
- 690 0238 CDBF      		out __SP_L__,r28
- 691               	/* prologue: function */
- 692               	/* frame size = 7 */
- 693               	/* stack size = 11 */
- 694               	.L__stack_usage = 11
- 695 023a 8C01      		movw r16,r24
-  31:RTC.c         **** 	uint8_t data[7] = {0};
- 696               		.loc 1 31 0
- 697 023c 9E01      		movw r18,r28
- 698 023e 2F5F      		subi r18,-1
- 699 0240 3F4F      		sbci r19,-1
- 700 0242 87E0      		ldi r24,lo8(7)
- 701               	.LVL67:
- 702 0244 F901      		movw r30,r18
- 703               		0:
- 704 0246 1192      		st Z+,__zero_reg__
- 705 0248 8A95      		dec r24
- 706 024a 01F4      		brne 0b
-  32:RTC.c         **** 	if(i2c_read(RTC_addr,7,0x00,data)){
- 707               		.loc 1 32 0
- 708 024c 40E0      		ldi r20,0
- 709 024e 67E0      		ldi r22,lo8(7)
- 710 0250 88E6      		ldi r24,lo8(104)
- 711 0252 00D0      		rcall i2c_read
- 712               	.LVL68:
- 713 0254 8823      		tst r24
- 714 0256 01F0      		breq .L53
-  33:RTC.c         **** 		t->hour = bcdToDec(data[2]);
- 715               		.loc 1 33 0
- 716 0258 8B81      		ldd r24,Y+3
- 717 025a 00D0      		rcall bcdToDec
- 718               	.LVL69:
- 719 025c F801      		movw r30,r16
- 720 025e 8083      		st Z,r24
-  34:RTC.c         **** 		t->min = bcdToDec(data[1]);
- 721               		.loc 1 34 0
- 722 0260 8A81      		ldd r24,Y+2
- 723 0262 00D0      		rcall bcdToDec
- 724               	.LVL70:
- 725 0264 F801      		movw r30,r16
- 726 0266 8183      		std Z+1,r24
-  35:RTC.c         **** 		t->monthDay = bcdToDec(data[4]);
- 727               		.loc 1 35 0
- 728 0268 8D81      		ldd r24,Y+5
- 729 026a 00D0      		rcall bcdToDec
- 730               	.LVL71:
- 731 026c F801      		movw r30,r16
- 732 026e 8283      		std Z+2,r24
-  36:RTC.c         **** 		t->month = bcdToDec(data[5]);
- 733               		.loc 1 36 0
- 734 0270 8E81      		ldd r24,Y+6
- 735 0272 00D0      		rcall bcdToDec
- 736               	.LVL72:
- 737 0274 F801      		movw r30,r16
- 738 0276 8383      		std Z+3,r24
-  37:RTC.c         **** 		return 1;
- 739               		.loc 1 37 0
- 740 0278 81E0      		ldi r24,lo8(1)
- 741               	.L53:
- 742               	/* epilogue start */
-  41:RTC.c         **** }
- 743               		.loc 1 41 0
- 744 027a 2796      		adiw r28,7
- 745 027c 0FB6      		in __tmp_reg__,__SREG__
- 746 027e F894      		cli
- 747 0280 DEBF      		out __SP_H__,r29
- 748 0282 0FBE      		out __SREG__,__tmp_reg__
- 749 0284 CDBF      		out __SP_L__,r28
- 750 0286 DF91      		pop r29
- 751 0288 CF91      		pop r28
- 752 028a 1F91      		pop r17
- 753 028c 0F91      		pop r16
- 754               	.LVL73:
- 755 028e 0895      		ret
- 756               		.cfi_endproc
- 757               	.LFE9:
- 759               		.comm	USI_I2C_Master_State,1,1
- 760               		.comm	currentTime,5,1
- 761               	.Letext0:
- 762               		.file 3 "/usr/lib/avr/include/stdint.h"
- 763               		.file 4 "RTC.h"
+ 662               	/* prologue: function */
+ 663               	/* frame size = 0 */
+ 664               	/* stack size = 0 */
+ 665               	.L__stack_usage = 0
+ 666               	.LVL66:
+  28:RTC.c         ****         return data;
+ 667               		.loc 1 28 0
+ 668 0222 20E0      		ldi r18,0
+ 669 0224 30E0      		ldi r19,0
+ 670 0226 41E1      		ldi r20,lo8(17)
+ 671 0228 61E0      		ldi r22,lo8(1)
+ 672 022a 88E6      		ldi r24,lo8(104)
+ 673 022c 00D0      		rcall i2c_read
+ 674               	.LVL67:
+  34:RTC.c         **** uint8_t bcdToDec(uint8_t val){
+ 675               		.loc 1 34 0
+ 676 022e 80E0      		ldi r24,0
+ 677 0230 0895      		ret
+ 678               		.cfi_endproc
+ 679               	.LFE8:
+ 681               	.global	RTC_readTime
+ 683               	RTC_readTime:
+ 684               	.LFB10:
+  39:RTC.c         **** 	uint8_t data[7] = {0};
+ 685               		.loc 1 39 0
+ 686               		.cfi_startproc
+ 687               	.LVL68:
+ 688 0232 0F93      		push r16
+ 689               	.LCFI23:
+ 690               		.cfi_def_cfa_offset 3
+ 691               		.cfi_offset 16, -2
+ 692 0234 1F93      		push r17
+ 693               	.LCFI24:
+ 694               		.cfi_def_cfa_offset 4
+ 695               		.cfi_offset 17, -3
+ 696 0236 CF93      		push r28
+ 697               	.LCFI25:
+ 698               		.cfi_def_cfa_offset 5
+ 699               		.cfi_offset 28, -4
+ 700 0238 DF93      		push r29
+ 701               	.LCFI26:
+ 702               		.cfi_def_cfa_offset 6
+ 703               		.cfi_offset 29, -5
+ 704 023a CDB7      		in r28,__SP_L__
+ 705 023c DEB7      		in r29,__SP_H__
+ 706               	.LCFI27:
+ 707               		.cfi_def_cfa_register 28
+ 708 023e 2797      		sbiw r28,7
+ 709               	.LCFI28:
+ 710               		.cfi_def_cfa_offset 13
+ 711 0240 0FB6      		in __tmp_reg__,__SREG__
+ 712 0242 F894      		cli
+ 713 0244 DEBF      		out __SP_H__,r29
+ 714 0246 0FBE      		out __SREG__,__tmp_reg__
+ 715 0248 CDBF      		out __SP_L__,r28
+ 716               	/* prologue: function */
+ 717               	/* frame size = 7 */
+ 718               	/* stack size = 11 */
+ 719               	.L__stack_usage = 11
+ 720 024a 8C01      		movw r16,r24
+  40:RTC.c         **** 	if(i2c_read(RTC_addr,7,0x00,data)){
+ 721               		.loc 1 40 0
+ 722 024c 9E01      		movw r18,r28
+ 723 024e 2F5F      		subi r18,-1
+ 724 0250 3F4F      		sbci r19,-1
+ 725 0252 87E0      		ldi r24,lo8(7)
+ 726               	.LVL69:
+ 727 0254 F901      		movw r30,r18
+ 728               		0:
+ 729 0256 1192      		st Z+,__zero_reg__
+ 730 0258 8A95      		dec r24
+ 731 025a 01F4      		brne 0b
+  41:RTC.c         **** 		t->hour = bcdToDec(data[2]);
+ 732               		.loc 1 41 0
+ 733 025c 40E0      		ldi r20,0
+ 734 025e 67E0      		ldi r22,lo8(7)
+ 735 0260 88E6      		ldi r24,lo8(104)
+ 736 0262 00D0      		rcall i2c_read
+ 737               	.LVL70:
+ 738 0264 8823      		tst r24
+ 739 0266 01F0      		breq .L54
+  42:RTC.c         **** 		t->min = bcdToDec(data[1]);
+ 740               		.loc 1 42 0
+ 741 0268 8B81      		ldd r24,Y+3
+ 742 026a 00D0      		rcall bcdToDec
+ 743               	.LVL71:
+ 744 026c F801      		movw r30,r16
+ 745 026e 8083      		st Z,r24
+  43:RTC.c         **** 		t->monthDay = bcdToDec(data[4]);
+ 746               		.loc 1 43 0
+ 747 0270 8A81      		ldd r24,Y+2
+ 748 0272 00D0      		rcall bcdToDec
+ 749               	.LVL72:
+ 750 0274 F801      		movw r30,r16
+ 751 0276 8183      		std Z+1,r24
+  44:RTC.c         **** 		t->month = bcdToDec(data[5]);
+ 752               		.loc 1 44 0
+ 753 0278 8D81      		ldd r24,Y+5
+ 754 027a 00D0      		rcall bcdToDec
+ 755               	.LVL73:
+ 756 027c F801      		movw r30,r16
+ 757 027e 8283      		std Z+2,r24
+  45:RTC.c         **** 		return 1;
+ 758               		.loc 1 45 0
+ 759 0280 8E81      		ldd r24,Y+6
+ 760 0282 00D0      		rcall bcdToDec
+ 761               	.LVL74:
+ 762 0284 F801      		movw r30,r16
+ 763 0286 8383      		std Z+3,r24
+  46:RTC.c         **** 	}else{
+ 764               		.loc 1 46 0
+ 765 0288 81E0      		ldi r24,lo8(1)
+ 766               	.L54:
+ 767               	/* epilogue start */
+  50:RTC.c         **** uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val){ // only supports 1 byte write
+ 768               		.loc 1 50 0
+ 769 028a 2796      		adiw r28,7
+ 770 028c 0FB6      		in __tmp_reg__,__SREG__
+ 771 028e F894      		cli
+ 772 0290 DEBF      		out __SP_H__,r29
+ 773 0292 0FBE      		out __SREG__,__tmp_reg__
+ 774 0294 CDBF      		out __SP_L__,r28
+ 775 0296 DF91      		pop r29
+ 776 0298 CF91      		pop r28
+ 777 029a 1F91      		pop r17
+ 778 029c 0F91      		pop r16
+ 779               	.LVL75:
+ 780 029e 0895      		ret
+ 781               		.cfi_endproc
+ 782               	.LFE10:
+ 784               		.comm	USI_I2C_Master_State,1,1
+ 785               		.comm	currentTime,5,1
+ 786               	.Letext0:
+ 787               		.file 3 "/usr/lib/avr/include/stdint.h"
+ 788               		.file 4 "RTC.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 RTC.c
-     /tmp/cc1b8ObZ.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cc1b8ObZ.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cc1b8ObZ.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cc1b8ObZ.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cc1b8ObZ.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cc1b8ObZ.s:12     .text:0000000000000000 setCurrentTime
+     /tmp/ccDPpdXq.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccDPpdXq.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccDPpdXq.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccDPpdXq.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccDPpdXq.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccDPpdXq.s:12     .text:0000000000000000 setCurrentTime
                             *COM*:0000000000000005 currentTime
-     /tmp/cc1b8ObZ.s:38     .text:000000000000000e minquad
-     /tmp/cc1b8ObZ.s:105    .text:000000000000003e bcdToDec
-     /tmp/cc1b8ObZ.s:131    .text:000000000000004e i2c_in_transfer
-     /tmp/cc1b8ObZ.s:198    .text:0000000000000078 i2c_in_transmit
+     /tmp/ccDPpdXq.s:38     .text:000000000000000e minquad
+     /tmp/ccDPpdXq.s:105    .text:000000000000003e bcdToDec
+     /tmp/ccDPpdXq.s:131    .text:000000000000004e i2c_in_transfer
+     /tmp/ccDPpdXq.s:198    .text:0000000000000078 i2c_in_transmit
                             *COM*:0000000000000001 USI_I2C_Master_State
-     /tmp/cc1b8ObZ.s:427    .text:0000000000000142 i2c_write
-     /tmp/cc1b8ObZ.s:481    .text:000000000000016a i2c_read
-     /tmp/cc1b8ObZ.s:658    .text:0000000000000222 RTC_readTime
+     /tmp/ccDPpdXq.s:427    .text:0000000000000142 i2c_write
+     /tmp/ccDPpdXq.s:481    .text:000000000000016a i2c_read
+     /tmp/ccDPpdXq.s:658    .text:0000000000000222 RTC_readTemp
+     /tmp/ccDPpdXq.s:683    .text:0000000000000232 RTC_readTime
 
 UNDEFINED SYMBOLS
 __mulqi3
