@@ -39,47 +39,51 @@ int main(void){
     TIMSK0|=(1<<TOIE0);
     sei();
     
-    sendData(0b11111100001111111111 | LEDB);
-    _delay_ms(250);
-    sendData(0b11000000001111111111);
-    _delay_ms(250);
-    sendData(0b00001100001111111111 | LEDR);
-    _delay_ms(250);
-    sendData(0b00110000001111111111);
-    _delay_ms(250);
-    sendData(0b00000100000000000001 | LEDB);
+    sendData(0b11111100001111111111);//white
+    _delay_ms(2500);
+    sendData(0b11000000001111111111);//green
+    _delay_ms(2500);
+    sendData(0b00001100001111111111);//red
+    _delay_ms(2500);
+    sendData(0b00110000001111111111);//blue
+    _delay_ms(2500);
+    sendData(0b11110000001111111111);//cyan
+    _delay_ms(2500);
+    sendData(0b00111100001111111111);//magenta
+    _delay_ms(2500);
+    sendData(0b11001100001111111111);//yellow
+    _delay_ms(2500);
+    
     #ifdef DELLONG
-		TCCR1B|=(1<<CS12)|(1<<CS10);
-	#else
-		TCCR1B|=(1<<CS12);//|(1<<CS10);
-	#endif
-	
-	TCCR0B|=(1<<CS01)|(1<<CS00);
+    TCCR1B|=(1<<CS12)|(1<<CS10);
+    #else
+    TCCR1B|=(1<<CS12);//|(1<<CS10);
+    #endif
+    
+    TCCR0B|=(1<<CS01)|(1<<CS00);
     
     currentColor=tcolorV(WHITE);
-    setCurrentTime(15,45,7,11);
-	RTC_readTime(&currentTime);
-    currentTime.temp=2;
-    //setLeds(currentTime,leds,currentColor);
-   setLedsNb(currentTime.temp,leds,currentColor);
+    //setCurrentTime(0,10,7,12);
+    //RTC_setTime(currentTime,6,18);
+    RTC_readTime(&currentTime);
+    setLeds(currentTime,leds,currentColor);
+    //setLedsNb(currentTime.temp,leds,currentColor);
     while(1){
-       
+        
     }
     return(0);
     
 }
 ISR( TIM1_OVF_vect ){
-   RTC_readTime(&currentTime);
-    // uint8_t a=RTC_readTemp();
-    if(currentTime.min%2){
+    ledr=!ledr;
+   // if(ledr){
+        RTC_readTime(&currentTime);
         setLeds(currentTime,leds,tcolorV(YELLOW));
-        ledb=1;
-        ledr=0;
-    }else{
-        ledr=1;
-        ledb=0;
-        setLedsNb(11,leds,tcolorV(MAGENTA));
-    }
+    //}else{
+    ledb++;
+    if(ledb>39)ledb=0;
+        setLedsNb(ledb/*RTC_readTemp()*/,leds,tcolorV(CYAN));
+    //}
     
 }
 ISR( TIM0_OVF_vect ){

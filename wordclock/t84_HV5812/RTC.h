@@ -13,7 +13,9 @@ typedef struct Ttime Ttime;
 void setCurrentTime(uint8_t hour,uint8_t min,uint8_t monthDay,uint8_t month);
 uint8_t minquad(uint8_t min);
 uint8_t bcdToDec(uint8_t val);
+uint8_t decToBcd(uint8_t val);
 uint8_t RTC_readTime(struct Ttime *t);
+void RTC_setTime(struct Ttime t,uint8_t day, uint8_t year);
 int8_t RTC_readTemp(void);
 
 uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val);

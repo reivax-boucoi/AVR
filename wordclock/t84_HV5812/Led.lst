@@ -1030,9 +1030,9 @@
  902               	.LVL74:
  903               	.L83:
  128:Led.c         ****     }
- 129:Led.c         ****     if(nb>30){
+ 129:Led.c         ****     if(nb>29){
  904               		.loc 1 129 0
- 905 02fa EF31      		cpi r30,lo8(31)
+ 905 02fa EE31      		cpi r30,lo8(30)
  906 02fc 04F0      		brlt .L84
  907               	.LVL75:
  908               	.LBB70:
@@ -1065,9 +1065,9 @@
  931               	.LVL78:
  932 0314 00C0      		rjmp .L85
  933               	.L84:
- 133:Led.c         ****     }else if(nb>20){
+ 133:Led.c         ****     }else if(nb>19){
  934               		.loc 1 133 0
- 935 0316 E531      		cpi r30,lo8(21)
+ 935 0316 E431      		cpi r30,lo8(20)
  936 0318 04F0      		brlt .L86
  937               	.LVL79:
  938               	.LBB74:
@@ -1080,116 +1080,118 @@
  944 0320 4C93      		st X,r20
  945 0322 DB97      		sbiw r26,57+2
  946               	.LVL80:
- 947 0324 00C0      		rjmp .L88
- 948               	.L86:
- 949               	.LBE75:
- 950               	.LBE74:
+ 947               	.LBE75:
+ 948               	.LBE74:
  134:Led.c         ****         ledOnC(&l[VINGT],c);
- 135:Led.c         ****         nb=nb-10;
+ 135:Led.c         ****         nb=nb-20;
+ 949               		.loc 1 135 0
+ 950 0324 E451      		subi r30,lo8(-(-20))
+ 951               	.LVL81:
+ 952 0326 00C0      		rjmp .L85
+ 953               	.L86:
  136:Led.c         ****     }else if(nb>11){
- 951               		.loc 1 136 0
- 952 0326 EC30      		cpi r30,lo8(12)
- 953 0328 04F0      		brlt .L85
- 954               	.LVL81:
- 955               	.LBB76:
- 956               	.LBB77:
+ 954               		.loc 1 136 0
+ 955 0328 EC30      		cpi r30,lo8(12)
+ 956 032a 04F0      		brlt .L85
+ 957               	.LVL82:
+ 958               	.LBB76:
+ 959               	.LBB77:
   66:Led.c         **** }
- 957               		.loc 1 66 0
- 958 032a 5B96      		adiw r26,27
- 959 032c 2D93      		st X+,r18
- 960 032e 3D93      		st X+,r19
- 961 0330 4C93      		st X,r20
- 962 0332 5D97      		sbiw r26,27+2
- 963               	.LVL82:
- 964               	.L88:
- 965               	.LBE77:
- 966               	.LBE76:
+ 960               		.loc 1 66 0
+ 961 032c 5B96      		adiw r26,27
+ 962 032e 2D93      		st X+,r18
+ 963 0330 3D93      		st X+,r19
+ 964 0332 4C93      		st X,r20
+ 965 0334 5D97      		sbiw r26,27+2
+ 966               	.LVL83:
+ 967               	.LBE77:
+ 968               	.LBE76:
  137:Led.c         ****         ledOnC(&l[DIX],c);
  138:Led.c         ****         nb=nb-10;
- 967               		.loc 1 138 0
- 968 0334 EA50      		subi r30,lo8(-(-10))
- 969               	.LVL83:
- 970               	.L85:
+ 969               		.loc 1 138 0
+ 970 0336 EA50      		subi r30,lo8(-(-10))
+ 971               	.LVL84:
+ 972               	.L85:
  139:Led.c         ****     }
  140:Led.c         ****     ledOnC(&l[ledMap[nb-1]],c);
- 971               		.loc 1 140 0
- 972 0336 0E2E      		mov __tmp_reg__,r30
- 973 0338 000C      		lsl r0
- 974 033a FF0B      		sbc r31,r31
- 975 033c E050      		subi r30,lo8(-(ledMap-1))
- 976 033e F040      		sbci r31,hi8(-(ledMap-1))
- 977               	.LVL84:
- 978 0340 8081      		ld r24,Z
- 979 0342 90E0      		ldi r25,0
- 980 0344 65E0      		ldi r22,lo8(5)
- 981 0346 70E0      		ldi r23,0
- 982               	.LVL85:
- 983 0348 00D0      		rcall __mulhi3
- 984 034a A80F      		add r26,r24
- 985 034c B91F      		adc r27,r25
- 986               	.LVL86:
- 987               	.LBB78:
- 988               	.LBB79:
+ 973               		.loc 1 140 0
+ 974 0338 0E2E      		mov __tmp_reg__,r30
+ 975 033a 000C      		lsl r0
+ 976 033c FF0B      		sbc r31,r31
+ 977 033e E050      		subi r30,lo8(-(ledMap-1))
+ 978 0340 F040      		sbci r31,hi8(-(ledMap-1))
+ 979               	.LVL85:
+ 980 0342 8081      		ld r24,Z
+ 981 0344 90E0      		ldi r25,0
+ 982 0346 65E0      		ldi r22,lo8(5)
+ 983 0348 70E0      		ldi r23,0
+ 984               	.LVL86:
+ 985 034a 00D0      		rcall __mulhi3
+ 986 034c A80F      		add r26,r24
+ 987 034e B91F      		adc r27,r25
+ 988               	.LVL87:
+ 989               	.LBB78:
+ 990               	.LBB79:
   66:Led.c         **** }
- 989               		.loc 1 66 0
- 990 034e 1296      		adiw r26,2
- 991 0350 2D93      		st X+,r18
- 992 0352 3D93      		st X+,r19
- 993 0354 4C93      		st X,r20
- 994               	.LVL87:
- 995               	/* epilogue start */
- 996               	.LBE79:
- 997               	.LBE78:
+ 991               		.loc 1 66 0
+ 992 0350 1296      		adiw r26,2
+ 993 0352 2D93      		st X+,r18
+ 994 0354 3D93      		st X+,r19
+ 995 0356 4C93      		st X,r20
+ 996               	.LVL88:
+ 997               	/* epilogue start */
+ 998               	.LBE79:
+ 999               	.LBE78:
  141:Led.c         **** }
- 998               		.loc 1 141 0
- 999 0356 DF91      		pop r29
- 1000 0358 CF91      		pop r28
- 1001 035a 0895      		ret
- 1002               		.cfi_endproc
- 1003               	.LFE18:
- 1005               		.section	.rodata
- 1008               	ledMap:
- 1009 0000 07        		.byte	7
- 1010 0001 08        		.byte	8
- 1011 0002 0A        		.byte	10
- 1012 0003 0E        		.byte	14
- 1013 0004 00        		.byte	0
- 1014 0005 04        		.byte	4
- 1015 0006 11        		.byte	17
- 1016 0007 02        		.byte	2
- 1017 0008 0C        		.byte	12
- 1018 0009 06        		.byte	6
- 1019 000a 10        		.byte	16
- 1020               		.comm	currentColor,3,1
- 1021               		.comm	USI_I2C_Master_State,1,1
- 1022               		.comm	currentTime,5,1
- 1023               		.text
- 1024               	.Letext0:
- 1025               		.file 2 "/usr/lib/avr/include/stdint.h"
- 1026               		.file 3 "RTC.h"
- 1027               		.file 4 "Led.h"
+ 1000               		.loc 1 141 0
+ 1001 0358 DF91      		pop r29
+ 1002 035a CF91      		pop r28
+ 1003 035c 0895      		ret
+ 1004               		.cfi_endproc
+ 1005               	.LFE18:
+ 1007               		.section	.rodata
+ 1010               	ledMap:
+ 1011 0000 07        		.byte	7
+ 1012 0001 08        		.byte	8
+ 1013 0002 0A        		.byte	10
+ 1014 0003 0E        		.byte	14
+ 1015 0004 00        		.byte	0
+ 1016 0005 04        		.byte	4
+ 1017 0006 11        		.byte	17
+ 1018 0007 02        		.byte	2
+ 1019 0008 0C        		.byte	12
+ 1020 0009 06        		.byte	6
+ 1021 000a 10        		.byte	16
+ 1022               		.comm	currentColor,3,1
+ 1023               		.comm	USI_I2C_Master_State,1,1
+ 1024               		.comm	currentTime,5,1
+ 1025               		.text
+ 1026               	.Letext0:
+ 1027               		.file 2 "/usr/lib/avr/include/stdint.h"
+ 1028               		.file 3 "RTC.h"
+ 1029               		.file 4 "Led.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Led.c
-     /tmp/ccxDuunj.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccxDuunj.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccxDuunj.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccxDuunj.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccxDuunj.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccxDuunj.s:12     .text:0000000000000000 tcolor
-     /tmp/ccxDuunj.s:35     .text:0000000000000008 tcolorV
-     /tmp/ccxDuunj.s:77     .text:0000000000000028 ledInit
-     /tmp/ccxDuunj.s:130    .text:0000000000000050 getColorByLed
-     /tmp/ccxDuunj.s:239    .text:00000000000000b2 getDataByColor
-     /tmp/ccxDuunj.s:361    .text:000000000000012e ledOff
-     /tmp/ccxDuunj.s:383    .text:0000000000000138 ledOn
-     /tmp/ccxDuunj.s:407    .text:0000000000000144 ledOnC
-     /tmp/ccxDuunj.s:427    .text:000000000000014e ledOnV
-     /tmp/ccxDuunj.s:448    .text:0000000000000158 ledIsOff
-     /tmp/ccxDuunj.s:513    .text:0000000000000190 ledIsOn
-     /tmp/ccxDuunj.s:571    .text:00000000000001c6 setLeds
+     /tmp/ccIA0CRJ.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccIA0CRJ.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccIA0CRJ.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccIA0CRJ.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccIA0CRJ.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccIA0CRJ.s:12     .text:0000000000000000 tcolor
+     /tmp/ccIA0CRJ.s:35     .text:0000000000000008 tcolorV
+     /tmp/ccIA0CRJ.s:77     .text:0000000000000028 ledInit
+     /tmp/ccIA0CRJ.s:130    .text:0000000000000050 getColorByLed
+     /tmp/ccIA0CRJ.s:239    .text:00000000000000b2 getDataByColor
+     /tmp/ccIA0CRJ.s:361    .text:000000000000012e ledOff
+     /tmp/ccIA0CRJ.s:383    .text:0000000000000138 ledOn
+     /tmp/ccIA0CRJ.s:407    .text:0000000000000144 ledOnC
+     /tmp/ccIA0CRJ.s:427    .text:000000000000014e ledOnV
+     /tmp/ccIA0CRJ.s:448    .text:0000000000000158 ledIsOff
+     /tmp/ccIA0CRJ.s:513    .text:0000000000000190 ledIsOn
+     /tmp/ccIA0CRJ.s:571    .text:00000000000001c6 setLeds
                             *COM*:0000000000000005 currentTime
-     /tmp/ccxDuunj.s:1008   .rodata:0000000000000000 ledMap
-     /tmp/ccxDuunj.s:842    .text:00000000000002cc setLedsNb
+     /tmp/ccIA0CRJ.s:1010   .rodata:0000000000000000 ledMap
+     /tmp/ccIA0CRJ.s:842    .text:00000000000002cc setLedsNb
                             *COM*:0000000000000003 currentColor
                             *COM*:0000000000000001 USI_I2C_Master_State
 

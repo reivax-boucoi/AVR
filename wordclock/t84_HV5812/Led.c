@@ -126,13 +126,13 @@ void setLedsNb(int8_t nb, Led* l, Tcolor c){
         ledOnC(&l[MOINS],c);
         nb=-nb;
     }
-    if(nb>30){
+    if(nb>29){
         ledOnC(&l[VINGT],c);
         ledOnC(&l[DIX],c);
         nb=nb-30;
-    }else if(nb>20){
+    }else if(nb>19){
         ledOnC(&l[VINGT],c);
-        nb=nb-10;
+        nb=nb-20;
     }else if(nb>11){
         ledOnC(&l[DIX],c);
         nb=nb-10;

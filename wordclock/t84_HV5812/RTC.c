@@ -25,12 +25,12 @@ uint8_t minquad(uint8_t min){
 
 int8_t RTC_readTemp(void){
 	int8_t data=0;
-	if(i2c_read(RTC_addr,1,0x11,data)){
-        if(data&0x80){
-            return -(data&0x7F);
-        }else{
-            return data&0x7F;
-        }
+	if(i2c_read(RTC_addr,1,0x11,&data)){
+       // if(data&0x80){
+      //      return -(data&0x7F);
+       // }else{
+            return (data);
+      //  }
     }else{
         return 0;
     }
@@ -39,7 +39,9 @@ int8_t RTC_readTemp(void){
 uint8_t bcdToDec(uint8_t val){
   return ((val/16*10) + (val%16));
 }
-
+uint8_t decToBcd(uint8_t val){
+  return( (val/10*16) + (val%10) );
+}
 uint8_t RTC_readTime(struct Ttime *t){
 	uint8_t data[7] = {0};
 	if(i2c_read(RTC_addr,7,0x00,data)){
@@ -51,6 +53,14 @@ uint8_t RTC_readTime(struct Ttime *t){
 	}else{
 		return 0;
 	}
+}
+void RTC_setTime(struct Ttime t,uint8_t day, uint8_t year){
+    i2c_write(RTC_addr,1,decToBcd(t.min));
+    i2c_write(RTC_addr,2,decToBcd(t.hour));
+    i2c_write(RTC_addr,3,decToBcd(day));
+    i2c_write(RTC_addr,4,decToBcd(t.monthDay));
+    i2c_write(RTC_addr,5,decToBcd(t.month));
+    i2c_write(RTC_addr,6,decToBcd(year));
 }
 uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val){ // only supports 1 byte write
 	uint8_t i2c_buffer[3];
