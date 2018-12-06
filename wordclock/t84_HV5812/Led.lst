@@ -215,7 +215,7 @@
  187 007e 3323      		tst r19
  188 0080 01F0      		breq .L13
  189               		.loc 1 33 0 is_stmt 0 discriminator 1
- 190 0082 8260      		ori r24,2
+ 190 0082 8160      		ori r24,1
  191               	.LVL19:
  192 0084 00C0      		rjmp .L13
  193               	.LVL20:
@@ -251,7 +251,7 @@
  218               		.loc 1 37 0 is_stmt 1
  219 009e 3111      		cpse r19,__zero_reg__
  220               		.loc 1 37 0 is_stmt 0 discriminator 1
- 221 00a0 8160      		ori r24,1
+ 221 00a0 8260      		ori r24,2
  222               	.LVL25:
  223               	.L13:
  224               	/* epilogue start */
@@ -1170,26 +1170,26 @@
  1027               		.file 4 "Led.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Led.c
-     /tmp/ccC3uwdj.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccC3uwdj.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccC3uwdj.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccC3uwdj.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccC3uwdj.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccC3uwdj.s:12     .text:0000000000000000 tcolor
-     /tmp/ccC3uwdj.s:35     .text:0000000000000008 tcolorV
-     /tmp/ccC3uwdj.s:77     .text:0000000000000028 ledInit
-     /tmp/ccC3uwdj.s:130    .text:0000000000000050 getColorByLed
-     /tmp/ccC3uwdj.s:239    .text:00000000000000b2 getDataByColor
-     /tmp/ccC3uwdj.s:361    .text:000000000000012e ledOff
-     /tmp/ccC3uwdj.s:383    .text:0000000000000138 ledOn
-     /tmp/ccC3uwdj.s:407    .text:0000000000000144 ledOnC
-     /tmp/ccC3uwdj.s:427    .text:000000000000014e ledOnV
-     /tmp/ccC3uwdj.s:448    .text:0000000000000158 ledIsOff
-     /tmp/ccC3uwdj.s:513    .text:0000000000000190 ledIsOn
-     /tmp/ccC3uwdj.s:571    .text:00000000000001c6 setLeds
+     /tmp/ccirdlJB.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccirdlJB.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccirdlJB.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccirdlJB.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccirdlJB.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccirdlJB.s:12     .text:0000000000000000 tcolor
+     /tmp/ccirdlJB.s:35     .text:0000000000000008 tcolorV
+     /tmp/ccirdlJB.s:77     .text:0000000000000028 ledInit
+     /tmp/ccirdlJB.s:130    .text:0000000000000050 getColorByLed
+     /tmp/ccirdlJB.s:239    .text:00000000000000b2 getDataByColor
+     /tmp/ccirdlJB.s:361    .text:000000000000012e ledOff
+     /tmp/ccirdlJB.s:383    .text:0000000000000138 ledOn
+     /tmp/ccirdlJB.s:407    .text:0000000000000144 ledOnC
+     /tmp/ccirdlJB.s:427    .text:000000000000014e ledOnV
+     /tmp/ccirdlJB.s:448    .text:0000000000000158 ledIsOff
+     /tmp/ccirdlJB.s:513    .text:0000000000000190 ledIsOn
+     /tmp/ccirdlJB.s:571    .text:00000000000001c6 setLeds
                             *COM*:0000000000000005 currentTime
-     /tmp/ccC3uwdj.s:1008   .rodata:0000000000000000 ledMap
-     /tmp/ccC3uwdj.s:842    .text:00000000000002cc setLedsNb
+     /tmp/ccirdlJB.s:1008   .rodata:0000000000000000 ledMap
+     /tmp/ccirdlJB.s:842    .text:00000000000002cc setLedsNb
                             *COM*:0000000000000003 currentColor
                             *COM*:0000000000000001 USI_I2C_Master_State
 
