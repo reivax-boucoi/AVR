@@ -74,7 +74,7 @@ ISR( TIM1_OVF_vect ){
     //RTC_readTime(&currentTime);
     //setLeds(currentTime,leds,currentColor);
 }
-ISR( TIM0_OVF_vect ){/*
+ISR( TIM0_OVF_vect ){
     switch(state){
         case 0:
             sendData(R2 | getDataByColor(tcolor(1,0,0),0,leds));
@@ -96,5 +96,5 @@ ISR( TIM0_OVF_vect ){/*
             break;
     }
     state++;
-    if(state>5)state=0;*/
+    if(state>5)state=0;
 }
