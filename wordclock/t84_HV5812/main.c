@@ -40,14 +40,14 @@ int main(void){
     sei();
     
     sendData(0b11111100001111111111 | LEDB);
-    _delay_ms(2500);
+    _delay_ms(250);
     sendData(0b11000000001111111111);
-    _delay_ms(2500);
+    _delay_ms(250);
     sendData(0b00001100001111111111 | LEDR);
-    _delay_ms(2500);
+    _delay_ms(250);
     sendData(0b00110000001111111111);
-    _delay_ms(2500);
-    sendData(0b00000100000000000001 | LEDR);
+    _delay_ms(250);
+    sendData(0b00000100000000000001 | LEDB);
     #ifdef DELLONG
 		TCCR1B|=(1<<CS12)|(1<<CS10);
 	#else
@@ -58,7 +58,7 @@ int main(void){
     
     currentColor=tcolorV(RED);
     setCurrentTime(15,45,7,11);
-	//RTC_readTime(&currentTime);
+	RTC_readTime(&currentTime);
     currentTime.temp=11;
     setLeds(currentTime,leds,currentColor);
     
@@ -69,10 +69,15 @@ int main(void){
     
 }
 ISR( TIM1_OVF_vect ){
-    ledb=1-ledb;
-    ledr=!ledb;
-    //RTC_readTime(&currentTime);
-    //setLeds(currentTime,leds,currentColor);
+    RTC_readTime(&currentTime);
+    if(currentTime.min){
+        ledb=1;
+        ledr=0;
+    }else{
+        ledr=1;
+        ledb=0;
+    }
+    setLeds(currentTime,leds,currentColor);
 }
 ISR( TIM0_OVF_vect ){
     switch(state){
