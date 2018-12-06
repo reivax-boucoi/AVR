@@ -38,7 +38,7 @@ int main(void){
     TIMSK1|=(1<<TOIE1);
     TIMSK0|=(1<<TOIE0);
     sei();
-    /*
+    
     sendData(0b11111100001111111111 | LEDB);
     _delay_ms(2500);
     sendData(0b11000000001111111111);
@@ -46,7 +46,7 @@ int main(void){
     sendData(0b00001100001111111111 | LEDR);
     _delay_ms(2500);
     sendData(0b00110000001111111111);
-    _delay_ms(2500);*/
+    _delay_ms(2500);
     sendData(0b00000100000000000001 | LEDR);
     #ifdef DELLONG
 		TCCR1B|=(1<<CS12)|(1<<CS10);
@@ -60,7 +60,7 @@ int main(void){
     setCurrentTime(15,45,7,11);
 	//RTC_readTime(&currentTime);
     currentTime.temp=11;
-    //setLeds(currentTime,leds,currentColor);
+    setLeds(currentTime,leds,currentColor);
     
     while(1){
        

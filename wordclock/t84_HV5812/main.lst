@@ -45,7 +45,7 @@
   36 000c 50E0      		ldi r21,0
   37               	.LVL2:
   38               	.L4:
-  39               	.LBB2:
+  39               	.LBB10:
   11:main.c        ****     for(uint8_t i=0;i<20;i++){
   12:main.c        ****         if((data>>i) & 0x00000001){
   40               		.loc 1 12 0
@@ -89,7 +89,7 @@
   71 0034 4431      		cpi r20,20
   72 0036 5105      		cpc r21,__zero_reg__
   73 0038 01F4      		brne .L4
-  74               	.LBE2:
+  74               	.LBE10:
   19:main.c        ****     }
   20:main.c        ****     PORTA|=STROBE;
   75               		.loc 1 20 0
@@ -186,73 +186,361 @@
  150               	 ;  40 "main.c" 1
  151 001a 7894      		sei
  152               	 ;  0 "" 2
-  41:main.c        ****     /*
+  41:main.c        ****     
   42:main.c        ****     sendData(0b11111100001111111111 | LEDB);
-  43:main.c        ****     _delay_ms(2500);
-  44:main.c        ****     sendData(0b11000000001111111111);
-  45:main.c        ****     _delay_ms(2500);
-  46:main.c        ****     sendData(0b00001100001111111111 | LEDR);
-  47:main.c        ****     _delay_ms(2500);
-  48:main.c        ****     sendData(0b00110000001111111111);
-  49:main.c        ****     _delay_ms(2500);*/
-  50:main.c        ****     sendData(0b00000100000000000001 | LEDR);
- 153               		.loc 1 50 0
+ 153               		.loc 1 42 0
  154               	/* #NOAPP */
- 155 001c 61E0      		ldi r22,lo8(1)
- 156 001e 78E4      		ldi r23,lo8(72)
- 157 0020 80E0      		ldi r24,0
+ 155 001c 6FEF      		ldi r22,lo8(-1)
+ 156 001e 77EC      		ldi r23,lo8(-57)
+ 157 0020 8FE0      		ldi r24,lo8(15)
  158 0022 90E0      		ldi r25,0
  159 0024 00D0      		rcall sendData
  160               	.LVL10:
+ 161               	.LBB11:
+ 162               	.LBB12:
+ 163               		.file 2 "/usr/lib/avr/include/util/delay.h"
+   1:/usr/lib/avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:/usr/lib/avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:/usr/lib/avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:/usr/lib/avr/include/util/delay.h ****    All rights reserved.
+   5:/usr/lib/avr/include/util/delay.h **** 
+   6:/usr/lib/avr/include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:/usr/lib/avr/include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:/usr/lib/avr/include/util/delay.h **** 
+   9:/usr/lib/avr/include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+  10:/usr/lib/avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:/usr/lib/avr/include/util/delay.h **** 
+  12:/usr/lib/avr/include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:/usr/lib/avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:/usr/lib/avr/include/util/delay.h ****      the documentation and/or other materials provided with the
+  15:/usr/lib/avr/include/util/delay.h ****      distribution.
+  16:/usr/lib/avr/include/util/delay.h **** 
+  17:/usr/lib/avr/include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:/usr/lib/avr/include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  19:/usr/lib/avr/include/util/delay.h ****      from this software without specific prior written permission.
+  20:/usr/lib/avr/include/util/delay.h **** 
+  21:/usr/lib/avr/include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:/usr/lib/avr/include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:/usr/lib/avr/include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:/usr/lib/avr/include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:/usr/lib/avr/include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:/usr/lib/avr/include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:/usr/lib/avr/include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:/usr/lib/avr/include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:/usr/lib/avr/include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:/usr/lib/avr/include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:/usr/lib/avr/include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:/usr/lib/avr/include/util/delay.h **** 
+  33:/usr/lib/avr/include/util/delay.h **** /* $Id$ */
+  34:/usr/lib/avr/include/util/delay.h **** 
+  35:/usr/lib/avr/include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  36:/usr/lib/avr/include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  37:/usr/lib/avr/include/util/delay.h **** 
+  38:/usr/lib/avr/include/util/delay.h **** #ifndef __DOXYGEN__
+  39:/usr/lib/avr/include/util/delay.h **** #  ifndef __HAS_DELAY_CYCLES
+  40:/usr/lib/avr/include/util/delay.h **** #    define __HAS_DELAY_CYCLES 1
+  41:/usr/lib/avr/include/util/delay.h **** #  endif
+  42:/usr/lib/avr/include/util/delay.h **** #endif  /* __DOXYGEN__ */
+  43:/usr/lib/avr/include/util/delay.h **** 
+  44:/usr/lib/avr/include/util/delay.h **** #include <inttypes.h>
+  45:/usr/lib/avr/include/util/delay.h **** #include <util/delay_basic.h>
+  46:/usr/lib/avr/include/util/delay.h **** #include <math.h>
+  47:/usr/lib/avr/include/util/delay.h **** 
+  48:/usr/lib/avr/include/util/delay.h **** /** \file */
+  49:/usr/lib/avr/include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  50:/usr/lib/avr/include/util/delay.h ****     \code
+  51:/usr/lib/avr/include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  52:/usr/lib/avr/include/util/delay.h ****     //#define F_CPU 14.7456E6
+  53:/usr/lib/avr/include/util/delay.h ****     #include <util/delay.h>
+  54:/usr/lib/avr/include/util/delay.h ****     \endcode
+  55:/usr/lib/avr/include/util/delay.h **** 
+  56:/usr/lib/avr/include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  57:/usr/lib/avr/include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  58:/usr/lib/avr/include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  59:/usr/lib/avr/include/util/delay.h ****     used.
+  60:/usr/lib/avr/include/util/delay.h **** 
+  61:/usr/lib/avr/include/util/delay.h ****     The functions in this header file are wrappers around the basic
+  62:/usr/lib/avr/include/util/delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  63:/usr/lib/avr/include/util/delay.h ****     convenience functions where actual time values can be specified
+  64:/usr/lib/avr/include/util/delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  65:/usr/lib/avr/include/util/delay.h ****     that compile-time constant expressions will be eliminated by
+  66:/usr/lib/avr/include/util/delay.h ****     compiler optimization so floating-point expressions can be used
+  67:/usr/lib/avr/include/util/delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  68:/usr/lib/avr/include/util/delay.h ****     frequency passed by the macro F_CPU.
+  69:/usr/lib/avr/include/util/delay.h **** 
+  70:/usr/lib/avr/include/util/delay.h ****     \note In order for these functions to work as intended, compiler
+  71:/usr/lib/avr/include/util/delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  72:/usr/lib/avr/include/util/delay.h ****     <em>must</em> be an expression that is a known constant at
+  73:/usr/lib/avr/include/util/delay.h ****     compile-time.  If these requirements are not met, the resulting
+  74:/usr/lib/avr/include/util/delay.h ****     delay will be much longer (and basically unpredictable), and
+  75:/usr/lib/avr/include/util/delay.h ****     applications that otherwise do not use floating-point calculations
+  76:/usr/lib/avr/include/util/delay.h ****     will experience severe code bloat by the floating-point library
+  77:/usr/lib/avr/include/util/delay.h ****     routines linked into the application.
+  78:/usr/lib/avr/include/util/delay.h **** 
+  79:/usr/lib/avr/include/util/delay.h ****     The functions available allow the specification of microsecond, and
+  80:/usr/lib/avr/include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  81:/usr/lib/avr/include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  82:/usr/lib/avr/include/util/delay.h **** 
+  83:/usr/lib/avr/include/util/delay.h **** */
+  84:/usr/lib/avr/include/util/delay.h **** 
+  85:/usr/lib/avr/include/util/delay.h **** #if !defined(__DOXYGEN__)
+  86:/usr/lib/avr/include/util/delay.h **** static __inline__ void _delay_us(double __us) __attribute__((__always_inline__));
+  87:/usr/lib/avr/include/util/delay.h **** static __inline__ void _delay_ms(double __ms) __attribute__((__always_inline__));
+  88:/usr/lib/avr/include/util/delay.h **** #endif
+  89:/usr/lib/avr/include/util/delay.h **** 
+  90:/usr/lib/avr/include/util/delay.h **** #ifndef F_CPU
+  91:/usr/lib/avr/include/util/delay.h **** /* prevent compiler error by supplying a default */
+  92:/usr/lib/avr/include/util/delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  93:/usr/lib/avr/include/util/delay.h **** /** \ingroup util_delay
+  94:/usr/lib/avr/include/util/delay.h ****     \def F_CPU
+  95:/usr/lib/avr/include/util/delay.h ****     \brief CPU frequency in Hz
+  96:/usr/lib/avr/include/util/delay.h **** 
+  97:/usr/lib/avr/include/util/delay.h ****     The macro F_CPU specifies the CPU frequency to be considered by
+  98:/usr/lib/avr/include/util/delay.h ****     the delay macros.  This macro is normally supplied by the
+  99:/usr/lib/avr/include/util/delay.h ****     environment (e.g. from within a project header, or the project's
+ 100:/usr/lib/avr/include/util/delay.h ****     Makefile).  The value 1 MHz here is only provided as a "vanilla"
+ 101:/usr/lib/avr/include/util/delay.h ****     fallback if no such user-provided definition could be found.
+ 102:/usr/lib/avr/include/util/delay.h **** 
+ 103:/usr/lib/avr/include/util/delay.h ****     In terms of the delay functions, the CPU frequency can be given as
+ 104:/usr/lib/avr/include/util/delay.h ****     a floating-point constant (e.g. 3.6864E6 for 3.6864 MHz).
+ 105:/usr/lib/avr/include/util/delay.h ****     However, the macros in <util/setbaud.h> require it to be an
+ 106:/usr/lib/avr/include/util/delay.h ****     integer value.
+ 107:/usr/lib/avr/include/util/delay.h ****  */
+ 108:/usr/lib/avr/include/util/delay.h **** # define F_CPU 1000000UL
+ 109:/usr/lib/avr/include/util/delay.h **** #endif
+ 110:/usr/lib/avr/include/util/delay.h **** 
+ 111:/usr/lib/avr/include/util/delay.h **** #ifndef __OPTIMIZE__
+ 112:/usr/lib/avr/include/util/delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+ 113:/usr/lib/avr/include/util/delay.h **** #endif
+ 114:/usr/lib/avr/include/util/delay.h **** 
+ 115:/usr/lib/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 116:/usr/lib/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 117:/usr/lib/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 118:/usr/lib/avr/include/util/delay.h **** #  include <math.h>
+ 119:/usr/lib/avr/include/util/delay.h **** #endif
+ 120:/usr/lib/avr/include/util/delay.h **** 
+ 121:/usr/lib/avr/include/util/delay.h **** /**
+ 122:/usr/lib/avr/include/util/delay.h ****    \ingroup util_delay
+ 123:/usr/lib/avr/include/util/delay.h **** 
+ 124:/usr/lib/avr/include/util/delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+ 125:/usr/lib/avr/include/util/delay.h **** 
+ 126:/usr/lib/avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 127:/usr/lib/avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 128:/usr/lib/avr/include/util/delay.h **** 
+ 129:/usr/lib/avr/include/util/delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 130:/usr/lib/avr/include/util/delay.h **** 
+ 131:/usr/lib/avr/include/util/delay.h ****    When the user request delay which exceed the maximum possible one,
+ 132:/usr/lib/avr/include/util/delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 133:/usr/lib/avr/include/util/delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 134:/usr/lib/avr/include/util/delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 135:/usr/lib/avr/include/util/delay.h ****    user will not be informed about decreased resolution.
+ 136:/usr/lib/avr/include/util/delay.h **** 
+ 137:/usr/lib/avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles()
+ 138:/usr/lib/avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 ms/ F_CPU in MHz. For
+ 139:/usr/lib/avr/include/util/delay.h ****    values greater than the maximal possible delay, overflows results in
+ 140:/usr/lib/avr/include/util/delay.h ****    no delay i.e., 0ms.
+ 141:/usr/lib/avr/include/util/delay.h **** 
+ 142:/usr/lib/avr/include/util/delay.h ****    Conversion of \c __ms into clock cycles may not always result in
+ 143:/usr/lib/avr/include/util/delay.h ****    integer.  By default, the clock cycles rounded up to next
+ 144:/usr/lib/avr/include/util/delay.h ****    integer. This ensures that the user gets at least \c __ms
+ 145:/usr/lib/avr/include/util/delay.h ****    microseconds of delay.
+ 146:/usr/lib/avr/include/util/delay.h **** 
+ 147:/usr/lib/avr/include/util/delay.h ****    Alternatively, by defining the macro \c __DELAY_ROUND_DOWN__, or
+ 148:/usr/lib/avr/include/util/delay.h ****    \c __DELAY_ROUND_CLOSEST__, before including this header file, the
+ 149:/usr/lib/avr/include/util/delay.h ****    algorithm can be made to round down, or round to closest integer,
+ 150:/usr/lib/avr/include/util/delay.h ****    respectively.
+ 151:/usr/lib/avr/include/util/delay.h **** 
+ 152:/usr/lib/avr/include/util/delay.h ****    \note
+ 153:/usr/lib/avr/include/util/delay.h **** 
+ 154:/usr/lib/avr/include/util/delay.h ****    The implementation of _delay_ms() based on
+ 155:/usr/lib/avr/include/util/delay.h ****    __builtin_avr_delay_cycles() is not backward compatible with older
+ 156:/usr/lib/avr/include/util/delay.h ****    implementations.  In order to get functionality backward compatible
+ 157:/usr/lib/avr/include/util/delay.h ****    with previous versions, the macro \c "__DELAY_BACKWARD_COMPATIBLE__"
+ 158:/usr/lib/avr/include/util/delay.h ****    must be defined before including this header file. Also, the
+ 159:/usr/lib/avr/include/util/delay.h ****    backward compatible algorithm will be chosen if the code is
+ 160:/usr/lib/avr/include/util/delay.h ****    compiled in a <em>freestanding environment</em> (GCC option
+ 161:/usr/lib/avr/include/util/delay.h ****    \c -ffreestanding), as the math functions required for rounding are
+ 162:/usr/lib/avr/include/util/delay.h ****    not available to the compiler then.
+ 163:/usr/lib/avr/include/util/delay.h **** 
+ 164:/usr/lib/avr/include/util/delay.h ****  */
+ 165:/usr/lib/avr/include/util/delay.h **** void
+ 166:/usr/lib/avr/include/util/delay.h **** _delay_ms(double __ms)
+ 167:/usr/lib/avr/include/util/delay.h **** {
+ 168:/usr/lib/avr/include/util/delay.h **** 	double __tmp ;
+ 169:/usr/lib/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 170:/usr/lib/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 171:/usr/lib/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 172:/usr/lib/avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 173:/usr/lib/avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 174:/usr/lib/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 175:/usr/lib/avr/include/util/delay.h **** 
+ 176:/usr/lib/avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 177:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 178:/usr/lib/avr/include/util/delay.h **** 
+ 179:/usr/lib/avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 180:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 181:/usr/lib/avr/include/util/delay.h **** 
+ 182:/usr/lib/avr/include/util/delay.h **** 	#else
+ 183:/usr/lib/avr/include/util/delay.h **** 		//round up by default
+ 184:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 185:/usr/lib/avr/include/util/delay.h **** 	#endif
+ 186:/usr/lib/avr/include/util/delay.h **** 
+ 187:/usr/lib/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 164               		.loc 2 187 0
+ 165 0026 2FEF      		ldi r18,lo8(7999999)
+ 166 0028 81E1      		ldi r24,hi8(7999999)
+ 167 002a 9AE7      		ldi r25,hlo8(7999999)
+ 168 002c 2150      	1:	subi r18,1
+ 169 002e 8040      		sbci r24,0
+ 170 0030 9040      		sbci r25,0
+ 171 0032 01F4      		brne 1b
+ 172 0034 00C0      		rjmp .
+ 173 0036 0000      		nop
+ 174               	.LVL11:
+ 175               	.LBE12:
+ 176               	.LBE11:
+  43:main.c        ****     _delay_ms(2500);
+  44:main.c        ****     sendData(0b11000000001111111111);
+ 177               		.loc 1 44 0
+ 178 0038 6FEF      		ldi r22,lo8(-1)
+ 179 003a 73E0      		ldi r23,lo8(3)
+ 180 003c 8CE0      		ldi r24,lo8(12)
+ 181 003e 90E0      		ldi r25,0
+ 182 0040 00D0      		rcall sendData
+ 183               	.LVL12:
+ 184               	.LBB13:
+ 185               	.LBB14:
+ 186               		.loc 2 187 0
+ 187 0042 2FEF      		ldi r18,lo8(7999999)
+ 188 0044 81E1      		ldi r24,hi8(7999999)
+ 189 0046 9AE7      		ldi r25,hlo8(7999999)
+ 190 0048 2150      	1:	subi r18,1
+ 191 004a 8040      		sbci r24,0
+ 192 004c 9040      		sbci r25,0
+ 193 004e 01F4      		brne 1b
+ 194 0050 00C0      		rjmp .
+ 195 0052 0000      		nop
+ 196               	.LVL13:
+ 197               	.LBE14:
+ 198               	.LBE13:
+  45:main.c        ****     _delay_ms(2500);
+  46:main.c        ****     sendData(0b00001100001111111111 | LEDR);
+ 199               		.loc 1 46 0
+ 200 0054 6FEF      		ldi r22,lo8(-1)
+ 201 0056 7BEC      		ldi r23,lo8(-53)
+ 202 0058 80E0      		ldi r24,0
+ 203 005a 90E0      		ldi r25,0
+ 204 005c 00D0      		rcall sendData
+ 205               	.LVL14:
+ 206               	.LBB15:
+ 207               	.LBB16:
+ 208               		.loc 2 187 0
+ 209 005e 2FEF      		ldi r18,lo8(7999999)
+ 210 0060 81E1      		ldi r24,hi8(7999999)
+ 211 0062 9AE7      		ldi r25,hlo8(7999999)
+ 212 0064 2150      	1:	subi r18,1
+ 213 0066 8040      		sbci r24,0
+ 214 0068 9040      		sbci r25,0
+ 215 006a 01F4      		brne 1b
+ 216 006c 00C0      		rjmp .
+ 217 006e 0000      		nop
+ 218               	.LVL15:
+ 219               	.LBE16:
+ 220               	.LBE15:
+  47:main.c        ****     _delay_ms(2500);
+  48:main.c        ****     sendData(0b00110000001111111111);
+ 221               		.loc 1 48 0
+ 222 0070 6FEF      		ldi r22,lo8(-1)
+ 223 0072 73E0      		ldi r23,lo8(3)
+ 224 0074 83E0      		ldi r24,lo8(3)
+ 225 0076 90E0      		ldi r25,0
+ 226 0078 00D0      		rcall sendData
+ 227               	.LVL16:
+ 228               	.LBB17:
+ 229               	.LBB18:
+ 230               		.loc 2 187 0
+ 231 007a 2FEF      		ldi r18,lo8(7999999)
+ 232 007c 81E1      		ldi r24,hi8(7999999)
+ 233 007e 9AE7      		ldi r25,hlo8(7999999)
+ 234 0080 2150      	1:	subi r18,1
+ 235 0082 8040      		sbci r24,0
+ 236 0084 9040      		sbci r25,0
+ 237 0086 01F4      		brne 1b
+ 238 0088 00C0      		rjmp .
+ 239 008a 0000      		nop
+ 240               	.LVL17:
+ 241               	.LBE18:
+ 242               	.LBE17:
+  49:main.c        ****     _delay_ms(2500);
+  50:main.c        ****     sendData(0b00000100000000000001 | LEDR);
+ 243               		.loc 1 50 0
+ 244 008c 61E0      		ldi r22,lo8(1)
+ 245 008e 78E4      		ldi r23,lo8(72)
+ 246 0090 80E0      		ldi r24,0
+ 247 0092 90E0      		ldi r25,0
+ 248 0094 00D0      		rcall sendData
+ 249               	.LVL18:
   51:main.c        ****     #ifdef DELLONG
   52:main.c        **** 		TCCR1B|=(1<<CS12)|(1<<CS10);
+ 250               		.loc 1 52 0
+ 251 0096 8EB5      		in r24,0x2e
+ 252 0098 8560      		ori r24,lo8(5)
+ 253 009a 8EBD      		out 0x2e,r24
   53:main.c        **** 	#else
   54:main.c        **** 		TCCR1B|=(1<<CS12);//|(1<<CS10);
- 161               		.loc 1 54 0
- 162 0026 8EB5      		in r24,0x2e
- 163 0028 8460      		ori r24,lo8(4)
- 164 002a 8EBD      		out 0x2e,r24
   55:main.c        **** 	#endif
   56:main.c        **** 	
   57:main.c        **** 	TCCR0B|=(1<<CS01)|(1<<CS00);
- 165               		.loc 1 57 0
- 166 002c 83B7      		in r24,0x33
- 167 002e 8360      		ori r24,lo8(3)
- 168 0030 83BF      		out 0x33,r24
+ 254               		.loc 1 57 0
+ 255 009c 83B7      		in r24,0x33
+ 256 009e 8360      		ori r24,lo8(3)
+ 257 00a0 83BF      		out 0x33,r24
   58:main.c        ****     
   59:main.c        ****     currentColor=tcolorV(RED);
- 169               		.loc 1 59 0
- 170 0032 60E0      		ldi r22,0
- 171 0034 70E0      		ldi r23,0
- 172 0036 8FEF      		ldi r24,lo8(-1)
- 173 0038 90E0      		ldi r25,0
- 174 003a 00D0      		rcall tcolorV
- 175               	.LVL11:
- 176 003c 6093 0000 		sts currentColor,r22
- 177 0040 7093 0000 		sts currentColor+1,r23
- 178 0044 8093 0000 		sts currentColor+2,r24
+ 258               		.loc 1 59 0
+ 259 00a2 60E0      		ldi r22,0
+ 260 00a4 70E0      		ldi r23,0
+ 261 00a6 8FEF      		ldi r24,lo8(-1)
+ 262 00a8 90E0      		ldi r25,0
+ 263 00aa 00D0      		rcall tcolorV
+ 264               	.LVL19:
+ 265 00ac 6093 0000 		sts currentColor,r22
+ 266 00b0 7093 0000 		sts currentColor+1,r23
+ 267 00b4 8093 0000 		sts currentColor+2,r24
   60:main.c        ****     setCurrentTime(15,45,7,11);
- 179               		.loc 1 60 0
- 180 0048 2BE0      		ldi r18,lo8(11)
- 181 004a 47E0      		ldi r20,lo8(7)
- 182 004c 6DE2      		ldi r22,lo8(45)
- 183 004e 8FE0      		ldi r24,lo8(15)
- 184 0050 00D0      		rcall setCurrentTime
- 185               	.LVL12:
+ 268               		.loc 1 60 0
+ 269 00b8 2BE0      		ldi r18,lo8(11)
+ 270 00ba 47E0      		ldi r20,lo8(7)
+ 271 00bc 6DE2      		ldi r22,lo8(45)
+ 272 00be 8FE0      		ldi r24,lo8(15)
+ 273 00c0 00D0      		rcall setCurrentTime
+ 274               	.LVL20:
   61:main.c        **** 	//RTC_readTime(&currentTime);
   62:main.c        ****     currentTime.temp=11;
- 186               		.loc 1 62 0
- 187 0052 8BE0      		ldi r24,lo8(11)
- 188 0054 8093 0000 		sts currentTime+4,r24
- 189               	.L17:
- 190 0058 00C0      		rjmp .L17
- 191               		.cfi_endproc
- 192               	.LFE8:
- 194               		.text
- 195               	.global	__vector_8
- 197               	__vector_8:
- 198               	.LFB9:
-  63:main.c        ****     //setLeds(currentTime,leds,currentColor);
+ 275               		.loc 1 62 0
+ 276 00c2 8BE0      		ldi r24,lo8(11)
+ 277 00c4 8093 0000 		sts currentTime+4,r24
+  63:main.c        ****     setLeds(currentTime,leds,currentColor);
+ 278               		.loc 1 63 0
+ 279 00c8 E090 0000 		lds r14,currentColor
+ 280 00cc F090 0000 		lds r15,currentColor+1
+ 281 00d0 0091 0000 		lds r16,currentColor+2
+ 282 00d4 20E0      		ldi r18,lo8(leds)
+ 283 00d6 30E0      		ldi r19,hi8(leds)
+ 284 00d8 4091 0000 		lds r20,currentTime
+ 285 00dc 5091 0000 		lds r21,currentTime+1
+ 286 00e0 6091 0000 		lds r22,currentTime+2
+ 287 00e4 7091 0000 		lds r23,currentTime+3
+ 288 00e8 00D0      		rcall setLeds
+ 289               	.LVL21:
+ 290               	.L17:
+ 291 00ea 00C0      		rjmp .L17
+ 292               		.cfi_endproc
+ 293               	.LFE8:
+ 295               		.text
+ 296               	.global	__vector_8
+ 298               	__vector_8:
+ 299               	.LFB9:
   64:main.c        ****     
   65:main.c        ****     while(1){
   66:main.c        ****        
@@ -261,164 +549,164 @@
   69:main.c        ****     
   70:main.c        **** }
   71:main.c        **** ISR( TIM1_OVF_vect ){
- 199               		.loc 1 71 0
- 200               		.cfi_startproc
- 201 0056 1F92      		push r1
- 202               	.LCFI2:
- 203               		.cfi_def_cfa_offset 3
- 204               		.cfi_offset 1, -2
- 205 0058 0F92      		push r0
- 206               	.LCFI3:
- 207               		.cfi_def_cfa_offset 4
- 208               		.cfi_offset 0, -3
- 209 005a 0FB6      		in r0,__SREG__
- 210 005c 0F92      		push r0
- 211 005e 1124      		clr __zero_reg__
- 212 0060 8F93      		push r24
- 213               	.LCFI4:
- 214               		.cfi_def_cfa_offset 5
- 215               		.cfi_offset 24, -4
- 216 0062 9F93      		push r25
- 217               	.LCFI5:
- 218               		.cfi_def_cfa_offset 6
- 219               		.cfi_offset 25, -5
- 220               	/* prologue: Signal */
- 221               	/* frame size = 0 */
- 222               	/* stack size = 5 */
- 223               	.L__stack_usage = 5
+ 300               		.loc 1 71 0
+ 301               		.cfi_startproc
+ 302 0056 1F92      		push r1
+ 303               	.LCFI2:
+ 304               		.cfi_def_cfa_offset 3
+ 305               		.cfi_offset 1, -2
+ 306 0058 0F92      		push r0
+ 307               	.LCFI3:
+ 308               		.cfi_def_cfa_offset 4
+ 309               		.cfi_offset 0, -3
+ 310 005a 0FB6      		in r0,__SREG__
+ 311 005c 0F92      		push r0
+ 312 005e 1124      		clr __zero_reg__
+ 313 0060 8F93      		push r24
+ 314               	.LCFI4:
+ 315               		.cfi_def_cfa_offset 5
+ 316               		.cfi_offset 24, -4
+ 317 0062 9F93      		push r25
+ 318               	.LCFI5:
+ 319               		.cfi_def_cfa_offset 6
+ 320               		.cfi_offset 25, -5
+ 321               	/* prologue: Signal */
+ 322               	/* frame size = 0 */
+ 323               	/* stack size = 5 */
+ 324               	.L__stack_usage = 5
   72:main.c        ****     ledb=1-ledb;
- 224               		.loc 1 72 0
- 225 0064 9091 0000 		lds r25,ledb
- 226 0068 81E0      		ldi r24,lo8(1)
- 227 006a 891B      		sub r24,r25
- 228 006c 8093 0000 		sts ledb,r24
+ 325               		.loc 1 72 0
+ 326 0064 9091 0000 		lds r25,ledb
+ 327 0068 81E0      		ldi r24,lo8(1)
+ 328 006a 891B      		sub r24,r25
+ 329 006c 8093 0000 		sts ledb,r24
   73:main.c        ****     ledr=!ledb;
- 229               		.loc 1 73 0
- 230 0070 91E0      		ldi r25,lo8(1)
- 231 0072 8111      		cpse r24,__zero_reg__
- 232 0074 90E0      		ldi r25,0
- 233               	.L19:
- 234 0076 9093 0000 		sts ledr,r25
- 235               	/* epilogue start */
+ 330               		.loc 1 73 0
+ 331 0070 91E0      		ldi r25,lo8(1)
+ 332 0072 8111      		cpse r24,__zero_reg__
+ 333 0074 90E0      		ldi r25,0
+ 334               	.L19:
+ 335 0076 9093 0000 		sts ledr,r25
+ 336               	/* epilogue start */
   74:main.c        ****     //RTC_readTime(&currentTime);
   75:main.c        ****     //setLeds(currentTime,leds,currentColor);
   76:main.c        **** }
- 236               		.loc 1 76 0
- 237 007a 9F91      		pop r25
- 238 007c 8F91      		pop r24
- 239 007e 0F90      		pop r0
- 240 0080 0FBE      		out __SREG__,r0
- 241 0082 0F90      		pop r0
- 242 0084 1F90      		pop r1
- 243 0086 1895      		reti
- 244               		.cfi_endproc
- 245               	.LFE9:
- 247               	.global	__vector_11
- 249               	__vector_11:
- 250               	.LFB10:
+ 337               		.loc 1 76 0
+ 338 007a 9F91      		pop r25
+ 339 007c 8F91      		pop r24
+ 340 007e 0F90      		pop r0
+ 341 0080 0FBE      		out __SREG__,r0
+ 342 0082 0F90      		pop r0
+ 343 0084 1F90      		pop r1
+ 344 0086 1895      		reti
+ 345               		.cfi_endproc
+ 346               	.LFE9:
+ 348               	.global	__vector_11
+ 350               	__vector_11:
+ 351               	.LFB10:
   77:main.c        **** ISR( TIM0_OVF_vect ){
- 251               		.loc 1 77 0
- 252               		.cfi_startproc
- 253 0088 1F92      		push r1
- 254               	.LCFI6:
- 255               		.cfi_def_cfa_offset 3
- 256               		.cfi_offset 1, -2
- 257 008a 0F92      		push r0
- 258               	.LCFI7:
- 259               		.cfi_def_cfa_offset 4
- 260               		.cfi_offset 0, -3
- 261 008c 0FB6      		in r0,__SREG__
- 262 008e 0F92      		push r0
- 263 0090 1124      		clr __zero_reg__
- 264 0092 2F93      		push r18
- 265               	.LCFI8:
- 266               		.cfi_def_cfa_offset 5
- 267               		.cfi_offset 18, -4
- 268 0094 3F93      		push r19
- 269               	.LCFI9:
- 270               		.cfi_def_cfa_offset 6
- 271               		.cfi_offset 19, -5
- 272 0096 4F93      		push r20
- 273               	.LCFI10:
- 274               		.cfi_def_cfa_offset 7
- 275               		.cfi_offset 20, -6
- 276 0098 5F93      		push r21
- 277               	.LCFI11:
- 278               		.cfi_def_cfa_offset 8
- 279               		.cfi_offset 21, -7
- 280 009a 6F93      		push r22
- 281               	.LCFI12:
- 282               		.cfi_def_cfa_offset 9
- 283               		.cfi_offset 22, -8
- 284 009c 7F93      		push r23
- 285               	.LCFI13:
- 286               		.cfi_def_cfa_offset 10
- 287               		.cfi_offset 23, -9
- 288 009e 8F93      		push r24
- 289               	.LCFI14:
- 290               		.cfi_def_cfa_offset 11
- 291               		.cfi_offset 24, -10
- 292 00a0 9F93      		push r25
- 293               	.LCFI15:
- 294               		.cfi_def_cfa_offset 12
- 295               		.cfi_offset 25, -11
- 296 00a2 AF93      		push r26
- 297               	.LCFI16:
- 298               		.cfi_def_cfa_offset 13
- 299               		.cfi_offset 26, -12
- 300 00a4 BF93      		push r27
- 301               	.LCFI17:
- 302               		.cfi_def_cfa_offset 14
- 303               		.cfi_offset 27, -13
- 304 00a6 EF93      		push r30
- 305               	.LCFI18:
- 306               		.cfi_def_cfa_offset 15
- 307               		.cfi_offset 30, -14
- 308 00a8 FF93      		push r31
- 309               	.LCFI19:
- 310               		.cfi_def_cfa_offset 16
- 311               		.cfi_offset 31, -15
- 312               	/* prologue: Signal */
- 313               	/* frame size = 0 */
- 314               	/* stack size = 15 */
- 315               	.L__stack_usage = 15
+ 352               		.loc 1 77 0
+ 353               		.cfi_startproc
+ 354 0088 1F92      		push r1
+ 355               	.LCFI6:
+ 356               		.cfi_def_cfa_offset 3
+ 357               		.cfi_offset 1, -2
+ 358 008a 0F92      		push r0
+ 359               	.LCFI7:
+ 360               		.cfi_def_cfa_offset 4
+ 361               		.cfi_offset 0, -3
+ 362 008c 0FB6      		in r0,__SREG__
+ 363 008e 0F92      		push r0
+ 364 0090 1124      		clr __zero_reg__
+ 365 0092 2F93      		push r18
+ 366               	.LCFI8:
+ 367               		.cfi_def_cfa_offset 5
+ 368               		.cfi_offset 18, -4
+ 369 0094 3F93      		push r19
+ 370               	.LCFI9:
+ 371               		.cfi_def_cfa_offset 6
+ 372               		.cfi_offset 19, -5
+ 373 0096 4F93      		push r20
+ 374               	.LCFI10:
+ 375               		.cfi_def_cfa_offset 7
+ 376               		.cfi_offset 20, -6
+ 377 0098 5F93      		push r21
+ 378               	.LCFI11:
+ 379               		.cfi_def_cfa_offset 8
+ 380               		.cfi_offset 21, -7
+ 381 009a 6F93      		push r22
+ 382               	.LCFI12:
+ 383               		.cfi_def_cfa_offset 9
+ 384               		.cfi_offset 22, -8
+ 385 009c 7F93      		push r23
+ 386               	.LCFI13:
+ 387               		.cfi_def_cfa_offset 10
+ 388               		.cfi_offset 23, -9
+ 389 009e 8F93      		push r24
+ 390               	.LCFI14:
+ 391               		.cfi_def_cfa_offset 11
+ 392               		.cfi_offset 24, -10
+ 393 00a0 9F93      		push r25
+ 394               	.LCFI15:
+ 395               		.cfi_def_cfa_offset 12
+ 396               		.cfi_offset 25, -11
+ 397 00a2 AF93      		push r26
+ 398               	.LCFI16:
+ 399               		.cfi_def_cfa_offset 13
+ 400               		.cfi_offset 26, -12
+ 401 00a4 BF93      		push r27
+ 402               	.LCFI17:
+ 403               		.cfi_def_cfa_offset 14
+ 404               		.cfi_offset 27, -13
+ 405 00a6 EF93      		push r30
+ 406               	.LCFI18:
+ 407               		.cfi_def_cfa_offset 15
+ 408               		.cfi_offset 30, -14
+ 409 00a8 FF93      		push r31
+ 410               	.LCFI19:
+ 411               		.cfi_def_cfa_offset 16
+ 412               		.cfi_offset 31, -15
+ 413               	/* prologue: Signal */
+ 414               	/* frame size = 0 */
+ 415               	/* stack size = 15 */
+ 416               	.L__stack_usage = 15
   78:main.c        ****     switch(state){
- 316               		.loc 1 78 0
- 317 00aa 8091 0000 		lds r24,state
- 318 00ae 8230      		cpi r24,lo8(2)
- 319 00b0 01F0      		breq .L25
- 320 00b2 00F4      		brsh .L26
- 321 00b4 8823      		tst r24
- 322 00b6 01F0      		breq .L27
- 323 00b8 8130      		cpi r24,lo8(1)
- 324 00ba 01F0      		breq .+2
- 325 00bc 00C0      		rjmp .L24
+ 417               		.loc 1 78 0
+ 418 00aa 8091 0000 		lds r24,state
+ 419 00ae 8230      		cpi r24,lo8(2)
+ 420 00b0 01F0      		breq .L25
+ 421 00b2 00F4      		brsh .L26
+ 422 00b4 8823      		tst r24
+ 423 00b6 01F0      		breq .L27
+ 424 00b8 8130      		cpi r24,lo8(1)
+ 425 00ba 01F0      		breq .+2
+ 426 00bc 00C0      		rjmp .L24
   79:main.c        ****         case 0:
   80:main.c        ****             sendData(R2 | getDataByColor(tcolor(1,0,0),0,leds));
   81:main.c        ****             break;
   82:main.c        ****         case 1:
   83:main.c        ****             sendData(R1 | getDataByColor(tcolor(1,0,0),1,leds));
- 326               		.loc 1 83 0
- 327 00be 40E0      		ldi r20,0
- 328 00c0 60E0      		ldi r22,0
- 329 00c2 81E0      		ldi r24,lo8(1)
- 330 00c4 00D0      		rcall tcolor
- 331               	.LVL13:
- 332 00c6 20E0      		ldi r18,lo8(leds)
- 333 00c8 30E0      		ldi r19,hi8(leds)
- 334 00ca 41E0      		ldi r20,lo8(1)
- 335 00cc 00D0      		rcall getDataByColor
- 336               	.LVL14:
- 337 00ce 7068      		ori r23,128
- 338 00d0 00C0      		rjmp .L33
- 339               	.L26:
+ 427               		.loc 1 83 0
+ 428 00be 40E0      		ldi r20,0
+ 429 00c0 60E0      		ldi r22,0
+ 430 00c2 81E0      		ldi r24,lo8(1)
+ 431 00c4 00D0      		rcall tcolor
+ 432               	.LVL22:
+ 433 00c6 20E0      		ldi r18,lo8(leds)
+ 434 00c8 30E0      		ldi r19,hi8(leds)
+ 435 00ca 41E0      		ldi r20,lo8(1)
+ 436 00cc 00D0      		rcall getDataByColor
+ 437               	.LVL23:
+ 438 00ce 7068      		ori r23,128
+ 439 00d0 00C0      		rjmp .L33
+ 440               	.L26:
   78:main.c        ****     switch(state){
- 340               		.loc 1 78 0
- 341 00d2 8430      		cpi r24,lo8(4)
- 342 00d4 01F0      		breq .L29
- 343 00d6 00F0      		brlo .L30
- 344 00d8 8530      		cpi r24,lo8(5)
- 345 00da 01F4      		brne .L24
+ 441               		.loc 1 78 0
+ 442 00d2 8430      		cpi r24,lo8(4)
+ 443 00d4 01F0      		breq .L29
+ 444 00d6 00F0      		brlo .L30
+ 445 00d8 8530      		cpi r24,lo8(5)
+ 446 00da 01F4      		brne .L24
   84:main.c        ****             break;
   85:main.c        ****         case 2:
   86:main.c        ****             sendData(G2 | getDataByColor(tcolor(0,1,0),0,leds));
@@ -431,163 +719,164 @@
   93:main.c        ****             break;
   94:main.c        ****         case 5:
   95:main.c        ****             sendData(B1 | getDataByColor(tcolor(0,0,1),1,leds));
- 346               		.loc 1 95 0
- 347 00dc 41E0      		ldi r20,lo8(1)
- 348 00de 60E0      		ldi r22,0
- 349 00e0 80E0      		ldi r24,0
- 350 00e2 00D0      		rcall tcolor
- 351               	.LVL15:
- 352 00e4 20E0      		ldi r18,lo8(leds)
- 353 00e6 30E0      		ldi r19,hi8(leds)
- 354 00e8 41E0      		ldi r20,lo8(1)
- 355 00ea 00D0      		rcall getDataByColor
- 356               	.LVL16:
- 357 00ec 8160      		ori r24,1
- 358 00ee 00C0      		rjmp .L33
- 359               	.L27:
+ 447               		.loc 1 95 0
+ 448 00dc 41E0      		ldi r20,lo8(1)
+ 449 00de 60E0      		ldi r22,0
+ 450 00e0 80E0      		ldi r24,0
+ 451 00e2 00D0      		rcall tcolor
+ 452               	.LVL24:
+ 453 00e4 20E0      		ldi r18,lo8(leds)
+ 454 00e6 30E0      		ldi r19,hi8(leds)
+ 455 00e8 41E0      		ldi r20,lo8(1)
+ 456 00ea 00D0      		rcall getDataByColor
+ 457               	.LVL25:
+ 458 00ec 8160      		ori r24,1
+ 459 00ee 00C0      		rjmp .L33
+ 460               	.L27:
   80:main.c        ****             break;
- 360               		.loc 1 80 0
- 361 00f0 40E0      		ldi r20,0
- 362 00f2 60E0      		ldi r22,0
- 363 00f4 81E0      		ldi r24,lo8(1)
- 364 00f6 00D0      		rcall tcolor
- 365               	.LVL17:
- 366 00f8 20E0      		ldi r18,lo8(leds)
- 367 00fa 30E0      		ldi r19,hi8(leds)
- 368 00fc 40E0      		ldi r20,0
- 369 00fe 00D0      		rcall getDataByColor
- 370               	.LVL18:
- 371 0100 7064      		ori r23,64
- 372 0102 00C0      		rjmp .L33
- 373               	.L25:
+ 461               		.loc 1 80 0
+ 462 00f0 40E0      		ldi r20,0
+ 463 00f2 60E0      		ldi r22,0
+ 464 00f4 81E0      		ldi r24,lo8(1)
+ 465 00f6 00D0      		rcall tcolor
+ 466               	.LVL26:
+ 467 00f8 20E0      		ldi r18,lo8(leds)
+ 468 00fa 30E0      		ldi r19,hi8(leds)
+ 469 00fc 40E0      		ldi r20,0
+ 470 00fe 00D0      		rcall getDataByColor
+ 471               	.LVL27:
+ 472 0100 7064      		ori r23,64
+ 473 0102 00C0      		rjmp .L33
+ 474               	.L25:
   86:main.c        ****             break;
- 374               		.loc 1 86 0
- 375 0104 40E0      		ldi r20,0
- 376 0106 61E0      		ldi r22,lo8(1)
- 377 0108 80E0      		ldi r24,0
- 378 010a 00D0      		rcall tcolor
- 379               	.LVL19:
- 380 010c 20E0      		ldi r18,lo8(leds)
- 381 010e 30E0      		ldi r19,hi8(leds)
- 382 0110 40E0      		ldi r20,0
- 383 0112 00D0      		rcall getDataByColor
- 384               	.LVL20:
- 385 0114 8460      		ori r24,4
- 386 0116 00C0      		rjmp .L33
- 387               	.L30:
+ 475               		.loc 1 86 0
+ 476 0104 40E0      		ldi r20,0
+ 477 0106 61E0      		ldi r22,lo8(1)
+ 478 0108 80E0      		ldi r24,0
+ 479 010a 00D0      		rcall tcolor
+ 480               	.LVL28:
+ 481 010c 20E0      		ldi r18,lo8(leds)
+ 482 010e 30E0      		ldi r19,hi8(leds)
+ 483 0110 40E0      		ldi r20,0
+ 484 0112 00D0      		rcall getDataByColor
+ 485               	.LVL29:
+ 486 0114 8460      		ori r24,4
+ 487 0116 00C0      		rjmp .L33
+ 488               	.L30:
   89:main.c        ****             break;
- 388               		.loc 1 89 0
- 389 0118 40E0      		ldi r20,0
- 390 011a 61E0      		ldi r22,lo8(1)
- 391 011c 80E0      		ldi r24,0
- 392 011e 00D0      		rcall tcolor
- 393               	.LVL21:
- 394 0120 20E0      		ldi r18,lo8(leds)
- 395 0122 30E0      		ldi r19,hi8(leds)
- 396 0124 41E0      		ldi r20,lo8(1)
- 397 0126 00D0      		rcall getDataByColor
- 398               	.LVL22:
- 399 0128 8860      		ori r24,8
- 400 012a 00C0      		rjmp .L33
- 401               	.L29:
+ 489               		.loc 1 89 0
+ 490 0118 40E0      		ldi r20,0
+ 491 011a 61E0      		ldi r22,lo8(1)
+ 492 011c 80E0      		ldi r24,0
+ 493 011e 00D0      		rcall tcolor
+ 494               	.LVL30:
+ 495 0120 20E0      		ldi r18,lo8(leds)
+ 496 0122 30E0      		ldi r19,hi8(leds)
+ 497 0124 41E0      		ldi r20,lo8(1)
+ 498 0126 00D0      		rcall getDataByColor
+ 499               	.LVL31:
+ 500 0128 8860      		ori r24,8
+ 501 012a 00C0      		rjmp .L33
+ 502               	.L29:
   92:main.c        ****             break;
- 402               		.loc 1 92 0
- 403 012c 41E0      		ldi r20,lo8(1)
- 404 012e 60E0      		ldi r22,0
- 405 0130 80E0      		ldi r24,0
- 406 0132 00D0      		rcall tcolor
- 407               	.LVL23:
- 408 0134 20E0      		ldi r18,lo8(leds)
- 409 0136 30E0      		ldi r19,hi8(leds)
- 410 0138 40E0      		ldi r20,0
- 411 013a 00D0      		rcall getDataByColor
- 412               	.LVL24:
- 413 013c 8260      		ori r24,2
- 414               	.L33:
- 415               		.loc 1 95 0
- 416 013e 00D0      		rcall sendData
- 417               	.LVL25:
- 418               	.L24:
+ 503               		.loc 1 92 0
+ 504 012c 41E0      		ldi r20,lo8(1)
+ 505 012e 60E0      		ldi r22,0
+ 506 0130 80E0      		ldi r24,0
+ 507 0132 00D0      		rcall tcolor
+ 508               	.LVL32:
+ 509 0134 20E0      		ldi r18,lo8(leds)
+ 510 0136 30E0      		ldi r19,hi8(leds)
+ 511 0138 40E0      		ldi r20,0
+ 512 013a 00D0      		rcall getDataByColor
+ 513               	.LVL33:
+ 514 013c 8260      		ori r24,2
+ 515               	.L33:
+ 516               		.loc 1 95 0
+ 517 013e 00D0      		rcall sendData
+ 518               	.LVL34:
+ 519               	.L24:
   96:main.c        ****             break;
   97:main.c        ****     }
   98:main.c        ****     state++;
- 419               		.loc 1 98 0
- 420 0140 8091 0000 		lds r24,state
- 421 0144 8F5F      		subi r24,lo8(-(1))
- 422 0146 8093 0000 		sts state,r24
+ 520               		.loc 1 98 0
+ 521 0140 8091 0000 		lds r24,state
+ 522 0144 8F5F      		subi r24,lo8(-(1))
+ 523 0146 8093 0000 		sts state,r24
   99:main.c        ****     if(state>5)state=0;
- 423               		.loc 1 99 0
- 424 014a 8091 0000 		lds r24,state
- 425 014e 8630      		cpi r24,lo8(6)
- 426 0150 00F0      		brlo .L23
- 427               		.loc 1 99 0 is_stmt 0 discriminator 1
- 428 0152 1092 0000 		sts state,__zero_reg__
- 429               	.L23:
- 430               	/* epilogue start */
+ 524               		.loc 1 99 0
+ 525 014a 8091 0000 		lds r24,state
+ 526 014e 8630      		cpi r24,lo8(6)
+ 527 0150 00F0      		brlo .L23
+ 528               		.loc 1 99 0 is_stmt 0 discriminator 1
+ 529 0152 1092 0000 		sts state,__zero_reg__
+ 530               	.L23:
+ 531               	/* epilogue start */
  100:main.c        **** }
- 431               		.loc 1 100 0 is_stmt 1
- 432 0156 FF91      		pop r31
- 433 0158 EF91      		pop r30
- 434 015a BF91      		pop r27
- 435 015c AF91      		pop r26
- 436 015e 9F91      		pop r25
- 437 0160 8F91      		pop r24
- 438 0162 7F91      		pop r23
- 439 0164 6F91      		pop r22
- 440 0166 5F91      		pop r21
- 441 0168 4F91      		pop r20
- 442 016a 3F91      		pop r19
- 443 016c 2F91      		pop r18
- 444 016e 0F90      		pop r0
- 445 0170 0FBE      		out __SREG__,r0
- 446 0172 0F90      		pop r0
- 447 0174 1F90      		pop r1
- 448 0176 1895      		reti
- 449               		.cfi_endproc
- 450               	.LFE10:
- 452               		.comm	leds,95,1
- 453               	.global	state
- 454               		.section .bss
- 457               	state:
- 458 0000 00        		.zero	1
- 459               	.global	ledb
- 462               	ledb:
- 463 0001 00        		.zero	1
- 464               	.global	ledr
- 467               	ledr:
- 468 0002 00        		.zero	1
- 469               		.comm	currentColor,3,1
- 470               		.comm	USI_I2C_Master_State,1,1
- 471               		.comm	currentTime,5,1
- 472               		.text
- 473               	.Letext0:
- 474               		.file 2 "/usr/lib/avr/include/stdint.h"
- 475               		.file 3 "RTC.h"
- 476               		.file 4 "Led.h"
+ 532               		.loc 1 100 0 is_stmt 1
+ 533 0156 FF91      		pop r31
+ 534 0158 EF91      		pop r30
+ 535 015a BF91      		pop r27
+ 536 015c AF91      		pop r26
+ 537 015e 9F91      		pop r25
+ 538 0160 8F91      		pop r24
+ 539 0162 7F91      		pop r23
+ 540 0164 6F91      		pop r22
+ 541 0166 5F91      		pop r21
+ 542 0168 4F91      		pop r20
+ 543 016a 3F91      		pop r19
+ 544 016c 2F91      		pop r18
+ 545 016e 0F90      		pop r0
+ 546 0170 0FBE      		out __SREG__,r0
+ 547 0172 0F90      		pop r0
+ 548 0174 1F90      		pop r1
+ 549 0176 1895      		reti
+ 550               		.cfi_endproc
+ 551               	.LFE10:
+ 553               		.comm	leds,95,1
+ 554               	.global	state
+ 555               		.section .bss
+ 558               	state:
+ 559 0000 00        		.zero	1
+ 560               	.global	ledb
+ 563               	ledb:
+ 564 0001 00        		.zero	1
+ 565               	.global	ledr
+ 568               	ledr:
+ 569 0002 00        		.zero	1
+ 570               		.comm	currentColor,3,1
+ 571               		.comm	USI_I2C_Master_State,1,1
+ 572               		.comm	currentTime,5,1
+ 573               		.text
+ 574               	.Letext0:
+ 575               		.file 3 "/usr/lib/avr/include/stdint.h"
+ 576               		.file 4 "RTC.h"
+ 577               		.file 5 "Led.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/ccck1TEw.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccck1TEw.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccck1TEw.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccck1TEw.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccck1TEw.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccck1TEw.s:12     .text:0000000000000000 sendRawData
-     /tmp/ccck1TEw.s:89     .text:0000000000000044 sendData
-     /tmp/ccck1TEw.s:467    .bss:0000000000000002 ledr
-     /tmp/ccck1TEw.s:462    .bss:0000000000000001 ledb
-     /tmp/ccck1TEw.s:121    .text.startup:0000000000000000 main
+     /tmp/cc1YsuDk.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cc1YsuDk.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cc1YsuDk.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cc1YsuDk.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc1YsuDk.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc1YsuDk.s:12     .text:0000000000000000 sendRawData
+     /tmp/cc1YsuDk.s:89     .text:0000000000000044 sendData
+     /tmp/cc1YsuDk.s:568    .bss:0000000000000002 ledr
+     /tmp/cc1YsuDk.s:563    .bss:0000000000000001 ledb
+     /tmp/cc1YsuDk.s:121    .text.startup:0000000000000000 main
                             *COM*:000000000000005f leds
                             *COM*:0000000000000003 currentColor
                             *COM*:0000000000000005 currentTime
-     /tmp/ccck1TEw.s:197    .text:0000000000000056 __vector_8
-     /tmp/ccck1TEw.s:249    .text:0000000000000088 __vector_11
-     /tmp/ccck1TEw.s:457    .bss:0000000000000000 state
+     /tmp/cc1YsuDk.s:298    .text:0000000000000056 __vector_8
+     /tmp/cc1YsuDk.s:350    .text:0000000000000088 __vector_11
+     /tmp/cc1YsuDk.s:558    .bss:0000000000000000 state
                             *COM*:0000000000000001 USI_I2C_Master_State
 
 UNDEFINED SYMBOLS
 ledInit
 tcolorV
 setCurrentTime
+setLeds
 tcolor
 getDataByColor
 __do_clear_bss
