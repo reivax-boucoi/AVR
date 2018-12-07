@@ -74,20 +74,17 @@ void ledOnV(Led* l,uint32_t v){
     l->c=tcolorV(v);
 }
 
-uint8_t ledIsOff(Led l){
-    return !ledIsOn(l);
-}
-uint8_t ledIsOn(Led l){
-    return l.c.r || l.c.g || l.c.b;
-}
 void setLeds(Ttime t,Led* l,Tcolor c){
     uint8_t i=0;
     for(;i<NBLEDS;i++){
         ledOff(&l[i]);
     }
     ledOnC(&l[ILEST],c);
-    
-    switch(currentTime.hour){
+    uint8_t temp=currentTime.hour;
+    if(currentTime.min>35){
+        temp=(temp+1)%12;
+    }
+    switch(temp){
         case 0 :
             ledOnC(&l[MINUIT],c);
             break;
@@ -95,20 +92,16 @@ void setLeds(Ttime t,Led* l,Tcolor c){
             ledOnC(&l[MIDI],c);
             break;
         default :
-            if(currentTime.min>35){
-                ledOnC(&l[ledMap[(currentTime.hour%12)]],c);
-            }else{
-                ledOnC(&l[ledMap[(currentTime.hour%12)-1]],c);
-            }
+            ledOnC(&l[ledMap[(currentTime.hour)]],c);
             ledOnC(&l[HEURE],c);
             break;
     }
-    uint8_t mins = minquad(currentTime.min); 
-    if(mins > 30){
+    temp = minquad(currentTime.min); 
+    if(temp > 30){
         ledOnC(&l[MOINS],c);
-        mins=60-mins;
+        temp=60-temp;
     }
-    switch(mins){
+    switch(temp){
         case 10 :
             ledOnC(&l[DIX],c);
             break;

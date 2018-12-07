@@ -6,6 +6,8 @@
 #define DATA   (1<<PA1) //pin 27
 #define STROBE (1<<PA2) //pin 16 latch on rising edge
 #define LED    (1<<PA0) 
+#define BTNSELECT (1<<PA5)
+#define BTNOK (1<<PA7)
 
 #define F_I2C 400000UL
 #define RTC_addr 0x68
