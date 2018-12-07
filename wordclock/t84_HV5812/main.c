@@ -23,12 +23,15 @@ Led leds[NBLEDS];
 
 int main(void){    
     ledInit(leds);
-    DDRA&=~(BTNSELECT|BTNOK);
-    PORTA|=(BTNSELECT|BTNOK);
+    DDRA&=~(BTNINTERNAL|BTNOK);
+    DDRB&=~BTNSELECT;
+    PORTA|=(BTNINTERNAL|BTNOK);
+    PORTB|=BTNSELECT;
     TIMSK1|=(1<<TOIE1);
     TIMSK0|=(1<<TOIE0);
-    GIMSK|=(1<<PCIE0);
-    PCMSK0|=(1<<PCINT5);
+    GIMSK|=(1<<PCIE1)|(1<<PCIE0);
+    PCMSK0|=(1<<PCINT7)|(1<<PCINT5);
+    PCMSK1|=(1<<PCINT10);
     sei();
     
     sendData(0b11111100001111111111);//white
@@ -57,31 +60,34 @@ int main(void){
     currentColor=tcolorV(WHITE);
     setCurrentTime(0,10,7,12);
    // //RTC_setTime(currentTime,6,18);
-    //RTC_readTime(&currentTime);
+    RTC_readTime(&currentTime);
     setLeds(currentTime,leds,currentColor);
     //setLedsNb(currentTime.temp,leds,currentColor);
     while(1){
-       /* if(PINA&BTNSELECT){//PCINT5
-            ledb=1;
-        }else{
-            ledb=0;
-        }*/
     }
     return(0);
     
 }
-ISR( PCINT0_vect){
-    if(PINA&BTNSELECT){
+ISR( PCINT1_vect){
+    if(PINB&BTNSELECT){
         ledb=1-ledb;
+        ledr=0;
+    }
+}
+ISR( PCINT0_vect){
+    if(PINA&BTNOK){
+        ledr++;
+    }
+    if(PINA&BTNINTERNAL){
+        ledr--;
     }
 }
 ISR( TIM1_OVF_vect ){
-    ledr=!ledr;
     if(ledr){
-        //RTC_readTime(&currentTime);
+        RTC_readTime(&currentTime);
         setLeds(currentTime,leds,tcolorV(YELLOW));
     }else{
-        setLedsNb(10/*RTC_readTemp()*/,leds,tcolorV(CYAN));
+        setLedsNb(RTC_readTemp(),leds,tcolorV(CYAN));
     }
     
 }

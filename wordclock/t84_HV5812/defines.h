@@ -6,8 +6,9 @@
 #define DATA   (1<<PA1) //pin 27
 #define STROBE (1<<PA2) //pin 16 latch on rising edge
 #define LED    (1<<PA0) 
-#define BTNSELECT (1<<PA5)
+#define BTNSELECT (1<<PB2)
 #define BTNOK (1<<PA7)
+#define BTNINTERNAL (1<<PA5)
 
 #define F_I2C 400000UL
 #define RTC_addr 0x68
@@ -25,7 +26,7 @@
 #define PIN_USI_SCL         PINA4
 
 #define NBLEDS 19
-#define DELLONG
+//#define DELLONG
 
 #define G1   0b10000000000000000000
 #define G2   0b01000000000000000000

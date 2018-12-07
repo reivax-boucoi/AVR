@@ -1443,24 +1443,24 @@
  951               		.file 4 "RTC.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 RTC.c
-     /tmp/ccih2BPQ.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccih2BPQ.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccih2BPQ.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccih2BPQ.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccih2BPQ.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccih2BPQ.s:12     .text:0000000000000000 setCurrentTime
+     /tmp/ccbPOJfO.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccbPOJfO.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccbPOJfO.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccbPOJfO.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccbPOJfO.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccbPOJfO.s:12     .text:0000000000000000 setCurrentTime
                             *COM*:0000000000000005 currentTime
-     /tmp/ccih2BPQ.s:38     .text:000000000000000e minquad
-     /tmp/ccih2BPQ.s:105    .text:000000000000003e bcdToDec
-     /tmp/ccih2BPQ.s:131    .text:000000000000004e decToBcd
-     /tmp/ccih2BPQ.s:154    .text:000000000000005a i2c_in_transfer
-     /tmp/ccih2BPQ.s:221    .text:0000000000000084 i2c_in_transmit
+     /tmp/ccbPOJfO.s:38     .text:000000000000000e minquad
+     /tmp/ccbPOJfO.s:105    .text:000000000000003e bcdToDec
+     /tmp/ccbPOJfO.s:131    .text:000000000000004e decToBcd
+     /tmp/ccbPOJfO.s:154    .text:000000000000005a i2c_in_transfer
+     /tmp/ccbPOJfO.s:221    .text:0000000000000084 i2c_in_transmit
                             *COM*:0000000000000001 USI_I2C_Master_State
-     /tmp/ccih2BPQ.s:450    .text:000000000000014e i2c_write
-     /tmp/ccih2BPQ.s:504    .text:0000000000000176 RTC_setTime
-     /tmp/ccih2BPQ.s:615    .text:00000000000001ea i2c_read
-     /tmp/ccih2BPQ.s:792    .text:00000000000002a2 RTC_readTemp
-     /tmp/ccih2BPQ.s:846    .text:00000000000002ce RTC_readTime
+     /tmp/ccbPOJfO.s:450    .text:000000000000014e i2c_write
+     /tmp/ccbPOJfO.s:504    .text:0000000000000176 RTC_setTime
+     /tmp/ccbPOJfO.s:615    .text:00000000000001ea i2c_read
+     /tmp/ccbPOJfO.s:792    .text:00000000000002a2 RTC_readTemp
+     /tmp/ccbPOJfO.s:846    .text:00000000000002ce RTC_readTime
 
 UNDEFINED SYMBOLS
 __mulqi3
