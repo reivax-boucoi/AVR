@@ -387,9 +387,9 @@
  186:/usr/lib/avr/include/util/delay.h **** 
  187:/usr/lib/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
  164               		.loc 2 187 0
- 165 0026 2FEF      		ldi r18,lo8(7999999)
- 166 0028 81E1      		ldi r24,hi8(7999999)
- 167 002a 9AE7      		ldi r25,hlo8(7999999)
+ 165 0026 2FEF      		ldi r18,lo8(1599999)
+ 166 0028 89E6      		ldi r24,hi8(1599999)
+ 167 002a 98E1      		ldi r25,hlo8(1599999)
  168 002c 2150      	1:	subi r18,1
  169 002e 8040      		sbci r24,0
  170 0030 9040      		sbci r25,0
@@ -399,7 +399,7 @@
  174               	.LVL11:
  175               	.LBE18:
  176               	.LBE17:
-  43:main.c        ****     _delay_ms(2500);
+  43:main.c        ****     _delay_ms(500);
   44:main.c        ****     sendData(0b11000000001111111111);//green
  177               		.loc 1 44 0
  178 0038 6FEF      		ldi r22,lo8(-1)
@@ -411,9 +411,9 @@
  184               	.LBB19:
  185               	.LBB20:
  186               		.loc 2 187 0
- 187 0042 2FEF      		ldi r18,lo8(7999999)
- 188 0044 81E1      		ldi r24,hi8(7999999)
- 189 0046 9AE7      		ldi r25,hlo8(7999999)
+ 187 0042 2FEF      		ldi r18,lo8(1599999)
+ 188 0044 89E6      		ldi r24,hi8(1599999)
+ 189 0046 98E1      		ldi r25,hlo8(1599999)
  190 0048 2150      	1:	subi r18,1
  191 004a 8040      		sbci r24,0
  192 004c 9040      		sbci r25,0
@@ -423,7 +423,7 @@
  196               	.LVL13:
  197               	.LBE20:
  198               	.LBE19:
-  45:main.c        ****     _delay_ms(2500);
+  45:main.c        ****     _delay_ms(500);
   46:main.c        ****     sendData(0b00001100001111111111);//red
  199               		.loc 1 46 0
  200 0054 6FEF      		ldi r22,lo8(-1)
@@ -435,9 +435,9 @@
  206               	.LBB21:
  207               	.LBB22:
  208               		.loc 2 187 0
- 209 005e 2FEF      		ldi r18,lo8(7999999)
- 210 0060 81E1      		ldi r24,hi8(7999999)
- 211 0062 9AE7      		ldi r25,hlo8(7999999)
+ 209 005e 2FEF      		ldi r18,lo8(1599999)
+ 210 0060 89E6      		ldi r24,hi8(1599999)
+ 211 0062 98E1      		ldi r25,hlo8(1599999)
  212 0064 2150      	1:	subi r18,1
  213 0066 8040      		sbci r24,0
  214 0068 9040      		sbci r25,0
@@ -447,7 +447,7 @@
  218               	.LVL15:
  219               	.LBE22:
  220               	.LBE21:
-  47:main.c        ****     _delay_ms(2500);
+  47:main.c        ****     _delay_ms(500);
   48:main.c        ****     sendData(0b00110000001111111111);//blue
  221               		.loc 1 48 0
  222 0070 6FEF      		ldi r22,lo8(-1)
@@ -459,9 +459,9 @@
  228               	.LBB23:
  229               	.LBB24:
  230               		.loc 2 187 0
- 231 007a 2FEF      		ldi r18,lo8(7999999)
- 232 007c 81E1      		ldi r24,hi8(7999999)
- 233 007e 9AE7      		ldi r25,hlo8(7999999)
+ 231 007a 2FEF      		ldi r18,lo8(1599999)
+ 232 007c 89E6      		ldi r24,hi8(1599999)
+ 233 007e 98E1      		ldi r25,hlo8(1599999)
  234 0080 2150      	1:	subi r18,1
  235 0082 8040      		sbci r24,0
  236 0084 9040      		sbci r25,0
@@ -471,7 +471,7 @@
  240               	.LVL17:
  241               	.LBE24:
  242               	.LBE23:
-  49:main.c        ****     _delay_ms(2500);
+  49:main.c        ****     _delay_ms(500);
   50:main.c        ****     sendData(0b11110000001111111111);//cyan
  243               		.loc 1 50 0
  244 008c 6FEF      		ldi r22,lo8(-1)
@@ -483,9 +483,9 @@
  250               	.LBB25:
  251               	.LBB26:
  252               		.loc 2 187 0
- 253 0096 2FEF      		ldi r18,lo8(7999999)
- 254 0098 81E1      		ldi r24,hi8(7999999)
- 255 009a 9AE7      		ldi r25,hlo8(7999999)
+ 253 0096 2FEF      		ldi r18,lo8(1599999)
+ 254 0098 89E6      		ldi r24,hi8(1599999)
+ 255 009a 98E1      		ldi r25,hlo8(1599999)
  256 009c 2150      	1:	subi r18,1
  257 009e 8040      		sbci r24,0
  258 00a0 9040      		sbci r25,0
@@ -495,7 +495,7 @@
  262               	.LVL19:
  263               	.LBE26:
  264               	.LBE25:
-  51:main.c        ****     _delay_ms(2500);
+  51:main.c        ****     _delay_ms(500);
   52:main.c        ****     sendData(0b00111100001111111111);//magenta
  265               		.loc 1 52 0
  266 00a8 6FEF      		ldi r22,lo8(-1)
@@ -507,9 +507,9 @@
  272               	.LBB27:
  273               	.LBB28:
  274               		.loc 2 187 0
- 275 00b2 2FEF      		ldi r18,lo8(7999999)
- 276 00b4 81E1      		ldi r24,hi8(7999999)
- 277 00b6 9AE7      		ldi r25,hlo8(7999999)
+ 275 00b2 2FEF      		ldi r18,lo8(1599999)
+ 276 00b4 89E6      		ldi r24,hi8(1599999)
+ 277 00b6 98E1      		ldi r25,hlo8(1599999)
  278 00b8 2150      	1:	subi r18,1
  279 00ba 8040      		sbci r24,0
  280 00bc 9040      		sbci r25,0
@@ -519,7 +519,7 @@
  284               	.LVL21:
  285               	.LBE28:
  286               	.LBE27:
-  53:main.c        ****     _delay_ms(2500);
+  53:main.c        ****     _delay_ms(500);
   54:main.c        ****     sendData(0b11001100001111111111);//yellow
  287               		.loc 1 54 0
  288 00c4 6FEF      		ldi r22,lo8(-1)
@@ -531,9 +531,9 @@
  294               	.LBB29:
  295               	.LBB30:
  296               		.loc 2 187 0
- 297 00ce 2FEF      		ldi r18,lo8(7999999)
- 298 00d0 81E1      		ldi r24,hi8(7999999)
- 299 00d2 9AE7      		ldi r25,hlo8(7999999)
+ 297 00ce 2FEF      		ldi r18,lo8(1599999)
+ 298 00d0 89E6      		ldi r24,hi8(1599999)
+ 299 00d2 98E1      		ldi r25,hlo8(1599999)
  300 00d4 2150      	1:	subi r18,1
  301 00d6 8040      		sbci r24,0
  302 00d8 9040      		sbci r25,0
@@ -543,16 +543,16 @@
  306               	.LVL23:
  307               	.LBE30:
  308               	.LBE29:
-  55:main.c        ****     _delay_ms(2500);
+  55:main.c        ****     _delay_ms(500);
   56:main.c        ****     
   57:main.c        ****     #ifdef DELLONG
   58:main.c        ****     TCCR1B|=(1<<CS12)|(1<<CS10);
+ 309               		.loc 1 58 0
+ 310 00e0 8EB5      		in r24,0x2e
+ 311 00e2 8560      		ori r24,lo8(5)
+ 312 00e4 8EBD      		out 0x2e,r24
   59:main.c        ****     #else
   60:main.c        ****     TCCR1B|=(1<<CS12);//|(1<<CS10);
- 309               		.loc 1 60 0
- 310 00e0 8EB5      		in r24,0x2e
- 311 00e2 8460      		ori r24,lo8(4)
- 312 00e4 8EBD      		out 0x2e,r24
   61:main.c        ****     #endif
   62:main.c        ****     
   63:main.c        ****     TCCR0B|=(1<<CS01)|(1<<CS00);
@@ -573,7 +573,7 @@
  325 00fa 7093 0000 		sts currentColor+1,r23
  326 00fe 8093 0000 		sts currentColor+2,r24
   66:main.c        ****     //setCurrentTime(0,10,7,12);
-  67:main.c        ****     //RTC_setTime(currentTime,6,18);
+  67:main.c        ****    // //RTC_setTime(currentTime,6,18);
   68:main.c        ****     RTC_readTime(&currentTime);
  327               		.loc 1 68 0
  328 0102 80E0      		ldi r24,lo8(currentTime)
@@ -623,433 +623,436 @@
  365 005a 0FB6      		in r0,__SREG__
  366 005c 0F92      		push r0
  367 005e 1124      		clr __zero_reg__
- 368 0060 EF92      		push r14
+ 368 0060 CF92      		push r12
  369               	.LCFI4:
  370               		.cfi_def_cfa_offset 5
- 371               		.cfi_offset 14, -4
- 372 0062 FF92      		push r15
+ 371               		.cfi_offset 12, -4
+ 372 0062 DF92      		push r13
  373               	.LCFI5:
  374               		.cfi_def_cfa_offset 6
- 375               		.cfi_offset 15, -5
- 376 0064 0F93      		push r16
+ 375               		.cfi_offset 13, -5
+ 376 0064 EF92      		push r14
  377               	.LCFI6:
  378               		.cfi_def_cfa_offset 7
- 379               		.cfi_offset 16, -6
- 380 0066 2F93      		push r18
+ 379               		.cfi_offset 14, -6
+ 380 0066 FF92      		push r15
  381               	.LCFI7:
  382               		.cfi_def_cfa_offset 8
- 383               		.cfi_offset 18, -7
- 384 0068 3F93      		push r19
+ 383               		.cfi_offset 15, -7
+ 384 0068 0F93      		push r16
  385               	.LCFI8:
  386               		.cfi_def_cfa_offset 9
- 387               		.cfi_offset 19, -8
- 388 006a 4F93      		push r20
+ 387               		.cfi_offset 16, -8
+ 388 006a 2F93      		push r18
  389               	.LCFI9:
  390               		.cfi_def_cfa_offset 10
- 391               		.cfi_offset 20, -9
- 392 006c 5F93      		push r21
+ 391               		.cfi_offset 18, -9
+ 392 006c 3F93      		push r19
  393               	.LCFI10:
  394               		.cfi_def_cfa_offset 11
- 395               		.cfi_offset 21, -10
- 396 006e 6F93      		push r22
+ 395               		.cfi_offset 19, -10
+ 396 006e 4F93      		push r20
  397               	.LCFI11:
  398               		.cfi_def_cfa_offset 12
- 399               		.cfi_offset 22, -11
- 400 0070 7F93      		push r23
+ 399               		.cfi_offset 20, -11
+ 400 0070 5F93      		push r21
  401               	.LCFI12:
  402               		.cfi_def_cfa_offset 13
- 403               		.cfi_offset 23, -12
- 404 0072 8F93      		push r24
+ 403               		.cfi_offset 21, -12
+ 404 0072 6F93      		push r22
  405               	.LCFI13:
  406               		.cfi_def_cfa_offset 14
- 407               		.cfi_offset 24, -13
- 408 0074 9F93      		push r25
+ 407               		.cfi_offset 22, -13
+ 408 0074 7F93      		push r23
  409               	.LCFI14:
  410               		.cfi_def_cfa_offset 15
- 411               		.cfi_offset 25, -14
- 412 0076 AF93      		push r26
+ 411               		.cfi_offset 23, -14
+ 412 0076 8F93      		push r24
  413               	.LCFI15:
  414               		.cfi_def_cfa_offset 16
- 415               		.cfi_offset 26, -15
- 416 0078 BF93      		push r27
+ 415               		.cfi_offset 24, -15
+ 416 0078 9F93      		push r25
  417               	.LCFI16:
  418               		.cfi_def_cfa_offset 17
- 419               		.cfi_offset 27, -16
- 420 007a EF93      		push r30
+ 419               		.cfi_offset 25, -16
+ 420 007a AF93      		push r26
  421               	.LCFI17:
  422               		.cfi_def_cfa_offset 18
- 423               		.cfi_offset 30, -17
- 424 007c FF93      		push r31
+ 423               		.cfi_offset 26, -17
+ 424 007c BF93      		push r27
  425               	.LCFI18:
  426               		.cfi_def_cfa_offset 19
- 427               		.cfi_offset 31, -18
- 428               	/* prologue: Signal */
- 429               	/* frame size = 0 */
- 430               	/* stack size = 18 */
- 431               	.L__stack_usage = 18
+ 427               		.cfi_offset 27, -18
+ 428 007e EF93      		push r30
+ 429               	.LCFI19:
+ 430               		.cfi_def_cfa_offset 20
+ 431               		.cfi_offset 30, -19
+ 432 0080 FF93      		push r31
+ 433               	.LCFI20:
+ 434               		.cfi_def_cfa_offset 21
+ 435               		.cfi_offset 31, -20
+ 436               	/* prologue: Signal */
+ 437               	/* frame size = 0 */
+ 438               	/* stack size = 20 */
+ 439               	.L__stack_usage = 20
   78:main.c        ****     ledr=!ledr;
- 432               		.loc 1 78 0
- 433 007e 81E0      		ldi r24,lo8(1)
- 434 0080 9091 0000 		lds r25,ledr
- 435 0084 9111      		cpse r25,__zero_reg__
- 436 0086 80E0      		ldi r24,0
- 437               	.L19:
- 438 0088 8093 0000 		sts ledr,r24
-  79:main.c        ****    // if(ledr){
+ 440               		.loc 1 78 0
+ 441 0082 8091 0000 		lds r24,ledr
+ 442 0086 91E0      		ldi r25,lo8(1)
+ 443 0088 8111      		cpse r24,__zero_reg__
+ 444 008a 90E0      		ldi r25,0
+ 445               	.L19:
+ 446 008c 9093 0000 		sts ledr,r25
+  79:main.c        ****     if(ledr){
+ 447               		.loc 1 79 0
+ 448 0090 8111      		cpse r24,__zero_reg__
+ 449 0092 00C0      		rjmp .L20
   80:main.c        ****         RTC_readTime(&currentTime);
- 439               		.loc 1 80 0
- 440 008c 80E0      		ldi r24,lo8(currentTime)
- 441 008e 90E0      		ldi r25,hi8(currentTime)
- 442 0090 00D0      		rcall RTC_readTime
- 443               	.LVL27:
+ 450               		.loc 1 80 0
+ 451 0094 80E0      		ldi r24,lo8(currentTime)
+ 452 0096 90E0      		ldi r25,hi8(currentTime)
+ 453 0098 00D0      		rcall RTC_readTime
+ 454               	.LVL27:
   81:main.c        ****         setLeds(currentTime,leds,tcolorV(YELLOW));
- 444               		.loc 1 81 0
- 445 0092 60E0      		ldi r22,0
- 446 0094 7FEF      		ldi r23,lo8(-1)
- 447 0096 8FEF      		ldi r24,lo8(-1)
- 448 0098 90E0      		ldi r25,0
- 449 009a 00D0      		rcall tcolorV
- 450               	.LVL28:
- 451 009c 7B01      		movw r14,r22
- 452 009e 082F      		mov r16,r24
- 453 00a0 20E0      		ldi r18,lo8(leds)
- 454 00a2 30E0      		ldi r19,hi8(leds)
- 455 00a4 4091 0000 		lds r20,currentTime
- 456 00a8 5091 0000 		lds r21,currentTime+1
- 457 00ac 6091 0000 		lds r22,currentTime+2
- 458 00b0 7091 0000 		lds r23,currentTime+3
- 459 00b4 8091 0000 		lds r24,currentTime+4
- 460 00b8 00D0      		rcall setLeds
- 461               	.LVL29:
-  82:main.c        ****     //}else{
-  83:main.c        ****     ledb++;
- 462               		.loc 1 83 0
- 463 00ba 8091 0000 		lds r24,ledb
- 464 00be 8F5F      		subi r24,lo8(-(1))
-  84:main.c        ****     if(ledb>39)ledb=0;
- 465               		.loc 1 84 0
- 466 00c0 8832      		cpi r24,lo8(40)
- 467 00c2 00F4      		brsh .L20
-  83:main.c        ****     if(ledb>39)ledb=0;
- 468               		.loc 1 83 0
- 469 00c4 8093 0000 		sts ledb,r24
- 470 00c8 00C0      		rjmp .L21
- 471               	.L20:
- 472               		.loc 1 84 0 discriminator 1
- 473 00ca 1092 0000 		sts ledb,__zero_reg__
- 474               	.L21:
-  85:main.c        ****         setLedsNb(ledb/*RTC_readTemp()*/,leds,tcolorV(CYAN));
- 475               		.loc 1 85 0
- 476 00ce 6FEF      		ldi r22,lo8(-1)
- 477 00d0 7FEF      		ldi r23,lo8(-1)
- 478 00d2 80E0      		ldi r24,0
- 479 00d4 90E0      		ldi r25,0
- 480 00d6 00D0      		rcall tcolorV
+ 455               		.loc 1 81 0
+ 456 009a 60E0      		ldi r22,0
+ 457 009c 7FEF      		ldi r23,lo8(-1)
+ 458 009e 8FEF      		ldi r24,lo8(-1)
+ 459 00a0 90E0      		ldi r25,0
+ 460 00a2 00D0      		rcall tcolorV
+ 461               	.LVL28:
+ 462 00a4 7B01      		movw r14,r22
+ 463 00a6 082F      		mov r16,r24
+ 464 00a8 20E0      		ldi r18,lo8(leds)
+ 465 00aa 30E0      		ldi r19,hi8(leds)
+ 466 00ac 4091 0000 		lds r20,currentTime
+ 467 00b0 5091 0000 		lds r21,currentTime+1
+ 468 00b4 6091 0000 		lds r22,currentTime+2
+ 469 00b8 7091 0000 		lds r23,currentTime+3
+ 470 00bc 8091 0000 		lds r24,currentTime+4
+ 471 00c0 00D0      		rcall setLeds
+ 472               	.LVL29:
+ 473 00c2 00C0      		rjmp .L18
+ 474               	.L20:
+  82:main.c        ****     }else{
+  83:main.c        ****         setLedsNb(RTC_readTemp(),leds,tcolorV(CYAN));
+ 475               		.loc 1 83 0
+ 476 00c4 6FEF      		ldi r22,lo8(-1)
+ 477 00c6 7FEF      		ldi r23,lo8(-1)
+ 478 00c8 80E0      		ldi r24,0
+ 479 00ca 90E0      		ldi r25,0
+ 480 00cc 00D0      		rcall tcolorV
  481               	.LVL30:
- 482 00d8 9B01      		movw r18,r22
- 483 00da 482F      		mov r20,r24
- 484 00dc 60E0      		ldi r22,lo8(leds)
- 485 00de 70E0      		ldi r23,hi8(leds)
- 486 00e0 8091 0000 		lds r24,ledb
- 487 00e4 00D0      		rcall setLedsNb
- 488               	.LVL31:
- 489               	/* epilogue start */
-  86:main.c        ****     //}
-  87:main.c        ****     
-  88:main.c        **** }
- 490               		.loc 1 88 0
- 491 00e6 FF91      		pop r31
- 492 00e8 EF91      		pop r30
- 493 00ea BF91      		pop r27
- 494 00ec AF91      		pop r26
- 495 00ee 9F91      		pop r25
- 496 00f0 8F91      		pop r24
- 497 00f2 7F91      		pop r23
- 498 00f4 6F91      		pop r22
- 499 00f6 5F91      		pop r21
- 500 00f8 4F91      		pop r20
- 501 00fa 3F91      		pop r19
- 502 00fc 2F91      		pop r18
- 503 00fe 0F91      		pop r16
- 504 0100 FF90      		pop r15
- 505 0102 EF90      		pop r14
- 506 0104 0F90      		pop r0
- 507 0106 0FBE      		out __SREG__,r0
- 508 0108 0F90      		pop r0
- 509 010a 1F90      		pop r1
- 510 010c 1895      		reti
- 511               		.cfi_endproc
- 512               	.LFE9:
- 514               	.global	__vector_11
- 516               	__vector_11:
- 517               	.LFB10:
-  89:main.c        **** ISR( TIM0_OVF_vect ){
- 518               		.loc 1 89 0
- 519               		.cfi_startproc
- 520 010e 1F92      		push r1
- 521               	.LCFI19:
- 522               		.cfi_def_cfa_offset 3
- 523               		.cfi_offset 1, -2
- 524 0110 0F92      		push r0
- 525               	.LCFI20:
- 526               		.cfi_def_cfa_offset 4
- 527               		.cfi_offset 0, -3
- 528 0112 0FB6      		in r0,__SREG__
- 529 0114 0F92      		push r0
- 530 0116 1124      		clr __zero_reg__
- 531 0118 2F93      		push r18
- 532               	.LCFI21:
- 533               		.cfi_def_cfa_offset 5
- 534               		.cfi_offset 18, -4
- 535 011a 3F93      		push r19
- 536               	.LCFI22:
- 537               		.cfi_def_cfa_offset 6
- 538               		.cfi_offset 19, -5
- 539 011c 4F93      		push r20
- 540               	.LCFI23:
- 541               		.cfi_def_cfa_offset 7
- 542               		.cfi_offset 20, -6
- 543 011e 5F93      		push r21
- 544               	.LCFI24:
- 545               		.cfi_def_cfa_offset 8
- 546               		.cfi_offset 21, -7
- 547 0120 6F93      		push r22
- 548               	.LCFI25:
- 549               		.cfi_def_cfa_offset 9
- 550               		.cfi_offset 22, -8
- 551 0122 7F93      		push r23
- 552               	.LCFI26:
- 553               		.cfi_def_cfa_offset 10
- 554               		.cfi_offset 23, -9
- 555 0124 8F93      		push r24
- 556               	.LCFI27:
- 557               		.cfi_def_cfa_offset 11
- 558               		.cfi_offset 24, -10
- 559 0126 9F93      		push r25
- 560               	.LCFI28:
- 561               		.cfi_def_cfa_offset 12
- 562               		.cfi_offset 25, -11
- 563 0128 AF93      		push r26
- 564               	.LCFI29:
- 565               		.cfi_def_cfa_offset 13
- 566               		.cfi_offset 26, -12
- 567 012a BF93      		push r27
- 568               	.LCFI30:
- 569               		.cfi_def_cfa_offset 14
- 570               		.cfi_offset 27, -13
- 571 012c EF93      		push r30
- 572               	.LCFI31:
- 573               		.cfi_def_cfa_offset 15
- 574               		.cfi_offset 30, -14
- 575 012e FF93      		push r31
- 576               	.LCFI32:
- 577               		.cfi_def_cfa_offset 16
- 578               		.cfi_offset 31, -15
- 579               	/* prologue: Signal */
- 580               	/* frame size = 0 */
- 581               	/* stack size = 15 */
- 582               	.L__stack_usage = 15
-  90:main.c        ****     switch(state){
- 583               		.loc 1 90 0
- 584 0130 8091 0000 		lds r24,state
- 585 0134 8230      		cpi r24,lo8(2)
- 586 0136 01F0      		breq .L27
- 587 0138 00F4      		brsh .L28
- 588 013a 8823      		tst r24
- 589 013c 01F0      		breq .L29
- 590 013e 8130      		cpi r24,lo8(1)
- 591 0140 01F0      		breq .+2
- 592 0142 00C0      		rjmp .L26
-  91:main.c        ****         case 0:
-  92:main.c        ****             sendData(R2 | getDataByColor(tcolor(1,0,0),0,leds));
-  93:main.c        ****             break;
-  94:main.c        ****         case 1:
-  95:main.c        ****             sendData(R1 | getDataByColor(tcolor(1,0,0),1,leds));
- 593               		.loc 1 95 0
- 594 0144 40E0      		ldi r20,0
- 595 0146 60E0      		ldi r22,0
- 596 0148 81E0      		ldi r24,lo8(1)
- 597 014a 00D0      		rcall tcolor
- 598               	.LVL32:
- 599 014c 20E0      		ldi r18,lo8(leds)
- 600 014e 30E0      		ldi r19,hi8(leds)
- 601 0150 41E0      		ldi r20,lo8(1)
- 602 0152 00D0      		rcall getDataByColor
- 603               	.LVL33:
- 604 0154 7068      		ori r23,128
- 605 0156 00C0      		rjmp .L35
- 606               	.L28:
-  90:main.c        ****     switch(state){
- 607               		.loc 1 90 0
- 608 0158 8430      		cpi r24,lo8(4)
- 609 015a 01F0      		breq .L31
- 610 015c 00F0      		brlo .L32
- 611 015e 8530      		cpi r24,lo8(5)
- 612 0160 01F4      		brne .L26
+ 482 00ce 6B01      		movw r12,r22
+ 483 00d0 E82E      		mov r14,r24
+ 484 00d2 00D0      		rcall RTC_readTemp
+ 485               	.LVL31:
+ 486 00d4 4E2D      		mov r20,r14
+ 487 00d6 9601      		movw r18,r12
+ 488 00d8 60E0      		ldi r22,lo8(leds)
+ 489 00da 70E0      		ldi r23,hi8(leds)
+ 490 00dc 00D0      		rcall setLedsNb
+ 491               	.LVL32:
+ 492               	.L18:
+ 493               	/* epilogue start */
+  84:main.c        ****     }
+  85:main.c        ****     
+  86:main.c        **** }
+ 494               		.loc 1 86 0
+ 495 00de FF91      		pop r31
+ 496 00e0 EF91      		pop r30
+ 497 00e2 BF91      		pop r27
+ 498 00e4 AF91      		pop r26
+ 499 00e6 9F91      		pop r25
+ 500 00e8 8F91      		pop r24
+ 501 00ea 7F91      		pop r23
+ 502 00ec 6F91      		pop r22
+ 503 00ee 5F91      		pop r21
+ 504 00f0 4F91      		pop r20
+ 505 00f2 3F91      		pop r19
+ 506 00f4 2F91      		pop r18
+ 507 00f6 0F91      		pop r16
+ 508 00f8 FF90      		pop r15
+ 509 00fa EF90      		pop r14
+ 510 00fc DF90      		pop r13
+ 511 00fe CF90      		pop r12
+ 512 0100 0F90      		pop r0
+ 513 0102 0FBE      		out __SREG__,r0
+ 514 0104 0F90      		pop r0
+ 515 0106 1F90      		pop r1
+ 516 0108 1895      		reti
+ 517               		.cfi_endproc
+ 518               	.LFE9:
+ 520               	.global	__vector_11
+ 522               	__vector_11:
+ 523               	.LFB10:
+  87:main.c        **** ISR( TIM0_OVF_vect ){
+ 524               		.loc 1 87 0
+ 525               		.cfi_startproc
+ 526 010a 1F92      		push r1
+ 527               	.LCFI21:
+ 528               		.cfi_def_cfa_offset 3
+ 529               		.cfi_offset 1, -2
+ 530 010c 0F92      		push r0
+ 531               	.LCFI22:
+ 532               		.cfi_def_cfa_offset 4
+ 533               		.cfi_offset 0, -3
+ 534 010e 0FB6      		in r0,__SREG__
+ 535 0110 0F92      		push r0
+ 536 0112 1124      		clr __zero_reg__
+ 537 0114 2F93      		push r18
+ 538               	.LCFI23:
+ 539               		.cfi_def_cfa_offset 5
+ 540               		.cfi_offset 18, -4
+ 541 0116 3F93      		push r19
+ 542               	.LCFI24:
+ 543               		.cfi_def_cfa_offset 6
+ 544               		.cfi_offset 19, -5
+ 545 0118 4F93      		push r20
+ 546               	.LCFI25:
+ 547               		.cfi_def_cfa_offset 7
+ 548               		.cfi_offset 20, -6
+ 549 011a 5F93      		push r21
+ 550               	.LCFI26:
+ 551               		.cfi_def_cfa_offset 8
+ 552               		.cfi_offset 21, -7
+ 553 011c 6F93      		push r22
+ 554               	.LCFI27:
+ 555               		.cfi_def_cfa_offset 9
+ 556               		.cfi_offset 22, -8
+ 557 011e 7F93      		push r23
+ 558               	.LCFI28:
+ 559               		.cfi_def_cfa_offset 10
+ 560               		.cfi_offset 23, -9
+ 561 0120 8F93      		push r24
+ 562               	.LCFI29:
+ 563               		.cfi_def_cfa_offset 11
+ 564               		.cfi_offset 24, -10
+ 565 0122 9F93      		push r25
+ 566               	.LCFI30:
+ 567               		.cfi_def_cfa_offset 12
+ 568               		.cfi_offset 25, -11
+ 569 0124 AF93      		push r26
+ 570               	.LCFI31:
+ 571               		.cfi_def_cfa_offset 13
+ 572               		.cfi_offset 26, -12
+ 573 0126 BF93      		push r27
+ 574               	.LCFI32:
+ 575               		.cfi_def_cfa_offset 14
+ 576               		.cfi_offset 27, -13
+ 577 0128 EF93      		push r30
+ 578               	.LCFI33:
+ 579               		.cfi_def_cfa_offset 15
+ 580               		.cfi_offset 30, -14
+ 581 012a FF93      		push r31
+ 582               	.LCFI34:
+ 583               		.cfi_def_cfa_offset 16
+ 584               		.cfi_offset 31, -15
+ 585               	/* prologue: Signal */
+ 586               	/* frame size = 0 */
+ 587               	/* stack size = 15 */
+ 588               	.L__stack_usage = 15
+  88:main.c        ****     switch(state){
+ 589               		.loc 1 88 0
+ 590 012c 8091 0000 		lds r24,state
+ 591 0130 8230      		cpi r24,lo8(2)
+ 592 0132 01F0      		breq .L27
+ 593 0134 00F4      		brsh .L28
+ 594 0136 8823      		tst r24
+ 595 0138 01F0      		breq .L29
+ 596 013a 8130      		cpi r24,lo8(1)
+ 597 013c 01F0      		breq .+2
+ 598 013e 00C0      		rjmp .L26
+  89:main.c        ****         case 0:
+  90:main.c        ****             sendData(R2 | getDataByColor(tcolor(1,0,0),0,leds));
+  91:main.c        ****             break;
+  92:main.c        ****         case 1:
+  93:main.c        ****             sendData(R1 | getDataByColor(tcolor(1,0,0),1,leds));
+ 599               		.loc 1 93 0
+ 600 0140 40E0      		ldi r20,0
+ 601 0142 60E0      		ldi r22,0
+ 602 0144 81E0      		ldi r24,lo8(1)
+ 603 0146 00D0      		rcall tcolor
+ 604               	.LVL33:
+ 605 0148 20E0      		ldi r18,lo8(leds)
+ 606 014a 30E0      		ldi r19,hi8(leds)
+ 607 014c 41E0      		ldi r20,lo8(1)
+ 608 014e 00D0      		rcall getDataByColor
+ 609               	.LVL34:
+ 610 0150 7068      		ori r23,128
+ 611 0152 00C0      		rjmp .L35
+ 612               	.L28:
+  88:main.c        ****     switch(state){
+ 613               		.loc 1 88 0
+ 614 0154 8430      		cpi r24,lo8(4)
+ 615 0156 01F0      		breq .L31
+ 616 0158 00F0      		brlo .L32
+ 617 015a 8530      		cpi r24,lo8(5)
+ 618 015c 01F4      		brne .L26
+  94:main.c        ****             break;
+  95:main.c        ****         case 2:
+  96:main.c        ****             sendData(G2 | getDataByColor(tcolor(0,1,0),0,leds));
+  97:main.c        ****             break;
+  98:main.c        ****         case 3:
+  99:main.c        ****             sendData(G1 | getDataByColor(tcolor(0,1,0),1,leds));
+ 100:main.c        ****             break;
+ 101:main.c        ****         case 4:
+ 102:main.c        ****             sendData(B2 | getDataByColor(tcolor(0,0,1),0,leds));
+ 103:main.c        ****             break;
+ 104:main.c        ****         case 5:
+ 105:main.c        ****             sendData(B1 | getDataByColor(tcolor(0,0,1),1,leds));
+ 619               		.loc 1 105 0
+ 620 015e 41E0      		ldi r20,lo8(1)
+ 621 0160 60E0      		ldi r22,0
+ 622 0162 80E0      		ldi r24,0
+ 623 0164 00D0      		rcall tcolor
+ 624               	.LVL35:
+ 625 0166 20E0      		ldi r18,lo8(leds)
+ 626 0168 30E0      		ldi r19,hi8(leds)
+ 627 016a 41E0      		ldi r20,lo8(1)
+ 628 016c 00D0      		rcall getDataByColor
+ 629               	.LVL36:
+ 630 016e 8260      		ori r24,2
+ 631 0170 00C0      		rjmp .L35
+ 632               	.L29:
+  90:main.c        ****             break;
+ 633               		.loc 1 90 0
+ 634 0172 40E0      		ldi r20,0
+ 635 0174 60E0      		ldi r22,0
+ 636 0176 81E0      		ldi r24,lo8(1)
+ 637 0178 00D0      		rcall tcolor
+ 638               	.LVL37:
+ 639 017a 20E0      		ldi r18,lo8(leds)
+ 640 017c 30E0      		ldi r19,hi8(leds)
+ 641 017e 40E0      		ldi r20,0
+ 642 0180 00D0      		rcall getDataByColor
+ 643               	.LVL38:
+ 644 0182 7064      		ori r23,64
+ 645 0184 00C0      		rjmp .L35
+ 646               	.L27:
   96:main.c        ****             break;
-  97:main.c        ****         case 2:
-  98:main.c        ****             sendData(G2 | getDataByColor(tcolor(0,1,0),0,leds));
+ 647               		.loc 1 96 0
+ 648 0186 40E0      		ldi r20,0
+ 649 0188 61E0      		ldi r22,lo8(1)
+ 650 018a 80E0      		ldi r24,0
+ 651 018c 00D0      		rcall tcolor
+ 652               	.LVL39:
+ 653 018e 20E0      		ldi r18,lo8(leds)
+ 654 0190 30E0      		ldi r19,hi8(leds)
+ 655 0192 40E0      		ldi r20,0
+ 656 0194 00D0      		rcall getDataByColor
+ 657               	.LVL40:
+ 658 0196 8460      		ori r24,4
+ 659 0198 00C0      		rjmp .L35
+ 660               	.L32:
   99:main.c        ****             break;
- 100:main.c        ****         case 3:
- 101:main.c        ****             sendData(G1 | getDataByColor(tcolor(0,1,0),1,leds));
+ 661               		.loc 1 99 0
+ 662 019a 40E0      		ldi r20,0
+ 663 019c 61E0      		ldi r22,lo8(1)
+ 664 019e 80E0      		ldi r24,0
+ 665 01a0 00D0      		rcall tcolor
+ 666               	.LVL41:
+ 667 01a2 20E0      		ldi r18,lo8(leds)
+ 668 01a4 30E0      		ldi r19,hi8(leds)
+ 669 01a6 41E0      		ldi r20,lo8(1)
+ 670 01a8 00D0      		rcall getDataByColor
+ 671               	.LVL42:
+ 672 01aa 8860      		ori r24,8
+ 673 01ac 00C0      		rjmp .L35
+ 674               	.L31:
  102:main.c        ****             break;
- 103:main.c        ****         case 4:
- 104:main.c        ****             sendData(B2 | getDataByColor(tcolor(0,0,1),0,leds));
- 105:main.c        ****             break;
- 106:main.c        ****         case 5:
- 107:main.c        ****             sendData(B1 | getDataByColor(tcolor(0,0,1),1,leds));
- 613               		.loc 1 107 0
- 614 0162 41E0      		ldi r20,lo8(1)
- 615 0164 60E0      		ldi r22,0
- 616 0166 80E0      		ldi r24,0
- 617 0168 00D0      		rcall tcolor
- 618               	.LVL34:
- 619 016a 20E0      		ldi r18,lo8(leds)
- 620 016c 30E0      		ldi r19,hi8(leds)
- 621 016e 41E0      		ldi r20,lo8(1)
- 622 0170 00D0      		rcall getDataByColor
- 623               	.LVL35:
- 624 0172 8260      		ori r24,2
- 625 0174 00C0      		rjmp .L35
- 626               	.L29:
-  92:main.c        ****             break;
- 627               		.loc 1 92 0
- 628 0176 40E0      		ldi r20,0
- 629 0178 60E0      		ldi r22,0
- 630 017a 81E0      		ldi r24,lo8(1)
- 631 017c 00D0      		rcall tcolor
- 632               	.LVL36:
- 633 017e 20E0      		ldi r18,lo8(leds)
- 634 0180 30E0      		ldi r19,hi8(leds)
- 635 0182 40E0      		ldi r20,0
- 636 0184 00D0      		rcall getDataByColor
- 637               	.LVL37:
- 638 0186 7064      		ori r23,64
- 639 0188 00C0      		rjmp .L35
- 640               	.L27:
-  98:main.c        ****             break;
- 641               		.loc 1 98 0
- 642 018a 40E0      		ldi r20,0
- 643 018c 61E0      		ldi r22,lo8(1)
- 644 018e 80E0      		ldi r24,0
- 645 0190 00D0      		rcall tcolor
- 646               	.LVL38:
- 647 0192 20E0      		ldi r18,lo8(leds)
- 648 0194 30E0      		ldi r19,hi8(leds)
- 649 0196 40E0      		ldi r20,0
- 650 0198 00D0      		rcall getDataByColor
- 651               	.LVL39:
- 652 019a 8460      		ori r24,4
- 653 019c 00C0      		rjmp .L35
- 654               	.L32:
- 101:main.c        ****             break;
- 655               		.loc 1 101 0
- 656 019e 40E0      		ldi r20,0
- 657 01a0 61E0      		ldi r22,lo8(1)
- 658 01a2 80E0      		ldi r24,0
- 659 01a4 00D0      		rcall tcolor
- 660               	.LVL40:
- 661 01a6 20E0      		ldi r18,lo8(leds)
- 662 01a8 30E0      		ldi r19,hi8(leds)
- 663 01aa 41E0      		ldi r20,lo8(1)
- 664 01ac 00D0      		rcall getDataByColor
- 665               	.LVL41:
- 666 01ae 8860      		ori r24,8
- 667 01b0 00C0      		rjmp .L35
- 668               	.L31:
- 104:main.c        ****             break;
- 669               		.loc 1 104 0
- 670 01b2 41E0      		ldi r20,lo8(1)
- 671 01b4 60E0      		ldi r22,0
- 672 01b6 80E0      		ldi r24,0
- 673 01b8 00D0      		rcall tcolor
- 674               	.LVL42:
- 675 01ba 20E0      		ldi r18,lo8(leds)
- 676 01bc 30E0      		ldi r19,hi8(leds)
- 677 01be 40E0      		ldi r20,0
- 678 01c0 00D0      		rcall getDataByColor
- 679               	.LVL43:
- 680 01c2 8160      		ori r24,1
- 681               	.L35:
- 682               		.loc 1 107 0
- 683 01c4 00D0      		rcall sendData
- 684               	.LVL44:
- 685               	.L26:
- 108:main.c        ****             break;
- 109:main.c        ****     }
- 110:main.c        ****     state++;
- 686               		.loc 1 110 0
- 687 01c6 8091 0000 		lds r24,state
- 688 01ca 8F5F      		subi r24,lo8(-(1))
- 689 01cc 8093 0000 		sts state,r24
- 111:main.c        ****     if(state>5)state=0;
- 690               		.loc 1 111 0
- 691 01d0 8091 0000 		lds r24,state
- 692 01d4 8630      		cpi r24,lo8(6)
- 693 01d6 00F0      		brlo .L25
- 694               		.loc 1 111 0 is_stmt 0 discriminator 1
- 695 01d8 1092 0000 		sts state,__zero_reg__
- 696               	.L25:
- 697               	/* epilogue start */
- 112:main.c        **** }
- 698               		.loc 1 112 0 is_stmt 1
- 699 01dc FF91      		pop r31
- 700 01de EF91      		pop r30
- 701 01e0 BF91      		pop r27
- 702 01e2 AF91      		pop r26
- 703 01e4 9F91      		pop r25
- 704 01e6 8F91      		pop r24
- 705 01e8 7F91      		pop r23
- 706 01ea 6F91      		pop r22
- 707 01ec 5F91      		pop r21
- 708 01ee 4F91      		pop r20
- 709 01f0 3F91      		pop r19
- 710 01f2 2F91      		pop r18
- 711 01f4 0F90      		pop r0
- 712 01f6 0FBE      		out __SREG__,r0
- 713 01f8 0F90      		pop r0
- 714 01fa 1F90      		pop r1
- 715 01fc 1895      		reti
- 716               		.cfi_endproc
- 717               	.LFE10:
- 719               		.comm	leds,95,1
- 720               	.global	state
- 721               		.section .bss
- 724               	state:
- 725 0000 00        		.zero	1
- 726               	.global	ledb
- 729               	ledb:
- 730 0001 00        		.zero	1
- 731               	.global	ledr
- 734               	ledr:
- 735 0002 00        		.zero	1
- 736               		.comm	currentColor,3,1
- 737               		.comm	USI_I2C_Master_State,1,1
- 738               		.comm	currentTime,5,1
- 739               		.text
- 740               	.Letext0:
- 741               		.file 3 "/usr/lib/avr/include/stdint.h"
- 742               		.file 4 "RTC.h"
- 743               		.file 5 "Led.h"
- 744               		.file 6 "defines.h"
+ 675               		.loc 1 102 0
+ 676 01ae 41E0      		ldi r20,lo8(1)
+ 677 01b0 60E0      		ldi r22,0
+ 678 01b2 80E0      		ldi r24,0
+ 679 01b4 00D0      		rcall tcolor
+ 680               	.LVL43:
+ 681 01b6 20E0      		ldi r18,lo8(leds)
+ 682 01b8 30E0      		ldi r19,hi8(leds)
+ 683 01ba 40E0      		ldi r20,0
+ 684 01bc 00D0      		rcall getDataByColor
+ 685               	.LVL44:
+ 686 01be 8160      		ori r24,1
+ 687               	.L35:
+ 688               		.loc 1 105 0
+ 689 01c0 00D0      		rcall sendData
+ 690               	.LVL45:
+ 691               	.L26:
+ 106:main.c        ****             break;
+ 107:main.c        ****     }
+ 108:main.c        ****     state++;
+ 692               		.loc 1 108 0
+ 693 01c2 8091 0000 		lds r24,state
+ 694 01c6 8F5F      		subi r24,lo8(-(1))
+ 695 01c8 8093 0000 		sts state,r24
+ 109:main.c        ****     if(state>5)state=0;
+ 696               		.loc 1 109 0
+ 697 01cc 8091 0000 		lds r24,state
+ 698 01d0 8630      		cpi r24,lo8(6)
+ 699 01d2 00F0      		brlo .L25
+ 700               		.loc 1 109 0 is_stmt 0 discriminator 1
+ 701 01d4 1092 0000 		sts state,__zero_reg__
+ 702               	.L25:
+ 703               	/* epilogue start */
+ 110:main.c        **** }
+ 704               		.loc 1 110 0 is_stmt 1
+ 705 01d8 FF91      		pop r31
+ 706 01da EF91      		pop r30
+ 707 01dc BF91      		pop r27
+ 708 01de AF91      		pop r26
+ 709 01e0 9F91      		pop r25
+ 710 01e2 8F91      		pop r24
+ 711 01e4 7F91      		pop r23
+ 712 01e6 6F91      		pop r22
+ 713 01e8 5F91      		pop r21
+ 714 01ea 4F91      		pop r20
+ 715 01ec 3F91      		pop r19
+ 716 01ee 2F91      		pop r18
+ 717 01f0 0F90      		pop r0
+ 718 01f2 0FBE      		out __SREG__,r0
+ 719 01f4 0F90      		pop r0
+ 720 01f6 1F90      		pop r1
+ 721 01f8 1895      		reti
+ 722               		.cfi_endproc
+ 723               	.LFE10:
+ 725               		.comm	leds,95,1
+ 726               	.global	state
+ 727               		.section .bss
+ 730               	state:
+ 731 0000 00        		.zero	1
+ 732               	.global	ledb
+ 735               	ledb:
+ 736 0001 00        		.zero	1
+ 737               	.global	ledr
+ 740               	ledr:
+ 741 0002 00        		.zero	1
+ 742               		.comm	currentColor,3,1
+ 743               		.comm	USI_I2C_Master_State,1,1
+ 744               		.comm	currentTime,5,1
+ 745               		.text
+ 746               	.Letext0:
+ 747               		.file 3 "/usr/lib/avr/include/stdint.h"
+ 748               		.file 4 "RTC.h"
+ 749               		.file 5 "Led.h"
+ 750               		.file 6 "defines.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/ccqMGkUR.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccqMGkUR.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccqMGkUR.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccqMGkUR.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccqMGkUR.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccqMGkUR.s:12     .text:0000000000000000 sendRawData
-     /tmp/ccqMGkUR.s:89     .text:0000000000000044 sendData
-     /tmp/ccqMGkUR.s:734    .bss:0000000000000002 ledr
-     /tmp/ccqMGkUR.s:729    .bss:0000000000000001 ledb
-     /tmp/ccqMGkUR.s:121    .text.startup:0000000000000000 main
+     /tmp/ccC43J7d.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccC43J7d.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccC43J7d.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccC43J7d.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccC43J7d.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccC43J7d.s:12     .text:0000000000000000 sendRawData
+     /tmp/ccC43J7d.s:89     .text:0000000000000044 sendData
+     /tmp/ccC43J7d.s:740    .bss:0000000000000002 ledr
+     /tmp/ccC43J7d.s:735    .bss:0000000000000001 ledb
+     /tmp/ccC43J7d.s:121    .text.startup:0000000000000000 main
                             *COM*:000000000000005f leds
                             *COM*:0000000000000003 currentColor
                             *COM*:0000000000000005 currentTime
-     /tmp/ccqMGkUR.s:353    .text:0000000000000056 __vector_8
-     /tmp/ccqMGkUR.s:516    .text:000000000000010e __vector_11
-     /tmp/ccqMGkUR.s:724    .bss:0000000000000000 state
+     /tmp/ccC43J7d.s:353    .text:0000000000000056 __vector_8
+     /tmp/ccC43J7d.s:522    .text:000000000000010a __vector_11
+     /tmp/ccC43J7d.s:730    .bss:0000000000000000 state
                             *COM*:0000000000000001 USI_I2C_Master_State
 
 UNDEFINED SYMBOLS
@@ -1057,6 +1060,7 @@ ledInit
 tcolorV
 RTC_readTime
 setLeds
+RTC_readTemp
 setLedsNb
 tcolor
 getDataByColor

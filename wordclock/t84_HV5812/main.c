@@ -40,19 +40,19 @@ int main(void){
     sei();
     
     sendData(0b11111100001111111111);//white
-    _delay_ms(2500);
+    _delay_ms(500);
     sendData(0b11000000001111111111);//green
-    _delay_ms(2500);
+    _delay_ms(500);
     sendData(0b00001100001111111111);//red
-    _delay_ms(2500);
+    _delay_ms(500);
     sendData(0b00110000001111111111);//blue
-    _delay_ms(2500);
+    _delay_ms(500);
     sendData(0b11110000001111111111);//cyan
-    _delay_ms(2500);
+    _delay_ms(500);
     sendData(0b00111100001111111111);//magenta
-    _delay_ms(2500);
+    _delay_ms(500);
     sendData(0b11001100001111111111);//yellow
-    _delay_ms(2500);
+    _delay_ms(500);
     
     #ifdef DELLONG
     TCCR1B|=(1<<CS12)|(1<<CS10);
@@ -64,7 +64,7 @@ int main(void){
     
     currentColor=tcolorV(WHITE);
     //setCurrentTime(0,10,7,12);
-    //RTC_setTime(currentTime,6,18);
+   // //RTC_setTime(currentTime,6,18);
     RTC_readTime(&currentTime);
     setLeds(currentTime,leds,currentColor);
     //setLedsNb(currentTime.temp,leds,currentColor);
@@ -76,14 +76,12 @@ int main(void){
 }
 ISR( TIM1_OVF_vect ){
     ledr=!ledr;
-   // if(ledr){
+    if(ledr){
         RTC_readTime(&currentTime);
         setLeds(currentTime,leds,tcolorV(YELLOW));
-    //}else{
-    ledb++;
-    if(ledb>39)ledb=0;
-        setLedsNb(ledb/*RTC_readTemp()*/,leds,tcolorV(CYAN));
-    //}
+    }else{
+        setLedsNb(RTC_readTemp(),leds,tcolorV(CYAN));
+    }
     
 }
 ISR( TIM0_OVF_vect ){
