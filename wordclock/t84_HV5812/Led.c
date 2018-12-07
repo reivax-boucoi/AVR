@@ -2,6 +2,7 @@
 
 static const uint8_t ledMap[11]={7,8,10,14,0,4,17,2,12,6,16};
 
+
 Tcolor tcolor(uint8_t r,uint8_t g,uint8_t b){
     Tcolor c={r,g,b};
     return c;
@@ -13,6 +14,9 @@ Tcolor tcolorV(uint32_t v){
 }
 
 void ledInit(Led* leds){
+    DDRA |= CLK|DATA|STROBE|LED;
+    PORTA &= ~(CLK|DATA|STROBE|LED);
+    
     for(uint8_t i=0;i<NBLEDS;i++){
         leds[i].row=i%2;//leds[0]=0, leds[1]=1
         if(i<10){
@@ -138,4 +142,18 @@ void setLedsNb(int8_t nb, Led* l, Tcolor c){
         nb=nb-10;
     }
     ledOnC(&l[ledMap[nb-1]],c);
+}
+void sendRawData(uint32_t data){
+    PORTA &=~(STROBE|CLK);
+    for(uint8_t i=0;i<20;i++){
+        if((data>>i) & 0x00000001){
+            PORTA|=DATA;
+        }else{
+            PORTA&=~DATA;
+        }
+        PORTA|=CLK;
+        PORTA&=~CLK;
+    }
+    PORTA|=STROBE;
+    PORTA&=~STROBE;
 }

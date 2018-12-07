@@ -5,21 +5,8 @@
 #include "defines.h"
 #include "Led.h"
 #include "RTC.h"
+#include "Menu.h"
 
-void sendRawData(uint32_t data){
-    PORTA &=~(STROBE|CLK);
-    for(uint8_t i=0;i<20;i++){
-        if((data>>i) & 0x00000001){
-            PORTA|=DATA;
-        }else{
-            PORTA&=~DATA;
-        }
-        PORTA|=CLK;
-        PORTA&=~CLK;
-    }
-    PORTA|=STROBE;
-    PORTA&=~STROBE;
-}
 uint8_t ledr=0;
 uint8_t ledb=0;
 void sendData(uint32_t data){
@@ -27,12 +14,12 @@ void sendData(uint32_t data){
     if(ledb)data|=LEDB;
     sendRawData(data);
 }
+
+
 volatile uint8_t state=0;
 Led leds[NBLEDS];
 
 int main(void){    
-    DDRA |= CLK|DATA|STROBE|LED;
-    PORTA &= ~(CLK|DATA|STROBE|LED);
     ledInit(leds);
     
     TIMSK1|=(1<<TOIE1);

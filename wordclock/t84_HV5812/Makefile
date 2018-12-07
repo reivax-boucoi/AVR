@@ -80,7 +80,7 @@ OBJDIR = .
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = $(TARGET).c Led.c RTC.c
+SRC = $(TARGET).c Led.c RTC.c Menu.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)

@@ -1443,24 +1443,24 @@
  951               		.file 4 "RTC.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 RTC.c
-     /tmp/cc7e05mz.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cc7e05mz.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cc7e05mz.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cc7e05mz.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cc7e05mz.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cc7e05mz.s:12     .text:0000000000000000 setCurrentTime
+     /tmp/ccrEtF59.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccrEtF59.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccrEtF59.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccrEtF59.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccrEtF59.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccrEtF59.s:12     .text:0000000000000000 setCurrentTime
                             *COM*:0000000000000005 currentTime
-     /tmp/cc7e05mz.s:38     .text:000000000000000e minquad
-     /tmp/cc7e05mz.s:105    .text:000000000000003e bcdToDec
-     /tmp/cc7e05mz.s:131    .text:000000000000004e decToBcd
-     /tmp/cc7e05mz.s:154    .text:000000000000005a i2c_in_transfer
-     /tmp/cc7e05mz.s:221    .text:0000000000000084 i2c_in_transmit
+     /tmp/ccrEtF59.s:38     .text:000000000000000e minquad
+     /tmp/ccrEtF59.s:105    .text:000000000000003e bcdToDec
+     /tmp/ccrEtF59.s:131    .text:000000000000004e decToBcd
+     /tmp/ccrEtF59.s:154    .text:000000000000005a i2c_in_transfer
+     /tmp/ccrEtF59.s:221    .text:0000000000000084 i2c_in_transmit
                             *COM*:0000000000000001 USI_I2C_Master_State
-     /tmp/cc7e05mz.s:450    .text:000000000000014e i2c_write
-     /tmp/cc7e05mz.s:504    .text:0000000000000176 RTC_setTime
-     /tmp/cc7e05mz.s:615    .text:00000000000001ea i2c_read
-     /tmp/cc7e05mz.s:792    .text:00000000000002a2 RTC_readTemp
-     /tmp/cc7e05mz.s:846    .text:00000000000002ce RTC_readTime
+     /tmp/ccrEtF59.s:450    .text:000000000000014e i2c_write
+     /tmp/ccrEtF59.s:504    .text:0000000000000176 RTC_setTime
+     /tmp/ccrEtF59.s:615    .text:00000000000001ea i2c_read
+     /tmp/ccrEtF59.s:792    .text:00000000000002a2 RTC_readTemp
+     /tmp/ccrEtF59.s:846    .text:00000000000002ce RTC_readTime
 
 UNDEFINED SYMBOLS
 __mulqi3

@@ -1,0 +1,230 @@
+   1               		.file	"Menu.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               	.global	MsetMode
+  12               	MsetMode:
+  13               	.LFB39:
+  14               		.cfi_startproc
+  15               	/* prologue: function */
+  16               	/* frame size = 0 */
+  17               	/* stack size = 0 */
+  18               	.L__stack_usage = 0
+  19 0000 0895      		ret
+  20               		.cfi_endproc
+  21               	.LFE39:
+  23               	.global	MsetColorMode
+  25               	MsetColorMode:
+  26               	.LFB37:
+  27               		.cfi_startproc
+  28               	/* prologue: function */
+  29               	/* frame size = 0 */
+  30               	/* stack size = 0 */
+  31               	.L__stack_usage = 0
+  32 0002 0895      		ret
+  33               		.cfi_endproc
+  34               	.LFE37:
+  36               	.global	MsetNightMode
+  38               	MsetNightMode:
+  39               	.LFB35:
+  40               		.cfi_startproc
+  41               	/* prologue: function */
+  42               	/* frame size = 0 */
+  43               	/* stack size = 0 */
+  44               	.L__stack_usage = 0
+  45 0004 0895      		ret
+  46               		.cfi_endproc
+  47               	.LFE35:
+  49               	.global	MsetNightOff
+  51               	MsetNightOff:
+  52               	.LFB33:
+  53               		.cfi_startproc
+  54               	/* prologue: function */
+  55               	/* frame size = 0 */
+  56               	/* stack size = 0 */
+  57               	.L__stack_usage = 0
+  58 0006 0895      		ret
+  59               		.cfi_endproc
+  60               	.LFE33:
+  62               	.global	MsetNightOn
+  64               	MsetNightOn:
+  65               	.LFB31:
+  66               		.cfi_startproc
+  67               	/* prologue: function */
+  68               	/* frame size = 0 */
+  69               	/* stack size = 0 */
+  70               	.L__stack_usage = 0
+  71 0008 0895      		ret
+  72               		.cfi_endproc
+  73               	.LFE31:
+  75               	.global	MsetHouram
+  77               	MsetHouram:
+  78               	.LFB29:
+  79               		.cfi_startproc
+  80               	/* prologue: function */
+  81               	/* frame size = 0 */
+  82               	/* stack size = 0 */
+  83               	.L__stack_usage = 0
+  84 000a 0895      		ret
+  85               		.cfi_endproc
+  86               	.LFE29:
+  88               	.global	MsetHourpm
+  90               	MsetHourpm:
+  91               	.LFB27:
+  92               		.cfi_startproc
+  93               	/* prologue: function */
+  94               	/* frame size = 0 */
+  95               	/* stack size = 0 */
+  96               	.L__stack_usage = 0
+  97 000c 0895      		ret
+  98               		.cfi_endproc
+  99               	.LFE27:
+ 101               	.global	MsetMinam
+ 103               	MsetMinam:
+ 104               	.LFB25:
+ 105               		.cfi_startproc
+ 106               	/* prologue: function */
+ 107               	/* frame size = 0 */
+ 108               	/* stack size = 0 */
+ 109               	.L__stack_usage = 0
+ 110 000e 0895      		ret
+ 111               		.cfi_endproc
+ 112               	.LFE25:
+ 114               	.global	MsetMinpm
+ 116               	MsetMinpm:
+ 117               	.LFB23:
+ 118               		.cfi_startproc
+ 119               	/* prologue: function */
+ 120               	/* frame size = 0 */
+ 121               	/* stack size = 0 */
+ 122               	.L__stack_usage = 0
+ 123 0010 0895      		ret
+ 124               		.cfi_endproc
+ 125               	.LFE23:
+ 127               	.global	MsetEventMode
+ 129               	MsetEventMode:
+ 130               	.LFB21:
+ 131               		.cfi_startproc
+ 132               	/* prologue: function */
+ 133               	/* frame size = 0 */
+ 134               	/* stack size = 0 */
+ 135               	.L__stack_usage = 0
+ 136 0012 0895      		ret
+ 137               		.cfi_endproc
+ 138               	.LFE21:
+ 140               	.global	Mreset
+ 142               	Mreset:
+ 143               	.LFB19:
+ 144               		.cfi_startproc
+ 145               	/* prologue: function */
+ 146               	/* frame size = 0 */
+ 147               	/* stack size = 0 */
+ 148               	.L__stack_usage = 0
+ 149 0014 0895      		ret
+ 150               		.cfi_endproc
+ 151               	.LFE19:
+ 153               	.global	MsetRainbow
+ 155               	MsetRainbow:
+ 156               	.LFB17:
+ 157               		.file 1 "Menu.c"
+   1:Menu.c        **** #include "Menu.h"
+   2:Menu.c        **** 
+   3:Menu.c        **** void MsetMode(uint8_t i){
+   4:Menu.c        **** }
+   5:Menu.c        **** void MsetColorMode(uint8_t i){
+   6:Menu.c        **** }
+   7:Menu.c        **** void MsetNightMode(uint8_t i){
+   8:Menu.c        **** }
+   9:Menu.c        **** void MsetNightOff(uint8_t i){
+  10:Menu.c        **** }
+  11:Menu.c        **** void MsetNightOn(uint8_t i){
+  12:Menu.c        **** }
+  13:Menu.c        **** void MsetHouram(uint8_t i){
+  14:Menu.c        **** }
+  15:Menu.c        **** void MsetHourpm(uint8_t i){
+  16:Menu.c        **** }
+  17:Menu.c        **** void MsetMinam(uint8_t i){
+  18:Menu.c        **** }
+  19:Menu.c        **** void MsetMinpm(uint8_t i){
+  20:Menu.c        **** }
+  21:Menu.c        **** void MsetEventMode(uint8_t i){
+  22:Menu.c        **** }
+  23:Menu.c        **** void Mreset(uint8_t i){
+  24:Menu.c        **** }
+  25:Menu.c        **** void MsetRainbow(uint8_t i){
+ 158               		.loc 1 25 0
+ 159               		.cfi_startproc
+ 160               	.LVL0:
+ 161               	/* prologue: function */
+ 162               	/* frame size = 0 */
+ 163               	/* stack size = 0 */
+ 164               	.L__stack_usage = 0
+ 165 0016 0895      		ret
+ 166               		.cfi_endproc
+ 167               	.LFE17:
+ 169               		.comm	M1rainbow,8,1
+ 170               		.comm	M1reset,8,1
+ 171               		.comm	M1eventMode,8,1
+ 172               		.comm	M2setminpm,8,1
+ 173               		.comm	M2setminam,8,1
+ 174               		.comm	M2sethourpm,8,1
+ 175               		.comm	M2sethouram,8,1
+ 176               		.comm	M1setTime,8,1
+ 177               		.comm	M3onhour,8,1
+ 178               		.comm	M2offhour,8,1
+ 179               		.comm	M1nightmode,8,1
+ 180               		.comm	M1cmode,8,1
+ 181               		.comm	M1mode,8,1
+ 182               		.comm	M0main,8,1
+ 183               		.comm	currentColor,3,1
+ 184               		.comm	USI_I2C_Master_State,1,1
+ 185               		.comm	currentTime,5,1
+ 186               	.Letext0:
+ 187               		.file 2 "/usr/lib/avr/include/stdint.h"
+ 188               		.file 3 "RTC.h"
+ 189               		.file 4 "Led.h"
+ 190               		.file 5 "Menu.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 Menu.c
+     /tmp/ccy9RKgc.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccy9RKgc.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccy9RKgc.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccy9RKgc.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccy9RKgc.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccy9RKgc.s:12     .text:0000000000000000 MsetMode
+     /tmp/ccy9RKgc.s:25     .text:0000000000000002 MsetColorMode
+     /tmp/ccy9RKgc.s:38     .text:0000000000000004 MsetNightMode
+     /tmp/ccy9RKgc.s:51     .text:0000000000000006 MsetNightOff
+     /tmp/ccy9RKgc.s:64     .text:0000000000000008 MsetNightOn
+     /tmp/ccy9RKgc.s:77     .text:000000000000000a MsetHouram
+     /tmp/ccy9RKgc.s:90     .text:000000000000000c MsetHourpm
+     /tmp/ccy9RKgc.s:103    .text:000000000000000e MsetMinam
+     /tmp/ccy9RKgc.s:116    .text:0000000000000010 MsetMinpm
+     /tmp/ccy9RKgc.s:129    .text:0000000000000012 MsetEventMode
+     /tmp/ccy9RKgc.s:142    .text:0000000000000014 Mreset
+     /tmp/ccy9RKgc.s:155    .text:0000000000000016 MsetRainbow
+                            *COM*:0000000000000008 M1rainbow
+                            *COM*:0000000000000008 M1reset
+                            *COM*:0000000000000008 M1eventMode
+                            *COM*:0000000000000008 M2setminpm
+                            *COM*:0000000000000008 M2setminam
+                            *COM*:0000000000000008 M2sethourpm
+                            *COM*:0000000000000008 M2sethouram
+                            *COM*:0000000000000008 M1setTime
+                            *COM*:0000000000000008 M3onhour
+                            *COM*:0000000000000008 M2offhour
+                            *COM*:0000000000000008 M1nightmode
+                            *COM*:0000000000000008 M1cmode
+                            *COM*:0000000000000008 M1mode
+                            *COM*:0000000000000008 M0main
+                            *COM*:0000000000000003 currentColor
+                            *COM*:0000000000000001 USI_I2C_Master_State
+                            *COM*:0000000000000005 currentTime
+
+UNDEFINED SYMBOLS
+__do_clear_bss
