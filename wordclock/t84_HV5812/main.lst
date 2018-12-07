@@ -387,22 +387,22 @@
  302               		.file 4 "Led.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/ccaPWKJa.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccaPWKJa.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccaPWKJa.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccaPWKJa.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccaPWKJa.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccaPWKJa.s:12     .text:0000000000000000 sendRawData
-     /tmp/ccaPWKJa.s:89     .text:0000000000000044 sendData
-     /tmp/ccaPWKJa.s:293    .bss:0000000000000002 ledr
-     /tmp/ccaPWKJa.s:288    .bss:0000000000000001 ledb
-     /tmp/ccaPWKJa.s:121    .text.startup:0000000000000000 main
+     /tmp/ccqNF1Si.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccqNF1Si.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccqNF1Si.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccqNF1Si.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccqNF1Si.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccqNF1Si.s:12     .text:0000000000000000 sendRawData
+     /tmp/ccqNF1Si.s:89     .text:0000000000000044 sendData
+     /tmp/ccqNF1Si.s:293    .bss:0000000000000002 ledr
+     /tmp/ccqNF1Si.s:288    .bss:0000000000000001 ledb
+     /tmp/ccqNF1Si.s:121    .text.startup:0000000000000000 main
                             *COM*:000000000000005f leds
                             *COM*:0000000000000003 currentColor
                             *COM*:0000000000000005 currentTime
-     /tmp/ccaPWKJa.s:197    .text:0000000000000056 __vector_8
-     /tmp/ccaPWKJa.s:249    .text:0000000000000088 __vector_11
-     /tmp/ccaPWKJa.s:283    .bss:0000000000000000 state
+     /tmp/ccqNF1Si.s:197    .text:0000000000000056 __vector_8
+     /tmp/ccqNF1Si.s:249    .text:0000000000000088 __vector_11
+     /tmp/ccqNF1Si.s:283    .bss:0000000000000000 state
                             *COM*:0000000000000001 USI_I2C_Master_State
 
 UNDEFINED SYMBOLS
