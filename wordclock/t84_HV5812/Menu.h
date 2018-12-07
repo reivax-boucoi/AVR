@@ -16,30 +16,31 @@ void MsetEventMode(uint8_t i);
 void Mreset(uint8_t i);
 void MsetRainbow(uint8_t i);
 
-struct Menu;
+const struct Menu;
 typedef const struct Menu{
-    const char* name;
-    const char* color;
-    const int nb_optn;
-    void (*fptr)(int);
+    const uint8_t nb_optn;
+    void (*fptr)(uint8_t);
     const struct{
-        const int led;
+        const uint8_t led;
         const struct Menu* submenu;
     }sub[];
 };
-struct Menu M0main;
-struct Menu M1mode;
-struct Menu M1cmode;
-struct Menu M1nightmode;
-struct Menu M2offhour;
-struct Menu M3onhour;
-struct Menu M1setTime;
-struct Menu M2sethouram;
-struct Menu M2sethourpm;
-struct Menu M2setminam;
-struct Menu M2setminpm;
-struct Menu M1eventMode;
-struct Menu M1reset;
-struct Menu M1rainbow;
+uint8_t findNextEntry(struct Menu* m,uint8_t i);
+struct Menu* getSubMenu(struct Menu* m,uint8_t index);
+
+const struct Menu M0main;
+const struct Menu M1mode;
+const struct Menu M1cmode;
+const struct Menu M1nightmode;
+const struct Menu M2offhour;
+const struct Menu M3onhour;
+const struct Menu M1setTime;
+const struct Menu M2sethouram;
+const struct Menu M2sethourpm;
+const struct Menu M2setminam;
+const struct Menu M2setminpm;
+const struct Menu M1eventMode;
+const struct Menu M1reset;
+const struct Menu M1rainbow;
 
 #endif

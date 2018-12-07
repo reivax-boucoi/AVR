@@ -17,6 +17,8 @@ void sendData(uint32_t data){
 
 
 volatile uint8_t state=0;
+volatile struct Menu* Mcurrent=0;
+volatile uint8_t Mindex=0;
 Led leds[NBLEDS];
 
 int main(void){    

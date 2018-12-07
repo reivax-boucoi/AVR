@@ -1273,27 +1273,27 @@
  1113               		.file 4 "Led.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Led.c
-     /tmp/ccg7NCj3.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccg7NCj3.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccg7NCj3.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccg7NCj3.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccg7NCj3.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccg7NCj3.s:12     .text:0000000000000000 tcolor
-     /tmp/ccg7NCj3.s:35     .text:0000000000000008 tcolorV
-     /tmp/ccg7NCj3.s:77     .text:0000000000000028 ledInit
-     /tmp/ccg7NCj3.s:138    .text:000000000000005c getColorByLed
-     /tmp/ccg7NCj3.s:247    .text:00000000000000be getDataByColor
-     /tmp/ccg7NCj3.s:369    .text:000000000000013a ledOff
-     /tmp/ccg7NCj3.s:391    .text:0000000000000144 ledOn
-     /tmp/ccg7NCj3.s:415    .text:0000000000000150 ledOnC
-     /tmp/ccg7NCj3.s:435    .text:000000000000015a ledOnV
-     /tmp/ccg7NCj3.s:456    .text:0000000000000164 ledIsOff
-     /tmp/ccg7NCj3.s:521    .text:000000000000019c ledIsOn
-     /tmp/ccg7NCj3.s:579    .text:00000000000001d2 setLeds
+     /tmp/ccJXEj74.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccJXEj74.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccJXEj74.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccJXEj74.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccJXEj74.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccJXEj74.s:12     .text:0000000000000000 tcolor
+     /tmp/ccJXEj74.s:35     .text:0000000000000008 tcolorV
+     /tmp/ccJXEj74.s:77     .text:0000000000000028 ledInit
+     /tmp/ccJXEj74.s:138    .text:000000000000005c getColorByLed
+     /tmp/ccJXEj74.s:247    .text:00000000000000be getDataByColor
+     /tmp/ccJXEj74.s:369    .text:000000000000013a ledOff
+     /tmp/ccJXEj74.s:391    .text:0000000000000144 ledOn
+     /tmp/ccJXEj74.s:415    .text:0000000000000150 ledOnC
+     /tmp/ccJXEj74.s:435    .text:000000000000015a ledOnV
+     /tmp/ccJXEj74.s:456    .text:0000000000000164 ledIsOff
+     /tmp/ccJXEj74.s:521    .text:000000000000019c ledIsOn
+     /tmp/ccJXEj74.s:579    .text:00000000000001d2 setLeds
                             *COM*:0000000000000005 currentTime
-     /tmp/ccg7NCj3.s:1094   .rodata:0000000000000000 ledMap
-     /tmp/ccg7NCj3.s:850    .text:00000000000002d8 setLedsNb
-     /tmp/ccg7NCj3.s:1017   .text:000000000000036a sendRawData
+     /tmp/ccJXEj74.s:1094   .rodata:0000000000000000 ledMap
+     /tmp/ccJXEj74.s:850    .text:00000000000002d8 setLedsNb
+     /tmp/ccJXEj74.s:1017   .text:000000000000036a sendRawData
                             *COM*:0000000000000003 currentColor
                             *COM*:0000000000000001 USI_I2C_Master_State
 
