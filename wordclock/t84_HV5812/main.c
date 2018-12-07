@@ -56,7 +56,7 @@ int main(void){
     
     currentColor=tcolorV(WHITE);
     setCurrentTime(0,10,7,12);
-   // //RTC_setTime(currentTime,6,18);
+    // //RTC_setTime(currentTime,6,18);
     //RTC_readTime(&currentTime);
     setLeds(currentTime,leds,currentColor);
     //setLedsNb(currentTime.temp,leds,currentColor);
