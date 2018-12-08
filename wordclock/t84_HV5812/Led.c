@@ -48,6 +48,7 @@ void setLeds(Ttime t,Led* l){
     if(currentTime.min>35){
         temp++;
     }
+    if(temp)
     temp=temp%12;
     switch(temp){
         case 0 :

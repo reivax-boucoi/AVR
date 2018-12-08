@@ -1,0 +1,1468 @@
+   1               		.file	"RTC.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               	.global	setCurrentTime
+  12               	setCurrentTime:
+  13               	.LFB6:
+  14               		.file 1 "RTC.c"
+   1:RTC.c         **** #include "RTC.h" 
+   2:RTC.c         **** 
+   3:RTC.c         **** void setCurrentTime(uint8_t hour,uint8_t min,uint8_t monthDay,uint8_t month){
+  15               		.loc 1 3 0
+  16               		.cfi_startproc
+  17               	.LVL0:
+  18               	/* prologue: function */
+  19               	/* frame size = 0 */
+  20               	/* stack size = 0 */
+  21               	.L__stack_usage = 0
+   4:RTC.c         **** 	currentTime.hour=hour;
+  22               		.loc 1 4 0
+  23 0000 E0E0      		ldi r30,lo8(currentTime)
+  24 0002 F0E0      		ldi r31,hi8(currentTime)
+  25 0004 8083      		st Z,r24
+   5:RTC.c         **** 	currentTime.min=min;
+  26               		.loc 1 5 0
+  27 0006 6183      		std Z+1,r22
+   6:RTC.c         **** 	currentTime.monthDay=monthDay;
+  28               		.loc 1 6 0
+  29 0008 4283      		std Z+2,r20
+   7:RTC.c         **** 	currentTime.month=month;
+  30               		.loc 1 7 0
+  31 000a 2383      		std Z+3,r18
+  32 000c 0895      		ret
+  33               		.cfi_endproc
+  34               	.LFE6:
+  36               	.global	minquad
+  38               	minquad:
+  39               	.LFB7:
+   8:RTC.c         **** }
+   9:RTC.c         **** 
+  10:RTC.c         **** uint8_t minquad(uint8_t min){
+  40               		.loc 1 10 0
+  41               		.cfi_startproc
+  42               	.LVL1:
+  43               	/* prologue: function */
+  44               	/* frame size = 0 */
+  45               	/* stack size = 0 */
+  46               	.L__stack_usage = 0
+  11:RTC.c         **** 	if(min > 5){
+  47               		.loc 1 11 0
+  48 000e 8630      		cpi r24,lo8(6)
+  49 0010 00F0      		brlo .L9
+  12:RTC.c         **** 		if(min > 15){
+  50               		.loc 1 12 0
+  51 0012 8031      		cpi r24,lo8(16)
+  52 0014 00F0      		brlo .L5
+  13:RTC.c         **** 			if(min > 25){
+  53               		.loc 1 13 0
+  54 0016 8A31      		cpi r24,lo8(26)
+  55 0018 00F0      		brlo .L6
+  14:RTC.c         **** 				if(min > 35){
+  56               		.loc 1 14 0
+  57 001a 8432      		cpi r24,lo8(36)
+  58 001c 00F0      		brlo .L7
+  15:RTC.c         **** 					if(min > 45){
+  59               		.loc 1 15 0
+  60 001e 8E32      		cpi r24,lo8(46)
+  61 0020 00F0      		brlo .L8
+  16:RTC.c         **** 						if(min > 55){
+  62               		.loc 1 16 0
+  63 0022 8833      		cpi r24,lo8(56)
+  64 0024 00F4      		brsh .L9
+  17:RTC.c         **** 							return 0;
+  18:RTC.c         **** 						}else{return 50;}
+  65               		.loc 1 18 0
+  66 0026 82E3      		ldi r24,lo8(50)
+  67               	.LVL2:
+  68 0028 0895      		ret
+  69               	.LVL3:
+  70               	.L5:
+  19:RTC.c         **** 					}else{return 40;}
+  20:RTC.c         **** 				}else{return 30;}
+  21:RTC.c         **** 			}else{return 20;}
+  22:RTC.c         **** 		}else{return 10;}
+  71               		.loc 1 22 0
+  72 002a 8AE0      		ldi r24,lo8(10)
+  73               	.LVL4:
+  74 002c 0895      		ret
+  75               	.LVL5:
+  76               	.L6:
+  21:RTC.c         **** 		}else{return 10;}
+  77               		.loc 1 21 0
+  78 002e 84E1      		ldi r24,lo8(20)
+  79               	.LVL6:
+  80 0030 0895      		ret
+  81               	.LVL7:
+  82               	.L7:
+  20:RTC.c         **** 			}else{return 20;}
+  83               		.loc 1 20 0
+  84 0032 8EE1      		ldi r24,lo8(30)
+  85               	.LVL8:
+  86 0034 0895      		ret
+  87               	.LVL9:
+  88               	.L8:
+  19:RTC.c         **** 					}else{return 40;}
+  89               		.loc 1 19 0
+  90 0036 88E2      		ldi r24,lo8(40)
+  91               	.LVL10:
+  92 0038 0895      		ret
+  93               	.LVL11:
+  94               	.L9:
+  23:RTC.c         **** 	}else{return 0;}
+  95               		.loc 1 23 0
+  96 003a 80E0      		ldi r24,0
+  97               	.LVL12:
+  24:RTC.c         **** }
+  98               		.loc 1 24 0
+  99 003c 0895      		ret
+ 100               		.cfi_endproc
+ 101               	.LFE7:
+ 103               	.global	bcdToDec
+ 105               	bcdToDec:
+ 106               	.LFB9:
+  25:RTC.c         **** 
+  26:RTC.c         **** int8_t RTC_readTemp(void){
+  27:RTC.c         **** 	int8_t data=0;
+  28:RTC.c         **** 	if(i2c_read(RTC_addr,1,0x11,&data)){
+  29:RTC.c         ****        // if(data&0x80){
+  30:RTC.c         ****       //      return -(data&0x7F);
+  31:RTC.c         ****        // }else{
+  32:RTC.c         ****             return (data);
+  33:RTC.c         ****       //  }
+  34:RTC.c         ****     }else{
+  35:RTC.c         ****         return 0;
+  36:RTC.c         ****     }
+  37:RTC.c         ****     
+  38:RTC.c         **** }
+  39:RTC.c         **** uint8_t bcdToDec(uint8_t val){
+ 107               		.loc 1 39 0
+ 108               		.cfi_startproc
+ 109               	.LVL13:
+ 110               	/* prologue: function */
+ 111               	/* frame size = 0 */
+ 112               	/* stack size = 0 */
+ 113               	.L__stack_usage = 0
+ 114 003e 982F      		mov r25,r24
+  40:RTC.c         ****   return ((val/16*10) + (val%16));
+ 115               		.loc 1 40 0
+ 116 0040 8295      		swap r24
+ 117               	.LVL14:
+ 118 0042 8F70      		andi r24,lo8(15)
+ 119 0044 6AE0      		ldi r22,lo8(10)
+ 120 0046 00D0      		rcall __mulqi3
+ 121 0048 9F70      		andi r25,lo8(15)
+ 122               	.LVL15:
+  41:RTC.c         **** }
+ 123               		.loc 1 41 0
+ 124 004a 890F      		add r24,r25
+ 125 004c 0895      		ret
+ 126               		.cfi_endproc
+ 127               	.LFE9:
+ 129               	.global	decToBcd
+ 131               	decToBcd:
+ 132               	.LFB10:
+  42:RTC.c         **** uint8_t decToBcd(uint8_t val){
+ 133               		.loc 1 42 0
+ 134               		.cfi_startproc
+ 135               	.LVL16:
+ 136               	/* prologue: function */
+ 137               	/* frame size = 0 */
+ 138               	/* stack size = 0 */
+ 139               	.L__stack_usage = 0
+  43:RTC.c         ****   return( (val/10*16) + (val%10) );
+ 140               		.loc 1 43 0
+ 141 004e 6AE0      		ldi r22,lo8(10)
+ 142 0050 00D0      		rcall __udivmodqi4
+ 143               	.LVL17:
+ 144 0052 8295      		swap r24
+ 145 0054 807F      		andi r24,lo8(-16)
+  44:RTC.c         **** }
+ 146               		.loc 1 44 0
+ 147 0056 890F      		add r24,r25
+ 148 0058 0895      		ret
+ 149               		.cfi_endproc
+ 150               	.LFE10:
+ 152               	.global	i2c_in_transfer
+ 154               	i2c_in_transfer:
+ 155               	.LFB15:
+  45:RTC.c         **** uint8_t RTC_readTime(struct Ttime *t){
+  46:RTC.c         **** 	uint8_t data[7] = {0};
+  47:RTC.c         **** 	if(i2c_read(RTC_addr,7,0x00,data)){
+  48:RTC.c         **** 		t->hour = bcdToDec(data[2]);
+  49:RTC.c         **** 		t->min = bcdToDec(data[1]);
+  50:RTC.c         **** 		t->monthDay = bcdToDec(data[4]);
+  51:RTC.c         **** 		t->month = bcdToDec(data[5]);
+  52:RTC.c         **** 		return 1;
+  53:RTC.c         **** 	}else{
+  54:RTC.c         **** 		return 0;
+  55:RTC.c         **** 	}
+  56:RTC.c         **** }
+  57:RTC.c         **** void RTC_setTime(struct Ttime t,uint8_t day, uint8_t year){
+  58:RTC.c         ****     i2c_write(RTC_addr,1,decToBcd(t.min));
+  59:RTC.c         ****     i2c_write(RTC_addr,2,decToBcd(t.hour));
+  60:RTC.c         ****     i2c_write(RTC_addr,3,decToBcd(day));
+  61:RTC.c         ****     i2c_write(RTC_addr,4,decToBcd(t.monthDay));
+  62:RTC.c         ****     i2c_write(RTC_addr,5,decToBcd(t.month));
+  63:RTC.c         ****     i2c_write(RTC_addr,6,decToBcd(year));
+  64:RTC.c         **** }
+  65:RTC.c         **** uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val){ // only supports 1 byte write
+  66:RTC.c         **** 	uint8_t i2c_buffer[3];
+  67:RTC.c         **** 	uint8_t i2c_buffer_len = 3;
+  68:RTC.c         **** 	i2c_buffer[0] = (addr << 1) | I2CWRITE ;
+  69:RTC.c         **** 	i2c_buffer[1] = adrs;
+  70:RTC.c         **** 	i2c_buffer[2] = val;
+  71:RTC.c         **** 	return i2c_in_transmit(i2c_buffer, i2c_buffer_len);
+  72:RTC.c         **** }
+  73:RTC.c         **** uint8_t i2c_read(uint8_t addr, uint8_t len, uint8_t adrs, uint8_t *buf){
+  74:RTC.c         **** 	//set register pointer to adrs
+  75:RTC.c         **** 	uint8_t i2c_buffer[len+1];
+  76:RTC.c         **** 	uint8_t i2c_buffer_len = 2;
+  77:RTC.c         **** 	i2c_buffer[0] = (addr << 1) | I2CWRITE;
+  78:RTC.c         **** 	i2c_buffer[1] = adrs;
+  79:RTC.c         **** 	i2c_in_transmit(i2c_buffer, i2c_buffer_len);
+  80:RTC.c         **** 	//read actual data
+  81:RTC.c         **** 	i2c_buffer_len = len+1;
+  82:RTC.c         **** 	i2c_buffer[0] = (addr << 1) | I2CREAD;
+  83:RTC.c         **** 	if(i2c_in_transmit(i2c_buffer, i2c_buffer_len)){
+  84:RTC.c         **** 		uint8_t i;
+  85:RTC.c         **** 		for(i=1;i<len+1;i++){ // fetch in buffer
+  86:RTC.c         **** 			buf[i-1]=i2c_buffer[i];
+  87:RTC.c         **** 		}
+  88:RTC.c         **** 		return 1; // provide success check
+  89:RTC.c         **** 	}else{
+  90:RTC.c         **** 		return 0;
+  91:RTC.c         **** 	}
+  92:RTC.c         **** }
+  93:RTC.c         **** 
+  94:RTC.c         **** uint8_t i2c_in_transfer(uint8_t USISR_temp){
+ 156               		.loc 1 94 0
+ 157               		.cfi_startproc
+ 158               	.LVL18:
+ 159               	/* prologue: function */
+ 160               	/* frame size = 0 */
+ 161               	/* stack size = 0 */
+ 162               	.L__stack_usage = 0
+  95:RTC.c         **** 	USISR = USISR_temp;								//Set USISR as requested by calling function
+ 163               		.loc 1 95 0
+ 164 005a 8EB9      		out 0xe,r24
+  96:RTC.c         **** 	do{
+  97:RTC.c         **** 		_delay_us(I2C_TLOW);
+  98:RTC.c         **** 		USICR = 0b00101011;								//SCL Positive Edge
+ 165               		.loc 1 98 0
+ 166 005c 8BE2      		ldi r24,lo8(43)
+ 167               	.LVL19:
+ 168               	.L15:
+ 169               	.LBB18:
+ 170               	.LBB19:
+ 171               		.file 2 "/usr/lib/avr/include/util/delay.h"
+   1:/usr/lib/avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:/usr/lib/avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:/usr/lib/avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:/usr/lib/avr/include/util/delay.h ****    All rights reserved.
+   5:/usr/lib/avr/include/util/delay.h **** 
+   6:/usr/lib/avr/include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:/usr/lib/avr/include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:/usr/lib/avr/include/util/delay.h **** 
+   9:/usr/lib/avr/include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+  10:/usr/lib/avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:/usr/lib/avr/include/util/delay.h **** 
+  12:/usr/lib/avr/include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:/usr/lib/avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:/usr/lib/avr/include/util/delay.h ****      the documentation and/or other materials provided with the
+  15:/usr/lib/avr/include/util/delay.h ****      distribution.
+  16:/usr/lib/avr/include/util/delay.h **** 
+  17:/usr/lib/avr/include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:/usr/lib/avr/include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  19:/usr/lib/avr/include/util/delay.h ****      from this software without specific prior written permission.
+  20:/usr/lib/avr/include/util/delay.h **** 
+  21:/usr/lib/avr/include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:/usr/lib/avr/include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:/usr/lib/avr/include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:/usr/lib/avr/include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:/usr/lib/avr/include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:/usr/lib/avr/include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:/usr/lib/avr/include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:/usr/lib/avr/include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:/usr/lib/avr/include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:/usr/lib/avr/include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:/usr/lib/avr/include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:/usr/lib/avr/include/util/delay.h **** 
+  33:/usr/lib/avr/include/util/delay.h **** /* $Id$ */
+  34:/usr/lib/avr/include/util/delay.h **** 
+  35:/usr/lib/avr/include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  36:/usr/lib/avr/include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  37:/usr/lib/avr/include/util/delay.h **** 
+  38:/usr/lib/avr/include/util/delay.h **** #ifndef __DOXYGEN__
+  39:/usr/lib/avr/include/util/delay.h **** #  ifndef __HAS_DELAY_CYCLES
+  40:/usr/lib/avr/include/util/delay.h **** #    define __HAS_DELAY_CYCLES 1
+  41:/usr/lib/avr/include/util/delay.h **** #  endif
+  42:/usr/lib/avr/include/util/delay.h **** #endif  /* __DOXYGEN__ */
+  43:/usr/lib/avr/include/util/delay.h **** 
+  44:/usr/lib/avr/include/util/delay.h **** #include <inttypes.h>
+  45:/usr/lib/avr/include/util/delay.h **** #include <util/delay_basic.h>
+  46:/usr/lib/avr/include/util/delay.h **** #include <math.h>
+  47:/usr/lib/avr/include/util/delay.h **** 
+  48:/usr/lib/avr/include/util/delay.h **** /** \file */
+  49:/usr/lib/avr/include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  50:/usr/lib/avr/include/util/delay.h ****     \code
+  51:/usr/lib/avr/include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  52:/usr/lib/avr/include/util/delay.h ****     //#define F_CPU 14.7456E6
+  53:/usr/lib/avr/include/util/delay.h ****     #include <util/delay.h>
+  54:/usr/lib/avr/include/util/delay.h ****     \endcode
+  55:/usr/lib/avr/include/util/delay.h **** 
+  56:/usr/lib/avr/include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  57:/usr/lib/avr/include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  58:/usr/lib/avr/include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  59:/usr/lib/avr/include/util/delay.h ****     used.
+  60:/usr/lib/avr/include/util/delay.h **** 
+  61:/usr/lib/avr/include/util/delay.h ****     The functions in this header file are wrappers around the basic
+  62:/usr/lib/avr/include/util/delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  63:/usr/lib/avr/include/util/delay.h ****     convenience functions where actual time values can be specified
+  64:/usr/lib/avr/include/util/delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  65:/usr/lib/avr/include/util/delay.h ****     that compile-time constant expressions will be eliminated by
+  66:/usr/lib/avr/include/util/delay.h ****     compiler optimization so floating-point expressions can be used
+  67:/usr/lib/avr/include/util/delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  68:/usr/lib/avr/include/util/delay.h ****     frequency passed by the macro F_CPU.
+  69:/usr/lib/avr/include/util/delay.h **** 
+  70:/usr/lib/avr/include/util/delay.h ****     \note In order for these functions to work as intended, compiler
+  71:/usr/lib/avr/include/util/delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  72:/usr/lib/avr/include/util/delay.h ****     <em>must</em> be an expression that is a known constant at
+  73:/usr/lib/avr/include/util/delay.h ****     compile-time.  If these requirements are not met, the resulting
+  74:/usr/lib/avr/include/util/delay.h ****     delay will be much longer (and basically unpredictable), and
+  75:/usr/lib/avr/include/util/delay.h ****     applications that otherwise do not use floating-point calculations
+  76:/usr/lib/avr/include/util/delay.h ****     will experience severe code bloat by the floating-point library
+  77:/usr/lib/avr/include/util/delay.h ****     routines linked into the application.
+  78:/usr/lib/avr/include/util/delay.h **** 
+  79:/usr/lib/avr/include/util/delay.h ****     The functions available allow the specification of microsecond, and
+  80:/usr/lib/avr/include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  81:/usr/lib/avr/include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  82:/usr/lib/avr/include/util/delay.h **** 
+  83:/usr/lib/avr/include/util/delay.h **** */
+  84:/usr/lib/avr/include/util/delay.h **** 
+  85:/usr/lib/avr/include/util/delay.h **** #if !defined(__DOXYGEN__)
+  86:/usr/lib/avr/include/util/delay.h **** static __inline__ void _delay_us(double __us) __attribute__((__always_inline__));
+  87:/usr/lib/avr/include/util/delay.h **** static __inline__ void _delay_ms(double __ms) __attribute__((__always_inline__));
+  88:/usr/lib/avr/include/util/delay.h **** #endif
+  89:/usr/lib/avr/include/util/delay.h **** 
+  90:/usr/lib/avr/include/util/delay.h **** #ifndef F_CPU
+  91:/usr/lib/avr/include/util/delay.h **** /* prevent compiler error by supplying a default */
+  92:/usr/lib/avr/include/util/delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  93:/usr/lib/avr/include/util/delay.h **** /** \ingroup util_delay
+  94:/usr/lib/avr/include/util/delay.h ****     \def F_CPU
+  95:/usr/lib/avr/include/util/delay.h ****     \brief CPU frequency in Hz
+  96:/usr/lib/avr/include/util/delay.h **** 
+  97:/usr/lib/avr/include/util/delay.h ****     The macro F_CPU specifies the CPU frequency to be considered by
+  98:/usr/lib/avr/include/util/delay.h ****     the delay macros.  This macro is normally supplied by the
+  99:/usr/lib/avr/include/util/delay.h ****     environment (e.g. from within a project header, or the project's
+ 100:/usr/lib/avr/include/util/delay.h ****     Makefile).  The value 1 MHz here is only provided as a "vanilla"
+ 101:/usr/lib/avr/include/util/delay.h ****     fallback if no such user-provided definition could be found.
+ 102:/usr/lib/avr/include/util/delay.h **** 
+ 103:/usr/lib/avr/include/util/delay.h ****     In terms of the delay functions, the CPU frequency can be given as
+ 104:/usr/lib/avr/include/util/delay.h ****     a floating-point constant (e.g. 3.6864E6 for 3.6864 MHz).
+ 105:/usr/lib/avr/include/util/delay.h ****     However, the macros in <util/setbaud.h> require it to be an
+ 106:/usr/lib/avr/include/util/delay.h ****     integer value.
+ 107:/usr/lib/avr/include/util/delay.h ****  */
+ 108:/usr/lib/avr/include/util/delay.h **** # define F_CPU 1000000UL
+ 109:/usr/lib/avr/include/util/delay.h **** #endif
+ 110:/usr/lib/avr/include/util/delay.h **** 
+ 111:/usr/lib/avr/include/util/delay.h **** #ifndef __OPTIMIZE__
+ 112:/usr/lib/avr/include/util/delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+ 113:/usr/lib/avr/include/util/delay.h **** #endif
+ 114:/usr/lib/avr/include/util/delay.h **** 
+ 115:/usr/lib/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 116:/usr/lib/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 117:/usr/lib/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 118:/usr/lib/avr/include/util/delay.h **** #  include <math.h>
+ 119:/usr/lib/avr/include/util/delay.h **** #endif
+ 120:/usr/lib/avr/include/util/delay.h **** 
+ 121:/usr/lib/avr/include/util/delay.h **** /**
+ 122:/usr/lib/avr/include/util/delay.h ****    \ingroup util_delay
+ 123:/usr/lib/avr/include/util/delay.h **** 
+ 124:/usr/lib/avr/include/util/delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+ 125:/usr/lib/avr/include/util/delay.h **** 
+ 126:/usr/lib/avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 127:/usr/lib/avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 128:/usr/lib/avr/include/util/delay.h **** 
+ 129:/usr/lib/avr/include/util/delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 130:/usr/lib/avr/include/util/delay.h **** 
+ 131:/usr/lib/avr/include/util/delay.h ****    When the user request delay which exceed the maximum possible one,
+ 132:/usr/lib/avr/include/util/delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 133:/usr/lib/avr/include/util/delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 134:/usr/lib/avr/include/util/delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 135:/usr/lib/avr/include/util/delay.h ****    user will not be informed about decreased resolution.
+ 136:/usr/lib/avr/include/util/delay.h **** 
+ 137:/usr/lib/avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles()
+ 138:/usr/lib/avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 ms/ F_CPU in MHz. For
+ 139:/usr/lib/avr/include/util/delay.h ****    values greater than the maximal possible delay, overflows results in
+ 140:/usr/lib/avr/include/util/delay.h ****    no delay i.e., 0ms.
+ 141:/usr/lib/avr/include/util/delay.h **** 
+ 142:/usr/lib/avr/include/util/delay.h ****    Conversion of \c __ms into clock cycles may not always result in
+ 143:/usr/lib/avr/include/util/delay.h ****    integer.  By default, the clock cycles rounded up to next
+ 144:/usr/lib/avr/include/util/delay.h ****    integer. This ensures that the user gets at least \c __ms
+ 145:/usr/lib/avr/include/util/delay.h ****    microseconds of delay.
+ 146:/usr/lib/avr/include/util/delay.h **** 
+ 147:/usr/lib/avr/include/util/delay.h ****    Alternatively, by defining the macro \c __DELAY_ROUND_DOWN__, or
+ 148:/usr/lib/avr/include/util/delay.h ****    \c __DELAY_ROUND_CLOSEST__, before including this header file, the
+ 149:/usr/lib/avr/include/util/delay.h ****    algorithm can be made to round down, or round to closest integer,
+ 150:/usr/lib/avr/include/util/delay.h ****    respectively.
+ 151:/usr/lib/avr/include/util/delay.h **** 
+ 152:/usr/lib/avr/include/util/delay.h ****    \note
+ 153:/usr/lib/avr/include/util/delay.h **** 
+ 154:/usr/lib/avr/include/util/delay.h ****    The implementation of _delay_ms() based on
+ 155:/usr/lib/avr/include/util/delay.h ****    __builtin_avr_delay_cycles() is not backward compatible with older
+ 156:/usr/lib/avr/include/util/delay.h ****    implementations.  In order to get functionality backward compatible
+ 157:/usr/lib/avr/include/util/delay.h ****    with previous versions, the macro \c "__DELAY_BACKWARD_COMPATIBLE__"
+ 158:/usr/lib/avr/include/util/delay.h ****    must be defined before including this header file. Also, the
+ 159:/usr/lib/avr/include/util/delay.h ****    backward compatible algorithm will be chosen if the code is
+ 160:/usr/lib/avr/include/util/delay.h ****    compiled in a <em>freestanding environment</em> (GCC option
+ 161:/usr/lib/avr/include/util/delay.h ****    \c -ffreestanding), as the math functions required for rounding are
+ 162:/usr/lib/avr/include/util/delay.h ****    not available to the compiler then.
+ 163:/usr/lib/avr/include/util/delay.h **** 
+ 164:/usr/lib/avr/include/util/delay.h ****  */
+ 165:/usr/lib/avr/include/util/delay.h **** void
+ 166:/usr/lib/avr/include/util/delay.h **** _delay_ms(double __ms)
+ 167:/usr/lib/avr/include/util/delay.h **** {
+ 168:/usr/lib/avr/include/util/delay.h **** 	double __tmp ;
+ 169:/usr/lib/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 170:/usr/lib/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 171:/usr/lib/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 172:/usr/lib/avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 173:/usr/lib/avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 174:/usr/lib/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 175:/usr/lib/avr/include/util/delay.h **** 
+ 176:/usr/lib/avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 177:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 178:/usr/lib/avr/include/util/delay.h **** 
+ 179:/usr/lib/avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 180:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 181:/usr/lib/avr/include/util/delay.h **** 
+ 182:/usr/lib/avr/include/util/delay.h **** 	#else
+ 183:/usr/lib/avr/include/util/delay.h **** 		//round up by default
+ 184:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 185:/usr/lib/avr/include/util/delay.h **** 	#endif
+ 186:/usr/lib/avr/include/util/delay.h **** 
+ 187:/usr/lib/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 188:/usr/lib/avr/include/util/delay.h **** 
+ 189:/usr/lib/avr/include/util/delay.h **** #else
+ 190:/usr/lib/avr/include/util/delay.h **** 	uint16_t __ticks;
+ 191:/usr/lib/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 4e3) * __ms;
+ 192:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 193:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 194:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 195:/usr/lib/avr/include/util/delay.h **** 	{
+ 196:/usr/lib/avr/include/util/delay.h **** 		//	__ticks = requested delay in 1/10 ms
+ 197:/usr/lib/avr/include/util/delay.h **** 		__ticks = (uint16_t) (__ms * 10.0);
+ 198:/usr/lib/avr/include/util/delay.h **** 		while(__ticks)
+ 199:/usr/lib/avr/include/util/delay.h **** 		{
+ 200:/usr/lib/avr/include/util/delay.h **** 			// wait 1/10 ms
+ 201:/usr/lib/avr/include/util/delay.h **** 			_delay_loop_2(((F_CPU) / 4e3) / 10);
+ 202:/usr/lib/avr/include/util/delay.h **** 			__ticks --;
+ 203:/usr/lib/avr/include/util/delay.h **** 		}
+ 204:/usr/lib/avr/include/util/delay.h **** 		return;
+ 205:/usr/lib/avr/include/util/delay.h **** 	}
+ 206:/usr/lib/avr/include/util/delay.h **** 	else
+ 207:/usr/lib/avr/include/util/delay.h **** 		__ticks = (uint16_t)__tmp;
+ 208:/usr/lib/avr/include/util/delay.h **** 	_delay_loop_2(__ticks);
+ 209:/usr/lib/avr/include/util/delay.h **** #endif
+ 210:/usr/lib/avr/include/util/delay.h **** }
+ 211:/usr/lib/avr/include/util/delay.h **** 
+ 212:/usr/lib/avr/include/util/delay.h **** /**
+ 213:/usr/lib/avr/include/util/delay.h ****    \ingroup util_delay
+ 214:/usr/lib/avr/include/util/delay.h **** 
+ 215:/usr/lib/avr/include/util/delay.h ****    Perform a delay of \c __us microseconds, using _delay_loop_1().
+ 216:/usr/lib/avr/include/util/delay.h **** 
+ 217:/usr/lib/avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 218:/usr/lib/avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 219:/usr/lib/avr/include/util/delay.h **** 
+ 220:/usr/lib/avr/include/util/delay.h ****    The maximal possible delay is 768 us / F_CPU in MHz.
+ 221:/usr/lib/avr/include/util/delay.h **** 
+ 222:/usr/lib/avr/include/util/delay.h ****    If the user requests a delay greater than the maximal possible one,
+ 223:/usr/lib/avr/include/util/delay.h ****    _delay_us() will automatically call _delay_ms() instead.  The user
+ 224:/usr/lib/avr/include/util/delay.h ****    will not be informed about this case.
+ 225:/usr/lib/avr/include/util/delay.h **** 
+ 226:/usr/lib/avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles()
+ 227:/usr/lib/avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 us/ F_CPU in MHz. For
+ 228:/usr/lib/avr/include/util/delay.h ****    values greater than the maximal possible delay, overflow results in
+ 229:/usr/lib/avr/include/util/delay.h ****    no delay i.e., 0us.
+ 230:/usr/lib/avr/include/util/delay.h **** 
+ 231:/usr/lib/avr/include/util/delay.h ****    Conversion of \c __us into clock cycles may not always result in
+ 232:/usr/lib/avr/include/util/delay.h ****    integer.  By default, the clock cycles rounded up to next
+ 233:/usr/lib/avr/include/util/delay.h ****    integer. This ensures that the user gets at least \c __us
+ 234:/usr/lib/avr/include/util/delay.h ****    microseconds of delay.
+ 235:/usr/lib/avr/include/util/delay.h **** 
+ 236:/usr/lib/avr/include/util/delay.h ****    Alternatively, by defining the macro \c __DELAY_ROUND_DOWN__, or
+ 237:/usr/lib/avr/include/util/delay.h ****    \c __DELAY_ROUND_CLOSEST__, before including this header file, the
+ 238:/usr/lib/avr/include/util/delay.h ****    algorithm can be made to round down, or round to closest integer,
+ 239:/usr/lib/avr/include/util/delay.h ****    respectively.
+ 240:/usr/lib/avr/include/util/delay.h **** 
+ 241:/usr/lib/avr/include/util/delay.h ****    \note
+ 242:/usr/lib/avr/include/util/delay.h **** 
+ 243:/usr/lib/avr/include/util/delay.h ****    The implementation of _delay_ms() based on
+ 244:/usr/lib/avr/include/util/delay.h ****    __builtin_avr_delay_cycles() is not backward compatible with older
+ 245:/usr/lib/avr/include/util/delay.h ****    implementations.  In order to get functionality backward compatible
+ 246:/usr/lib/avr/include/util/delay.h ****    with previous versions, the macro \c __DELAY_BACKWARD_COMPATIBLE__
+ 247:/usr/lib/avr/include/util/delay.h ****    must be defined before including this header file. Also, the
+ 248:/usr/lib/avr/include/util/delay.h ****    backward compatible algorithm will be chosen if the code is
+ 249:/usr/lib/avr/include/util/delay.h ****    compiled in a <em>freestanding environment</em> (GCC option
+ 250:/usr/lib/avr/include/util/delay.h ****    \c -ffreestanding), as the math functions required for rounding are
+ 251:/usr/lib/avr/include/util/delay.h ****    not available to the compiler then.
+ 252:/usr/lib/avr/include/util/delay.h **** 
+ 253:/usr/lib/avr/include/util/delay.h ****  */
+ 254:/usr/lib/avr/include/util/delay.h **** void
+ 255:/usr/lib/avr/include/util/delay.h **** _delay_us(double __us)
+ 256:/usr/lib/avr/include/util/delay.h **** {
+ 257:/usr/lib/avr/include/util/delay.h **** 	double __tmp ;
+ 258:/usr/lib/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 259:/usr/lib/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 260:/usr/lib/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 261:/usr/lib/avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 262:/usr/lib/avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 263:/usr/lib/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e6) * __us;
+ 264:/usr/lib/avr/include/util/delay.h **** 
+ 265:/usr/lib/avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 266:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 267:/usr/lib/avr/include/util/delay.h **** 
+ 268:/usr/lib/avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 269:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 270:/usr/lib/avr/include/util/delay.h **** 
+ 271:/usr/lib/avr/include/util/delay.h **** 	#else
+ 272:/usr/lib/avr/include/util/delay.h **** 		//round up by default
+ 273:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 274:/usr/lib/avr/include/util/delay.h **** 	#endif
+ 275:/usr/lib/avr/include/util/delay.h **** 
+ 276:/usr/lib/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 172               		.loc 2 276 0
+ 173 005e 95E0      		ldi r25,lo8(5)
+ 174 0060 9A95      	1:	dec r25
+ 175 0062 01F4      		brne 1b
+ 176 0064 0000      		nop
+ 177               	.LVL20:
+ 178               	.LBE19:
+ 179               	.LBE18:
+ 180               		.loc 1 98 0
+ 181 0066 8DB9      		out 0xd,r24
+ 182               	.L14:
+  99:RTC.c         **** 		while (!(PIN_USI&(1<<PIN_USI_SCL)));		//Wait for SCL to go high
+ 183               		.loc 1 99 0 discriminator 1
+ 184 0068 CC9B      		sbis 0x19,4
+ 185 006a 00C0      		rjmp .L14
+ 186               	.LVL21:
+ 187               	.LBB20:
+ 188               	.LBB21:
+ 189               		.loc 2 276 0
+ 190 006c 94E0      		ldi r25,lo8(4)
+ 191 006e 9A95      	1:	dec r25
+ 192 0070 01F4      		brne 1b
+ 193               	.LVL22:
+ 194               	.LBE21:
+ 195               	.LBE20:
+ 100:RTC.c         **** 		_delay_us(I2C_THIGH);
+ 101:RTC.c         **** 		USICR = 0b00101011;								//SCL Negative Edge
+ 196               		.loc 1 101 0
+ 197 0072 8DB9      		out 0xd,r24
+ 102:RTC.c         **** 	}while (!(USISR&(1<<USIOIF)));					//Do until transfer is complete
+ 198               		.loc 1 102 0
+ 199 0074 769B      		sbis 0xe,6
+ 200 0076 00C0      		rjmp .L15
+ 201               	.LVL23:
+ 202               	.LBB22:
+ 203               	.LBB23:
+ 204               		.loc 2 276 0
+ 205 0078 85E0      		ldi r24,lo8(5)
+ 206 007a 8A95      	1:	dec r24
+ 207 007c 01F4      		brne 1b
+ 208 007e 0000      		nop
+ 209               	.LVL24:
+ 210               	.LBE23:
+ 211               	.LBE22:
+ 103:RTC.c         **** 	_delay_us(I2C_TLOW);
+ 104:RTC.c         **** 	return USIDR;
+ 212               		.loc 1 104 0
+ 213 0080 8FB1      		in r24,0xf
+ 105:RTC.c         **** }
+ 214               		.loc 1 105 0
+ 215 0082 0895      		ret
+ 216               		.cfi_endproc
+ 217               	.LFE15:
+ 219               	.global	i2c_in_transmit
+ 221               	i2c_in_transmit:
+ 222               	.LFB16:
+ 106:RTC.c         **** uint8_t i2c_in_transmit(uint8_t *msg, uint8_t msg_size){
+ 223               		.loc 1 106 0
+ 224               		.cfi_startproc
+ 225               	.LVL25:
+ 226 0084 EF92      		push r14
+ 227               	.LCFI0:
+ 228               		.cfi_def_cfa_offset 3
+ 229               		.cfi_offset 14, -2
+ 230 0086 FF92      		push r15
+ 231               	.LCFI1:
+ 232               		.cfi_def_cfa_offset 4
+ 233               		.cfi_offset 15, -3
+ 234 0088 0F93      		push r16
+ 235               	.LCFI2:
+ 236               		.cfi_def_cfa_offset 5
+ 237               		.cfi_offset 16, -4
+ 238 008a 1F93      		push r17
+ 239               	.LCFI3:
+ 240               		.cfi_def_cfa_offset 6
+ 241               		.cfi_offset 17, -5
+ 242 008c CF93      		push r28
+ 243               	.LCFI4:
+ 244               		.cfi_def_cfa_offset 7
+ 245               		.cfi_offset 28, -6
+ 246 008e DF93      		push r29
+ 247               	.LCFI5:
+ 248               		.cfi_def_cfa_offset 8
+ 249               		.cfi_offset 29, -7
+ 250               	/* prologue: function */
+ 251               	/* frame size = 0 */
+ 252               	/* stack size = 6 */
+ 253               	.L__stack_usage = 6
+ 254 0090 EC01      		movw r28,r24
+ 255 0092 162F      		mov r17,r22
+ 107:RTC.c         **** 	USI_I2C_Master_State = USI_ADDRESS;
+ 256               		.loc 1 107 0
+ 257 0094 1092 0000 		sts USI_I2C_Master_State,__zero_reg__
+ 108:RTC.c         **** 
+ 109:RTC.c         **** 	//   Start Condition
+ 110:RTC.c         **** 	PORT_USI |=  (1 << PORT_USI_SCL); 						//Setting input makes line pull high
+ 258               		.loc 1 110 0
+ 259 0098 DC9A      		sbi 0x1b,4
+ 260               	.L21:
+ 111:RTC.c         **** 	while (!(PIN_USI & (1<<PIN_USI_SCL)));		//Wait for SCL to go high
+ 261               		.loc 1 111 0 discriminator 1
+ 262 009a CC9B      		sbis 0x19,4
+ 263 009c 00C0      		rjmp .L21
+ 264               	.LVL26:
+ 265               	.LBB24:
+ 266               	.LBB25:
+ 267               		.loc 2 276 0
+ 268 009e 84E0      		ldi r24,lo8(4)
+ 269 00a0 8A95      	1:	dec r24
+ 270 00a2 01F4      		brne 1b
+ 271               	.LVL27:
+ 272               	.LBE25:
+ 273               	.LBE24:
+ 112:RTC.c         **** 
+ 113:RTC.c         **** 	#ifdef I2C_FAST_MODE
+ 114:RTC.c         **** 		_delay_us(I2C_THIGH);
+ 115:RTC.c         **** 	#else
+ 116:RTC.c         **** 		_delay_us(I2C_TLOW);
+ 117:RTC.c         **** 	#endif
+ 118:RTC.c         **** 	DDR_USI |=  (1 << PORT_USI_SDA);
+ 274               		.loc 1 118 0
+ 275 00a4 D69A      		sbi 0x1a,6
+ 119:RTC.c         **** 	DDR_USI |=  (1 << PORT_USI_SCL);
+ 276               		.loc 1 119 0
+ 277 00a6 D49A      		sbi 0x1a,4
+ 120:RTC.c         **** 	PORT_USI &= ~(1 << PORT_USI_SDA);
+ 278               		.loc 1 120 0
+ 279 00a8 DE98      		cbi 0x1b,6
+ 280               	.LVL28:
+ 281               	.LBB26:
+ 282               	.LBB27:
+ 283               		.loc 2 276 0
+ 284 00aa 84E0      		ldi r24,lo8(4)
+ 285 00ac 8A95      	1:	dec r24
+ 286 00ae 01F4      		brne 1b
+ 287               	.LVL29:
+ 288               	.LBE27:
+ 289               	.LBE26:
+ 121:RTC.c         **** 	_delay_us(I2C_THIGH);;
+ 122:RTC.c         **** 	PORT_USI &= ~(1 << PORT_USI_SCL);
+ 290               		.loc 1 122 0
+ 291 00b0 DC98      		cbi 0x1b,4
+ 292               	.LVL30:
+ 293               	.LBB28:
+ 294               	.LBB29:
+ 295               		.loc 2 276 0
+ 296 00b2 85E0      		ldi r24,lo8(5)
+ 297 00b4 8A95      	1:	dec r24
+ 298 00b6 01F4      		brne 1b
+ 299 00b8 0000      		nop
+ 300               	.LVL31:
+ 301               	.LBE29:
+ 302               	.LBE28:
+ 123:RTC.c         **** 	_delay_us(I2C_TLOW);
+ 124:RTC.c         **** 	PORT_USI |=  (1 << PORT_USI_SDA);
+ 303               		.loc 1 124 0
+ 304 00ba DE9A      		sbi 0x1b,6
+ 125:RTC.c         **** 	
+ 126:RTC.c         **** 	do{
+ 127:RTC.c         **** 		switch(USI_I2C_Master_State){
+ 128:RTC.c         **** 			case USI_ADDRESS:
+ 129:RTC.c         **** 				if(!(*msg & 0x01)){
+ 130:RTC.c         **** 					USI_I2C_Master_State = USI_WRITE;
+ 131:RTC.c         **** 				}else{
+ 132:RTC.c         **** 					USI_I2C_Master_State = USI_READ;
+ 305               		.loc 1 132 0
+ 306 00bc 02E0      		ldi r16,lo8(2)
+ 130:RTC.c         **** 				}else{
+ 307               		.loc 1 130 0
+ 308 00be FF24      		clr r15
+ 309 00c0 F394      		inc r15
+ 133:RTC.c         **** 				}//no break so goes to Write
+ 134:RTC.c         **** 				
+ 135:RTC.c         **** 			case USI_WRITE:
+ 136:RTC.c         **** 				PORT_USI &= ~(1 << PORT_USI_SCL);
+ 137:RTC.c         **** 				USIDR = *(msg);				//Load data			
+ 138:RTC.c         **** 				msg++;						//Increment buffer pointer
+ 139:RTC.c         **** 				i2c_in_transfer(0b11110000 | (0x00<<USICNT0));
+ 140:RTC.c         **** 				DDR_USI &= ~(1 << PORT_USI_SDA);
+ 141:RTC.c         **** 				if(i2c_in_transfer(0b11110000 | (0x0E<<USICNT0)) & 0x01){
+ 142:RTC.c         **** 					PORT_USI |=  (1 << PORT_USI_SCL);
+ 143:RTC.c         **** 					PORT_USI |=  (1 << PORT_USI_SDA);
+ 144:RTC.c         **** 					return 0;
+ 145:RTC.c         **** 				}
+ 146:RTC.c         **** 				DDR_USI |=  (1 << PORT_USI_SDA);
+ 147:RTC.c         **** 				break;
+ 148:RTC.c         **** 
+ 149:RTC.c         **** 			case USI_READ:
+ 150:RTC.c         **** 				DDR_USI &= ~(1 << PORT_USI_SDA);
+ 151:RTC.c         **** 				(*msg) = i2c_in_transfer(0b11110000 | (0x00<<USICNT0));			
+ 152:RTC.c         **** 				msg++;
+ 153:RTC.c         **** 				DDR_USI |=  (1 << PORT_USI_SDA);				
+ 154:RTC.c         **** 				if(msg_size == 1){
+ 155:RTC.c         **** 					USIDR = 0xFF;			//Load NACK to end transmission
+ 310               		.loc 1 155 0
+ 311 00c2 EE24      		clr r14
+ 312 00c4 EA94      		dec r14
+ 313               	.LVL32:
+ 314               	.L31:
+ 127:RTC.c         **** 			case USI_ADDRESS:
+ 315               		.loc 1 127 0
+ 316 00c6 8091 0000 		lds r24,USI_I2C_Master_State
+ 317 00ca 8130      		cpi r24,lo8(1)
+ 318 00cc 01F0      		breq .L23
+ 319 00ce 00F0      		brlo .L24
+ 320 00d0 8230      		cpi r24,lo8(2)
+ 321 00d2 01F0      		breq .L25
+ 322 00d4 00C0      		rjmp .L22
+ 323               	.L24:
+ 129:RTC.c         **** 					USI_I2C_Master_State = USI_WRITE;
+ 324               		.loc 1 129 0
+ 325 00d6 8881      		ld r24,Y
+ 326 00d8 80FD      		sbrc r24,0
+ 327 00da 00C0      		rjmp .L26
+ 130:RTC.c         **** 				}else{
+ 328               		.loc 1 130 0
+ 329 00dc F092 0000 		sts USI_I2C_Master_State,r15
+ 330 00e0 00C0      		rjmp .L23
+ 331               	.L26:
+ 132:RTC.c         **** 				}//no break so goes to Write
+ 332               		.loc 1 132 0
+ 333 00e2 0093 0000 		sts USI_I2C_Master_State,r16
+ 334               	.L23:
+ 136:RTC.c         **** 				USIDR = *(msg);				//Load data			
+ 335               		.loc 1 136 0
+ 336 00e6 DC98      		cbi 0x1b,4
+ 137:RTC.c         **** 				msg++;						//Increment buffer pointer
+ 337               		.loc 1 137 0
+ 338 00e8 8991      		ld r24,Y+
+ 339               	.LVL33:
+ 340 00ea 8FB9      		out 0xf,r24
+ 341               	.LVL34:
+ 139:RTC.c         **** 				DDR_USI &= ~(1 << PORT_USI_SDA);
+ 342               		.loc 1 139 0
+ 343 00ec 80EF      		ldi r24,lo8(-16)
+ 344 00ee 00D0      		rcall i2c_in_transfer
+ 345               	.LVL35:
+ 140:RTC.c         **** 				if(i2c_in_transfer(0b11110000 | (0x0E<<USICNT0)) & 0x01){
+ 346               		.loc 1 140 0
+ 347 00f0 D698      		cbi 0x1a,6
+ 141:RTC.c         **** 					PORT_USI |=  (1 << PORT_USI_SCL);
+ 348               		.loc 1 141 0
+ 349 00f2 8EEF      		ldi r24,lo8(-2)
+ 350 00f4 00D0      		rcall i2c_in_transfer
+ 351               	.LVL36:
+ 352 00f6 80FF      		sbrs r24,0
+ 353 00f8 00C0      		rjmp .L27
+ 142:RTC.c         **** 					PORT_USI |=  (1 << PORT_USI_SDA);
+ 354               		.loc 1 142 0
+ 355 00fa DC9A      		sbi 0x1b,4
+ 143:RTC.c         **** 					return 0;
+ 356               		.loc 1 143 0
+ 357 00fc DE9A      		sbi 0x1b,6
+ 144:RTC.c         **** 				}
+ 358               		.loc 1 144 0
+ 359 00fe 80E0      		ldi r24,0
+ 360 0100 00C0      		rjmp .L28
+ 361               	.L27:
+ 146:RTC.c         **** 				break;
+ 362               		.loc 1 146 0
+ 363 0102 D69A      		sbi 0x1a,6
+ 147:RTC.c         **** 
+ 364               		.loc 1 147 0
+ 365 0104 00C0      		rjmp .L22
+ 366               	.L25:
+ 150:RTC.c         **** 				(*msg) = i2c_in_transfer(0b11110000 | (0x00<<USICNT0));			
+ 367               		.loc 1 150 0
+ 368 0106 D698      		cbi 0x1a,6
+ 151:RTC.c         **** 				msg++;
+ 369               		.loc 1 151 0
+ 370 0108 80EF      		ldi r24,lo8(-16)
+ 371 010a 00D0      		rcall i2c_in_transfer
+ 372               	.LVL37:
+ 373 010c 8993      		st Y+,r24
+ 374               	.LVL38:
+ 153:RTC.c         **** 				if(msg_size == 1){
+ 375               		.loc 1 153 0
+ 376 010e D69A      		sbi 0x1a,6
+ 154:RTC.c         **** 					USIDR = 0xFF;			//Load NACK to end transmission
+ 377               		.loc 1 154 0
+ 378 0110 1130      		cpi r17,lo8(1)
+ 379 0112 01F4      		brne .L29
+ 380               		.loc 1 155 0
+ 381 0114 EFB8      		out 0xf,r14
+ 382 0116 00C0      		rjmp .L30
+ 383               	.L29:
+ 156:RTC.c         **** 				}else{
+ 157:RTC.c         **** 					USIDR = 0x00;			//Load ACK
+ 384               		.loc 1 157 0
+ 385 0118 1FB8      		out 0xf,__zero_reg__
+ 386               	.L30:
+ 158:RTC.c         **** 				}
+ 159:RTC.c         **** 				i2c_in_transfer(0b11110000 | (0x0E<<USICNT0));
+ 387               		.loc 1 159 0
+ 388 011a 8EEF      		ldi r24,lo8(-2)
+ 389 011c 00D0      		rcall i2c_in_transfer
+ 390               	.LVL39:
+ 391               	.L22:
+ 160:RTC.c         **** 				break;
+ 161:RTC.c         **** 		}
+ 162:RTC.c         **** 	}while(--msg_size);
+ 392               		.loc 1 162 0
+ 393 011e 1150      		subi r17,lo8(-(-1))
+ 394               	.LVL40:
+ 395 0120 01F4      		brne .L31
+ 163:RTC.c         **** 	
+ 164:RTC.c         **** 	//Stop Condition
+ 165:RTC.c         **** 	PORT_USI &= ~(1 << PORT_USI_SDA);           				// Pull SDA low.
+ 396               		.loc 1 165 0
+ 397 0122 DE98      		cbi 0x1b,6
+ 398               	.LVL41:
+ 399               	.LBB30:
+ 400               	.LBB31:
+ 401               		.loc 2 276 0
+ 402 0124 85E0      		ldi r24,lo8(5)
+ 403 0126 8A95      	1:	dec r24
+ 404 0128 01F4      		brne 1b
+ 405 012a 0000      		nop
+ 406               	.LVL42:
+ 407               	.LBE31:
+ 408               	.LBE30:
+ 166:RTC.c         **** 	_delay_us(I2C_TLOW);
+ 167:RTC.c         **** 	DDR_USI &= ~(1 << PORT_USI_SCL);            				// Release SCL.
+ 409               		.loc 1 167 0
+ 410 012c D498      		cbi 0x1a,4
+ 411               	.L32:
+ 168:RTC.c         **** 	while( !(PIN_USI & (1<<PIN_USI_SCL)) );  	// Wait for SCL to go high.  
+ 412               		.loc 1 168 0 discriminator 1
+ 413 012e CC9B      		sbis 0x19,4
+ 414 0130 00C0      		rjmp .L32
+ 415               	.LVL43:
+ 416               	.LBB32:
+ 417               	.LBB33:
+ 418               		.loc 2 276 0
+ 419 0132 84E0      		ldi r24,lo8(4)
+ 420 0134 8A95      	1:	dec r24
+ 421 0136 01F4      		brne 1b
+ 422               	.LVL44:
+ 423               	.LBE33:
+ 424               	.LBE32:
+ 169:RTC.c         **** 	_delay_us(I2C_THIGH);
+ 170:RTC.c         **** 	DDR_USI &= ~(1 << PORT_USI_SDA);            				// Release SDA.
+ 425               		.loc 1 170 0
+ 426 0138 D698      		cbi 0x1a,6
+ 427               	.L33:
+ 171:RTC.c         **** 	while( !(PIN_USI & (1<<PIN_USI_SDA)) );  	// Wait for SDA to go high. 
+ 428               		.loc 1 171 0 discriminator 1
+ 429 013a CE9B      		sbis 0x19,6
+ 430 013c 00C0      		rjmp .L33
+ 172:RTC.c         **** 	return 1;
+ 431               		.loc 1 172 0
+ 432 013e 81E0      		ldi r24,lo8(1)
+ 433               	.L28:
+ 434               	/* epilogue start */
+ 173:RTC.c         **** }
+ 435               		.loc 1 173 0
+ 436 0140 DF91      		pop r29
+ 437 0142 CF91      		pop r28
+ 438               	.LVL45:
+ 439 0144 1F91      		pop r17
+ 440               	.LVL46:
+ 441 0146 0F91      		pop r16
+ 442 0148 FF90      		pop r15
+ 443 014a EF90      		pop r14
+ 444 014c 0895      		ret
+ 445               		.cfi_endproc
+ 446               	.LFE16:
+ 448               	.global	i2c_write
+ 450               	i2c_write:
+ 451               	.LFB13:
+  65:RTC.c         **** 	uint8_t i2c_buffer[3];
+ 452               		.loc 1 65 0
+ 453               		.cfi_startproc
+ 454               	.LVL47:
+ 455 014e CF93      		push r28
+ 456               	.LCFI6:
+ 457               		.cfi_def_cfa_offset 3
+ 458               		.cfi_offset 28, -2
+ 459 0150 DF93      		push r29
+ 460               	.LCFI7:
+ 461               		.cfi_def_cfa_offset 4
+ 462               		.cfi_offset 29, -3
+ 463 0152 00D0      		rcall .
+ 464 0154 1F92      		push __zero_reg__
+ 465               	.LCFI8:
+ 466               		.cfi_def_cfa_offset 7
+ 467 0156 CDB7      		in r28,__SP_L__
+ 468 0158 DEB7      		in r29,__SP_H__
+ 469               	.LCFI9:
+ 470               		.cfi_def_cfa_register 28
+ 471               	/* prologue: function */
+ 472               	/* frame size = 3 */
+ 473               	/* stack size = 5 */
+ 474               	.L__stack_usage = 5
+ 475               	.LVL48:
+  68:RTC.c         **** 	i2c_buffer[1] = adrs;
+ 476               		.loc 1 68 0
+ 477 015a 880F      		lsl r24
+ 478               	.LVL49:
+ 479 015c 8983      		std Y+1,r24
+  69:RTC.c         **** 	i2c_buffer[2] = val;
+ 480               		.loc 1 69 0
+ 481 015e 6A83      		std Y+2,r22
+  70:RTC.c         **** 	return i2c_in_transmit(i2c_buffer, i2c_buffer_len);
+ 482               		.loc 1 70 0
+ 483 0160 4B83      		std Y+3,r20
+  71:RTC.c         **** }
+ 484               		.loc 1 71 0
+ 485 0162 63E0      		ldi r22,lo8(3)
+ 486               	.LVL50:
+ 487 0164 CE01      		movw r24,r28
+ 488 0166 0196      		adiw r24,1
+ 489 0168 00D0      		rcall i2c_in_transmit
+ 490               	.LVL51:
+ 491               	/* epilogue start */
+  72:RTC.c         **** uint8_t i2c_read(uint8_t addr, uint8_t len, uint8_t adrs, uint8_t *buf){
+ 492               		.loc 1 72 0
+ 493 016a 0F90      		pop __tmp_reg__
+ 494 016c 0F90      		pop __tmp_reg__
+ 495 016e 0F90      		pop __tmp_reg__
+ 496 0170 DF91      		pop r29
+ 497 0172 CF91      		pop r28
+ 498 0174 0895      		ret
+ 499               		.cfi_endproc
+ 500               	.LFE13:
+ 502               	.global	RTC_setTime
+ 504               	RTC_setTime:
+ 505               	.LFB12:
+  57:RTC.c         ****     i2c_write(RTC_addr,1,decToBcd(t.min));
+ 506               		.loc 1 57 0
+ 507               		.cfi_startproc
+ 508               	.LVL52:
+ 509 0176 0F93      		push r16
+ 510               	.LCFI10:
+ 511               		.cfi_def_cfa_offset 3
+ 512               		.cfi_offset 16, -2
+ 513 0178 1F93      		push r17
+ 514               	.LCFI11:
+ 515               		.cfi_def_cfa_offset 4
+ 516               		.cfi_offset 17, -3
+ 517 017a CF93      		push r28
+ 518               	.LCFI12:
+ 519               		.cfi_def_cfa_offset 5
+ 520               		.cfi_offset 28, -4
+ 521 017c DF93      		push r29
+ 522               	.LCFI13:
+ 523               		.cfi_def_cfa_offset 6
+ 524               		.cfi_offset 29, -5
+ 525 017e 00D0      		rcall .
+ 526 0180 00D0      		rcall .
+ 527 0182 1F92      		push __zero_reg__
+ 528               	.LCFI14:
+ 529               		.cfi_def_cfa_offset 11
+ 530 0184 CDB7      		in r28,__SP_L__
+ 531 0186 DEB7      		in r29,__SP_H__
+ 532               	.LCFI15:
+ 533               		.cfi_def_cfa_register 28
+ 534               	/* prologue: function */
+ 535               	/* frame size = 5 */
+ 536               	/* stack size = 9 */
+ 537               	.L__stack_usage = 9
+ 538 0188 4983      		std Y+1,r20
+ 539 018a 852F      		mov r24,r21
+ 540 018c 6B83      		std Y+3,r22
+ 541 018e 7C83      		std Y+4,r23
+ 542 0190 122F      		mov r17,r18
+  58:RTC.c         ****     i2c_write(RTC_addr,2,decToBcd(t.hour));
+ 543               		.loc 1 58 0
+ 544 0192 00D0      		rcall decToBcd
+ 545               	.LVL53:
+ 546 0194 482F      		mov r20,r24
+ 547 0196 61E0      		ldi r22,lo8(1)
+ 548 0198 88E6      		ldi r24,lo8(104)
+ 549 019a 00D0      		rcall i2c_write
+ 550               	.LVL54:
+  59:RTC.c         ****     i2c_write(RTC_addr,3,decToBcd(day));
+ 551               		.loc 1 59 0
+ 552 019c 8981      		ldd r24,Y+1
+ 553 019e 00D0      		rcall decToBcd
+ 554               	.LVL55:
+ 555 01a0 482F      		mov r20,r24
+ 556 01a2 62E0      		ldi r22,lo8(2)
+ 557 01a4 88E6      		ldi r24,lo8(104)
+ 558 01a6 00D0      		rcall i2c_write
+ 559               	.LVL56:
+  60:RTC.c         ****     i2c_write(RTC_addr,4,decToBcd(t.monthDay));
+ 560               		.loc 1 60 0
+ 561 01a8 812F      		mov r24,r17
+ 562 01aa 00D0      		rcall decToBcd
+ 563               	.LVL57:
+ 564 01ac 482F      		mov r20,r24
+ 565 01ae 63E0      		ldi r22,lo8(3)
+ 566 01b0 88E6      		ldi r24,lo8(104)
+ 567 01b2 00D0      		rcall i2c_write
+ 568               	.LVL58:
+  61:RTC.c         ****     i2c_write(RTC_addr,5,decToBcd(t.month));
+ 569               		.loc 1 61 0
+ 570 01b4 8B81      		ldd r24,Y+3
+ 571 01b6 00D0      		rcall decToBcd
+ 572               	.LVL59:
+ 573 01b8 482F      		mov r20,r24
+ 574 01ba 64E0      		ldi r22,lo8(4)
+ 575 01bc 88E6      		ldi r24,lo8(104)
+ 576 01be 00D0      		rcall i2c_write
+ 577               	.LVL60:
+  62:RTC.c         ****     i2c_write(RTC_addr,6,decToBcd(year));
+ 578               		.loc 1 62 0
+ 579 01c0 8C81      		ldd r24,Y+4
+ 580 01c2 00D0      		rcall decToBcd
+ 581               	.LVL61:
+ 582 01c4 482F      		mov r20,r24
+ 583 01c6 65E0      		ldi r22,lo8(5)
+ 584 01c8 88E6      		ldi r24,lo8(104)
+ 585 01ca 00D0      		rcall i2c_write
+ 586               	.LVL62:
+  63:RTC.c         **** }
+ 587               		.loc 1 63 0
+ 588 01cc 802F      		mov r24,r16
+ 589 01ce 00D0      		rcall decToBcd
+ 590               	.LVL63:
+ 591 01d0 482F      		mov r20,r24
+ 592 01d2 66E0      		ldi r22,lo8(6)
+ 593 01d4 88E6      		ldi r24,lo8(104)
+ 594               	/* epilogue start */
+  64:RTC.c         **** uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val){ // only supports 1 byte write
+ 595               		.loc 1 64 0
+ 596 01d6 0F90      		pop __tmp_reg__
+ 597 01d8 0F90      		pop __tmp_reg__
+ 598 01da 0F90      		pop __tmp_reg__
+ 599 01dc 0F90      		pop __tmp_reg__
+ 600 01de 0F90      		pop __tmp_reg__
+ 601 01e0 DF91      		pop r29
+ 602 01e2 CF91      		pop r28
+ 603 01e4 1F91      		pop r17
+ 604               	.LVL64:
+ 605 01e6 0F91      		pop r16
+ 606               	.LVL65:
+  63:RTC.c         **** }
+ 607               		.loc 1 63 0
+ 608 01e8 00C0      		rjmp i2c_write
+ 609               	.LVL66:
+ 610               		.cfi_endproc
+ 611               	.LFE12:
+ 613               	.global	i2c_read
+ 615               	i2c_read:
+ 616               	.LFB14:
+  73:RTC.c         **** 	//set register pointer to adrs
+ 617               		.loc 1 73 0
+ 618               		.cfi_startproc
+ 619               	.LVL67:
+ 620 01ea 8F92      		push r8
+ 621               	.LCFI16:
+ 622               		.cfi_def_cfa_offset 3
+ 623               		.cfi_offset 8, -2
+ 624 01ec 9F92      		push r9
+ 625               	.LCFI17:
+ 626               		.cfi_def_cfa_offset 4
+ 627               		.cfi_offset 9, -3
+ 628 01ee AF92      		push r10
+ 629               	.LCFI18:
+ 630               		.cfi_def_cfa_offset 5
+ 631               		.cfi_offset 10, -4
+ 632 01f0 BF92      		push r11
+ 633               	.LCFI19:
+ 634               		.cfi_def_cfa_offset 6
+ 635               		.cfi_offset 11, -5
+ 636 01f2 CF92      		push r12
+ 637               	.LCFI20:
+ 638               		.cfi_def_cfa_offset 7
+ 639               		.cfi_offset 12, -6
+ 640 01f4 DF92      		push r13
+ 641               	.LCFI21:
+ 642               		.cfi_def_cfa_offset 8
+ 643               		.cfi_offset 13, -7
+ 644 01f6 EF92      		push r14
+ 645               	.LCFI22:
+ 646               		.cfi_def_cfa_offset 9
+ 647               		.cfi_offset 14, -8
+ 648 01f8 FF92      		push r15
+ 649               	.LCFI23:
+ 650               		.cfi_def_cfa_offset 10
+ 651               		.cfi_offset 15, -9
+ 652 01fa 0F93      		push r16
+ 653               	.LCFI24:
+ 654               		.cfi_def_cfa_offset 11
+ 655               		.cfi_offset 16, -10
+ 656 01fc 1F93      		push r17
+ 657               	.LCFI25:
+ 658               		.cfi_def_cfa_offset 12
+ 659               		.cfi_offset 17, -11
+ 660 01fe CF93      		push r28
+ 661               	.LCFI26:
+ 662               		.cfi_def_cfa_offset 13
+ 663               		.cfi_offset 28, -12
+ 664 0200 DF93      		push r29
+ 665               	.LCFI27:
+ 666               		.cfi_def_cfa_offset 14
+ 667               		.cfi_offset 29, -13
+ 668 0202 CDB7      		in r28,__SP_L__
+ 669 0204 DEB7      		in r29,__SP_H__
+ 670               	.LCFI28:
+ 671               		.cfi_def_cfa_register 28
+ 672               	/* prologue: function */
+ 673               	/* frame size = 0 */
+ 674               	/* stack size = 12 */
+ 675               	.L__stack_usage = 12
+ 676 0206 182F      		mov r17,r24
+ 677 0208 062F      		mov r16,r22
+ 678 020a 4901      		movw r8,r18
+  92:RTC.c         **** 
+ 679               		.loc 1 92 0
+ 680 020c ADB6      		in r10,__SP_L__
+ 681 020e BEB6      		in r11,__SP_H__
+  75:RTC.c         **** 	uint8_t i2c_buffer_len = 2;
+ 682               		.loc 1 75 0
+ 683 0210 C62E      		mov r12,r22
+ 684 0212 D12C      		mov r13,__zero_reg__
+ 685               	.LVL68:
+ 686 0214 C601      		movw r24,r12
+ 687               	.LVL69:
+ 688 0216 0196      		adiw r24,1
+ 689 0218 2DB7      		in r18,__SP_L__
+ 690 021a 3EB7      		in r19,__SP_H__
+ 691               	.LVL70:
+ 692 021c 281B      		sub r18,r24
+ 693 021e 390B      		sbc r19,r25
+ 694 0220 0FB6      		in __tmp_reg__,__SREG__
+ 695 0222 F894      		cli
+ 696 0224 3EBF      		out __SP_H__,r19
+ 697 0226 0FBE      		out __SREG__,__tmp_reg__
+ 698 0228 2DBF      		out __SP_L__,r18
+ 699 022a 8DB7      		in r24,__SP_L__
+ 700 022c 9EB7      		in r25,__SP_H__
+ 701 022e 0196      		adiw r24,1
+ 702 0230 7C01      		movw r14,r24
+ 703               	.LVL71:
+  77:RTC.c         **** 	i2c_buffer[1] = adrs;
+ 704               		.loc 1 77 0
+ 705 0232 812F      		mov r24,r17
+ 706 0234 880F      		lsl r24
+ 707 0236 EDB7      		in r30,__SP_L__
+ 708 0238 FEB7      		in r31,__SP_H__
+ 709 023a 8183      		std Z+1,r24
+  78:RTC.c         **** 	i2c_in_transmit(i2c_buffer, i2c_buffer_len);
+ 710               		.loc 1 78 0
+ 711 023c F701      		movw r30,r14
+ 712 023e 4183      		std Z+1,r20
+  79:RTC.c         **** 	//read actual data
+ 713               		.loc 1 79 0
+ 714 0240 62E0      		ldi r22,lo8(2)
+ 715               	.LVL72:
+ 716 0242 C701      		movw r24,r14
+ 717 0244 00D0      		rcall i2c_in_transmit
+ 718               	.LVL73:
+  82:RTC.c         **** 	if(i2c_in_transmit(i2c_buffer, i2c_buffer_len)){
+ 719               		.loc 1 82 0
+ 720 0246 110F      		lsl r17
+ 721               	.LVL74:
+ 722 0248 1160      		ori r17,lo8(1)
+ 723 024a F701      		movw r30,r14
+ 724 024c 1083      		st Z,r17
+  83:RTC.c         **** 		uint8_t i;
+ 725               		.loc 1 83 0
+ 726 024e 61E0      		ldi r22,lo8(1)
+ 727 0250 600F      		add r22,r16
+ 728               	.LVL75:
+ 729 0252 C701      		movw r24,r14
+ 730 0254 00D0      		rcall i2c_in_transmit
+ 731               	.LVL76:
+ 732 0256 8823      		tst r24
+ 733 0258 01F0      		breq .L47
+ 734 025a 21E0      		ldi r18,lo8(1)
+ 735               	.L48:
+ 736               	.LVL77:
+ 737               	.LBB34:
+  85:RTC.c         **** 			buf[i-1]=i2c_buffer[i];
+ 738               		.loc 1 85 0 discriminator 1
+ 739 025c 822F      		mov r24,r18
+ 740 025e 90E0      		ldi r25,0
+ 741 0260 C816      		cp r12,r24
+ 742 0262 D906      		cpc r13,r25
+ 743 0264 04F0      		brlt .L53
+  86:RTC.c         **** 		}
+ 744               		.loc 1 86 0 discriminator 3
+ 745 0266 F401      		movw r30,r8
+ 746 0268 E80F      		add r30,r24
+ 747 026a F91F      		adc r31,r25
+ 748 026c 3197      		sbiw r30,1
+ 749 026e D701      		movw r26,r14
+ 750 0270 A80F      		add r26,r24
+ 751 0272 B91F      		adc r27,r25
+ 752 0274 8C91      		ld r24,X
+ 753 0276 8083      		st Z,r24
+  85:RTC.c         **** 			buf[i-1]=i2c_buffer[i];
+ 754               		.loc 1 85 0 discriminator 3
+ 755 0278 2F5F      		subi r18,lo8(-(1))
+ 756               	.LVL78:
+ 757 027a 00C0      		rjmp .L48
+ 758               	.L53:
+  88:RTC.c         **** 	}else{
+ 759               		.loc 1 88 0
+ 760 027c 81E0      		ldi r24,lo8(1)
+ 761               	.LVL79:
+ 762               	.L47:
+ 763               	.LBE34:
+  92:RTC.c         **** 
+ 764               		.loc 1 92 0
+ 765 027e 0FB6      		in __tmp_reg__,__SREG__
+ 766 0280 F894      		cli
+ 767 0282 BEBE      		out __SP_H__,r11
+ 768 0284 0FBE      		out __SREG__,__tmp_reg__
+ 769 0286 ADBE      		out __SP_L__,r10
+ 770               	/* epilogue start */
+ 771 0288 DF91      		pop r29
+ 772 028a CF91      		pop r28
+ 773 028c 1F91      		pop r17
+ 774 028e 0F91      		pop r16
+ 775 0290 FF90      		pop r15
+ 776 0292 EF90      		pop r14
+ 777               	.LVL80:
+ 778 0294 DF90      		pop r13
+ 779 0296 CF90      		pop r12
+ 780               	.LVL81:
+ 781 0298 BF90      		pop r11
+ 782 029a AF90      		pop r10
+ 783 029c 9F90      		pop r9
+ 784 029e 8F90      		pop r8
+ 785               	.LVL82:
+ 786 02a0 0895      		ret
+ 787               		.cfi_endproc
+ 788               	.LFE14:
+ 790               	.global	RTC_readTemp
+ 792               	RTC_readTemp:
+ 793               	.LFB8:
+  26:RTC.c         **** 	int8_t data=0;
+ 794               		.loc 1 26 0
+ 795               		.cfi_startproc
+ 796 02a2 CF93      		push r28
+ 797               	.LCFI29:
+ 798               		.cfi_def_cfa_offset 3
+ 799               		.cfi_offset 28, -2
+ 800 02a4 DF93      		push r29
+ 801               	.LCFI30:
+ 802               		.cfi_def_cfa_offset 4
+ 803               		.cfi_offset 29, -3
+ 804 02a6 1F92      		push __zero_reg__
+ 805               	.LCFI31:
+ 806               		.cfi_def_cfa_offset 5
+ 807 02a8 CDB7      		in r28,__SP_L__
+ 808 02aa DEB7      		in r29,__SP_H__
+ 809               	.LCFI32:
+ 810               		.cfi_def_cfa_register 28
+ 811               	/* prologue: function */
+ 812               	/* frame size = 1 */
+ 813               	/* stack size = 3 */
+ 814               	.L__stack_usage = 3
+  27:RTC.c         **** 	if(i2c_read(RTC_addr,1,0x11,&data)){
+ 815               		.loc 1 27 0
+ 816 02ac 1982      		std Y+1,__zero_reg__
+  28:RTC.c         ****        // if(data&0x80){
+ 817               		.loc 1 28 0
+ 818 02ae 9E01      		movw r18,r28
+ 819 02b0 2F5F      		subi r18,-1
+ 820 02b2 3F4F      		sbci r19,-1
+ 821 02b4 41E1      		ldi r20,lo8(17)
+ 822 02b6 61E0      		ldi r22,lo8(1)
+ 823 02b8 88E6      		ldi r24,lo8(104)
+ 824 02ba 00D0      		rcall i2c_read
+ 825               	.LVL83:
+ 826 02bc 8823      		tst r24
+ 827 02be 01F0      		breq .L56
+  32:RTC.c         ****       //  }
+ 828               		.loc 1 32 0
+ 829 02c0 8981      		ldd r24,Y+1
+ 830 02c2 00C0      		rjmp .L55
+ 831               	.L56:
+  35:RTC.c         ****     }
+ 832               		.loc 1 35 0
+ 833 02c4 80E0      		ldi r24,0
+ 834               	.L55:
+ 835               	/* epilogue start */
+  38:RTC.c         **** uint8_t bcdToDec(uint8_t val){
+ 836               		.loc 1 38 0
+ 837 02c6 0F90      		pop __tmp_reg__
+ 838 02c8 DF91      		pop r29
+ 839 02ca CF91      		pop r28
+ 840 02cc 0895      		ret
+ 841               		.cfi_endproc
+ 842               	.LFE8:
+ 844               	.global	RTC_readTime
+ 846               	RTC_readTime:
+ 847               	.LFB11:
+  45:RTC.c         **** 	uint8_t data[7] = {0};
+ 848               		.loc 1 45 0
+ 849               		.cfi_startproc
+ 850               	.LVL84:
+ 851 02ce 0F93      		push r16
+ 852               	.LCFI33:
+ 853               		.cfi_def_cfa_offset 3
+ 854               		.cfi_offset 16, -2
+ 855 02d0 1F93      		push r17
+ 856               	.LCFI34:
+ 857               		.cfi_def_cfa_offset 4
+ 858               		.cfi_offset 17, -3
+ 859 02d2 CF93      		push r28
+ 860               	.LCFI35:
+ 861               		.cfi_def_cfa_offset 5
+ 862               		.cfi_offset 28, -4
+ 863 02d4 DF93      		push r29
+ 864               	.LCFI36:
+ 865               		.cfi_def_cfa_offset 6
+ 866               		.cfi_offset 29, -5
+ 867 02d6 CDB7      		in r28,__SP_L__
+ 868 02d8 DEB7      		in r29,__SP_H__
+ 869               	.LCFI37:
+ 870               		.cfi_def_cfa_register 28
+ 871 02da 2797      		sbiw r28,7
+ 872               	.LCFI38:
+ 873               		.cfi_def_cfa_offset 13
+ 874 02dc 0FB6      		in __tmp_reg__,__SREG__
+ 875 02de F894      		cli
+ 876 02e0 DEBF      		out __SP_H__,r29
+ 877 02e2 0FBE      		out __SREG__,__tmp_reg__
+ 878 02e4 CDBF      		out __SP_L__,r28
+ 879               	/* prologue: function */
+ 880               	/* frame size = 7 */
+ 881               	/* stack size = 11 */
+ 882               	.L__stack_usage = 11
+ 883 02e6 8C01      		movw r16,r24
+  46:RTC.c         **** 	if(i2c_read(RTC_addr,7,0x00,data)){
+ 884               		.loc 1 46 0
+ 885 02e8 9E01      		movw r18,r28
+ 886 02ea 2F5F      		subi r18,-1
+ 887 02ec 3F4F      		sbci r19,-1
+ 888 02ee 87E0      		ldi r24,lo8(7)
+ 889               	.LVL85:
+ 890 02f0 F901      		movw r30,r18
+ 891               		0:
+ 892 02f2 1192      		st Z+,__zero_reg__
+ 893 02f4 8A95      		dec r24
+ 894 02f6 01F4      		brne 0b
+  47:RTC.c         **** 		t->hour = bcdToDec(data[2]);
+ 895               		.loc 1 47 0
+ 896 02f8 40E0      		ldi r20,0
+ 897 02fa 67E0      		ldi r22,lo8(7)
+ 898 02fc 88E6      		ldi r24,lo8(104)
+ 899 02fe 00D0      		rcall i2c_read
+ 900               	.LVL86:
+ 901 0300 8823      		tst r24
+ 902 0302 01F0      		breq .L58
+  48:RTC.c         **** 		t->min = bcdToDec(data[1]);
+ 903               		.loc 1 48 0
+ 904 0304 8B81      		ldd r24,Y+3
+ 905 0306 00D0      		rcall bcdToDec
+ 906               	.LVL87:
+ 907 0308 F801      		movw r30,r16
+ 908 030a 8083      		st Z,r24
+  49:RTC.c         **** 		t->monthDay = bcdToDec(data[4]);
+ 909               		.loc 1 49 0
+ 910 030c 8A81      		ldd r24,Y+2
+ 911 030e 00D0      		rcall bcdToDec
+ 912               	.LVL88:
+ 913 0310 F801      		movw r30,r16
+ 914 0312 8183      		std Z+1,r24
+  50:RTC.c         **** 		t->month = bcdToDec(data[5]);
+ 915               		.loc 1 50 0
+ 916 0314 8D81      		ldd r24,Y+5
+ 917 0316 00D0      		rcall bcdToDec
+ 918               	.LVL89:
+ 919 0318 F801      		movw r30,r16
+ 920 031a 8283      		std Z+2,r24
+  51:RTC.c         **** 		return 1;
+ 921               		.loc 1 51 0
+ 922 031c 8E81      		ldd r24,Y+6
+ 923 031e 00D0      		rcall bcdToDec
+ 924               	.LVL90:
+ 925 0320 F801      		movw r30,r16
+ 926 0322 8383      		std Z+3,r24
+  52:RTC.c         **** 	}else{
+ 927               		.loc 1 52 0
+ 928 0324 81E0      		ldi r24,lo8(1)
+ 929               	.L58:
+ 930               	/* epilogue start */
+  56:RTC.c         **** void RTC_setTime(struct Ttime t,uint8_t day, uint8_t year){
+ 931               		.loc 1 56 0
+ 932 0326 2796      		adiw r28,7
+ 933 0328 0FB6      		in __tmp_reg__,__SREG__
+ 934 032a F894      		cli
+ 935 032c DEBF      		out __SP_H__,r29
+ 936 032e 0FBE      		out __SREG__,__tmp_reg__
+ 937 0330 CDBF      		out __SP_L__,r28
+ 938 0332 DF91      		pop r29
+ 939 0334 CF91      		pop r28
+ 940 0336 1F91      		pop r17
+ 941 0338 0F91      		pop r16
+ 942               	.LVL91:
+ 943 033a 0895      		ret
+ 944               		.cfi_endproc
+ 945               	.LFE11:
+ 947               		.comm	USI_I2C_Master_State,1,1
+ 948               		.comm	currentTime,5,1
+ 949               	.Letext0:
+ 950               		.file 3 "/usr/lib/avr/include/stdint.h"
+ 951               		.file 4 "RTC.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 RTC.c
+     /tmp/cce9B0oR.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cce9B0oR.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cce9B0oR.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cce9B0oR.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cce9B0oR.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cce9B0oR.s:12     .text:0000000000000000 setCurrentTime
+                            *COM*:0000000000000005 currentTime
+     /tmp/cce9B0oR.s:38     .text:000000000000000e minquad
+     /tmp/cce9B0oR.s:105    .text:000000000000003e bcdToDec
+     /tmp/cce9B0oR.s:131    .text:000000000000004e decToBcd
+     /tmp/cce9B0oR.s:154    .text:000000000000005a i2c_in_transfer
+     /tmp/cce9B0oR.s:221    .text:0000000000000084 i2c_in_transmit
+                            *COM*:0000000000000001 USI_I2C_Master_State
+     /tmp/cce9B0oR.s:450    .text:000000000000014e i2c_write
+     /tmp/cce9B0oR.s:504    .text:0000000000000176 RTC_setTime
+     /tmp/cce9B0oR.s:615    .text:00000000000001ea i2c_read
+     /tmp/cce9B0oR.s:792    .text:00000000000002a2 RTC_readTemp
+     /tmp/cce9B0oR.s:846    .text:00000000000002ce RTC_readTime
+
+UNDEFINED SYMBOLS
+__mulqi3
+__udivmodqi4
+__do_clear_bss

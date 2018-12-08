@@ -62,6 +62,8 @@ int main(void){
     setCurrentTime(0,10,7,12);
     // //RTC_setTime(currentTime,6,18);
     RTC_readTime(&currentTime);
+    EEPROM_write(0,0xAA);
+    EEPROM_write(1,0xBC);
     while(1){
     }
     return(0);
