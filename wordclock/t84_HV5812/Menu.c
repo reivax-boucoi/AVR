@@ -223,8 +223,27 @@ void Mreset(uint8_t i){
     if(i<1){
         MsetMode(1);
         MsetColorMode(0);
+        EEPROM_write(EE_NIGHTMODE,1);
+        EEPROM_write(EE_OFFHOUR,12+22);
+        EEPROM_write(EE_ONHOUR,1+8);
         TCCR1B|=(1<<CS12)|(1<<CS10);
     }
 }
 void MsetRainbow(uint8_t i){
+  //  cli();
+    sendRawData(0b11111100001111111111);//white
+    _delay_ms(500);
+    sendRawData(0b11000000001111111111);//green
+    _delay_ms(500);
+    sendRawData(0b00001100001111111111);//red
+    _delay_ms(500);
+    sendRawData(0b00110000001111111111);//blue
+    _delay_ms(500);
+    sendRawData(0b11110000001111111111);//cyan
+    _delay_ms(500);
+    sendRawData(0b00111100001111111111);//magenta
+    _delay_ms(500);
+    sendRawData(0b11001100001111111111);//yellow
+    _delay_ms(500);
+  //  sei();
 }

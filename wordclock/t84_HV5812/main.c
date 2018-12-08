@@ -29,7 +29,7 @@ int main(void){
     PORTA|=(BTNINTERNAL|BTNOK);
     PORTB|=BTNSELECT;
     TIMSK1|=(1<<TOIE1);//|(1<<OCIE1B);
-   // OCR1B=32768;
+    // OCR1B=32768;
     TIMSK0|=(1<<TOIE0);
     
     sendData(0b11111100001111111111);//white
@@ -85,9 +85,7 @@ ISR( PCINT0_vect){
             if(Mcurrent->fptr!=0)Mcurrent->fptr(Mindex);//check if function is associated and selected value is not a navigation move
             Mcurrent=getSubMenu(Mcurrent,Mindex);//get new menu
             Mindex=0;
-            for(uint8_t i=0;i<NBLEDS;i++){//clear display after changing settings
-                ledOff(&leds[i]);
-            }
+            clearLeds(leds);
         }
         TCNT1=65534;//get straight to led update
     }
@@ -106,17 +104,15 @@ ISR( TIM1_OVF_vect ){
             }else if(m<4){
                 setLedsNb(RTC_readTemp(),leds);
             }
+        }else{
+            clearLeds(leds);
         }
         ledr=!ledr;
     }else{//menu settings mode
-        for(uint8_t i=0;i<NBLEDS;i++){
-            if(Mcurrent->sub[Mindex].led==i){
-                ledOn(&leds[i],colorArray[Mcurrent->nb_optn>>4]);
-            }else{
-                ledOff(&leds[i]);
-            }
-        }
+        clearLeds(leds);
+        ledOn(&leds[Mcurrent->sub[Mindex].led],colorArray[Mcurrent->nb_optn>>4]);
     }
+    
 }
 ISR( TIM0_OVF_vect ){//mux for each color, row 0 and 1
     switch(state){

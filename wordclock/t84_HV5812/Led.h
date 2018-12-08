@@ -18,6 +18,7 @@ void ledInit(Led* leds);
 uint32_t getDataByColor(uint8_t c, uint8_t mode, Led* leds);
 void ledOff(Led* l);
 void ledOn(Led* l,uint8_t c);
+void clearLeds(Led* l);
 
 void setLeds(Ttime t, Led* l);
 void setLedsNb(int8_t nb, Led* l);

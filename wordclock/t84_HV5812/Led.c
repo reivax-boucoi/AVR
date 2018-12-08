@@ -36,12 +36,15 @@ void ledOn(Led* l,uint8_t c){
 void ledOff(Led* l){
     l->c=BLACK;
 }
+void clearLeds(Led* l){
+    for(uint8_t i=0;i<NBLEDS;i++){
+        ledOff(&l[i]);
+    }
+}
 
 void setLeds(Ttime t,Led* l){
     uint8_t temp=0;
-    for(;temp<NBLEDS;temp++){
-        ledOff(&l[temp]);
-    }
+    clearLeds(l);
     ledOn(&l[ILEST],getColor());
     
     temp=currentTime.hour;
@@ -49,7 +52,7 @@ void setLeds(Ttime t,Led* l){
         temp++;
     }
     if(temp)
-    temp=temp%12;
+        temp=temp%12;
     switch(temp){
         case 0 :
             ledOn(&l[MINUIT],getColor());
@@ -82,10 +85,7 @@ void setLeds(Ttime t,Led* l){
 }
 
 void setLedsNb(int8_t nb, Led* l){
-    uint8_t i=0;
-    for(;i<NBLEDS;i++){
-        ledOff(&l[i]);
-    }
+    clearLeds(l);
     if(nb < 0){
         ledOn(&l[MOINS],getColor());
         nb=-nb;
