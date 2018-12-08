@@ -1,11 +1,7 @@
 #include "Menu.h"
 
 uint8_t mode=1;//0: hour only, 1-2: hour+temp, 3: temp only
-uint8_t nightMode=0;//0:inactive, 
-uint8_t nightOnHour=7;
-uint8_t nightOffHour=22;
 uint8_t colorMode=0;
-static const uint8_t colorArray[7]={WHITE,CYAN,BLUE,MAGENTA,RED,YELLOW,GREEN};
 uint8_t findNextEntry(Menu* m,uint8_t index){
     if((index+2)>(m->nb_optn%16))return 0;
     return index+1;
@@ -32,42 +28,44 @@ uint8_t EEPROM_read(uint8_t addr){
 
 void Minit(void){
     colorMode=EEPROM_read(EE_COLOR);
+    MsetMode(EEPROM_read(EE_MODE));
 }
-const Menu M0main={7+16,0,{//WHITE
+const Menu M0main={8,0,{//WHITE
     {7,&M1mode},
     {8,&M1cmode},
     {10,&M1nightmode},
     {14,&M1setTime},
     {0,&M1eventMode},
     {4,&M1reset},
-    {17,&M1rainbow}    
+    {17,&M1rainbow},
+    {HEURE,0}//exit      
 }};
-const Menu M1mode={5,MsetMode,{//
+const Menu M1mode={5+16,MsetMode,{//CYAN
     {7,0},//Hour only
     {8,0},//Hour + temp (slow)
     {10,0},//Hour + temp (fast)
     {14,0},//temp only
     {HEURE,&M0main}//return    
 }};
-const Menu M1cmode={8,MsetColorMode,{
-    {7,0},//fixed WHITE
-    {8,0},//fixed CYAN
-    {10,0},//fixed BLUE
-    {14,0},//fixed MAGENTA
-    {0,0},//fixed RED
-    {4,0},//fixed YELLOW
-    {17,0},//fixed GREEN
-    {2,0},// cycle single
-    {12,0},// cycle all
+const Menu M1cmode={10+32,MsetColorMode,{//BLUE
+    {7,0},//fixed WHITE 1
+    {8,0},//fixed CYAN 2
+    {10,0},//fixed BLUE 3
+    {14,0},//fixed MAGENTA 4
+    {0,0},//fixed RED 5
+    {4,0},//fixed YELLOW 6
+    {17,0},//fixed GREEN 7
+    {2,0},// cycle single 8
+    {12,0},// cycle all 9
     {HEURE,&M0main}//return    
 }};
-const Menu M1nightmode={4,MsetNightMode,{
+const Menu M1nightmode={4+48,MsetNightMode,{//MAGENTA
     {7,0},//none
     {8,&M2offhour},//Half brightness
     {10,&M2offhour},//Off completely
     {HEURE,&M0main}//return
 }};
-const Menu M2offhour={12,MsetNightOff,{
+const Menu M2offhour={12+64,MsetNightOff,{//RED
     {7,&M3onhour},//heures
     {8,&M3onhour},
     {10,&M3onhour},
@@ -81,8 +79,8 @@ const Menu M2offhour={12,MsetNightOff,{
     {16,&M3onhour},
     {HEURE,&M1nightmode}//return
 }};
-const Menu M3onhour={12,MsetNightOn,{
-    {7,0},//heure
+const Menu M3onhour={12+80,MsetNightOn,{//YELLOW
+    {7,0},//heures
     {8,0},
     {10,0},
     {14,0},
@@ -160,24 +158,11 @@ const Menu M1rainbow={3,MsetRainbow,{
 }};
 
 void MsetMode(uint8_t i){
-    switch(i){
-        case 0://hour only
-            TCCR1B|=(1<<CS12)|(1<<CS10);
-            mode=0;
-            break;
-        case 1://temp+hour,slow
-            TCCR1B|=(1<<CS12)|(1<<CS10);
-            mode=1;
-            break;
-        case 2://temp+hour,fast
-            TCCR1B|=(1<<CS12);
-            TCCR1B&=~(1<<CS10);
-            mode=2;
-            break;
-        case 3://temp only
-            TCCR1B|=(1<<CS12)|(1<<CS10);
-            mode=3;
-            break;
+    if(i<4){
+        TCCR1B|=(1<<CS12)|(1<<CS10);
+        if(i==2)TCCR1B&=~(1<<CS10);
+        mode=i;
+        EEPROM_write(EE_MODE,i);
     }
 }
 uint8_t getMode(void){
@@ -189,20 +174,15 @@ uint8_t getMode(void){
     return mode;
 }
 void MsetColorMode(uint8_t i){
-    if(i<8){
-        colorMode=0;//fixed, store color in eeprom
+    if(i<7){
+        colorMode=colorArray[i];//fixed
         EEPROM_write(EE_COLOR,colorArray[i]);
-    }else{
-        switch(i){
-            case 8://cycle single
-                colorMode=WHITE+128;
-                EEPROM_write(EE_COLOR,128);
-                break;
-            case 9://cycle all 
-                colorMode=WHITE+64;
-                EEPROM_write(EE_COLOR,64);
-                break;            
-        }
+    }else if(i==7){//cycle single
+        colorMode=WHITE+128;
+        EEPROM_write(EE_COLOR,128);
+    }else if(i==8){//cycle all
+        colorMode=WHITE+64;
+        EEPROM_write(EE_COLOR,64);
     }
 }
 uint8_t getColor(void){
@@ -217,17 +197,17 @@ uint8_t getColor(void){
     }
 }
 void MsetNightMode(uint8_t i){
-    nightMode=i;
+    if(i<3)EEPROM_write(EE_NIGHTMODE,i);
 }
 uint8_t isInAllowedTime(uint8_t h){
-    if(nightMode)return (h>=nightOnHour && h<=nightOffHour);
+    if(EEPROM_read(EE_NIGHTMODE))return (h>=EEPROM_read(EE_ONHOUR) && h<=EEPROM_read(EE_OFFHOUR));
     return 1;
 }
 void MsetNightOff(uint8_t i){
-    nightOffHour=12+i;
+    EEPROM_write(EE_OFFHOUR,12+i);
 }
 void MsetNightOn(uint8_t i){
-    nightOnHour=i+1;
+    EEPROM_write(EE_ONHOUR,1+i);
 }
 void MsetHouram(uint8_t i){
 }
@@ -240,9 +220,11 @@ void MsetMinpm(uint8_t i){
 void MsetEventMode(uint8_t i){
 }
 void Mreset(uint8_t i){
-    MsetMode(1);
-    MsetColorMode(0);
-    TCCR1B|=(1<<CS12)|(1<<CS10);
+    if(i<1){
+        MsetMode(1);
+        MsetColorMode(0);
+        TCCR1B|=(1<<CS12)|(1<<CS10);
+    }
 }
 void MsetRainbow(uint8_t i){
 }

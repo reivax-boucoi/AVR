@@ -7,1164 +7,1174 @@
    7               		.text
    8               	.Ltext0:
    9               		.cfi_sections	.debug_frame
-  10               	.global	MsetNightMode
-  12               	MsetNightMode:
-  13               	.LFB15:
+  10               	.global	MsetRainbow
+  12               	MsetRainbow:
+  13               	.LFB25:
   14               		.file 1 "Menu.c"
    1:Menu.c        **** #include "Menu.h"
    2:Menu.c        **** 
    3:Menu.c        **** uint8_t mode=1;//0: hour only, 1-2: hour+temp, 3: temp only
-   4:Menu.c        **** uint8_t nightMode=0;//0:inactive, 
-   5:Menu.c        **** uint8_t nightOnHour=7;
-   6:Menu.c        **** uint8_t nightOffHour=22;
-   7:Menu.c        **** uint8_t colorMode=0;
-   8:Menu.c        **** static const uint8_t colorArray[7]={WHITE,CYAN,BLUE,MAGENTA,RED,YELLOW,GREEN};
-   9:Menu.c        **** uint8_t findNextEntry(Menu* m,uint8_t index){
-  10:Menu.c        ****     if((index+2)>(m->nb_optn%16))return 0;
-  11:Menu.c        ****     return index+1;
-  12:Menu.c        **** }
-  13:Menu.c        **** 
-  14:Menu.c        **** Menu* getSubMenu(Menu* m,uint8_t index){
-  15:Menu.c        ****     if(m->sub[index].submenu==0)return 0;//if executed NULL, return blank menu (==exit setup)
-  16:Menu.c        ****     return m->sub[index].submenu;
-  17:Menu.c        **** }
-  18:Menu.c        **** void EEPROM_write(uint8_t addr, uint8_t data){
-  19:Menu.c        ****     while(EECR & (1<<EEPE));
-  20:Menu.c        ****     EECR = (0<<EEPM1)|(0<<EEPM0);
-  21:Menu.c        ****     EEAR = addr;
-  22:Menu.c        ****     EEDR = data;
-  23:Menu.c        ****     EECR |= (1<<EEMPE);
-  24:Menu.c        ****     EECR |= (1<<EEPE);
-  25:Menu.c        **** }
-  26:Menu.c        **** uint8_t EEPROM_read(uint8_t addr){
-  27:Menu.c        ****     while(EECR & (1<<EEPE));
-  28:Menu.c        ****     EEAR = addr;
-  29:Menu.c        ****     EECR |= (1<<EERE);
-  30:Menu.c        ****     return EEDR;
-  31:Menu.c        **** }
-  32:Menu.c        **** 
-  33:Menu.c        **** void Minit(void){
-  34:Menu.c        ****     colorMode=EEPROM_read(EE_COLOR);
-  35:Menu.c        **** }
-  36:Menu.c        **** const Menu M0main={7+16,0,{//WHITE
-  37:Menu.c        ****     {7,&M1mode},
-  38:Menu.c        ****     {8,&M1cmode},
-  39:Menu.c        ****     {10,&M1nightmode},
-  40:Menu.c        ****     {14,&M1setTime},
-  41:Menu.c        ****     {0,&M1eventMode},
-  42:Menu.c        ****     {4,&M1reset},
-  43:Menu.c        ****     {17,&M1rainbow}    
-  44:Menu.c        **** }};
-  45:Menu.c        **** const Menu M1mode={5,MsetMode,{//
-  46:Menu.c        ****     {7,0},//Hour only
-  47:Menu.c        ****     {8,0},//Hour + temp (slow)
-  48:Menu.c        ****     {10,0},//Hour + temp (fast)
-  49:Menu.c        ****     {14,0},//temp only
-  50:Menu.c        ****     {HEURE,&M0main}//return    
-  51:Menu.c        **** }};
-  52:Menu.c        **** const Menu M1cmode={8,MsetColorMode,{
-  53:Menu.c        ****     {7,0},//fixed WHITE
-  54:Menu.c        ****     {8,0},//fixed CYAN
-  55:Menu.c        ****     {10,0},//fixed BLUE
-  56:Menu.c        ****     {14,0},//fixed MAGENTA
-  57:Menu.c        ****     {0,0},//fixed RED
-  58:Menu.c        ****     {4,0},//fixed YELLOW
-  59:Menu.c        ****     {17,0},//fixed GREEN
-  60:Menu.c        ****     {2,0},// cycle single
-  61:Menu.c        ****     {12,0},// cycle all
-  62:Menu.c        ****     {HEURE,&M0main}//return    
-  63:Menu.c        **** }};
-  64:Menu.c        **** const Menu M1nightmode={4,MsetNightMode,{
-  65:Menu.c        ****     {7,0},//none
-  66:Menu.c        ****     {8,&M2offhour},//Half brightness
-  67:Menu.c        ****     {10,&M2offhour},//Off completely
-  68:Menu.c        ****     {HEURE,&M0main}//return
-  69:Menu.c        **** }};
-  70:Menu.c        **** const Menu M2offhour={12,MsetNightOff,{
-  71:Menu.c        ****     {7,&M3onhour},//heures
-  72:Menu.c        ****     {8,&M3onhour},
-  73:Menu.c        ****     {10,&M3onhour},
-  74:Menu.c        ****     {14,&M3onhour},
-  75:Menu.c        ****     {0,&M3onhour},
-  76:Menu.c        ****     {4,&M3onhour},
-  77:Menu.c        ****     {17,&M3onhour},
-  78:Menu.c        ****     {2,&M3onhour},
-  79:Menu.c        ****     {12,&M3onhour},
-  80:Menu.c        ****     {6,&M3onhour},
-  81:Menu.c        ****     {16,&M3onhour},
-  82:Menu.c        ****     {HEURE,&M1nightmode}//return
-  83:Menu.c        **** }};
-  84:Menu.c        **** const Menu M3onhour={12,MsetNightOn,{
-  85:Menu.c        ****     {7,0},//heure
-  86:Menu.c        ****     {8,0},
-  87:Menu.c        ****     {10,0},
-  88:Menu.c        ****     {14,0},
-  89:Menu.c        ****     {0,0},
-  90:Menu.c        ****     {4,0},
-  91:Menu.c        ****     {17,0},
-  92:Menu.c        ****     {2,0},
-  93:Menu.c        ****     {12,0},
-  94:Menu.c        ****     {6,0},
-  95:Menu.c        ****     {16,0},
-  96:Menu.c        ****     {HEURE,&M1nightmode}//return
-  97:Menu.c        **** }};
-  98:Menu.c        **** const Menu M1setTime={5,0,{
-  99:Menu.c        ****     {7,&M2sethouram},//hour am
- 100:Menu.c        ****     {8,&M2sethourpm},//hour pm
- 101:Menu.c        ****     {10,&M2setminam},//min am
- 102:Menu.c        ****     {14,&M2setminpm},//min pm
- 103:Menu.c        ****     {HEURE,&M0main}//return
- 104:Menu.c        **** }};
- 105:Menu.c        **** const Menu M2sethouram={13,MsetHouram,{
- 106:Menu.c        ****     {7,0},//heure
- 107:Menu.c        ****     {8,0},
- 108:Menu.c        ****     {10,0},
- 109:Menu.c        ****     {14,0},
- 110:Menu.c        ****     {0,0},
- 111:Menu.c        ****     {4,0},
- 112:Menu.c        ****     {17,0},
- 113:Menu.c        ****     {2,0},
- 114:Menu.c        ****     {12,0},
- 115:Menu.c        ****     {6,0},
- 116:Menu.c        ****     {16,0},
- 117:Menu.c        ****     {MIDI,0},//midi
- 118:Menu.c        ****     {HEURE,&M1setTime}//return
- 119:Menu.c        **** }};
- 120:Menu.c        **** const Menu M2sethourpm={13,MsetHourpm,{
- 121:Menu.c        ****     {7,0},//heure
- 122:Menu.c        ****     {8,0},
- 123:Menu.c        ****     {10,0},
- 124:Menu.c        ****     {14,0},
- 125:Menu.c        ****     {0,0},
- 126:Menu.c        ****     {4,0},
- 127:Menu.c        ****     {17,0},
- 128:Menu.c        ****     {2,0},
- 129:Menu.c        ****     {12,0},
- 130:Menu.c        ****     {6,0},
- 131:Menu.c        ****     {16,0},
- 132:Menu.c        ****     {MINUIT,0},//minuit
- 133:Menu.c        ****     {HEURE,&M1setTime}//return
- 134:Menu.c        **** }};
- 135:Menu.c        **** const Menu M2setminam={4,MsetMinam,{
- 136:Menu.c        ****     {DIX,0},//dix
- 137:Menu.c        ****     {VINGT,0},//vingt
- 138:Menu.c        ****     {ETDEMIE,0},//1/2
- 139:Menu.c        ****     {HEURE,&M1setTime}//return
- 140:Menu.c        **** }};
- 141:Menu.c        **** const Menu M2setminpm={4,MsetMinpm,{
- 142:Menu.c        ****     {DIX,0},//dix
- 143:Menu.c        ****     {VINGT,0},//vingt
- 144:Menu.c        ****     {ETDEMIE,0},//1/2
- 145:Menu.c        ****     {HEURE,&M1setTime}//return
- 146:Menu.c        **** }};
- 147:Menu.c        **** const Menu M1eventMode={3,MsetEventMode,{
- 148:Menu.c        ****     {7,0},//Event on
- 149:Menu.c        ****     {8,0},//Event off
- 150:Menu.c        ****     {HEURE,&M0main}//return
- 151:Menu.c        **** }};
- 152:Menu.c        **** const Menu M1reset={2,Mreset,{
- 153:Menu.c        ****     {18,0},//yes
- 154:Menu.c        ****     {HEURE,&M0main}//return
- 155:Menu.c        **** }};
- 156:Menu.c        **** const Menu M1rainbow={3,MsetRainbow,{
- 157:Menu.c        ****     {7,0},//Rainbow on
- 158:Menu.c        ****     {8,0},//Rainbow off
- 159:Menu.c        ****     {HEURE,&M0main}//return
- 160:Menu.c        **** }};
- 161:Menu.c        **** 
- 162:Menu.c        **** void MsetMode(uint8_t i){
- 163:Menu.c        ****     switch(i){
- 164:Menu.c        ****         case 0://hour only
- 165:Menu.c        ****             TCCR1B|=(1<<CS12)|(1<<CS10);
- 166:Menu.c        ****             mode=0;
- 167:Menu.c        ****             break;
- 168:Menu.c        ****         case 1://temp+hour,slow
- 169:Menu.c        ****             TCCR1B|=(1<<CS12)|(1<<CS10);
- 170:Menu.c        ****             mode=1;
- 171:Menu.c        ****             break;
- 172:Menu.c        ****         case 2://temp+hour,fast
- 173:Menu.c        ****             TCCR1B|=(1<<CS12);
- 174:Menu.c        ****             TCCR1B&=~(1<<CS10);
- 175:Menu.c        ****             mode=2;
- 176:Menu.c        ****             break;
- 177:Menu.c        ****         case 3://temp only
- 178:Menu.c        ****             TCCR1B|=(1<<CS12)|(1<<CS10);
- 179:Menu.c        ****             mode=3;
- 180:Menu.c        ****             break;
- 181:Menu.c        ****     }
- 182:Menu.c        **** }
- 183:Menu.c        **** uint8_t getMode(void){
- 184:Menu.c        ****     if(mode==2){
- 185:Menu.c        ****         mode=1;
- 186:Menu.c        ****     }else if(mode==1){
- 187:Menu.c        ****         mode=2;
- 188:Menu.c        ****     }
- 189:Menu.c        ****     return mode;
- 190:Menu.c        **** }
- 191:Menu.c        **** void MsetColorMode(uint8_t i){
- 192:Menu.c        ****     if(i<8){
- 193:Menu.c        ****         colorMode=0;//fixed, store color in eeprom
- 194:Menu.c        ****         EEPROM_write(EE_COLOR,colorArray[i]);
- 195:Menu.c        ****     }else{
- 196:Menu.c        ****         switch(i){
- 197:Menu.c        ****             case 8://cycle single
- 198:Menu.c        ****                 colorMode=WHITE+128;
- 199:Menu.c        ****                 EEPROM_write(EE_COLOR,128);
- 200:Menu.c        ****                 break;
- 201:Menu.c        ****             case 9://cycle all 
- 202:Menu.c        ****                 colorMode=WHITE+64;
- 203:Menu.c        ****                 EEPROM_write(EE_COLOR,64);
- 204:Menu.c        ****                 break;            
- 205:Menu.c        ****         }
- 206:Menu.c        ****     }
- 207:Menu.c        **** }
- 208:Menu.c        **** uint8_t getColor(void){
- 209:Menu.c        ****     if(colorMode>127){//cycle single
- 210:Menu.c        ****         if(colorMode>134)colorMode=128;
- 211:Menu.c        ****         colorMode++;
- 212:Menu.c        ****         return colorArray[colorMode-128];
- 213:Menu.c        ****     }else if(colorMode>63){//cycle all
- 214:Menu.c        ****         return RED;
- 215:Menu.c        ****     }else{//fixed
- 216:Menu.c        ****         return colorMode;
- 217:Menu.c        ****     }
- 218:Menu.c        **** }
- 219:Menu.c        **** void MsetNightMode(uint8_t i){
-  15               		.loc 1 219 0
+   4:Menu.c        **** uint8_t colorMode=0;
+   5:Menu.c        **** uint8_t findNextEntry(Menu* m,uint8_t index){
+   6:Menu.c        ****     if((index+2)>(m->nb_optn%16))return 0;
+   7:Menu.c        ****     return index+1;
+   8:Menu.c        **** }
+   9:Menu.c        **** 
+  10:Menu.c        **** Menu* getSubMenu(Menu* m,uint8_t index){
+  11:Menu.c        ****     if(m->sub[index].submenu==0)return 0;//if executed NULL, return blank menu (==exit setup)
+  12:Menu.c        ****     return m->sub[index].submenu;
+  13:Menu.c        **** }
+  14:Menu.c        **** void EEPROM_write(uint8_t addr, uint8_t data){
+  15:Menu.c        ****     while(EECR & (1<<EEPE));
+  16:Menu.c        ****     EECR = (0<<EEPM1)|(0<<EEPM0);
+  17:Menu.c        ****     EEAR = addr;
+  18:Menu.c        ****     EEDR = data;
+  19:Menu.c        ****     EECR |= (1<<EEMPE);
+  20:Menu.c        ****     EECR |= (1<<EEPE);
+  21:Menu.c        **** }
+  22:Menu.c        **** uint8_t EEPROM_read(uint8_t addr){
+  23:Menu.c        ****     while(EECR & (1<<EEPE));
+  24:Menu.c        ****     EEAR = addr;
+  25:Menu.c        ****     EECR |= (1<<EERE);
+  26:Menu.c        ****     return EEDR;
+  27:Menu.c        **** }
+  28:Menu.c        **** 
+  29:Menu.c        **** void Minit(void){
+  30:Menu.c        ****     colorMode=EEPROM_read(EE_COLOR);
+  31:Menu.c        ****     MsetMode(EEPROM_read(EE_MODE));
+  32:Menu.c        **** }
+  33:Menu.c        **** const Menu M0main={8,0,{//WHITE
+  34:Menu.c        ****     {7,&M1mode},
+  35:Menu.c        ****     {8,&M1cmode},
+  36:Menu.c        ****     {10,&M1nightmode},
+  37:Menu.c        ****     {14,&M1setTime},
+  38:Menu.c        ****     {0,&M1eventMode},
+  39:Menu.c        ****     {4,&M1reset},
+  40:Menu.c        ****     {17,&M1rainbow},
+  41:Menu.c        ****     {HEURE,0}//exit      
+  42:Menu.c        **** }};
+  43:Menu.c        **** const Menu M1mode={5+16,MsetMode,{//CYAN
+  44:Menu.c        ****     {7,0},//Hour only
+  45:Menu.c        ****     {8,0},//Hour + temp (slow)
+  46:Menu.c        ****     {10,0},//Hour + temp (fast)
+  47:Menu.c        ****     {14,0},//temp only
+  48:Menu.c        ****     {HEURE,&M0main}//return    
+  49:Menu.c        **** }};
+  50:Menu.c        **** const Menu M1cmode={10+32,MsetColorMode,{//BLUE
+  51:Menu.c        ****     {7,0},//fixed WHITE 1
+  52:Menu.c        ****     {8,0},//fixed CYAN 2
+  53:Menu.c        ****     {10,0},//fixed BLUE 3
+  54:Menu.c        ****     {14,0},//fixed MAGENTA 4
+  55:Menu.c        ****     {0,0},//fixed RED 5
+  56:Menu.c        ****     {4,0},//fixed YELLOW 6
+  57:Menu.c        ****     {17,0},//fixed GREEN 7
+  58:Menu.c        ****     {2,0},// cycle single 8
+  59:Menu.c        ****     {12,0},// cycle all 9
+  60:Menu.c        ****     {HEURE,&M0main}//return    
+  61:Menu.c        **** }};
+  62:Menu.c        **** const Menu M1nightmode={4+48,MsetNightMode,{//MAGENTA
+  63:Menu.c        ****     {7,0},//none
+  64:Menu.c        ****     {8,&M2offhour},//Half brightness
+  65:Menu.c        ****     {10,&M2offhour},//Off completely
+  66:Menu.c        ****     {HEURE,&M0main}//return
+  67:Menu.c        **** }};
+  68:Menu.c        **** const Menu M2offhour={12+64,MsetNightOff,{//RED
+  69:Menu.c        ****     {7,&M3onhour},//heures
+  70:Menu.c        ****     {8,&M3onhour},
+  71:Menu.c        ****     {10,&M3onhour},
+  72:Menu.c        ****     {14,&M3onhour},
+  73:Menu.c        ****     {0,&M3onhour},
+  74:Menu.c        ****     {4,&M3onhour},
+  75:Menu.c        ****     {17,&M3onhour},
+  76:Menu.c        ****     {2,&M3onhour},
+  77:Menu.c        ****     {12,&M3onhour},
+  78:Menu.c        ****     {6,&M3onhour},
+  79:Menu.c        ****     {16,&M3onhour},
+  80:Menu.c        ****     {HEURE,&M1nightmode}//return
+  81:Menu.c        **** }};
+  82:Menu.c        **** const Menu M3onhour={12+80,MsetNightOn,{//YELLOW
+  83:Menu.c        ****     {7,0},//heures
+  84:Menu.c        ****     {8,0},
+  85:Menu.c        ****     {10,0},
+  86:Menu.c        ****     {14,0},
+  87:Menu.c        ****     {0,0},
+  88:Menu.c        ****     {4,0},
+  89:Menu.c        ****     {17,0},
+  90:Menu.c        ****     {2,0},
+  91:Menu.c        ****     {12,0},
+  92:Menu.c        ****     {6,0},
+  93:Menu.c        ****     {16,0},
+  94:Menu.c        ****     {HEURE,&M1nightmode}//return
+  95:Menu.c        **** }};
+  96:Menu.c        **** const Menu M1setTime={5,0,{
+  97:Menu.c        ****     {7,&M2sethouram},//hour am
+  98:Menu.c        ****     {8,&M2sethourpm},//hour pm
+  99:Menu.c        ****     {10,&M2setminam},//min am
+ 100:Menu.c        ****     {14,&M2setminpm},//min pm
+ 101:Menu.c        ****     {HEURE,&M0main}//return
+ 102:Menu.c        **** }};
+ 103:Menu.c        **** const Menu M2sethouram={13,MsetHouram,{
+ 104:Menu.c        ****     {7,0},//heure
+ 105:Menu.c        ****     {8,0},
+ 106:Menu.c        ****     {10,0},
+ 107:Menu.c        ****     {14,0},
+ 108:Menu.c        ****     {0,0},
+ 109:Menu.c        ****     {4,0},
+ 110:Menu.c        ****     {17,0},
+ 111:Menu.c        ****     {2,0},
+ 112:Menu.c        ****     {12,0},
+ 113:Menu.c        ****     {6,0},
+ 114:Menu.c        ****     {16,0},
+ 115:Menu.c        ****     {MIDI,0},//midi
+ 116:Menu.c        ****     {HEURE,&M1setTime}//return
+ 117:Menu.c        **** }};
+ 118:Menu.c        **** const Menu M2sethourpm={13,MsetHourpm,{
+ 119:Menu.c        ****     {7,0},//heure
+ 120:Menu.c        ****     {8,0},
+ 121:Menu.c        ****     {10,0},
+ 122:Menu.c        ****     {14,0},
+ 123:Menu.c        ****     {0,0},
+ 124:Menu.c        ****     {4,0},
+ 125:Menu.c        ****     {17,0},
+ 126:Menu.c        ****     {2,0},
+ 127:Menu.c        ****     {12,0},
+ 128:Menu.c        ****     {6,0},
+ 129:Menu.c        ****     {16,0},
+ 130:Menu.c        ****     {MINUIT,0},//minuit
+ 131:Menu.c        ****     {HEURE,&M1setTime}//return
+ 132:Menu.c        **** }};
+ 133:Menu.c        **** const Menu M2setminam={4,MsetMinam,{
+ 134:Menu.c        ****     {DIX,0},//dix
+ 135:Menu.c        ****     {VINGT,0},//vingt
+ 136:Menu.c        ****     {ETDEMIE,0},//1/2
+ 137:Menu.c        ****     {HEURE,&M1setTime}//return
+ 138:Menu.c        **** }};
+ 139:Menu.c        **** const Menu M2setminpm={4,MsetMinpm,{
+ 140:Menu.c        ****     {DIX,0},//dix
+ 141:Menu.c        ****     {VINGT,0},//vingt
+ 142:Menu.c        ****     {ETDEMIE,0},//1/2
+ 143:Menu.c        ****     {HEURE,&M1setTime}//return
+ 144:Menu.c        **** }};
+ 145:Menu.c        **** const Menu M1eventMode={3,MsetEventMode,{
+ 146:Menu.c        ****     {7,0},//Event on
+ 147:Menu.c        ****     {8,0},//Event off
+ 148:Menu.c        ****     {HEURE,&M0main}//return
+ 149:Menu.c        **** }};
+ 150:Menu.c        **** const Menu M1reset={2,Mreset,{
+ 151:Menu.c        ****     {18,0},//yes
+ 152:Menu.c        ****     {HEURE,&M0main}//return
+ 153:Menu.c        **** }};
+ 154:Menu.c        **** const Menu M1rainbow={3,MsetRainbow,{
+ 155:Menu.c        ****     {7,0},//Rainbow on
+ 156:Menu.c        ****     {8,0},//Rainbow off
+ 157:Menu.c        ****     {HEURE,&M0main}//return
+ 158:Menu.c        **** }};
+ 159:Menu.c        **** 
+ 160:Menu.c        **** void MsetMode(uint8_t i){
+ 161:Menu.c        ****     if(i<4){
+ 162:Menu.c        ****         TCCR1B|=(1<<CS12)|(1<<CS10);
+ 163:Menu.c        ****         if(i==2)TCCR1B&=~(1<<CS10);
+ 164:Menu.c        ****         mode=i;
+ 165:Menu.c        ****         EEPROM_write(EE_MODE,i);
+ 166:Menu.c        ****     }
+ 167:Menu.c        **** }
+ 168:Menu.c        **** uint8_t getMode(void){
+ 169:Menu.c        ****     if(mode==2){
+ 170:Menu.c        ****         mode=1;
+ 171:Menu.c        ****     }else if(mode==1){
+ 172:Menu.c        ****         mode=2;
+ 173:Menu.c        ****     }
+ 174:Menu.c        ****     return mode;
+ 175:Menu.c        **** }
+ 176:Menu.c        **** void MsetColorMode(uint8_t i){
+ 177:Menu.c        ****     if(i<7){
+ 178:Menu.c        ****         colorMode=colorArray[i];//fixed
+ 179:Menu.c        ****         EEPROM_write(EE_COLOR,colorArray[i]);
+ 180:Menu.c        ****     }else if(i==7){//cycle single
+ 181:Menu.c        ****         colorMode=WHITE+128;
+ 182:Menu.c        ****         EEPROM_write(EE_COLOR,128);
+ 183:Menu.c        ****     }else if(i==8){//cycle all
+ 184:Menu.c        ****         colorMode=WHITE+64;
+ 185:Menu.c        ****         EEPROM_write(EE_COLOR,64);
+ 186:Menu.c        ****     }
+ 187:Menu.c        **** }
+ 188:Menu.c        **** uint8_t getColor(void){
+ 189:Menu.c        ****     if(colorMode>127){//cycle single
+ 190:Menu.c        ****         if(colorMode>134)colorMode=128;
+ 191:Menu.c        ****         colorMode++;
+ 192:Menu.c        ****         return colorArray[colorMode-128];
+ 193:Menu.c        ****     }else if(colorMode>63){//cycle all
+ 194:Menu.c        ****         return RED;
+ 195:Menu.c        ****     }else{//fixed
+ 196:Menu.c        ****         return colorMode;
+ 197:Menu.c        ****     }
+ 198:Menu.c        **** }
+ 199:Menu.c        **** void MsetNightMode(uint8_t i){
+ 200:Menu.c        ****     if(i<3)EEPROM_write(EE_NIGHTMODE,i);
+ 201:Menu.c        **** }
+ 202:Menu.c        **** uint8_t isInAllowedTime(uint8_t h){
+ 203:Menu.c        ****     if(EEPROM_read(EE_NIGHTMODE))return (h>=EEPROM_read(EE_ONHOUR) && h<=EEPROM_read(EE_OFFHOUR));
+ 204:Menu.c        ****     return 1;
+ 205:Menu.c        **** }
+ 206:Menu.c        **** void MsetNightOff(uint8_t i){
+ 207:Menu.c        ****     EEPROM_write(EE_OFFHOUR,12+i);
+ 208:Menu.c        **** }
+ 209:Menu.c        **** void MsetNightOn(uint8_t i){
+ 210:Menu.c        ****     EEPROM_write(EE_ONHOUR,1+i);
+ 211:Menu.c        **** }
+ 212:Menu.c        **** void MsetHouram(uint8_t i){
+ 213:Menu.c        **** }
+ 214:Menu.c        **** void MsetHourpm(uint8_t i){
+ 215:Menu.c        **** }
+ 216:Menu.c        **** void MsetMinam(uint8_t i){
+ 217:Menu.c        **** }
+ 218:Menu.c        **** void MsetMinpm(uint8_t i){
+ 219:Menu.c        **** }
+ 220:Menu.c        **** void MsetEventMode(uint8_t i){
+ 221:Menu.c        **** }
+ 222:Menu.c        **** void Mreset(uint8_t i){
+ 223:Menu.c        ****     if(i<1){
+ 224:Menu.c        ****         MsetMode(1);
+ 225:Menu.c        ****         MsetColorMode(0);
+ 226:Menu.c        ****         TCCR1B|=(1<<CS12)|(1<<CS10);
+ 227:Menu.c        ****     }
+ 228:Menu.c        **** }
+ 229:Menu.c        **** void MsetRainbow(uint8_t i){
+  15               		.loc 1 229 0
   16               		.cfi_startproc
   17               	.LVL0:
   18               	/* prologue: function */
   19               	/* frame size = 0 */
   20               	/* stack size = 0 */
   21               	.L__stack_usage = 0
- 220:Menu.c        ****     nightMode=i;
-  22               		.loc 1 220 0
-  23 0000 8093 0000 		sts nightMode,r24
-  24 0004 0895      		ret
-  25               		.cfi_endproc
-  26               	.LFE15:
-  28               	.global	MsetNightOff
-  30               	MsetNightOff:
-  31               	.LFB17:
- 221:Menu.c        **** }
- 222:Menu.c        **** uint8_t isInAllowedTime(uint8_t h){
- 223:Menu.c        ****     if(nightMode)return (h>=nightOnHour && h<=nightOffHour);
- 224:Menu.c        ****     return 1;
- 225:Menu.c        **** }
- 226:Menu.c        **** void MsetNightOff(uint8_t i){
-  32               		.loc 1 226 0
-  33               		.cfi_startproc
-  34               	.LVL1:
-  35               	/* prologue: function */
-  36               	/* frame size = 0 */
-  37               	/* stack size = 0 */
-  38               	.L__stack_usage = 0
- 227:Menu.c        ****     nightOffHour=12+i;
-  39               		.loc 1 227 0
-  40 0006 845F      		subi r24,lo8(-(12))
-  41               	.LVL2:
-  42 0008 8093 0000 		sts nightOffHour,r24
-  43 000c 0895      		ret
-  44               		.cfi_endproc
-  45               	.LFE17:
-  47               	.global	MsetNightOn
-  49               	MsetNightOn:
-  50               	.LFB18:
- 228:Menu.c        **** }
- 229:Menu.c        **** void MsetNightOn(uint8_t i){
-  51               		.loc 1 229 0
-  52               		.cfi_startproc
-  53               	.LVL3:
-  54               	/* prologue: function */
-  55               	/* frame size = 0 */
-  56               	/* stack size = 0 */
-  57               	.L__stack_usage = 0
- 230:Menu.c        ****     nightOnHour=i+1;
-  58               		.loc 1 230 0
-  59 000e 8F5F      		subi r24,lo8(-(1))
-  60               	.LVL4:
-  61 0010 8093 0000 		sts nightOnHour,r24
-  62 0014 0895      		ret
-  63               		.cfi_endproc
-  64               	.LFE18:
-  66               	.global	MsetRainbow
-  68               	MsetRainbow:
-  69               	.LFB25:
- 231:Menu.c        **** }
- 232:Menu.c        **** void MsetHouram(uint8_t i){
- 233:Menu.c        **** }
- 234:Menu.c        **** void MsetHourpm(uint8_t i){
- 235:Menu.c        **** }
- 236:Menu.c        **** void MsetMinam(uint8_t i){
- 237:Menu.c        **** }
- 238:Menu.c        **** void MsetMinpm(uint8_t i){
- 239:Menu.c        **** }
- 240:Menu.c        **** void MsetEventMode(uint8_t i){
- 241:Menu.c        **** }
- 242:Menu.c        **** void Mreset(uint8_t i){
- 243:Menu.c        ****     MsetMode(1);
- 244:Menu.c        ****     MsetColorMode(0);
- 245:Menu.c        ****     TCCR1B|=(1<<CS12)|(1<<CS10);
- 246:Menu.c        **** }
- 247:Menu.c        **** void MsetRainbow(uint8_t i){
-  70               		.loc 1 247 0
-  71               		.cfi_startproc
-  72               	.LVL5:
-  73               	/* prologue: function */
-  74               	/* frame size = 0 */
-  75               	/* stack size = 0 */
-  76               	.L__stack_usage = 0
-  77 0016 0895      		ret
-  78               		.cfi_endproc
-  79               	.LFE25:
-  81               	.global	MsetMode
-  83               	MsetMode:
-  84               	.LFB11:
- 162:Menu.c        ****     switch(i){
-  85               		.loc 1 162 0
-  86               		.cfi_startproc
-  87               	.LVL6:
-  88               	/* prologue: function */
-  89               	/* frame size = 0 */
-  90               	/* stack size = 0 */
-  91               	.L__stack_usage = 0
- 163:Menu.c        ****         case 0://hour only
-  92               		.loc 1 163 0
-  93 0018 8130      		cpi r24,lo8(1)
-  94 001a 01F0      		breq .L10
-  95 001c 00F0      		brlo .L8
-  96 001e 8230      		cpi r24,lo8(2)
-  97 0020 01F0      		breq .L9
-  98 0022 8330      		cpi r24,lo8(3)
-  99 0024 01F0      		breq .L10
- 100 0026 0895      		ret
- 101               	.L8:
- 165:Menu.c        ****             mode=0;
- 102               		.loc 1 165 0
- 103 0028 8EB5      		in r24,0x2e
- 104               	.LVL7:
- 105 002a 8560      		ori r24,lo8(5)
- 106 002c 8EBD      		out 0x2e,r24
- 166:Menu.c        ****             break;
- 107               		.loc 1 166 0
- 108 002e 1092 0000 		sts mode,__zero_reg__
- 167:Menu.c        ****         case 1://temp+hour,slow
- 109               		.loc 1 167 0
- 110 0032 0895      		ret
- 111               	.LVL8:
- 112               	.L9:
- 113               	.LBB6:
- 114               	.LBB7:
- 173:Menu.c        ****             TCCR1B&=~(1<<CS10);
- 115               		.loc 1 173 0
- 116 0034 9EB5      		in r25,0x2e
- 117 0036 9460      		ori r25,lo8(4)
- 118 0038 9EBD      		out 0x2e,r25
- 174:Menu.c        ****             mode=2;
- 119               		.loc 1 174 0
- 120 003a 9EB5      		in r25,0x2e
- 121 003c 9E7F      		andi r25,lo8(-2)
- 122 003e 00C0      		rjmp .L11
- 123               	.LVL9:
- 124               	.L10:
- 125               	.LBE7:
- 126               	.LBE6:
- 178:Menu.c        ****             mode=3;
- 127               		.loc 1 178 0
- 128 0040 9EB5      		in r25,0x2e
- 129 0042 9560      		ori r25,lo8(5)
- 130               	.L11:
- 131 0044 9EBD      		out 0x2e,r25
- 179:Menu.c        ****             break;
- 132               		.loc 1 179 0
- 133 0046 8093 0000 		sts mode,r24
- 134 004a 0895      		ret
- 135               		.cfi_endproc
- 136               	.LFE11:
- 138               	.global	MsetEventMode
- 140               	MsetEventMode:
- 141               	.LFB29:
- 142               		.cfi_startproc
- 143               	/* prologue: function */
- 144               	/* frame size = 0 */
- 145               	/* stack size = 0 */
- 146               	.L__stack_usage = 0
- 147 004c 0895      		ret
- 148               		.cfi_endproc
- 149               	.LFE29:
- 151               	.global	MsetHouram
- 153               	MsetHouram:
- 154               	.LFB37:
- 155               		.cfi_startproc
- 156               	/* prologue: function */
- 157               	/* frame size = 0 */
- 158               	/* stack size = 0 */
- 159               	.L__stack_usage = 0
- 160 004e 0895      		ret
- 161               		.cfi_endproc
- 162               	.LFE37:
- 164               	.global	MsetHourpm
- 166               	MsetHourpm:
- 167               	.LFB35:
- 168               		.cfi_startproc
- 169               	/* prologue: function */
- 170               	/* frame size = 0 */
- 171               	/* stack size = 0 */
- 172               	.L__stack_usage = 0
- 173 0050 0895      		ret
- 174               		.cfi_endproc
- 175               	.LFE35:
- 177               	.global	MsetMinam
- 179               	MsetMinam:
- 180               	.LFB33:
- 181               		.cfi_startproc
- 182               	/* prologue: function */
- 183               	/* frame size = 0 */
- 184               	/* stack size = 0 */
- 185               	.L__stack_usage = 0
- 186 0052 0895      		ret
- 187               		.cfi_endproc
- 188               	.LFE33:
- 190               	.global	MsetMinpm
- 192               	MsetMinpm:
- 193               	.LFB31:
+  22 0000 0895      		ret
+  23               		.cfi_endproc
+  24               	.LFE25:
+  26               	.global	MsetEventMode
+  28               	MsetEventMode:
+  29               	.LFB30:
+  30               		.cfi_startproc
+  31               	/* prologue: function */
+  32               	/* frame size = 0 */
+  33               	/* stack size = 0 */
+  34               	.L__stack_usage = 0
+  35 0002 0895      		ret
+  36               		.cfi_endproc
+  37               	.LFE30:
+  39               	.global	MsetHouram
+  41               	MsetHouram:
+  42               	.LFB38:
+  43               		.cfi_startproc
+  44               	/* prologue: function */
+  45               	/* frame size = 0 */
+  46               	/* stack size = 0 */
+  47               	.L__stack_usage = 0
+  48 0004 0895      		ret
+  49               		.cfi_endproc
+  50               	.LFE38:
+  52               	.global	MsetHourpm
+  54               	MsetHourpm:
+  55               	.LFB36:
+  56               		.cfi_startproc
+  57               	/* prologue: function */
+  58               	/* frame size = 0 */
+  59               	/* stack size = 0 */
+  60               	.L__stack_usage = 0
+  61 0006 0895      		ret
+  62               		.cfi_endproc
+  63               	.LFE36:
+  65               	.global	MsetMinam
+  67               	MsetMinam:
+  68               	.LFB34:
+  69               		.cfi_startproc
+  70               	/* prologue: function */
+  71               	/* frame size = 0 */
+  72               	/* stack size = 0 */
+  73               	.L__stack_usage = 0
+  74 0008 0895      		ret
+  75               		.cfi_endproc
+  76               	.LFE34:
+  78               	.global	MsetMinpm
+  80               	MsetMinpm:
+  81               	.LFB32:
+  82               		.cfi_startproc
+  83               	/* prologue: function */
+  84               	/* frame size = 0 */
+  85               	/* stack size = 0 */
+  86               	.L__stack_usage = 0
+  87 000a 0895      		ret
+  88               		.cfi_endproc
+  89               	.LFE32:
+  91               	.global	findNextEntry
+  93               	findNextEntry:
+  94               	.LFB6:
+   5:Menu.c        ****     if((index+2)>(m->nb_optn%16))return 0;
+  95               		.loc 1 5 0
+  96               		.cfi_startproc
+  97               	.LVL1:
+  98               	/* prologue: function */
+  99               	/* frame size = 0 */
+ 100               	/* stack size = 0 */
+ 101               	.L__stack_usage = 0
+   6:Menu.c        ****     return index+1;
+ 102               		.loc 1 6 0
+ 103 000c 262F      		mov r18,r22
+ 104 000e 30E0      		ldi r19,0
+ 105 0010 2F5F      		subi r18,-1
+ 106 0012 3F4F      		sbci r19,-1
+ 107 0014 FC01      		movw r30,r24
+ 108 0016 8081      		ld r24,Z
+ 109               	.LVL2:
+ 110 0018 8F70      		andi r24,lo8(15)
+ 111 001a 90E0      		ldi r25,0
+ 112 001c 2817      		cp r18,r24
+ 113 001e 3907      		cpc r19,r25
+ 114 0020 04F4      		brge .L9
+   7:Menu.c        **** }
+ 115               		.loc 1 7 0
+ 116 0022 81E0      		ldi r24,lo8(1)
+ 117 0024 860F      		add r24,r22
+ 118 0026 0895      		ret
+ 119               	.L9:
+   6:Menu.c        ****     return index+1;
+ 120               		.loc 1 6 0
+ 121 0028 80E0      		ldi r24,0
+   8:Menu.c        **** 
+ 122               		.loc 1 8 0
+ 123 002a 0895      		ret
+ 124               		.cfi_endproc
+ 125               	.LFE6:
+ 127               	.global	getSubMenu
+ 129               	getSubMenu:
+ 130               	.LFB7:
+  10:Menu.c        ****     if(m->sub[index].submenu==0)return 0;//if executed NULL, return blank menu (==exit setup)
+ 131               		.loc 1 10 0
+ 132               		.cfi_startproc
+ 133               	.LVL3:
+ 134               	/* prologue: function */
+ 135               	/* frame size = 0 */
+ 136               	/* stack size = 0 */
+ 137               	.L__stack_usage = 0
+ 138 002c 9C01      		movw r18,r24
+  11:Menu.c        ****     return m->sub[index].submenu;
+ 139               		.loc 1 11 0
+ 140 002e 862F      		mov r24,r22
+ 141               	.LVL4:
+ 142 0030 90E0      		ldi r25,0
+ 143 0032 63E0      		ldi r22,lo8(3)
+ 144 0034 70E0      		ldi r23,0
+ 145               	.LVL5:
+ 146 0036 00D0      		rcall __mulhi3
+ 147               	.LVL6:
+ 148 0038 820F      		add r24,r18
+ 149 003a 931F      		adc r25,r19
+  13:Menu.c        **** void EEPROM_write(uint8_t addr, uint8_t data){
+ 150               		.loc 1 13 0
+ 151 003c FC01      		movw r30,r24
+ 152 003e 8481      		ldd r24,Z+4
+ 153 0040 9581      		ldd r25,Z+5
+ 154 0042 0895      		ret
+ 155               		.cfi_endproc
+ 156               	.LFE7:
+ 158               	.global	EEPROM_write
+ 160               	EEPROM_write:
+ 161               	.LFB8:
+  14:Menu.c        ****     while(EECR & (1<<EEPE));
+ 162               		.loc 1 14 0
+ 163               		.cfi_startproc
+ 164               	/* prologue: function */
+ 165               	/* frame size = 0 */
+ 166               	/* stack size = 0 */
+ 167               	.L__stack_usage = 0
+ 168               	.LVL7:
+ 169               	.L13:
+  15:Menu.c        ****     EECR = (0<<EEPM1)|(0<<EEPM0);
+ 170               		.loc 1 15 0 discriminator 1
+ 171 0044 E199      		sbic 0x1c,1
+ 172 0046 00C0      		rjmp .L13
+  16:Menu.c        ****     EEAR = addr;
+ 173               		.loc 1 16 0
+ 174 0048 1CBA      		out 0x1c,__zero_reg__
+  17:Menu.c        ****     EEDR = data;
+ 175               		.loc 1 17 0
+ 176 004a 90E0      		ldi r25,0
+ 177 004c 9FBB      		out 0x1e+1,r25
+ 178 004e 8EBB      		out 0x1e,r24
+  18:Menu.c        ****     EECR |= (1<<EEMPE);
+ 179               		.loc 1 18 0
+ 180 0050 6DBB      		out 0x1d,r22
+  19:Menu.c        ****     EECR |= (1<<EEPE);
+ 181               		.loc 1 19 0
+ 182 0052 E29A      		sbi 0x1c,2
+  20:Menu.c        **** }
+ 183               		.loc 1 20 0
+ 184 0054 E19A      		sbi 0x1c,1
+ 185 0056 0895      		ret
+ 186               		.cfi_endproc
+ 187               	.LFE8:
+ 189               	.global	MsetMode
+ 191               	MsetMode:
+ 192               	.LFB11:
+ 160:Menu.c        ****     if(i<4){
+ 193               		.loc 1 160 0
  194               		.cfi_startproc
- 195               	/* prologue: function */
- 196               	/* frame size = 0 */
- 197               	/* stack size = 0 */
- 198               	.L__stack_usage = 0
- 199 0054 0895      		ret
- 200               		.cfi_endproc
- 201               	.LFE31:
- 203               	.global	findNextEntry
- 205               	findNextEntry:
- 206               	.LFB6:
-   9:Menu.c        ****     if((index+2)>(m->nb_optn%16))return 0;
- 207               		.loc 1 9 0
- 208               		.cfi_startproc
- 209               	.LVL10:
- 210               	/* prologue: function */
- 211               	/* frame size = 0 */
- 212               	/* stack size = 0 */
- 213               	.L__stack_usage = 0
-  10:Menu.c        ****     return index+1;
- 214               		.loc 1 10 0
- 215 0056 262F      		mov r18,r22
- 216 0058 30E0      		ldi r19,0
- 217 005a 2F5F      		subi r18,-1
- 218 005c 3F4F      		sbci r19,-1
- 219 005e FC01      		movw r30,r24
- 220 0060 8081      		ld r24,Z
- 221               	.LVL11:
- 222 0062 8F70      		andi r24,lo8(15)
- 223 0064 90E0      		ldi r25,0
- 224 0066 2817      		cp r18,r24
- 225 0068 3907      		cpc r19,r25
- 226 006a 04F4      		brge .L20
-  11:Menu.c        **** }
- 227               		.loc 1 11 0
- 228 006c 81E0      		ldi r24,lo8(1)
- 229 006e 860F      		add r24,r22
- 230 0070 0895      		ret
- 231               	.L20:
-  10:Menu.c        ****     return index+1;
- 232               		.loc 1 10 0
- 233 0072 80E0      		ldi r24,0
-  12:Menu.c        **** 
- 234               		.loc 1 12 0
- 235 0074 0895      		ret
- 236               		.cfi_endproc
- 237               	.LFE6:
- 239               	.global	getSubMenu
- 241               	getSubMenu:
- 242               	.LFB7:
-  14:Menu.c        ****     if(m->sub[index].submenu==0)return 0;//if executed NULL, return blank menu (==exit setup)
- 243               		.loc 1 14 0
- 244               		.cfi_startproc
- 245               	.LVL12:
- 246               	/* prologue: function */
- 247               	/* frame size = 0 */
- 248               	/* stack size = 0 */
- 249               	.L__stack_usage = 0
- 250 0076 9C01      		movw r18,r24
-  15:Menu.c        ****     return m->sub[index].submenu;
- 251               		.loc 1 15 0
- 252 0078 862F      		mov r24,r22
- 253               	.LVL13:
- 254 007a 90E0      		ldi r25,0
- 255 007c 63E0      		ldi r22,lo8(3)
- 256 007e 70E0      		ldi r23,0
- 257               	.LVL14:
- 258 0080 00D0      		rcall __mulhi3
- 259               	.LVL15:
- 260 0082 820F      		add r24,r18
- 261 0084 931F      		adc r25,r19
-  17:Menu.c        **** void EEPROM_write(uint8_t addr, uint8_t data){
- 262               		.loc 1 17 0
- 263 0086 FC01      		movw r30,r24
- 264 0088 8481      		ldd r24,Z+4
- 265 008a 9581      		ldd r25,Z+5
- 266 008c 0895      		ret
- 267               		.cfi_endproc
- 268               	.LFE7:
- 270               	.global	EEPROM_write
- 272               	EEPROM_write:
- 273               	.LFB8:
-  18:Menu.c        ****     while(EECR & (1<<EEPE));
- 274               		.loc 1 18 0
- 275               		.cfi_startproc
- 276               	/* prologue: function */
- 277               	/* frame size = 0 */
- 278               	/* stack size = 0 */
- 279               	.L__stack_usage = 0
- 280               	.LVL16:
- 281               	.L23:
-  19:Menu.c        ****     EECR = (0<<EEPM1)|(0<<EEPM0);
- 282               		.loc 1 19 0 discriminator 1
- 283 008e E199      		sbic 0x1c,1
- 284 0090 00C0      		rjmp .L23
-  20:Menu.c        ****     EEAR = addr;
- 285               		.loc 1 20 0
- 286 0092 1CBA      		out 0x1c,__zero_reg__
-  21:Menu.c        ****     EEDR = data;
- 287               		.loc 1 21 0
- 288 0094 90E0      		ldi r25,0
- 289 0096 9FBB      		out 0x1e+1,r25
- 290 0098 8EBB      		out 0x1e,r24
-  22:Menu.c        ****     EECR |= (1<<EEMPE);
- 291               		.loc 1 22 0
- 292 009a 6DBB      		out 0x1d,r22
-  23:Menu.c        ****     EECR |= (1<<EEPE);
- 293               		.loc 1 23 0
- 294 009c E29A      		sbi 0x1c,2
-  24:Menu.c        **** }
- 295               		.loc 1 24 0
- 296 009e E19A      		sbi 0x1c,1
- 297 00a0 0895      		ret
- 298               		.cfi_endproc
- 299               	.LFE8:
- 301               	.global	MsetColorMode
- 303               	MsetColorMode:
- 304               	.LFB13:
- 191:Menu.c        ****     if(i<8){
- 305               		.loc 1 191 0
- 306               		.cfi_startproc
- 307               	.LVL17:
- 308               	/* prologue: function */
- 309               	/* frame size = 0 */
- 310               	/* stack size = 0 */
- 311               	.L__stack_usage = 0
- 192:Menu.c        ****         colorMode=0;//fixed, store color in eeprom
- 312               		.loc 1 192 0
- 313 00a2 8830      		cpi r24,lo8(8)
- 314 00a4 00F4      		brsh .L26
- 315               	.LVL18:
- 316               	.LBB10:
- 317               	.LBB11:
- 193:Menu.c        ****         EEPROM_write(EE_COLOR,colorArray[i]);
- 318               		.loc 1 193 0
- 319 00a6 1092 0000 		sts colorMode,__zero_reg__
- 194:Menu.c        ****     }else{
- 320               		.loc 1 194 0
- 321 00aa E82F      		mov r30,r24
- 322 00ac F0E0      		ldi r31,0
- 323 00ae E050      		subi r30,lo8(-(colorArray))
- 324 00b0 F040      		sbci r31,hi8(-(colorArray))
- 325 00b2 6081      		ld r22,Z
- 326 00b4 00C0      		rjmp .L31
- 327               	.LVL19:
- 328               	.L26:
- 329               	.LBE11:
- 330               	.LBE10:
- 196:Menu.c        ****             case 8://cycle single
- 331               		.loc 1 196 0
- 332 00b6 8830      		cpi r24,lo8(8)
- 333 00b8 01F0      		breq .L28
- 334 00ba 8930      		cpi r24,lo8(9)
- 335 00bc 01F0      		breq .L29
- 336 00be 0895      		ret
- 337               	.L28:
- 198:Menu.c        ****                 EEPROM_write(EE_COLOR,128);
- 338               		.loc 1 198 0
- 339 00c0 87E8      		ldi r24,lo8(-121)
- 340               	.LVL20:
- 341 00c2 8093 0000 		sts colorMode,r24
- 199:Menu.c        ****                 break;
- 342               		.loc 1 199 0
- 343 00c6 60E8      		ldi r22,lo8(-128)
- 344 00c8 00C0      		rjmp .L31
- 345               	.LVL21:
- 346               	.L29:
- 202:Menu.c        ****                 EEPROM_write(EE_COLOR,64);
- 347               		.loc 1 202 0
- 348 00ca 87E4      		ldi r24,lo8(71)
- 349               	.LVL22:
- 350 00cc 8093 0000 		sts colorMode,r24
- 203:Menu.c        ****                 break;            
- 351               		.loc 1 203 0
- 352 00d0 60E4      		ldi r22,lo8(64)
- 353               	.L31:
- 354 00d2 80E0      		ldi r24,0
- 355 00d4 00C0      		rjmp EEPROM_write
- 356               	.LVL23:
- 357               		.cfi_endproc
- 358               	.LFE13:
- 360               	.global	Mreset
- 362               	Mreset:
- 363               	.LFB24:
- 242:Menu.c        ****     MsetMode(1);
- 364               		.loc 1 242 0
- 365               		.cfi_startproc
- 366               	.LVL24:
- 367               	/* prologue: function */
- 368               	/* frame size = 0 */
- 369               	/* stack size = 0 */
- 370               	.L__stack_usage = 0
- 243:Menu.c        ****     MsetColorMode(0);
- 371               		.loc 1 243 0
- 372 00d6 81E0      		ldi r24,lo8(1)
- 373               	.LVL25:
- 374 00d8 00D0      		rcall MsetMode
- 375               	.LVL26:
- 376               	.LBB16:
- 377               	.LBB17:
- 378               	.LBB18:
- 193:Menu.c        ****         EEPROM_write(EE_COLOR,colorArray[i]);
- 379               		.loc 1 193 0
- 380 00da 1092 0000 		sts colorMode,__zero_reg__
- 194:Menu.c        ****     }else{
- 381               		.loc 1 194 0
- 382 00de 67E0      		ldi r22,lo8(7)
- 383 00e0 80E0      		ldi r24,0
- 384 00e2 00D0      		rcall EEPROM_write
- 385               	.LVL27:
- 386               	.LBE18:
- 387               	.LBE17:
- 388               	.LBE16:
- 245:Menu.c        **** }
- 389               		.loc 1 245 0
- 390 00e4 8EB5      		in r24,0x2e
- 391 00e6 8560      		ori r24,lo8(5)
- 392 00e8 8EBD      		out 0x2e,r24
- 393 00ea 0895      		ret
- 394               		.cfi_endproc
- 395               	.LFE24:
- 397               	.global	EEPROM_read
- 399               	EEPROM_read:
- 400               	.LFB9:
-  26:Menu.c        ****     while(EECR & (1<<EEPE));
- 401               		.loc 1 26 0
- 402               		.cfi_startproc
- 403               	/* prologue: function */
- 404               	/* frame size = 0 */
- 405               	/* stack size = 0 */
- 406               	.L__stack_usage = 0
- 407               	.LVL28:
- 408               	.L34:
-  27:Menu.c        ****     EEAR = addr;
- 409               		.loc 1 27 0 discriminator 1
- 410 00ec E199      		sbic 0x1c,1
- 411 00ee 00C0      		rjmp .L34
-  28:Menu.c        ****     EECR |= (1<<EERE);
- 412               		.loc 1 28 0
- 413 00f0 90E0      		ldi r25,0
- 414 00f2 9FBB      		out 0x1e+1,r25
- 415 00f4 8EBB      		out 0x1e,r24
-  29:Menu.c        ****     return EEDR;
- 416               		.loc 1 29 0
- 417 00f6 E09A      		sbi 0x1c,0
-  30:Menu.c        **** }
- 418               		.loc 1 30 0
- 419 00f8 8DB3      		in r24,0x1d
- 420               	.LVL29:
-  31:Menu.c        **** 
- 421               		.loc 1 31 0
- 422 00fa 0895      		ret
- 423               		.cfi_endproc
- 424               	.LFE9:
- 426               	.global	Minit
- 428               	Minit:
- 429               	.LFB10:
-  33:Menu.c        ****     colorMode=EEPROM_read(EE_COLOR);
- 430               		.loc 1 33 0
- 431               		.cfi_startproc
- 432               	/* prologue: function */
- 433               	/* frame size = 0 */
- 434               	/* stack size = 0 */
- 435               	.L__stack_usage = 0
-  34:Menu.c        **** }
- 436               		.loc 1 34 0
- 437 00fc 80E0      		ldi r24,0
- 438 00fe 00D0      		rcall EEPROM_read
- 439               	.LVL30:
- 440 0100 8093 0000 		sts colorMode,r24
- 441 0104 0895      		ret
- 442               		.cfi_endproc
- 443               	.LFE10:
- 445               	.global	getMode
- 447               	getMode:
- 448               	.LFB12:
- 183:Menu.c        ****     if(mode==2){
- 449               		.loc 1 183 0
- 450               		.cfi_startproc
- 451               	/* prologue: function */
- 452               	/* frame size = 0 */
- 453               	/* stack size = 0 */
- 454               	.L__stack_usage = 0
- 184:Menu.c        ****         mode=1;
- 455               		.loc 1 184 0
- 456 0106 8091 0000 		lds r24,mode
- 457 010a 8230      		cpi r24,lo8(2)
- 458 010c 01F4      		brne .L38
- 185:Menu.c        ****     }else if(mode==1){
- 459               		.loc 1 185 0
- 460 010e 81E0      		ldi r24,lo8(1)
- 461 0110 00C0      		rjmp .L40
- 462               	.L38:
- 186:Menu.c        ****         mode=2;
- 463               		.loc 1 186 0
- 464 0112 8130      		cpi r24,lo8(1)
- 465 0114 01F4      		brne .L39
- 187:Menu.c        ****     }
- 466               		.loc 1 187 0
- 467 0116 82E0      		ldi r24,lo8(2)
- 468               	.L40:
- 469 0118 8093 0000 		sts mode,r24
- 470               	.L39:
- 190:Menu.c        **** void MsetColorMode(uint8_t i){
- 471               		.loc 1 190 0
- 472 011c 8091 0000 		lds r24,mode
- 473 0120 0895      		ret
- 474               		.cfi_endproc
- 475               	.LFE12:
- 477               	.global	getColor
- 479               	getColor:
- 480               	.LFB14:
- 208:Menu.c        ****     if(colorMode>127){//cycle single
- 481               		.loc 1 208 0
- 482               		.cfi_startproc
- 483               	/* prologue: function */
- 484               	/* frame size = 0 */
- 485               	/* stack size = 0 */
- 486               	.L__stack_usage = 0
- 209:Menu.c        ****         if(colorMode>134)colorMode=128;
- 487               		.loc 1 209 0
- 488 0122 8091 0000 		lds r24,colorMode
- 489 0126 87FF      		sbrs r24,7
- 490 0128 00C0      		rjmp .L42
- 210:Menu.c        ****         colorMode++;
- 491               		.loc 1 210 0
- 492 012a 8738      		cpi r24,lo8(-121)
- 493 012c 00F0      		brlo .L43
- 210:Menu.c        ****         colorMode++;
- 494               		.loc 1 210 0 is_stmt 0 discriminator 1
- 495 012e 80E8      		ldi r24,lo8(-128)
- 496 0130 8093 0000 		sts colorMode,r24
- 497               	.L43:
- 211:Menu.c        ****         return colorArray[colorMode-128];
- 498               		.loc 1 211 0 is_stmt 1
- 499 0134 E091 0000 		lds r30,colorMode
- 500 0138 EF5F      		subi r30,lo8(-(1))
- 501 013a E093 0000 		sts colorMode,r30
- 212:Menu.c        ****     }else if(colorMode>63){//cycle all
- 502               		.loc 1 212 0
- 503 013e F0E0      		ldi r31,0
- 504 0140 E050      		subi r30,lo8(-(colorArray-128))
- 505 0142 F040      		sbci r31,hi8(-(colorArray-128))
- 506 0144 8081      		ld r24,Z
- 507 0146 0895      		ret
- 508               	.L42:
- 213:Menu.c        ****         return RED;
- 509               		.loc 1 213 0
- 510 0148 8034      		cpi r24,lo8(64)
- 511 014a 00F0      		brlo .L44
- 214:Menu.c        ****     }else{//fixed
- 512               		.loc 1 214 0
- 513 014c 84E0      		ldi r24,lo8(4)
- 514               	.L44:
- 218:Menu.c        **** void MsetNightMode(uint8_t i){
- 515               		.loc 1 218 0
- 516 014e 0895      		ret
- 517               		.cfi_endproc
- 518               	.LFE14:
- 520               	.global	isInAllowedTime
- 522               	isInAllowedTime:
- 523               	.LFB16:
- 222:Menu.c        ****     if(nightMode)return (h>=nightOnHour && h<=nightOffHour);
- 524               		.loc 1 222 0
- 525               		.cfi_startproc
- 526               	.LVL31:
- 527               	/* prologue: function */
- 528               	/* frame size = 0 */
- 529               	/* stack size = 0 */
- 530               	.L__stack_usage = 0
- 531 0150 982F      		mov r25,r24
- 223:Menu.c        ****     return 1;
- 532               		.loc 1 223 0
- 533 0152 8091 0000 		lds r24,nightMode
- 534               	.LVL32:
- 535 0156 8823      		tst r24
- 536 0158 01F0      		breq .L50
- 223:Menu.c        ****     return 1;
- 537               		.loc 1 223 0 is_stmt 0 discriminator 1
- 538 015a 8091 0000 		lds r24,nightOnHour
- 539 015e 9817      		cp r25,r24
- 540 0160 00F0      		brlo .L51
- 223:Menu.c        ****     return 1;
- 541               		.loc 1 223 0 discriminator 2
- 542 0162 81E0      		ldi r24,lo8(1)
- 543 0164 2091 0000 		lds r18,nightOffHour
- 544 0168 2917      		cp r18,r25
- 545 016a 00F4      		brsh .L47
- 546               	.L51:
- 223:Menu.c        ****     return 1;
- 547               		.loc 1 223 0
- 548 016c 80E0      		ldi r24,0
- 549 016e 0895      		ret
- 550               	.L50:
- 224:Menu.c        **** }
- 551               		.loc 1 224 0 is_stmt 1
- 552 0170 81E0      		ldi r24,lo8(1)
- 553               	.L47:
- 225:Menu.c        **** void MsetNightOff(uint8_t i){
- 554               		.loc 1 225 0
- 555 0172 0895      		ret
- 556               		.cfi_endproc
- 557               	.LFE16:
- 559               		.section	.rodata
- 562               	colorArray:
- 563 0000 07        		.byte	7
- 564 0001 03        		.byte	3
- 565 0002 01        		.byte	1
- 566 0003 05        		.byte	5
- 567 0004 04        		.byte	4
- 568 0005 06        		.byte	6
- 569 0006 02        		.byte	2
- 570               	.global	colorMode
- 571               		.section .bss
- 574               	colorMode:
- 575 0000 00        		.zero	1
- 576               	.global	nightOffHour
- 577               		.data
- 580               	nightOffHour:
- 581 0000 16        		.byte	22
- 582               	.global	nightOnHour
- 585               	nightOnHour:
- 586 0001 07        		.byte	7
- 587               	.global	nightMode
- 588               		.section .bss
- 591               	nightMode:
- 592 0001 00        		.zero	1
- 593               	.global	mode
- 594               		.data
- 597               	mode:
- 598 0002 01        		.byte	1
- 599               	.global	M1rainbow
- 600               		.section	.rodata
- 603               	M1rainbow:
- 604 0007 03        		.byte	3
- 605 0008 0000      		.word	gs(MsetRainbow)
- 606 000a 07        		.byte	7
- 607 000b 0000      		.word	0
- 608 000d 08        		.byte	8
- 609 000e 0000      		.word	0
- 610 0010 0F        		.byte	15
- 611 0011 0000      		.word	M0main
- 612               	.global	M1reset
- 615               	M1reset:
- 616 0013 02        		.byte	2
- 617 0014 0000      		.word	gs(Mreset)
- 618 0016 12        		.byte	18
- 619 0017 0000      		.word	0
- 620 0019 0F        		.byte	15
- 621 001a 0000      		.word	M0main
- 622               	.global	M1eventMode
- 625               	M1eventMode:
- 626 001c 03        		.byte	3
- 627 001d 0000      		.word	gs(MsetEventMode)
- 628 001f 07        		.byte	7
- 629 0020 0000      		.word	0
- 630 0022 08        		.byte	8
- 631 0023 0000      		.word	0
- 632 0025 0F        		.byte	15
- 633 0026 0000      		.word	M0main
- 634               	.global	M2setminpm
- 637               	M2setminpm:
- 638 0028 04        		.byte	4
- 639 0029 0000      		.word	gs(MsetMinpm)
- 640 002b 05        		.byte	5
- 641 002c 0000      		.word	0
- 642 002e 0B        		.byte	11
- 643 002f 0000      		.word	0
- 644 0031 01        		.byte	1
- 645 0032 0000      		.word	0
- 646 0034 0F        		.byte	15
- 647 0035 0000      		.word	M1setTime
- 648               	.global	M2setminam
- 651               	M2setminam:
- 652 0037 04        		.byte	4
- 653 0038 0000      		.word	gs(MsetMinam)
- 654 003a 05        		.byte	5
- 655 003b 0000      		.word	0
- 656 003d 0B        		.byte	11
- 657 003e 0000      		.word	0
- 658 0040 01        		.byte	1
- 659 0041 0000      		.word	0
- 660 0043 0F        		.byte	15
- 661 0044 0000      		.word	M1setTime
- 662               	.global	M2sethourpm
- 665               	M2sethourpm:
- 666 0046 0D        		.byte	13
- 667 0047 0000      		.word	gs(MsetHourpm)
- 668 0049 07        		.byte	7
- 669 004a 0000      		.word	0
- 670 004c 08        		.byte	8
- 671 004d 0000      		.word	0
- 672 004f 0A        		.byte	10
- 673 0050 0000      		.word	0
- 674 0052 0E        		.byte	14
- 675 0053 0000      		.word	0
- 676 0055 00        		.byte	0
- 677 0056 0000      		.word	0
- 678 0058 04        		.byte	4
- 679 0059 0000      		.word	0
- 680 005b 11        		.byte	17
- 681 005c 0000      		.word	0
- 682 005e 02        		.byte	2
- 683 005f 0000      		.word	0
- 684 0061 0C        		.byte	12
- 685 0062 0000      		.word	0
- 686 0064 06        		.byte	6
- 687 0065 0000      		.word	0
- 688 0067 10        		.byte	16
- 689 0068 0000      		.word	0
- 690 006a 03        		.byte	3
- 691 006b 0000      		.word	0
- 692 006d 0F        		.byte	15
- 693 006e 0000      		.word	M1setTime
- 694               	.global	M2sethouram
- 697               	M2sethouram:
- 698 0070 0D        		.byte	13
- 699 0071 0000      		.word	gs(MsetHouram)
- 700 0073 07        		.byte	7
- 701 0074 0000      		.word	0
- 702 0076 08        		.byte	8
- 703 0077 0000      		.word	0
- 704 0079 0A        		.byte	10
- 705 007a 0000      		.word	0
- 706 007c 0E        		.byte	14
- 707 007d 0000      		.word	0
- 708 007f 00        		.byte	0
- 709 0080 0000      		.word	0
- 710 0082 04        		.byte	4
- 711 0083 0000      		.word	0
- 712 0085 11        		.byte	17
- 713 0086 0000      		.word	0
- 714 0088 02        		.byte	2
- 715 0089 0000      		.word	0
- 716 008b 0C        		.byte	12
- 717 008c 0000      		.word	0
- 718 008e 06        		.byte	6
- 719 008f 0000      		.word	0
- 720 0091 10        		.byte	16
- 721 0092 0000      		.word	0
- 722 0094 0D        		.byte	13
- 723 0095 0000      		.word	0
- 724 0097 0F        		.byte	15
- 725 0098 0000      		.word	M1setTime
- 726               	.global	M1setTime
- 729               	M1setTime:
- 730 009a 05        		.byte	5
- 731 009b 0000      		.word	0
- 732 009d 07        		.byte	7
- 733 009e 0000      		.word	M2sethouram
- 734 00a0 08        		.byte	8
- 735 00a1 0000      		.word	M2sethourpm
- 736 00a3 0A        		.byte	10
- 737 00a4 0000      		.word	M2setminam
- 738 00a6 0E        		.byte	14
- 739 00a7 0000      		.word	M2setminpm
- 740 00a9 0F        		.byte	15
- 741 00aa 0000      		.word	M0main
- 742               	.global	M3onhour
- 745               	M3onhour:
- 746 00ac 0C        		.byte	12
- 747 00ad 0000      		.word	gs(MsetNightOn)
- 748 00af 07        		.byte	7
- 749 00b0 0000      		.word	0
- 750 00b2 08        		.byte	8
- 751 00b3 0000      		.word	0
- 752 00b5 0A        		.byte	10
- 753 00b6 0000      		.word	0
- 754 00b8 0E        		.byte	14
- 755 00b9 0000      		.word	0
- 756 00bb 00        		.byte	0
- 757 00bc 0000      		.word	0
- 758 00be 04        		.byte	4
- 759 00bf 0000      		.word	0
- 760 00c1 11        		.byte	17
- 761 00c2 0000      		.word	0
- 762 00c4 02        		.byte	2
- 763 00c5 0000      		.word	0
- 764 00c7 0C        		.byte	12
- 765 00c8 0000      		.word	0
- 766 00ca 06        		.byte	6
- 767 00cb 0000      		.word	0
- 768 00cd 10        		.byte	16
- 769 00ce 0000      		.word	0
- 770 00d0 0F        		.byte	15
- 771 00d1 0000      		.word	M1nightmode
- 772               	.global	M2offhour
- 775               	M2offhour:
- 776 00d3 0C        		.byte	12
- 777 00d4 0000      		.word	gs(MsetNightOff)
- 778 00d6 07        		.byte	7
- 779 00d7 0000      		.word	M3onhour
- 780 00d9 08        		.byte	8
- 781 00da 0000      		.word	M3onhour
- 782 00dc 0A        		.byte	10
- 783 00dd 0000      		.word	M3onhour
- 784 00df 0E        		.byte	14
- 785 00e0 0000      		.word	M3onhour
- 786 00e2 00        		.byte	0
- 787 00e3 0000      		.word	M3onhour
- 788 00e5 04        		.byte	4
- 789 00e6 0000      		.word	M3onhour
- 790 00e8 11        		.byte	17
- 791 00e9 0000      		.word	M3onhour
- 792 00eb 02        		.byte	2
- 793 00ec 0000      		.word	M3onhour
- 794 00ee 0C        		.byte	12
- 795 00ef 0000      		.word	M3onhour
- 796 00f1 06        		.byte	6
- 797 00f2 0000      		.word	M3onhour
- 798 00f4 10        		.byte	16
- 799 00f5 0000      		.word	M3onhour
- 800 00f7 0F        		.byte	15
- 801 00f8 0000      		.word	M1nightmode
- 802               	.global	M1nightmode
- 805               	M1nightmode:
- 806 00fa 04        		.byte	4
- 807 00fb 0000      		.word	gs(MsetNightMode)
- 808 00fd 07        		.byte	7
- 809 00fe 0000      		.word	0
- 810 0100 08        		.byte	8
- 811 0101 0000      		.word	M2offhour
- 812 0103 0A        		.byte	10
- 813 0104 0000      		.word	M2offhour
- 814 0106 0F        		.byte	15
- 815 0107 0000      		.word	M0main
- 816               	.global	M1cmode
- 819               	M1cmode:
- 820 0109 08        		.byte	8
- 821 010a 0000      		.word	gs(MsetColorMode)
- 822 010c 07        		.byte	7
- 823 010d 0000      		.word	0
- 824 010f 08        		.byte	8
- 825 0110 0000      		.word	0
- 826 0112 0A        		.byte	10
- 827 0113 0000      		.word	0
- 828 0115 0E        		.byte	14
- 829 0116 0000      		.word	0
- 830 0118 00        		.byte	0
- 831 0119 0000      		.word	0
- 832 011b 04        		.byte	4
- 833 011c 0000      		.word	0
- 834 011e 11        		.byte	17
- 835 011f 0000      		.word	0
- 836 0121 02        		.byte	2
- 837 0122 0000      		.word	0
- 838 0124 0C        		.byte	12
- 839 0125 0000      		.word	0
- 840 0127 0F        		.byte	15
- 841 0128 0000      		.word	M0main
- 842               	.global	M1mode
- 845               	M1mode:
- 846 012a 05        		.byte	5
- 847 012b 0000      		.word	gs(MsetMode)
- 848 012d 07        		.byte	7
- 849 012e 0000      		.word	0
- 850 0130 08        		.byte	8
- 851 0131 0000      		.word	0
- 852 0133 0A        		.byte	10
- 853 0134 0000      		.word	0
- 854 0136 0E        		.byte	14
- 855 0137 0000      		.word	0
- 856 0139 0F        		.byte	15
- 857 013a 0000      		.word	M0main
- 858               	.global	M0main
- 861               	M0main:
- 862 013c 17        		.byte	23
- 863 013d 0000      		.word	0
- 864 013f 07        		.byte	7
- 865 0140 0000      		.word	M1mode
- 866 0142 08        		.byte	8
- 867 0143 0000      		.word	M1cmode
- 868 0145 0A        		.byte	10
- 869 0146 0000      		.word	M1nightmode
- 870 0148 0E        		.byte	14
- 871 0149 0000      		.word	M1setTime
- 872 014b 00        		.byte	0
- 873 014c 0000      		.word	M1eventMode
- 874 014e 04        		.byte	4
- 875 014f 0000      		.word	M1reset
- 876 0151 11        		.byte	17
- 877 0152 0000      		.word	M1rainbow
- 878               		.comm	USI_I2C_Master_State,1,1
- 879               		.comm	currentTime,5,1
- 880               		.text
- 881               	.Letext0:
- 882               		.file 2 "/usr/lib/avr/include/stdint.h"
- 883               		.file 3 "RTC.h"
- 884               		.file 4 "Menu.h"
- 885               		.file 5 "defines.h"
+ 195               	.LVL8:
+ 196               	/* prologue: function */
+ 197               	/* frame size = 0 */
+ 198               	/* stack size = 0 */
+ 199               	.L__stack_usage = 0
+ 161:Menu.c        ****         TCCR1B|=(1<<CS12)|(1<<CS10);
+ 200               		.loc 1 161 0
+ 201 0058 8430      		cpi r24,lo8(4)
+ 202 005a 00F4      		brsh .L15
+ 203               	.LVL9:
+ 204               	.LBB8:
+ 205               	.LBB9:
+ 162:Menu.c        ****         if(i==2)TCCR1B&=~(1<<CS10);
+ 206               		.loc 1 162 0
+ 207 005c 9EB5      		in r25,0x2e
+ 208 005e 9560      		ori r25,lo8(5)
+ 209 0060 9EBD      		out 0x2e,r25
+ 163:Menu.c        ****         mode=i;
+ 210               		.loc 1 163 0
+ 211 0062 8230      		cpi r24,lo8(2)
+ 212 0064 01F4      		brne .L17
+ 213 0066 9EB5      		in r25,0x2e
+ 214 0068 9E7F      		andi r25,lo8(-2)
+ 215 006a 9EBD      		out 0x2e,r25
+ 216               	.L17:
+ 164:Menu.c        ****         EEPROM_write(EE_MODE,i);
+ 217               		.loc 1 164 0
+ 218 006c 8093 0000 		sts mode,r24
+ 165:Menu.c        ****     }
+ 219               		.loc 1 165 0
+ 220 0070 682F      		mov r22,r24
+ 221 0072 84E0      		ldi r24,lo8(4)
+ 222               	.LVL10:
+ 223 0074 00C0      		rjmp EEPROM_write
+ 224               	.LVL11:
+ 225               	.L15:
+ 226 0076 0895      		ret
+ 227               	.LBE9:
+ 228               	.LBE8:
+ 229               		.cfi_endproc
+ 230               	.LFE11:
+ 232               	.global	MsetColorMode
+ 234               	MsetColorMode:
+ 235               	.LFB13:
+ 176:Menu.c        ****     if(i<7){
+ 236               		.loc 1 176 0
+ 237               		.cfi_startproc
+ 238               	.LVL12:
+ 239               	/* prologue: function */
+ 240               	/* frame size = 0 */
+ 241               	/* stack size = 0 */
+ 242               	.L__stack_usage = 0
+ 177:Menu.c        ****         colorMode=colorArray[i];//fixed
+ 243               		.loc 1 177 0
+ 244 0078 8730      		cpi r24,lo8(7)
+ 245 007a 00F4      		brsh .L19
+ 178:Menu.c        ****         EEPROM_write(EE_COLOR,colorArray[i]);
+ 246               		.loc 1 178 0
+ 247 007c E82F      		mov r30,r24
+ 248 007e F0E0      		ldi r31,0
+ 249 0080 E050      		subi r30,lo8(-(colorArray))
+ 250 0082 F040      		sbci r31,hi8(-(colorArray))
+ 251 0084 6081      		ld r22,Z
+ 252 0086 6093 0000 		sts colorMode,r22
+ 253 008a 00C0      		rjmp .L22
+ 254               	.L19:
+ 180:Menu.c        ****         colorMode=WHITE+128;
+ 255               		.loc 1 180 0
+ 256 008c 8730      		cpi r24,lo8(7)
+ 257 008e 01F4      		brne .L20
+ 258               	.LVL13:
+ 259               	.LBB12:
+ 260               	.LBB13:
+ 181:Menu.c        ****         EEPROM_write(EE_COLOR,128);
+ 261               		.loc 1 181 0
+ 262 0090 87E8      		ldi r24,lo8(-121)
+ 263               	.LVL14:
+ 264 0092 8093 0000 		sts colorMode,r24
+ 182:Menu.c        ****     }else if(i==8){//cycle all
+ 265               		.loc 1 182 0
+ 266 0096 60E8      		ldi r22,lo8(-128)
+ 267 0098 00C0      		rjmp .L22
+ 268               	.LVL15:
+ 269               	.L20:
+ 270               	.LBE13:
+ 271               	.LBE12:
+ 183:Menu.c        ****         colorMode=WHITE+64;
+ 272               		.loc 1 183 0
+ 273 009a 8830      		cpi r24,lo8(8)
+ 274 009c 01F4      		brne .L18
+ 184:Menu.c        ****         EEPROM_write(EE_COLOR,64);
+ 275               		.loc 1 184 0
+ 276 009e 87E4      		ldi r24,lo8(71)
+ 277               	.LVL16:
+ 278 00a0 8093 0000 		sts colorMode,r24
+ 185:Menu.c        ****     }
+ 279               		.loc 1 185 0
+ 280 00a4 60E4      		ldi r22,lo8(64)
+ 281               	.L22:
+ 282 00a6 80E0      		ldi r24,0
+ 283 00a8 00C0      		rjmp EEPROM_write
+ 284               	.LVL17:
+ 285               	.L18:
+ 286 00aa 0895      		ret
+ 287               		.cfi_endproc
+ 288               	.LFE13:
+ 290               	.global	MsetNightMode
+ 292               	MsetNightMode:
+ 293               	.LFB15:
+ 199:Menu.c        ****     if(i<3)EEPROM_write(EE_NIGHTMODE,i);
+ 294               		.loc 1 199 0
+ 295               		.cfi_startproc
+ 296               	.LVL18:
+ 297               	/* prologue: function */
+ 298               	/* frame size = 0 */
+ 299               	/* stack size = 0 */
+ 300               	.L__stack_usage = 0
+ 200:Menu.c        **** }
+ 301               		.loc 1 200 0
+ 302 00ac 8330      		cpi r24,lo8(3)
+ 303 00ae 00F4      		brsh .L23
+ 200:Menu.c        **** }
+ 304               		.loc 1 200 0 is_stmt 0 discriminator 1
+ 305 00b0 682F      		mov r22,r24
+ 306 00b2 81E0      		ldi r24,lo8(1)
+ 307               	.LVL19:
+ 308 00b4 00C0      		rjmp EEPROM_write
+ 309               	.LVL20:
+ 310               	.L23:
+ 311 00b6 0895      		ret
+ 312               		.cfi_endproc
+ 313               	.LFE15:
+ 315               	.global	MsetNightOff
+ 317               	MsetNightOff:
+ 318               	.LFB17:
+ 206:Menu.c        ****     EEPROM_write(EE_OFFHOUR,12+i);
+ 319               		.loc 1 206 0 is_stmt 1
+ 320               		.cfi_startproc
+ 321               	.LVL21:
+ 322               	/* prologue: function */
+ 323               	/* frame size = 0 */
+ 324               	/* stack size = 0 */
+ 325               	.L__stack_usage = 0
+ 207:Menu.c        **** }
+ 326               		.loc 1 207 0
+ 327 00b8 6CE0      		ldi r22,lo8(12)
+ 328 00ba 680F      		add r22,r24
+ 329 00bc 83E0      		ldi r24,lo8(3)
+ 330               	.LVL22:
+ 331 00be 00C0      		rjmp EEPROM_write
+ 332               	.LVL23:
+ 333               		.cfi_endproc
+ 334               	.LFE17:
+ 336               	.global	MsetNightOn
+ 338               	MsetNightOn:
+ 339               	.LFB18:
+ 209:Menu.c        ****     EEPROM_write(EE_ONHOUR,1+i);
+ 340               		.loc 1 209 0
+ 341               		.cfi_startproc
+ 342               	.LVL24:
+ 343               	/* prologue: function */
+ 344               	/* frame size = 0 */
+ 345               	/* stack size = 0 */
+ 346               	.L__stack_usage = 0
+ 210:Menu.c        **** }
+ 347               		.loc 1 210 0
+ 348 00c0 61E0      		ldi r22,lo8(1)
+ 349 00c2 680F      		add r22,r24
+ 350 00c4 82E0      		ldi r24,lo8(2)
+ 351               	.LVL25:
+ 352 00c6 00C0      		rjmp EEPROM_write
+ 353               	.LVL26:
+ 354               		.cfi_endproc
+ 355               	.LFE18:
+ 357               	.global	Mreset
+ 359               	Mreset:
+ 360               	.LFB24:
+ 222:Menu.c        ****     if(i<1){
+ 361               		.loc 1 222 0
+ 362               		.cfi_startproc
+ 363               	.LVL27:
+ 364               	/* prologue: function */
+ 365               	/* frame size = 0 */
+ 366               	/* stack size = 0 */
+ 367               	.L__stack_usage = 0
+ 223:Menu.c        ****         MsetMode(1);
+ 368               		.loc 1 223 0
+ 369 00c8 8111      		cpse r24,__zero_reg__
+ 370 00ca 00C0      		rjmp .L27
+ 371               	.LVL28:
+ 372               	.LBB20:
+ 373               	.LBB21:
+ 374               	.LBB22:
+ 375               	.LBB23:
+ 376               	.LBB24:
+ 162:Menu.c        ****         if(i==2)TCCR1B&=~(1<<CS10);
+ 377               		.loc 1 162 0
+ 378 00cc 8EB5      		in r24,0x2e
+ 379               	.LVL29:
+ 380 00ce 8560      		ori r24,lo8(5)
+ 381 00d0 8EBD      		out 0x2e,r24
+ 164:Menu.c        ****         EEPROM_write(EE_MODE,i);
+ 382               		.loc 1 164 0
+ 383 00d2 81E0      		ldi r24,lo8(1)
+ 384 00d4 8093 0000 		sts mode,r24
+ 165:Menu.c        ****     }
+ 385               		.loc 1 165 0
+ 386 00d8 61E0      		ldi r22,lo8(1)
+ 387 00da 84E0      		ldi r24,lo8(4)
+ 388 00dc 00D0      		rcall EEPROM_write
+ 389               	.LVL30:
+ 390               	.LBE24:
+ 391               	.LBE23:
+ 392               	.LBE22:
+ 225:Menu.c        ****         TCCR1B|=(1<<CS12)|(1<<CS10);
+ 393               		.loc 1 225 0
+ 394 00de 80E0      		ldi r24,0
+ 395 00e0 00D0      		rcall MsetColorMode
+ 396               	.LVL31:
+ 226:Menu.c        ****     }
+ 397               		.loc 1 226 0
+ 398 00e2 8EB5      		in r24,0x2e
+ 399 00e4 8560      		ori r24,lo8(5)
+ 400 00e6 8EBD      		out 0x2e,r24
+ 401               	.LVL32:
+ 402               	.L27:
+ 403 00e8 0895      		ret
+ 404               	.LBE21:
+ 405               	.LBE20:
+ 406               		.cfi_endproc
+ 407               	.LFE24:
+ 409               	.global	EEPROM_read
+ 411               	EEPROM_read:
+ 412               	.LFB9:
+  22:Menu.c        ****     while(EECR & (1<<EEPE));
+ 413               		.loc 1 22 0
+ 414               		.cfi_startproc
+ 415               	/* prologue: function */
+ 416               	/* frame size = 0 */
+ 417               	/* stack size = 0 */
+ 418               	.L__stack_usage = 0
+ 419               	.LVL33:
+ 420               	.L30:
+  23:Menu.c        ****     EEAR = addr;
+ 421               		.loc 1 23 0 discriminator 1
+ 422 00ea E199      		sbic 0x1c,1
+ 423 00ec 00C0      		rjmp .L30
+  24:Menu.c        ****     EECR |= (1<<EERE);
+ 424               		.loc 1 24 0
+ 425 00ee 90E0      		ldi r25,0
+ 426 00f0 9FBB      		out 0x1e+1,r25
+ 427 00f2 8EBB      		out 0x1e,r24
+  25:Menu.c        ****     return EEDR;
+ 428               		.loc 1 25 0
+ 429 00f4 E09A      		sbi 0x1c,0
+  26:Menu.c        **** }
+ 430               		.loc 1 26 0
+ 431 00f6 8DB3      		in r24,0x1d
+ 432               	.LVL34:
+  27:Menu.c        **** 
+ 433               		.loc 1 27 0
+ 434 00f8 0895      		ret
+ 435               		.cfi_endproc
+ 436               	.LFE9:
+ 438               	.global	Minit
+ 440               	Minit:
+ 441               	.LFB10:
+  29:Menu.c        ****     colorMode=EEPROM_read(EE_COLOR);
+ 442               		.loc 1 29 0
+ 443               		.cfi_startproc
+ 444               	/* prologue: function */
+ 445               	/* frame size = 0 */
+ 446               	/* stack size = 0 */
+ 447               	.L__stack_usage = 0
+  30:Menu.c        ****     MsetMode(EEPROM_read(EE_MODE));
+ 448               		.loc 1 30 0
+ 449 00fa 80E0      		ldi r24,0
+ 450 00fc 00D0      		rcall EEPROM_read
+ 451               	.LVL35:
+ 452 00fe 8093 0000 		sts colorMode,r24
+  31:Menu.c        **** }
+ 453               		.loc 1 31 0
+ 454 0102 84E0      		ldi r24,lo8(4)
+ 455 0104 00D0      		rcall EEPROM_read
+ 456               	.LVL36:
+ 457 0106 00C0      		rjmp MsetMode
+ 458               	.LVL37:
+ 459               		.cfi_endproc
+ 460               	.LFE10:
+ 462               	.global	getMode
+ 464               	getMode:
+ 465               	.LFB12:
+ 168:Menu.c        ****     if(mode==2){
+ 466               		.loc 1 168 0
+ 467               		.cfi_startproc
+ 468               	/* prologue: function */
+ 469               	/* frame size = 0 */
+ 470               	/* stack size = 0 */
+ 471               	.L__stack_usage = 0
+ 169:Menu.c        ****         mode=1;
+ 472               		.loc 1 169 0
+ 473 0108 8091 0000 		lds r24,mode
+ 474 010c 8230      		cpi r24,lo8(2)
+ 475 010e 01F4      		brne .L34
+ 170:Menu.c        ****     }else if(mode==1){
+ 476               		.loc 1 170 0
+ 477 0110 81E0      		ldi r24,lo8(1)
+ 478 0112 00C0      		rjmp .L36
+ 479               	.L34:
+ 171:Menu.c        ****         mode=2;
+ 480               		.loc 1 171 0
+ 481 0114 8130      		cpi r24,lo8(1)
+ 482 0116 01F4      		brne .L35
+ 172:Menu.c        ****     }
+ 483               		.loc 1 172 0
+ 484 0118 82E0      		ldi r24,lo8(2)
+ 485               	.L36:
+ 486 011a 8093 0000 		sts mode,r24
+ 487               	.L35:
+ 175:Menu.c        **** void MsetColorMode(uint8_t i){
+ 488               		.loc 1 175 0
+ 489 011e 8091 0000 		lds r24,mode
+ 490 0122 0895      		ret
+ 491               		.cfi_endproc
+ 492               	.LFE12:
+ 494               	.global	getColor
+ 496               	getColor:
+ 497               	.LFB14:
+ 188:Menu.c        ****     if(colorMode>127){//cycle single
+ 498               		.loc 1 188 0
+ 499               		.cfi_startproc
+ 500               	/* prologue: function */
+ 501               	/* frame size = 0 */
+ 502               	/* stack size = 0 */
+ 503               	.L__stack_usage = 0
+ 189:Menu.c        ****         if(colorMode>134)colorMode=128;
+ 504               		.loc 1 189 0
+ 505 0124 8091 0000 		lds r24,colorMode
+ 506 0128 87FF      		sbrs r24,7
+ 507 012a 00C0      		rjmp .L38
+ 190:Menu.c        ****         colorMode++;
+ 508               		.loc 1 190 0
+ 509 012c 8738      		cpi r24,lo8(-121)
+ 510 012e 00F0      		brlo .L39
+ 190:Menu.c        ****         colorMode++;
+ 511               		.loc 1 190 0 is_stmt 0 discriminator 1
+ 512 0130 80E8      		ldi r24,lo8(-128)
+ 513 0132 8093 0000 		sts colorMode,r24
+ 514               	.L39:
+ 191:Menu.c        ****         return colorArray[colorMode-128];
+ 515               		.loc 1 191 0 is_stmt 1
+ 516 0136 E091 0000 		lds r30,colorMode
+ 517 013a EF5F      		subi r30,lo8(-(1))
+ 518 013c E093 0000 		sts colorMode,r30
+ 192:Menu.c        ****     }else if(colorMode>63){//cycle all
+ 519               		.loc 1 192 0
+ 520 0140 F0E0      		ldi r31,0
+ 521 0142 E050      		subi r30,lo8(-(colorArray-128))
+ 522 0144 F040      		sbci r31,hi8(-(colorArray-128))
+ 523 0146 8081      		ld r24,Z
+ 524 0148 0895      		ret
+ 525               	.L38:
+ 193:Menu.c        ****         return RED;
+ 526               		.loc 1 193 0
+ 527 014a 8034      		cpi r24,lo8(64)
+ 528 014c 00F0      		brlo .L40
+ 194:Menu.c        ****     }else{//fixed
+ 529               		.loc 1 194 0
+ 530 014e 84E0      		ldi r24,lo8(4)
+ 531               	.L40:
+ 198:Menu.c        **** void MsetNightMode(uint8_t i){
+ 532               		.loc 1 198 0
+ 533 0150 0895      		ret
+ 534               		.cfi_endproc
+ 535               	.LFE14:
+ 537               	.global	isInAllowedTime
+ 539               	isInAllowedTime:
+ 540               	.LFB16:
+ 202:Menu.c        ****     if(EEPROM_read(EE_NIGHTMODE))return (h>=EEPROM_read(EE_ONHOUR) && h<=EEPROM_read(EE_OFFHOUR));
+ 541               		.loc 1 202 0
+ 542               		.cfi_startproc
+ 543               	.LVL38:
+ 544 0152 CF93      		push r28
+ 545               	.LCFI0:
+ 546               		.cfi_def_cfa_offset 3
+ 547               		.cfi_offset 28, -2
+ 548               	/* prologue: function */
+ 549               	/* frame size = 0 */
+ 550               	/* stack size = 1 */
+ 551               	.L__stack_usage = 1
+ 552 0154 C82F      		mov r28,r24
+ 203:Menu.c        ****     return 1;
+ 553               		.loc 1 203 0
+ 554 0156 81E0      		ldi r24,lo8(1)
+ 555               	.LVL39:
+ 556 0158 00D0      		rcall EEPROM_read
+ 557               	.LVL40:
+ 558 015a 8823      		tst r24
+ 559 015c 01F0      		breq .L46
+ 203:Menu.c        ****     return 1;
+ 560               		.loc 1 203 0 is_stmt 0 discriminator 1
+ 561 015e 82E0      		ldi r24,lo8(2)
+ 562 0160 00D0      		rcall EEPROM_read
+ 563               	.LVL41:
+ 564 0162 C817      		cp r28,r24
+ 565 0164 00F0      		brlo .L47
+ 203:Menu.c        ****     return 1;
+ 566               		.loc 1 203 0 discriminator 2
+ 567 0166 83E0      		ldi r24,lo8(3)
+ 568 0168 00D0      		rcall EEPROM_read
+ 569               	.LVL42:
+ 570 016a 91E0      		ldi r25,lo8(1)
+ 571 016c 8C17      		cp r24,r28
+ 572 016e 00F4      		brsh .L45
+ 573 0170 90E0      		ldi r25,0
+ 574               	.L45:
+ 575 0172 892F      		mov r24,r25
+ 576 0174 00C0      		rjmp .L43
+ 577               	.L47:
+ 203:Menu.c        ****     return 1;
+ 578               		.loc 1 203 0
+ 579 0176 80E0      		ldi r24,0
+ 580 0178 00C0      		rjmp .L43
+ 581               	.L46:
+ 204:Menu.c        **** }
+ 582               		.loc 1 204 0 is_stmt 1
+ 583 017a 81E0      		ldi r24,lo8(1)
+ 584               	.L43:
+ 585               	/* epilogue start */
+ 205:Menu.c        **** void MsetNightOff(uint8_t i){
+ 586               		.loc 1 205 0
+ 587 017c CF91      		pop r28
+ 588               	.LVL43:
+ 589 017e 0895      		ret
+ 590               		.cfi_endproc
+ 591               	.LFE16:
+ 593               	.global	colorMode
+ 594               		.section .bss
+ 597               	colorMode:
+ 598 0000 00        		.zero	1
+ 599               	.global	mode
+ 600               		.data
+ 603               	mode:
+ 604 0000 01        		.byte	1
+ 605               	.global	M1rainbow
+ 606               		.section	.rodata
+ 609               	M1rainbow:
+ 610 0000 03        		.byte	3
+ 611 0001 0000      		.word	gs(MsetRainbow)
+ 612 0003 07        		.byte	7
+ 613 0004 0000      		.word	0
+ 614 0006 08        		.byte	8
+ 615 0007 0000      		.word	0
+ 616 0009 0F        		.byte	15
+ 617 000a 0000      		.word	M0main
+ 618               	.global	M1reset
+ 621               	M1reset:
+ 622 000c 02        		.byte	2
+ 623 000d 0000      		.word	gs(Mreset)
+ 624 000f 12        		.byte	18
+ 625 0010 0000      		.word	0
+ 626 0012 0F        		.byte	15
+ 627 0013 0000      		.word	M0main
+ 628               	.global	M1eventMode
+ 631               	M1eventMode:
+ 632 0015 03        		.byte	3
+ 633 0016 0000      		.word	gs(MsetEventMode)
+ 634 0018 07        		.byte	7
+ 635 0019 0000      		.word	0
+ 636 001b 08        		.byte	8
+ 637 001c 0000      		.word	0
+ 638 001e 0F        		.byte	15
+ 639 001f 0000      		.word	M0main
+ 640               	.global	M2setminpm
+ 643               	M2setminpm:
+ 644 0021 04        		.byte	4
+ 645 0022 0000      		.word	gs(MsetMinpm)
+ 646 0024 05        		.byte	5
+ 647 0025 0000      		.word	0
+ 648 0027 0B        		.byte	11
+ 649 0028 0000      		.word	0
+ 650 002a 01        		.byte	1
+ 651 002b 0000      		.word	0
+ 652 002d 0F        		.byte	15
+ 653 002e 0000      		.word	M1setTime
+ 654               	.global	M2setminam
+ 657               	M2setminam:
+ 658 0030 04        		.byte	4
+ 659 0031 0000      		.word	gs(MsetMinam)
+ 660 0033 05        		.byte	5
+ 661 0034 0000      		.word	0
+ 662 0036 0B        		.byte	11
+ 663 0037 0000      		.word	0
+ 664 0039 01        		.byte	1
+ 665 003a 0000      		.word	0
+ 666 003c 0F        		.byte	15
+ 667 003d 0000      		.word	M1setTime
+ 668               	.global	M2sethourpm
+ 671               	M2sethourpm:
+ 672 003f 0D        		.byte	13
+ 673 0040 0000      		.word	gs(MsetHourpm)
+ 674 0042 07        		.byte	7
+ 675 0043 0000      		.word	0
+ 676 0045 08        		.byte	8
+ 677 0046 0000      		.word	0
+ 678 0048 0A        		.byte	10
+ 679 0049 0000      		.word	0
+ 680 004b 0E        		.byte	14
+ 681 004c 0000      		.word	0
+ 682 004e 00        		.byte	0
+ 683 004f 0000      		.word	0
+ 684 0051 04        		.byte	4
+ 685 0052 0000      		.word	0
+ 686 0054 11        		.byte	17
+ 687 0055 0000      		.word	0
+ 688 0057 02        		.byte	2
+ 689 0058 0000      		.word	0
+ 690 005a 0C        		.byte	12
+ 691 005b 0000      		.word	0
+ 692 005d 06        		.byte	6
+ 693 005e 0000      		.word	0
+ 694 0060 10        		.byte	16
+ 695 0061 0000      		.word	0
+ 696 0063 03        		.byte	3
+ 697 0064 0000      		.word	0
+ 698 0066 0F        		.byte	15
+ 699 0067 0000      		.word	M1setTime
+ 700               	.global	M2sethouram
+ 703               	M2sethouram:
+ 704 0069 0D        		.byte	13
+ 705 006a 0000      		.word	gs(MsetHouram)
+ 706 006c 07        		.byte	7
+ 707 006d 0000      		.word	0
+ 708 006f 08        		.byte	8
+ 709 0070 0000      		.word	0
+ 710 0072 0A        		.byte	10
+ 711 0073 0000      		.word	0
+ 712 0075 0E        		.byte	14
+ 713 0076 0000      		.word	0
+ 714 0078 00        		.byte	0
+ 715 0079 0000      		.word	0
+ 716 007b 04        		.byte	4
+ 717 007c 0000      		.word	0
+ 718 007e 11        		.byte	17
+ 719 007f 0000      		.word	0
+ 720 0081 02        		.byte	2
+ 721 0082 0000      		.word	0
+ 722 0084 0C        		.byte	12
+ 723 0085 0000      		.word	0
+ 724 0087 06        		.byte	6
+ 725 0088 0000      		.word	0
+ 726 008a 10        		.byte	16
+ 727 008b 0000      		.word	0
+ 728 008d 0D        		.byte	13
+ 729 008e 0000      		.word	0
+ 730 0090 0F        		.byte	15
+ 731 0091 0000      		.word	M1setTime
+ 732               	.global	M1setTime
+ 735               	M1setTime:
+ 736 0093 05        		.byte	5
+ 737 0094 0000      		.word	0
+ 738 0096 07        		.byte	7
+ 739 0097 0000      		.word	M2sethouram
+ 740 0099 08        		.byte	8
+ 741 009a 0000      		.word	M2sethourpm
+ 742 009c 0A        		.byte	10
+ 743 009d 0000      		.word	M2setminam
+ 744 009f 0E        		.byte	14
+ 745 00a0 0000      		.word	M2setminpm
+ 746 00a2 0F        		.byte	15
+ 747 00a3 0000      		.word	M0main
+ 748               	.global	M3onhour
+ 751               	M3onhour:
+ 752 00a5 5C        		.byte	92
+ 753 00a6 0000      		.word	gs(MsetNightOn)
+ 754 00a8 07        		.byte	7
+ 755 00a9 0000      		.word	0
+ 756 00ab 08        		.byte	8
+ 757 00ac 0000      		.word	0
+ 758 00ae 0A        		.byte	10
+ 759 00af 0000      		.word	0
+ 760 00b1 0E        		.byte	14
+ 761 00b2 0000      		.word	0
+ 762 00b4 00        		.byte	0
+ 763 00b5 0000      		.word	0
+ 764 00b7 04        		.byte	4
+ 765 00b8 0000      		.word	0
+ 766 00ba 11        		.byte	17
+ 767 00bb 0000      		.word	0
+ 768 00bd 02        		.byte	2
+ 769 00be 0000      		.word	0
+ 770 00c0 0C        		.byte	12
+ 771 00c1 0000      		.word	0
+ 772 00c3 06        		.byte	6
+ 773 00c4 0000      		.word	0
+ 774 00c6 10        		.byte	16
+ 775 00c7 0000      		.word	0
+ 776 00c9 0F        		.byte	15
+ 777 00ca 0000      		.word	M1nightmode
+ 778               	.global	M2offhour
+ 781               	M2offhour:
+ 782 00cc 4C        		.byte	76
+ 783 00cd 0000      		.word	gs(MsetNightOff)
+ 784 00cf 07        		.byte	7
+ 785 00d0 0000      		.word	M3onhour
+ 786 00d2 08        		.byte	8
+ 787 00d3 0000      		.word	M3onhour
+ 788 00d5 0A        		.byte	10
+ 789 00d6 0000      		.word	M3onhour
+ 790 00d8 0E        		.byte	14
+ 791 00d9 0000      		.word	M3onhour
+ 792 00db 00        		.byte	0
+ 793 00dc 0000      		.word	M3onhour
+ 794 00de 04        		.byte	4
+ 795 00df 0000      		.word	M3onhour
+ 796 00e1 11        		.byte	17
+ 797 00e2 0000      		.word	M3onhour
+ 798 00e4 02        		.byte	2
+ 799 00e5 0000      		.word	M3onhour
+ 800 00e7 0C        		.byte	12
+ 801 00e8 0000      		.word	M3onhour
+ 802 00ea 06        		.byte	6
+ 803 00eb 0000      		.word	M3onhour
+ 804 00ed 10        		.byte	16
+ 805 00ee 0000      		.word	M3onhour
+ 806 00f0 0F        		.byte	15
+ 807 00f1 0000      		.word	M1nightmode
+ 808               	.global	M1nightmode
+ 811               	M1nightmode:
+ 812 00f3 34        		.byte	52
+ 813 00f4 0000      		.word	gs(MsetNightMode)
+ 814 00f6 07        		.byte	7
+ 815 00f7 0000      		.word	0
+ 816 00f9 08        		.byte	8
+ 817 00fa 0000      		.word	M2offhour
+ 818 00fc 0A        		.byte	10
+ 819 00fd 0000      		.word	M2offhour
+ 820 00ff 0F        		.byte	15
+ 821 0100 0000      		.word	M0main
+ 822               	.global	M1cmode
+ 825               	M1cmode:
+ 826 0102 2A        		.byte	42
+ 827 0103 0000      		.word	gs(MsetColorMode)
+ 828 0105 07        		.byte	7
+ 829 0106 0000      		.word	0
+ 830 0108 08        		.byte	8
+ 831 0109 0000      		.word	0
+ 832 010b 0A        		.byte	10
+ 833 010c 0000      		.word	0
+ 834 010e 0E        		.byte	14
+ 835 010f 0000      		.word	0
+ 836 0111 00        		.byte	0
+ 837 0112 0000      		.word	0
+ 838 0114 04        		.byte	4
+ 839 0115 0000      		.word	0
+ 840 0117 11        		.byte	17
+ 841 0118 0000      		.word	0
+ 842 011a 02        		.byte	2
+ 843 011b 0000      		.word	0
+ 844 011d 0C        		.byte	12
+ 845 011e 0000      		.word	0
+ 846 0120 0F        		.byte	15
+ 847 0121 0000      		.word	M0main
+ 848               	.global	M1mode
+ 851               	M1mode:
+ 852 0123 15        		.byte	21
+ 853 0124 0000      		.word	gs(MsetMode)
+ 854 0126 07        		.byte	7
+ 855 0127 0000      		.word	0
+ 856 0129 08        		.byte	8
+ 857 012a 0000      		.word	0
+ 858 012c 0A        		.byte	10
+ 859 012d 0000      		.word	0
+ 860 012f 0E        		.byte	14
+ 861 0130 0000      		.word	0
+ 862 0132 0F        		.byte	15
+ 863 0133 0000      		.word	M0main
+ 864               	.global	M0main
+ 867               	M0main:
+ 868 0135 08        		.byte	8
+ 869 0136 0000      		.word	0
+ 870 0138 07        		.byte	7
+ 871 0139 0000      		.word	M1mode
+ 872 013b 08        		.byte	8
+ 873 013c 0000      		.word	M1cmode
+ 874 013e 0A        		.byte	10
+ 875 013f 0000      		.word	M1nightmode
+ 876 0141 0E        		.byte	14
+ 877 0142 0000      		.word	M1setTime
+ 878 0144 00        		.byte	0
+ 879 0145 0000      		.word	M1eventMode
+ 880 0147 04        		.byte	4
+ 881 0148 0000      		.word	M1reset
+ 882 014a 11        		.byte	17
+ 883 014b 0000      		.word	M1rainbow
+ 884 014d 0F        		.byte	15
+ 885 014e 0000      		.word	0
+ 886               		.comm	USI_I2C_Master_State,1,1
+ 887               		.comm	currentTime,5,1
+ 890               	colorArray:
+ 891 0150 07        		.byte	7
+ 892 0151 03        		.byte	3
+ 893 0152 01        		.byte	1
+ 894 0153 05        		.byte	5
+ 895 0154 04        		.byte	4
+ 896 0155 06        		.byte	6
+ 897 0156 02        		.byte	2
+ 898               		.text
+ 899               	.Letext0:
+ 900               		.file 2 "/usr/lib/avr/include/stdint.h"
+ 901               		.file 3 "RTC.h"
+ 902               		.file 4 "Menu.h"
+ 903               		.file 5 "defines.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Menu.c
-     /tmp/ccyrJJke.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccyrJJke.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccyrJJke.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccyrJJke.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccyrJJke.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccyrJJke.s:12     .text:0000000000000000 MsetNightMode
-     /tmp/ccyrJJke.s:591    .bss:0000000000000001 nightMode
-     /tmp/ccyrJJke.s:30     .text:0000000000000006 MsetNightOff
-     /tmp/ccyrJJke.s:580    .data:0000000000000000 nightOffHour
-     /tmp/ccyrJJke.s:49     .text:000000000000000e MsetNightOn
-     /tmp/ccyrJJke.s:585    .data:0000000000000001 nightOnHour
-     /tmp/ccyrJJke.s:68     .text:0000000000000016 MsetRainbow
-     /tmp/ccyrJJke.s:83     .text:0000000000000018 MsetMode
-     /tmp/ccyrJJke.s:597    .data:0000000000000002 mode
-     /tmp/ccyrJJke.s:140    .text:000000000000004c MsetEventMode
-     /tmp/ccyrJJke.s:153    .text:000000000000004e MsetHouram
-     /tmp/ccyrJJke.s:166    .text:0000000000000050 MsetHourpm
-     /tmp/ccyrJJke.s:179    .text:0000000000000052 MsetMinam
-     /tmp/ccyrJJke.s:192    .text:0000000000000054 MsetMinpm
-     /tmp/ccyrJJke.s:205    .text:0000000000000056 findNextEntry
-     /tmp/ccyrJJke.s:241    .text:0000000000000076 getSubMenu
-     /tmp/ccyrJJke.s:272    .text:000000000000008e EEPROM_write
-     /tmp/ccyrJJke.s:303    .text:00000000000000a2 MsetColorMode
-     /tmp/ccyrJJke.s:574    .bss:0000000000000000 colorMode
-     /tmp/ccyrJJke.s:562    .rodata:0000000000000000 colorArray
-     /tmp/ccyrJJke.s:362    .text:00000000000000d6 Mreset
-     /tmp/ccyrJJke.s:399    .text:00000000000000ec EEPROM_read
-     /tmp/ccyrJJke.s:428    .text:00000000000000fc Minit
-     /tmp/ccyrJJke.s:447    .text:0000000000000106 getMode
-     /tmp/ccyrJJke.s:479    .text:0000000000000122 getColor
-     /tmp/ccyrJJke.s:522    .text:0000000000000150 isInAllowedTime
-     /tmp/ccyrJJke.s:603    .rodata:0000000000000007 M1rainbow
-     /tmp/ccyrJJke.s:861    .rodata:000000000000013c M0main
-     /tmp/ccyrJJke.s:615    .rodata:0000000000000013 M1reset
-     /tmp/ccyrJJke.s:625    .rodata:000000000000001c M1eventMode
-     /tmp/ccyrJJke.s:637    .rodata:0000000000000028 M2setminpm
-     /tmp/ccyrJJke.s:729    .rodata:000000000000009a M1setTime
-     /tmp/ccyrJJke.s:651    .rodata:0000000000000037 M2setminam
-     /tmp/ccyrJJke.s:665    .rodata:0000000000000046 M2sethourpm
-     /tmp/ccyrJJke.s:697    .rodata:0000000000000070 M2sethouram
-     /tmp/ccyrJJke.s:745    .rodata:00000000000000ac M3onhour
-     /tmp/ccyrJJke.s:805    .rodata:00000000000000fa M1nightmode
-     /tmp/ccyrJJke.s:775    .rodata:00000000000000d3 M2offhour
-     /tmp/ccyrJJke.s:819    .rodata:0000000000000109 M1cmode
-     /tmp/ccyrJJke.s:845    .rodata:000000000000012a M1mode
+     /tmp/ccZz77s8.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccZz77s8.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccZz77s8.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccZz77s8.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccZz77s8.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccZz77s8.s:12     .text:0000000000000000 MsetRainbow
+     /tmp/ccZz77s8.s:28     .text:0000000000000002 MsetEventMode
+     /tmp/ccZz77s8.s:41     .text:0000000000000004 MsetHouram
+     /tmp/ccZz77s8.s:54     .text:0000000000000006 MsetHourpm
+     /tmp/ccZz77s8.s:67     .text:0000000000000008 MsetMinam
+     /tmp/ccZz77s8.s:80     .text:000000000000000a MsetMinpm
+     /tmp/ccZz77s8.s:93     .text:000000000000000c findNextEntry
+     /tmp/ccZz77s8.s:129    .text:000000000000002c getSubMenu
+     /tmp/ccZz77s8.s:160    .text:0000000000000044 EEPROM_write
+     /tmp/ccZz77s8.s:191    .text:0000000000000058 MsetMode
+     /tmp/ccZz77s8.s:603    .data:0000000000000000 mode
+     /tmp/ccZz77s8.s:234    .text:0000000000000078 MsetColorMode
+     /tmp/ccZz77s8.s:890    .rodata:0000000000000150 colorArray
+     /tmp/ccZz77s8.s:597    .bss:0000000000000000 colorMode
+     /tmp/ccZz77s8.s:292    .text:00000000000000ac MsetNightMode
+     /tmp/ccZz77s8.s:317    .text:00000000000000b8 MsetNightOff
+     /tmp/ccZz77s8.s:338    .text:00000000000000c0 MsetNightOn
+     /tmp/ccZz77s8.s:359    .text:00000000000000c8 Mreset
+     /tmp/ccZz77s8.s:411    .text:00000000000000ea EEPROM_read
+     /tmp/ccZz77s8.s:440    .text:00000000000000fa Minit
+     /tmp/ccZz77s8.s:464    .text:0000000000000108 getMode
+     /tmp/ccZz77s8.s:496    .text:0000000000000124 getColor
+     /tmp/ccZz77s8.s:539    .text:0000000000000152 isInAllowedTime
+     /tmp/ccZz77s8.s:609    .rodata:0000000000000000 M1rainbow
+     /tmp/ccZz77s8.s:867    .rodata:0000000000000135 M0main
+     /tmp/ccZz77s8.s:621    .rodata:000000000000000c M1reset
+     /tmp/ccZz77s8.s:631    .rodata:0000000000000015 M1eventMode
+     /tmp/ccZz77s8.s:643    .rodata:0000000000000021 M2setminpm
+     /tmp/ccZz77s8.s:735    .rodata:0000000000000093 M1setTime
+     /tmp/ccZz77s8.s:657    .rodata:0000000000000030 M2setminam
+     /tmp/ccZz77s8.s:671    .rodata:000000000000003f M2sethourpm
+     /tmp/ccZz77s8.s:703    .rodata:0000000000000069 M2sethouram
+     /tmp/ccZz77s8.s:751    .rodata:00000000000000a5 M3onhour
+     /tmp/ccZz77s8.s:811    .rodata:00000000000000f3 M1nightmode
+     /tmp/ccZz77s8.s:781    .rodata:00000000000000cc M2offhour
+     /tmp/ccZz77s8.s:825    .rodata:0000000000000102 M1cmode
+     /tmp/ccZz77s8.s:851    .rodata:0000000000000123 M1mode
                             *COM*:0000000000000001 USI_I2C_Master_State
                             *COM*:0000000000000005 currentTime
 

@@ -367,7 +367,7 @@ MSG_LINKING = Linking:
 MSG_COMPILING = Compiling C:
 MSG_COMPILING_CPP = Compiling C++:
 MSG_ASSEMBLING = Assembling:
-MSG_CLEANING = Cleaning project:
+MSG_CLEANING = Cleaning project : you should have done that a long time ago !:
 MSG_CREATING_LIBRARY = Creating library:
 
 

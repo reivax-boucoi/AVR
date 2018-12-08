@@ -18,7 +18,7 @@ void sendData(uint32_t data){
 
 
 volatile uint8_t state=0;
-struct Menu* Mcurrent=0;
+const Menu* Mcurrent=0;
 uint8_t Mindex=0;
 Led leds[NBLEDS];
 
@@ -31,10 +31,6 @@ int main(void){
     TIMSK1|=(1<<TOIE1);//|(1<<OCIE1B);
    // OCR1B=32768;
     TIMSK0|=(1<<TOIE0);
-    GIMSK|=(1<<PCIE1)|(1<<PCIE0);
-    PCMSK0|=(1<<PCINT7)|(1<<PCINT5);
-    PCMSK1|=(1<<PCINT10);
-    sei();
     
     sendData(0b11111100001111111111);//white
     _delay_ms(500);
@@ -51,28 +47,34 @@ int main(void){
     sendData(0b11001100001111111111);//yellow
     _delay_ms(500);
     
+    //no sooner to let inputs debounce
+    GIMSK|=(1<<PCIE1)|(1<<PCIE0);
+    PCMSK0|=(1<<PCINT7)|(1<<PCINT5);
+    PCMSK1|=(1<<PCINT10);
+    sei();
+    
+    //update time & UI timer
     #ifdef DELLONG
     TCCR1B|=(1<<CS12)|(1<<CS10);
     #else
     TCCR1B|=(1<<CS12);//|(1<<CS10);
     #endif
     
+    //led mux timer
     TCCR0B|=(1<<CS01)|(1<<CS00);
     
     Minit();
     // //RTC_setTime(currentTime,6,18);
-    RTC_readTime(&currentTime);/*
-    EEPROM_write(0,0xAA);
-    EEPROM_write(1,0xBC);*/
+    RTC_readTime(&currentTime);
     while(1){
     }
     return(0);
     
 }
 ISR( PCINT1_vect){
-    if(PINB&BTNSELECT){
+    if(PINB&BTNSELECT && Mcurrent){
         Mindex=findNextEntry(Mcurrent,Mindex);
-        TCNT1=65534;
+        TCNT1=65534;//get straight to led update
     }
 }
 ISR( PCINT0_vect){
@@ -80,22 +82,22 @@ ISR( PCINT0_vect){
         if(!Mcurrent){
             Mcurrent=&M0main;//if not in menu mode
         }else{//enter menu and execute
-            if(Mcurrent->fptr!=0 && Mcurrent->sub[Mindex].submenu==0)Mcurrent->fptr(Mindex);//check if function is associated and selected value is not a navigation move
+            if(Mcurrent->fptr!=0)Mcurrent->fptr(Mindex);//check if function is associated and selected value is not a navigation move
             Mcurrent=getSubMenu(Mcurrent,Mindex);//get new menu
             Mindex=0;
-            for(uint8_t i=0;i<NBLEDS;i++){
+            for(uint8_t i=0;i<NBLEDS;i++){//clear display after changing settings
                 ledOff(&leds[i]);
             }
         }
-        TCNT1=65534;
+        TCNT1=65534;//get straight to led update
     }
-    if(PINA&BTNINTERNAL){
+    if(PINA&BTNINTERNAL){//unused secret button
     }
 }/*
 ISR( TIM1_COMPB_vect){
 }*/
 ISR( TIM1_OVF_vect ){
-    if(!Mcurrent){
+    if(!Mcurrent){//if in normal display mode
         uint8_t m=getMode();
         RTC_readTime(&currentTime);
         if(isInAllowedTime(currentTime.hour)){
@@ -106,17 +108,17 @@ ISR( TIM1_OVF_vect ){
             }
         }
         ledr=!ledr;
-    }else{
+    }else{//menu settings mode
         for(uint8_t i=0;i<NBLEDS;i++){
             if(Mcurrent->sub[Mindex].led==i){
-                ledOn(&leds[i],WHITE);
+                ledOn(&leds[i],colorArray[Mcurrent->nb_optn>>4]);
             }else{
                 ledOff(&leds[i]);
             }
         }
     }
 }
-ISR( TIM0_OVF_vect ){
+ISR( TIM0_OVF_vect ){//mux for each color, row 0 and 1
     switch(state){
         case 0:
             sendData(R2 | getDataByColor(RED,0,leds));
