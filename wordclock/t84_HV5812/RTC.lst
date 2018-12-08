@@ -1443,24 +1443,24 @@
  951               		.file 4 "RTC.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 RTC.c
-     /tmp/cce9B0oR.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/cce9B0oR.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/cce9B0oR.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/cce9B0oR.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cce9B0oR.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cce9B0oR.s:12     .text:0000000000000000 setCurrentTime
+     /tmp/ccypPap6.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccypPap6.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccypPap6.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccypPap6.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccypPap6.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccypPap6.s:12     .text:0000000000000000 setCurrentTime
                             *COM*:0000000000000005 currentTime
-     /tmp/cce9B0oR.s:38     .text:000000000000000e minquad
-     /tmp/cce9B0oR.s:105    .text:000000000000003e bcdToDec
-     /tmp/cce9B0oR.s:131    .text:000000000000004e decToBcd
-     /tmp/cce9B0oR.s:154    .text:000000000000005a i2c_in_transfer
-     /tmp/cce9B0oR.s:221    .text:0000000000000084 i2c_in_transmit
+     /tmp/ccypPap6.s:38     .text:000000000000000e minquad
+     /tmp/ccypPap6.s:105    .text:000000000000003e bcdToDec
+     /tmp/ccypPap6.s:131    .text:000000000000004e decToBcd
+     /tmp/ccypPap6.s:154    .text:000000000000005a i2c_in_transfer
+     /tmp/ccypPap6.s:221    .text:0000000000000084 i2c_in_transmit
                             *COM*:0000000000000001 USI_I2C_Master_State
-     /tmp/cce9B0oR.s:450    .text:000000000000014e i2c_write
-     /tmp/cce9B0oR.s:504    .text:0000000000000176 RTC_setTime
-     /tmp/cce9B0oR.s:615    .text:00000000000001ea i2c_read
-     /tmp/cce9B0oR.s:792    .text:00000000000002a2 RTC_readTemp
-     /tmp/cce9B0oR.s:846    .text:00000000000002ce RTC_readTime
+     /tmp/ccypPap6.s:450    .text:000000000000014e i2c_write
+     /tmp/ccypPap6.s:504    .text:0000000000000176 RTC_setTime
+     /tmp/ccypPap6.s:615    .text:00000000000001ea i2c_read
+     /tmp/ccypPap6.s:792    .text:00000000000002a2 RTC_readTemp
+     /tmp/ccypPap6.s:846    .text:00000000000002ce RTC_readTime
 
 UNDEFINED SYMBOLS
 __mulqi3

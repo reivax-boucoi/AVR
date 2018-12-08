@@ -31,6 +31,8 @@ typedef struct Menu Menu;
 uint8_t findNextEntry(struct Menu* m,uint8_t i);
 struct Menu* getSubMenu(struct Menu* m,uint8_t index);
 void EEPROM_write(uint8_t addr, uint8_t data);
+uint8_t EEPROM_read(uint8_t addr);
+void Minit(void);
 
 const Menu M0main;
 const Menu M1mode;

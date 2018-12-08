@@ -16,14 +16,23 @@ Menu* getSubMenu(Menu* m,uint8_t index){
     return m->sub[index].submenu;
 }
 void EEPROM_write(uint8_t addr, uint8_t data){
-while(EECR & (1<<EEPE));
-EECR = (0<<EEPM1)|(0<<EEPM0);
-EEAR = addr;
-EEDR = data;
-EECR |= (1<<EEMPE);
-EECR |= (1<<EEPE);
+    while(EECR & (1<<EEPE));
+    EECR = (0<<EEPM1)|(0<<EEPM0);
+    EEAR = addr;
+    EEDR = data;
+    EECR |= (1<<EEMPE);
+    EECR |= (1<<EEPE);
+}
+uint8_t EEPROM_read(uint8_t addr){
+    while(EECR & (1<<EEPE));
+    EEAR = addr;
+    EECR |= (1<<EERE);
+    return EEDR;
 }
 
+void Minit(void){
+    colorMode=EEPROM_read(EE_COLOR);
+}
 const Menu M0main={7+16,0,{//WHITE
     {7,&M1mode},
     {8,&M1cmode},
@@ -181,14 +190,17 @@ uint8_t getMode(void){
 }
 void MsetColorMode(uint8_t i){
     if(i<8){
-        colorMode=colorArray[i];
+        colorMode=0;//fixed, store color in eeprom
+        EEPROM_write(EE_COLOR,colorArray[i]);
     }else{
         switch(i){
             case 8://cycle single
                 colorMode=WHITE+128;
+                EEPROM_write(EE_COLOR,128);
                 break;
             case 9://cycle all 
                 colorMode=WHITE+64;
+                EEPROM_write(EE_COLOR,64);
                 break;            
         }
     }
@@ -229,7 +241,7 @@ void MsetEventMode(uint8_t i){
 }
 void Mreset(uint8_t i){
     MsetMode(1);
-    MsetColorMode(0);;
+    MsetColorMode(0);
     TCCR1B|=(1<<CS12)|(1<<CS10);
 }
 void MsetRainbow(uint8_t i){

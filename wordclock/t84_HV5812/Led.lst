@@ -835,20 +835,20 @@
  711               		.file 6 "defines.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Led.c
-     /tmp/ccsbsNQL.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccsbsNQL.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccsbsNQL.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccsbsNQL.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccsbsNQL.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccsbsNQL.s:12     .text:0000000000000000 ledInit
-     /tmp/ccsbsNQL.s:70     .text:0000000000000030 getDataByColor
-     /tmp/ccsbsNQL.s:160    .text:0000000000000088 ledOn
-     /tmp/ccsbsNQL.s:178    .text:000000000000008e ledOff
-     /tmp/ccsbsNQL.s:196    .text:0000000000000094 setLeds
+     /tmp/cc4ZtoG1.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cc4ZtoG1.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cc4ZtoG1.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cc4ZtoG1.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc4ZtoG1.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc4ZtoG1.s:12     .text:0000000000000000 ledInit
+     /tmp/cc4ZtoG1.s:70     .text:0000000000000030 getDataByColor
+     /tmp/cc4ZtoG1.s:160    .text:0000000000000088 ledOn
+     /tmp/cc4ZtoG1.s:178    .text:000000000000008e ledOff
+     /tmp/cc4ZtoG1.s:196    .text:0000000000000094 setLeds
                             *COM*:0000000000000005 currentTime
-     /tmp/ccsbsNQL.s:677    .rodata:0000000000000000 ledMap
-     /tmp/ccsbsNQL.s:433    .text:0000000000000160 setLedsNb
-     /tmp/ccsbsNQL.s:600    .text:00000000000001dc sendRawData
+     /tmp/cc4ZtoG1.s:677    .rodata:0000000000000000 ledMap
+     /tmp/cc4ZtoG1.s:433    .text:0000000000000160 setLedsNb
+     /tmp/cc4ZtoG1.s:600    .text:00000000000001dc sendRawData
                             *COM*:0000000000000003 M1rainbow
                             *COM*:0000000000000003 M1reset
                             *COM*:0000000000000003 M1eventMode

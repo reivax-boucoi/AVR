@@ -3,31 +3,31 @@ main.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000b64  00000000  00000000  00000094  2**1
+  0 .text         00000b84  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000162  00800060  00000b64  00000bf8  2**0
+  1 .data         00000162  00800060  00000b84  00000c18  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000047  008001c2  008001c2  00000d5a  2**0
+  2 .bss          00000047  008001c2  008001c2  00000d7a  2**0
                   ALLOC
-  3 .comment      00000011  00000000  00000000  00000d5a  2**0
+  3 .comment      00000011  00000000  00000000  00000d7a  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000d6c  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000d8c  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000088  00000000  00000000  00000da8  2**0
+  5 .debug_aranges 00000088  00000000  00000000  00000dc8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000025bd  00000000  00000000  00000e30  2**0
+  6 .debug_info   00002611  00000000  00000000  00000e50  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000ce7  00000000  00000000  000033ed  2**0
+  7 .debug_abbrev 00000d00  00000000  00000000  00003461  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000b8c  00000000  00000000  000040d4  2**0
+  8 .debug_line   00000bce  00000000  00000000  00004161  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000594  00000000  00000000  00004c60  2**2
+  9 .debug_frame  000005b4  00000000  00000000  00004d30  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000653  00000000  00000000  000051f4  2**0
+ 10 .debug_str    00000665  00000000  00000000  000052e4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000015e2  00000000  00000000  00005847  2**0
+ 11 .debug_loc    000015d1  00000000  00000000  00005949  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000018  00000000  00000000  00006e29  2**0
+ 12 .debug_ranges 00000018  00000000  00000000  00006f1a  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -63,7 +63,7 @@ Disassembly of section .text:
   2e:	11 e0       	ldi	r17, 0x01	; 1
   30:	a0 e6       	ldi	r26, 0x60	; 96
   32:	b0 e0       	ldi	r27, 0x00	; 0
-  34:	e4 e6       	ldi	r30, 0x64	; 100
+  34:	e4 e8       	ldi	r30, 0x84	; 132
   36:	fb e0       	ldi	r31, 0x0B	; 11
   38:	02 c0       	rjmp	.+4      	; 0x3e <__SP_H__>
   3a:	05 90       	lpm	r0, Z+
@@ -85,8 +85,8 @@ Disassembly of section .text:
   4e:	a9 30       	cpi	r26, 0x09	; 9
   50:	b2 07       	cpc	r27, r18
   52:	e1 f7       	brne	.-8      	; 0x4c <.do_clear_bss_loop>
-  54:	cf d4       	rcall	.+2462   	; 0x9f4 <main>
-  56:	84 c5       	rjmp	.+2824   	; 0xb60 <_exit>
+  54:	e5 d4       	rcall	.+2506   	; 0xa20 <main>
+  56:	94 c5       	rjmp	.+2856   	; 0xb80 <_exit>
 
 00000058 <__bad_interrupt>:
   58:	d3 cf       	rjmp	.-90     	; 0x0 <__vectors>
@@ -139,7 +139,7 @@ ISR( PCINT1_vect){
   92:	60 91 c2 01 	lds	r22, 0x01C2	; 0x8001c2 <__data_end>
   96:	80 91 c3 01 	lds	r24, 0x01C3	; 0x8001c3 <Mcurrent>
   9a:	90 91 c4 01 	lds	r25, 0x01C4	; 0x8001c4 <Mcurrent+0x1>
-  9e:	4d d4       	rcall	.+2202   	; 0x93a <findNextEntry>
+  9e:	31 d4       	rcall	.+2146   	; 0x902 <findNextEntry>
   a0:	80 93 c2 01 	sts	0x01C2, r24	; 0x8001c2 <__data_end>
         TCNT1=65534;
   a4:	8e ef       	ldi	r24, 0xFE	; 254
@@ -214,7 +214,7 @@ ISR( PCINT0_vect){
  124:	90 e0       	ldi	r25, 0x00	; 0
  126:	63 e0       	ldi	r22, 0x03	; 3
  128:	70 e0       	ldi	r23, 0x00	; 0
- 12a:	fd d4       	rcall	.+2554   	; 0xb26 <__mulhi3>
+ 12a:	0d d5       	rcall	.+2586   	; 0xb46 <__mulhi3>
  12c:	a8 0f       	add	r26, r24
  12e:	b9 1f       	adc	r27, r25
  130:	14 96       	adiw	r26, 0x04	; 4
@@ -229,7 +229,7 @@ ISR( PCINT0_vect){
  140:	60 91 c2 01 	lds	r22, 0x01C2	; 0x8001c2 <__data_end>
  144:	80 91 c3 01 	lds	r24, 0x01C3	; 0x8001c3 <Mcurrent>
  148:	90 91 c4 01 	lds	r25, 0x01C4	; 0x8001c4 <Mcurrent+0x1>
- 14c:	06 d4       	rcall	.+2060   	; 0x95a <getSubMenu>
+ 14c:	ea d3       	rcall	.+2004   	; 0x922 <getSubMenu>
  14e:	90 93 c4 01 	sts	0x01C4, r25	; 0x8001c4 <Mcurrent+0x1>
  152:	80 93 c3 01 	sts	0x01C3, r24	; 0x8001c3 <Mcurrent>
             Mindex=0;
@@ -314,7 +314,7 @@ ISR( TIM1_OVF_vect ){
  1cc:	89 2b       	or	r24, r25
  1ce:	41 f5       	brne	.+80     	; 0x220 <__vector_8+0x84>
         uint8_t m=getMode();
- 1d0:	da d3       	rcall	.+1972   	; 0x986 <getMode>
+ 1d0:	f0 d3       	rcall	.+2016   	; 0x9b2 <getMode>
  1d2:	c8 2f       	mov	r28, r24
         RTC_readTime(&currentTime);
  1d4:	84 e0       	ldi	r24, 0x04	; 4
@@ -322,7 +322,7 @@ ISR( TIM1_OVF_vect ){
  1d8:	32 d3       	rcall	.+1636   	; 0x83e <RTC_readTime>
         if(isInAllowedTime(currentTime.hour)){
  1da:	80 91 04 02 	lds	r24, 0x0204	; 0x800204 <currentTime>
- 1de:	f8 d3       	rcall	.+2032   	; 0x9d0 <isInAllowedTime>
+ 1de:	0e d4       	rcall	.+2076   	; 0x9fc <isInAllowedTime>
  1e0:	88 23       	and	r24, r24
  1e2:	b1 f0       	breq	.+44     	; 0x210 <__vector_8+0x74>
             if(m<2){
@@ -377,7 +377,7 @@ ISR( TIM1_OVF_vect ){
  234:	01 96       	adiw	r24, 0x01	; 1
  236:	63 e0       	ldi	r22, 0x03	; 3
  238:	70 e0       	ldi	r23, 0x00	; 0
- 23a:	75 d4       	rcall	.+2282   	; 0xb26 <__mulhi3>
+ 23a:	85 d4       	rcall	.+2314   	; 0xb46 <__mulhi3>
  23c:	82 0f       	add	r24, r18
  23e:	93 1f       	adc	r25, r19
  240:	fc 01       	movw	r30, r24
@@ -754,7 +754,7 @@ void setLeds(Ttime t,Led* l){
         ledOff(&l[temp]);
     }
     ledOn(&l[ILEST],getColor());
- 40a:	cb d2       	rcall	.+1430   	; 0x9a2 <getColor>
+ 40a:	e1 d2       	rcall	.+1474   	; 0x9ce <getColor>
     }
     return data;
 }
@@ -782,14 +782,14 @@ void ledOn(Led* l,uint8_t c){
  420:	29 f0       	breq	.+10     	; 0x42c <__LOCK_REGION_LENGTH__+0x2c>
     temp=temp%12;
  422:	6c e0       	ldi	r22, 0x0C	; 12
- 424:	91 d3       	rcall	.+1826   	; 0xb48 <__udivmodqi4>
+ 424:	a1 d3       	rcall	.+1858   	; 0xb68 <__udivmodqi4>
  426:	f9 2e       	mov	r15, r25
     switch(temp){
  428:	91 11       	cpse	r25, r1
  42a:	04 c0       	rjmp	.+8      	; 0x434 <__LOCK_REGION_LENGTH__+0x34>
         case 0 :
             ledOn(&l[MINUIT],getColor());
- 42c:	ba d2       	rcall	.+1396   	; 0x9a2 <getColor>
+ 42c:	d0 d2       	rcall	.+1440   	; 0x9ce <getColor>
     }
     return data;
 }
@@ -805,7 +805,7 @@ void ledOn(Led* l,uint8_t c){
             break;
         default :
             ledOn(&l[ledMap[(temp-1)]],getColor());
- 434:	b6 d2       	rcall	.+1388   	; 0x9a2 <getColor>
+ 434:	cc d2       	rcall	.+1432   	; 0x9ce <getColor>
  436:	28 2f       	mov	r18, r24
  438:	ef 2d       	mov	r30, r15
  43a:	f0 e0       	ldi	r31, 0x00	; 0
@@ -821,7 +821,7 @@ void ledOn(Led* l,uint8_t c){
  442:	90 e0       	ldi	r25, 0x00	; 0
  444:	63 e0       	ldi	r22, 0x03	; 3
  446:	70 e0       	ldi	r23, 0x00	; 0
- 448:	6e d3       	rcall	.+1756   	; 0xb26 <__mulhi3>
+ 448:	7e d3       	rcall	.+1788   	; 0xb46 <__mulhi3>
  44a:	80 0f       	add	r24, r16
  44c:	91 1f       	adc	r25, r17
  44e:	fc 01       	movw	r30, r24
@@ -832,7 +832,7 @@ void ledOn(Led* l,uint8_t c){
         default :
             ledOn(&l[ledMap[(temp-1)]],getColor());
             ledOn(&l[HEURE],getColor());
- 452:	a7 d2       	rcall	.+1358   	; 0x9a2 <getColor>
+ 452:	bd d2       	rcall	.+1402   	; 0x9ce <getColor>
     }
     return data;
 }
@@ -855,7 +855,7 @@ void ledOn(Led* l,uint8_t c){
  462:	f8 17       	cp	r31, r24
  464:	30 f4       	brcc	.+12     	; 0x472 <__LOCK_REGION_LENGTH__+0x72>
         ledOn(&l[MOINS],getColor());
- 466:	9d d2       	rcall	.+1338   	; 0x9a2 <getColor>
+ 466:	b3 d2       	rcall	.+1382   	; 0x9ce <getColor>
     }
     return data;
 }
@@ -886,7 +886,7 @@ void ledOn(Led* l,uint8_t c){
  482:	0b c0       	rjmp	.+22     	; 0x49a <__LOCK_REGION_LENGTH__+0x9a>
         case 10 :
             ledOn(&l[DIX],getColor());
- 484:	8e d2       	rcall	.+1308   	; 0x9a2 <getColor>
+ 484:	a4 d2       	rcall	.+1352   	; 0x9ce <getColor>
     }
     return data;
 }
@@ -902,7 +902,7 @@ void ledOn(Led* l,uint8_t c){
             break;
         case 20 :
             ledOn(&l[VINGT],getColor());
- 48c:	8a d2       	rcall	.+1300   	; 0x9a2 <getColor>
+ 48c:	a0 d2       	rcall	.+1344   	; 0x9ce <getColor>
     }
     return data;
 }
@@ -918,7 +918,7 @@ void ledOn(Led* l,uint8_t c){
             break;
         case 30 :
             ledOn(&l[ETDEMIE],getColor());
- 494:	86 d2       	rcall	.+1292   	; 0x9a2 <getColor>
+ 494:	9c d2       	rcall	.+1336   	; 0x9ce <getColor>
     }
     return data;
 }
@@ -979,7 +979,7 @@ void setLedsNb(int8_t nb, Led* l){
  4ca:	c7 ff       	sbrs	r28, 7
  4cc:	04 c0       	rjmp	.+8      	; 0x4d6 <setLedsNb+0x26>
         ledOn(&l[MOINS],getColor());
- 4ce:	69 d2       	rcall	.+1234   	; 0x9a2 <getColor>
+ 4ce:	7f d2       	rcall	.+1278   	; 0x9ce <getColor>
     }
     return data;
 }
@@ -1000,7 +1000,7 @@ void ledOn(Led* l,uint8_t c){
  4d6:	ce 31       	cpi	r28, 0x1E	; 30
  4d8:	44 f0       	brlt	.+16     	; 0x4ea <setLedsNb+0x3a>
         ledOn(&l[VINGT],getColor());
- 4da:	63 d2       	rcall	.+1222   	; 0x9a2 <getColor>
+ 4da:	79 d2       	rcall	.+1266   	; 0x9ce <getColor>
     }
     return data;
 }
@@ -1015,7 +1015,7 @@ void ledOn(Led* l,uint8_t c){
     if(nb>29){
         ledOn(&l[VINGT],getColor());
         ledOn(&l[DIX],getColor());
- 4e0:	60 d2       	rcall	.+1216   	; 0x9a2 <getColor>
+ 4e0:	76 d2       	rcall	.+1260   	; 0x9ce <getColor>
     }
     return data;
 }
@@ -1036,7 +1036,7 @@ void ledOn(Led* l,uint8_t c){
  4ea:	c4 31       	cpi	r28, 0x14	; 20
  4ec:	2c f0       	brlt	.+10     	; 0x4f8 <setLedsNb+0x48>
         ledOn(&l[VINGT],getColor());
- 4ee:	59 d2       	rcall	.+1202   	; 0x9a2 <getColor>
+ 4ee:	6f d2       	rcall	.+1246   	; 0x9ce <getColor>
     }
     return data;
 }
@@ -1057,7 +1057,7 @@ void ledOn(Led* l,uint8_t c){
  4f8:	cc 30       	cpi	r28, 0x0C	; 12
  4fa:	24 f0       	brlt	.+8      	; 0x504 <setLedsNb+0x54>
         ledOn(&l[DIX],getColor());
- 4fc:	52 d2       	rcall	.+1188   	; 0x9a2 <getColor>
+ 4fc:	68 d2       	rcall	.+1232   	; 0x9ce <getColor>
     }
     return data;
 }
@@ -1075,7 +1075,7 @@ void ledOn(Led* l,uint8_t c){
  502:	ca 50       	subi	r28, 0x0A	; 10
     }
     ledOn(&l[ledMap[nb-1]],getColor());
- 504:	4e d2       	rcall	.+1180   	; 0x9a2 <getColor>
+ 504:	64 d2       	rcall	.+1224   	; 0x9ce <getColor>
  506:	28 2f       	mov	r18, r24
  508:	ec 2f       	mov	r30, r28
  50a:	cc 0f       	add	r28, r28
@@ -1092,7 +1092,7 @@ void ledOn(Led* l,uint8_t c){
  514:	90 e0       	ldi	r25, 0x00	; 0
  516:	63 e0       	ldi	r22, 0x03	; 3
  518:	70 e0       	ldi	r23, 0x00	; 0
- 51a:	05 d3       	rcall	.+1546   	; 0xb26 <__mulhi3>
+ 51a:	15 d3       	rcall	.+1578   	; 0xb46 <__mulhi3>
  51c:	80 0f       	add	r24, r16
  51e:	91 1f       	adc	r25, r17
  520:	fc 01       	movw	r30, r24
@@ -1260,7 +1260,7 @@ uint8_t bcdToDec(uint8_t val){
  5b0:	82 95       	swap	r24
  5b2:	8f 70       	andi	r24, 0x0F	; 15
  5b4:	6a e0       	ldi	r22, 0x0A	; 10
- 5b6:	ae d2       	rcall	.+1372   	; 0xb14 <__mulqi3>
+ 5b6:	be d2       	rcall	.+1404   	; 0xb34 <__mulqi3>
  5b8:	9f 70       	andi	r25, 0x0F	; 15
 }
  5ba:	89 0f       	add	r24, r25
@@ -1270,7 +1270,7 @@ uint8_t bcdToDec(uint8_t val){
 uint8_t decToBcd(uint8_t val){
   return( (val/10*16) + (val%10) );
  5be:	6a e0       	ldi	r22, 0x0A	; 10
- 5c0:	c3 d2       	rcall	.+1414   	; 0xb48 <__udivmodqi4>
+ 5c0:	d3 d2       	rcall	.+1446   	; 0xb68 <__udivmodqi4>
  5c2:	82 95       	swap	r24
  5c4:	80 7f       	andi	r24, 0xF0	; 240
 }
@@ -1907,7 +1907,7 @@ void MsetNightOn(uint8_t i){
 000008c2 <MsetRainbow>:
 void Mreset(uint8_t i){
     MsetMode(1);
-    MsetColorMode(0);;
+    MsetColorMode(0);
     TCCR1B|=(1<<CS12)|(1<<CS10);
 }
 void MsetRainbow(uint8_t i){
@@ -1961,491 +1961,523 @@ void MsetMode(uint8_t i){
  8f2:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <mode>
  8f6:	08 95       	ret
 
-000008f8 <Mreset>:
+000008f8 <MsetEventMode>:
+ 8f8:	08 95       	ret
+
+000008fa <MsetHouram>:
+ 8fa:	08 95       	ret
+
+000008fc <MsetHourpm>:
+ 8fc:	08 95       	ret
+
+000008fe <MsetMinam>:
+ 8fe:	08 95       	ret
+
+00000900 <MsetMinpm>:
+ 900:	08 95       	ret
+
+00000902 <findNextEntry>:
+uint8_t nightOnHour=7;
+uint8_t nightOffHour=22;
+uint8_t colorMode=0;
+static const uint8_t colorArray[7]={WHITE,CYAN,BLUE,MAGENTA,RED,YELLOW,GREEN};
+uint8_t findNextEntry(Menu* m,uint8_t index){
+    if((index+2)>(m->nb_optn%16))return 0;
+ 902:	26 2f       	mov	r18, r22
+ 904:	30 e0       	ldi	r19, 0x00	; 0
+ 906:	2f 5f       	subi	r18, 0xFF	; 255
+ 908:	3f 4f       	sbci	r19, 0xFF	; 255
+ 90a:	fc 01       	movw	r30, r24
+ 90c:	80 81       	ld	r24, Z
+ 90e:	8f 70       	andi	r24, 0x0F	; 15
+ 910:	90 e0       	ldi	r25, 0x00	; 0
+ 912:	28 17       	cp	r18, r24
+ 914:	39 07       	cpc	r19, r25
+ 916:	1c f4       	brge	.+6      	; 0x91e <findNextEntry+0x1c>
+    return index+1;
+ 918:	81 e0       	ldi	r24, 0x01	; 1
+ 91a:	86 0f       	add	r24, r22
+ 91c:	08 95       	ret
+uint8_t nightOnHour=7;
+uint8_t nightOffHour=22;
+uint8_t colorMode=0;
+static const uint8_t colorArray[7]={WHITE,CYAN,BLUE,MAGENTA,RED,YELLOW,GREEN};
+uint8_t findNextEntry(Menu* m,uint8_t index){
+    if((index+2)>(m->nb_optn%16))return 0;
+ 91e:	80 e0       	ldi	r24, 0x00	; 0
+    return index+1;
+}
+ 920:	08 95       	ret
+
+00000922 <getSubMenu>:
+
+Menu* getSubMenu(Menu* m,uint8_t index){
+ 922:	9c 01       	movw	r18, r24
+    if(m->sub[index].submenu==0)return 0;//if executed NULL, return blank menu (==exit setup)
+ 924:	86 2f       	mov	r24, r22
+ 926:	90 e0       	ldi	r25, 0x00	; 0
+ 928:	63 e0       	ldi	r22, 0x03	; 3
+ 92a:	70 e0       	ldi	r23, 0x00	; 0
+ 92c:	0c d1       	rcall	.+536    	; 0xb46 <__mulhi3>
+ 92e:	82 0f       	add	r24, r18
+ 930:	93 1f       	adc	r25, r19
+    return m->sub[index].submenu;
+}
+ 932:	fc 01       	movw	r30, r24
+ 934:	84 81       	ldd	r24, Z+4	; 0x04
+ 936:	95 81       	ldd	r25, Z+5	; 0x05
+ 938:	08 95       	ret
+
+0000093a <EEPROM_write>:
+void EEPROM_write(uint8_t addr, uint8_t data){
+    while(EECR & (1<<EEPE));
+ 93a:	e1 99       	sbic	0x1c, 1	; 28
+ 93c:	fe cf       	rjmp	.-4      	; 0x93a <EEPROM_write>
+    EECR = (0<<EEPM1)|(0<<EEPM0);
+ 93e:	1c ba       	out	0x1c, r1	; 28
+    EEAR = addr;
+ 940:	90 e0       	ldi	r25, 0x00	; 0
+ 942:	9f bb       	out	0x1f, r25	; 31
+ 944:	8e bb       	out	0x1e, r24	; 30
+    EEDR = data;
+ 946:	6d bb       	out	0x1d, r22	; 29
+    EECR |= (1<<EEMPE);
+ 948:	e2 9a       	sbi	0x1c, 2	; 28
+    EECR |= (1<<EEPE);
+ 94a:	e1 9a       	sbi	0x1c, 1	; 28
+ 94c:	08 95       	ret
+
+0000094e <MsetColorMode>:
+        mode=2;
+    }
+    return mode;
+}
+void MsetColorMode(uint8_t i){
+    if(i<8){
+ 94e:	88 30       	cpi	r24, 0x08	; 8
+ 950:	40 f4       	brcc	.+16     	; 0x962 <MsetColorMode+0x14>
+        colorMode=0;//fixed, store color in eeprom
+ 952:	10 92 c8 01 	sts	0x01C8, r1	; 0x8001c8 <colorMode>
+        EEPROM_write(EE_COLOR,colorArray[i]);
+ 956:	e8 2f       	mov	r30, r24
+ 958:	f0 e0       	ldi	r31, 0x00	; 0
+ 95a:	e2 59       	subi	r30, 0x92	; 146
+ 95c:	ff 4f       	sbci	r31, 0xFF	; 255
+ 95e:	60 81       	ld	r22, Z
+ 960:	0e c0       	rjmp	.+28     	; 0x97e <MsetColorMode+0x30>
+    }else{
+        switch(i){
+ 962:	88 30       	cpi	r24, 0x08	; 8
+ 964:	19 f0       	breq	.+6      	; 0x96c <MsetColorMode+0x1e>
+ 966:	89 30       	cpi	r24, 0x09	; 9
+ 968:	31 f0       	breq	.+12     	; 0x976 <MsetColorMode+0x28>
+ 96a:	08 95       	ret
+            case 8://cycle single
+                colorMode=WHITE+128;
+ 96c:	87 e8       	ldi	r24, 0x87	; 135
+ 96e:	80 93 c8 01 	sts	0x01C8, r24	; 0x8001c8 <colorMode>
+                EEPROM_write(EE_COLOR,128);
+ 972:	60 e8       	ldi	r22, 0x80	; 128
+ 974:	04 c0       	rjmp	.+8      	; 0x97e <MsetColorMode+0x30>
+                break;
+            case 9://cycle all 
+                colorMode=WHITE+64;
+ 976:	87 e4       	ldi	r24, 0x47	; 71
+ 978:	80 93 c8 01 	sts	0x01C8, r24	; 0x8001c8 <colorMode>
+                EEPROM_write(EE_COLOR,64);
+ 97c:	60 e4       	ldi	r22, 0x40	; 64
+ 97e:	80 e0       	ldi	r24, 0x00	; 0
+ 980:	dc cf       	rjmp	.-72     	; 0x93a <EEPROM_write>
+
+00000982 <Mreset>:
 void MsetMinpm(uint8_t i){
 }
 void MsetEventMode(uint8_t i){
 }
 void Mreset(uint8_t i){
     MsetMode(1);
- 8f8:	81 e0       	ldi	r24, 0x01	; 1
- 8fa:	e4 df       	rcall	.-56     	; 0x8c4 <MsetMode>
+ 982:	81 e0       	ldi	r24, 0x01	; 1
+ 984:	9f df       	rcall	.-194    	; 0x8c4 <MsetMode>
     }
     return mode;
 }
 void MsetColorMode(uint8_t i){
     if(i<8){
-        colorMode=colorArray[i];
- 8fc:	87 e0       	ldi	r24, 0x07	; 7
- 8fe:	80 93 c8 01 	sts	0x01C8, r24	; 0x8001c8 <colorMode>
+        colorMode=0;//fixed, store color in eeprom
+ 986:	10 92 c8 01 	sts	0x01C8, r1	; 0x8001c8 <colorMode>
+        EEPROM_write(EE_COLOR,colorArray[i]);
+ 98a:	67 e0       	ldi	r22, 0x07	; 7
+ 98c:	80 e0       	ldi	r24, 0x00	; 0
+ 98e:	d5 df       	rcall	.-86     	; 0x93a <EEPROM_write>
 void MsetEventMode(uint8_t i){
 }
 void Mreset(uint8_t i){
     MsetMode(1);
-    MsetColorMode(0);;
+    MsetColorMode(0);
     TCCR1B|=(1<<CS12)|(1<<CS10);
- 902:	8e b5       	in	r24, 0x2e	; 46
- 904:	85 60       	ori	r24, 0x05	; 5
- 906:	8e bd       	out	0x2e, r24	; 46
- 908:	08 95       	ret
+ 990:	8e b5       	in	r24, 0x2e	; 46
+ 992:	85 60       	ori	r24, 0x05	; 5
+ 994:	8e bd       	out	0x2e, r24	; 46
+ 996:	08 95       	ret
 
-0000090a <MsetColorMode>:
-        mode=2;
-    }
-    return mode;
+00000998 <EEPROM_read>:
+    EEDR = data;
+    EECR |= (1<<EEMPE);
+    EECR |= (1<<EEPE);
 }
-void MsetColorMode(uint8_t i){
-    if(i<8){
- 90a:	88 30       	cpi	r24, 0x08	; 8
- 90c:	30 f4       	brcc	.+12     	; 0x91a <MsetColorMode+0x10>
-        colorMode=colorArray[i];
- 90e:	e8 2f       	mov	r30, r24
- 910:	f0 e0       	ldi	r31, 0x00	; 0
- 912:	e2 59       	subi	r30, 0x92	; 146
- 914:	ff 4f       	sbci	r31, 0xFF	; 255
- 916:	80 81       	ld	r24, Z
- 918:	08 c0       	rjmp	.+16     	; 0x92a <MsetColorMode+0x20>
-    }else{
-        switch(i){
- 91a:	88 30       	cpi	r24, 0x08	; 8
- 91c:	19 f0       	breq	.+6      	; 0x924 <MsetColorMode+0x1a>
- 91e:	89 30       	cpi	r24, 0x09	; 9
- 920:	19 f0       	breq	.+6      	; 0x928 <MsetColorMode+0x1e>
- 922:	08 95       	ret
-            case 8://cycle single
-                colorMode=WHITE+128;
- 924:	87 e8       	ldi	r24, 0x87	; 135
- 926:	01 c0       	rjmp	.+2      	; 0x92a <MsetColorMode+0x20>
-                break;
-            case 9://cycle all 
-                colorMode=WHITE+64;
- 928:	87 e4       	ldi	r24, 0x47	; 71
- 92a:	80 93 c8 01 	sts	0x01C8, r24	; 0x8001c8 <colorMode>
- 92e:	08 95       	ret
-
-00000930 <MsetEventMode>:
- 930:	08 95       	ret
-
-00000932 <MsetHouram>:
- 932:	08 95       	ret
-
-00000934 <MsetHourpm>:
- 934:	08 95       	ret
-
-00000936 <MsetMinam>:
- 936:	08 95       	ret
-
-00000938 <MsetMinpm>:
- 938:	08 95       	ret
-
-0000093a <findNextEntry>:
-uint8_t nightOnHour=7;
-uint8_t nightOffHour=22;
-uint8_t colorMode=0;
-static const uint8_t colorArray[7]={WHITE,CYAN,BLUE,MAGENTA,RED,YELLOW,GREEN};
-uint8_t findNextEntry(Menu* m,uint8_t index){
-    if((index+2)>(m->nb_optn%16))return 0;
- 93a:	26 2f       	mov	r18, r22
- 93c:	30 e0       	ldi	r19, 0x00	; 0
- 93e:	2f 5f       	subi	r18, 0xFF	; 255
- 940:	3f 4f       	sbci	r19, 0xFF	; 255
- 942:	fc 01       	movw	r30, r24
- 944:	80 81       	ld	r24, Z
- 946:	8f 70       	andi	r24, 0x0F	; 15
- 948:	90 e0       	ldi	r25, 0x00	; 0
- 94a:	28 17       	cp	r18, r24
- 94c:	39 07       	cpc	r19, r25
- 94e:	1c f4       	brge	.+6      	; 0x956 <findNextEntry+0x1c>
-    return index+1;
- 950:	81 e0       	ldi	r24, 0x01	; 1
- 952:	86 0f       	add	r24, r22
- 954:	08 95       	ret
-uint8_t nightOnHour=7;
-uint8_t nightOffHour=22;
-uint8_t colorMode=0;
-static const uint8_t colorArray[7]={WHITE,CYAN,BLUE,MAGENTA,RED,YELLOW,GREEN};
-uint8_t findNextEntry(Menu* m,uint8_t index){
-    if((index+2)>(m->nb_optn%16))return 0;
- 956:	80 e0       	ldi	r24, 0x00	; 0
-    return index+1;
+uint8_t EEPROM_read(uint8_t addr){
+    while(EECR & (1<<EEPE));
+ 998:	e1 99       	sbic	0x1c, 1	; 28
+ 99a:	fe cf       	rjmp	.-4      	; 0x998 <EEPROM_read>
+    EEAR = addr;
+ 99c:	90 e0       	ldi	r25, 0x00	; 0
+ 99e:	9f bb       	out	0x1f, r25	; 31
+ 9a0:	8e bb       	out	0x1e, r24	; 30
+    EECR |= (1<<EERE);
+ 9a2:	e0 9a       	sbi	0x1c, 0	; 28
+    return EEDR;
+ 9a4:	8d b3       	in	r24, 0x1d	; 29
 }
- 958:	08 95       	ret
+ 9a6:	08 95       	ret
 
-0000095a <getSubMenu>:
+000009a8 <Minit>:
 
-Menu* getSubMenu(Menu* m,uint8_t index){
- 95a:	9c 01       	movw	r18, r24
-    if(m->sub[index].submenu==0)return 0;//if executed NULL, return blank menu (==exit setup)
- 95c:	86 2f       	mov	r24, r22
- 95e:	90 e0       	ldi	r25, 0x00	; 0
- 960:	63 e0       	ldi	r22, 0x03	; 3
- 962:	70 e0       	ldi	r23, 0x00	; 0
- 964:	e0 d0       	rcall	.+448    	; 0xb26 <__mulhi3>
- 966:	82 0f       	add	r24, r18
- 968:	93 1f       	adc	r25, r19
-    return m->sub[index].submenu;
-}
- 96a:	fc 01       	movw	r30, r24
- 96c:	84 81       	ldd	r24, Z+4	; 0x04
- 96e:	95 81       	ldd	r25, Z+5	; 0x05
- 970:	08 95       	ret
+void Minit(void){
+    colorMode=EEPROM_read(EE_COLOR);
+ 9a8:	80 e0       	ldi	r24, 0x00	; 0
+ 9aa:	f6 df       	rcall	.-20     	; 0x998 <EEPROM_read>
+ 9ac:	80 93 c8 01 	sts	0x01C8, r24	; 0x8001c8 <colorMode>
+ 9b0:	08 95       	ret
 
-00000972 <EEPROM_write>:
-void EEPROM_write(uint8_t addr, uint8_t data){
-while(EECR & (1<<EEPE));
- 972:	e1 99       	sbic	0x1c, 1	; 28
- 974:	fe cf       	rjmp	.-4      	; 0x972 <EEPROM_write>
-EECR = (0<<EEPM1)|(0<<EEPM0);
- 976:	1c ba       	out	0x1c, r1	; 28
-EEAR = addr;
- 978:	90 e0       	ldi	r25, 0x00	; 0
- 97a:	9f bb       	out	0x1f, r25	; 31
- 97c:	8e bb       	out	0x1e, r24	; 30
-EEDR = data;
- 97e:	6d bb       	out	0x1d, r22	; 29
-EECR |= (1<<EEMPE);
- 980:	e2 9a       	sbi	0x1c, 2	; 28
-EECR |= (1<<EEPE);
- 982:	e1 9a       	sbi	0x1c, 1	; 28
- 984:	08 95       	ret
-
-00000986 <getMode>:
+000009b2 <getMode>:
             mode=3;
             break;
     }
 }
 uint8_t getMode(void){
     if(mode==2){
- 986:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <mode>
- 98a:	82 30       	cpi	r24, 0x02	; 2
- 98c:	11 f4       	brne	.+4      	; 0x992 <getMode+0xc>
+ 9b2:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <mode>
+ 9b6:	82 30       	cpi	r24, 0x02	; 2
+ 9b8:	11 f4       	brne	.+4      	; 0x9be <getMode+0xc>
         mode=1;
- 98e:	81 e0       	ldi	r24, 0x01	; 1
- 990:	03 c0       	rjmp	.+6      	; 0x998 <getMode+0x12>
+ 9ba:	81 e0       	ldi	r24, 0x01	; 1
+ 9bc:	03 c0       	rjmp	.+6      	; 0x9c4 <getMode+0x12>
     }else if(mode==1){
- 992:	81 30       	cpi	r24, 0x01	; 1
- 994:	19 f4       	brne	.+6      	; 0x99c <getMode+0x16>
+ 9be:	81 30       	cpi	r24, 0x01	; 1
+ 9c0:	19 f4       	brne	.+6      	; 0x9c8 <getMode+0x16>
         mode=2;
- 996:	82 e0       	ldi	r24, 0x02	; 2
- 998:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <mode>
+ 9c2:	82 e0       	ldi	r24, 0x02	; 2
+ 9c4:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <mode>
     }
     return mode;
 }
- 99c:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <mode>
- 9a0:	08 95       	ret
+ 9c8:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <mode>
+ 9cc:	08 95       	ret
 
-000009a2 <getColor>:
+000009ce <getColor>:
                 break;            
         }
     }
 }
 uint8_t getColor(void){
     if(colorMode>127){//cycle single
- 9a2:	80 91 c8 01 	lds	r24, 0x01C8	; 0x8001c8 <colorMode>
- 9a6:	87 ff       	sbrs	r24, 7
- 9a8:	0f c0       	rjmp	.+30     	; 0x9c8 <getColor+0x26>
+ 9ce:	80 91 c8 01 	lds	r24, 0x01C8	; 0x8001c8 <colorMode>
+ 9d2:	87 ff       	sbrs	r24, 7
+ 9d4:	0f c0       	rjmp	.+30     	; 0x9f4 <getColor+0x26>
         if(colorMode>134)colorMode=128;
- 9aa:	87 38       	cpi	r24, 0x87	; 135
- 9ac:	18 f0       	brcs	.+6      	; 0x9b4 <getColor+0x12>
- 9ae:	80 e8       	ldi	r24, 0x80	; 128
- 9b0:	80 93 c8 01 	sts	0x01C8, r24	; 0x8001c8 <colorMode>
+ 9d6:	87 38       	cpi	r24, 0x87	; 135
+ 9d8:	18 f0       	brcs	.+6      	; 0x9e0 <getColor+0x12>
+ 9da:	80 e8       	ldi	r24, 0x80	; 128
+ 9dc:	80 93 c8 01 	sts	0x01C8, r24	; 0x8001c8 <colorMode>
         colorMode++;
- 9b4:	e0 91 c8 01 	lds	r30, 0x01C8	; 0x8001c8 <colorMode>
- 9b8:	ef 5f       	subi	r30, 0xFF	; 255
- 9ba:	e0 93 c8 01 	sts	0x01C8, r30	; 0x8001c8 <colorMode>
+ 9e0:	e0 91 c8 01 	lds	r30, 0x01C8	; 0x8001c8 <colorMode>
+ 9e4:	ef 5f       	subi	r30, 0xFF	; 255
+ 9e6:	e0 93 c8 01 	sts	0x01C8, r30	; 0x8001c8 <colorMode>
         return colorArray[colorMode-128];
- 9be:	f0 e0       	ldi	r31, 0x00	; 0
- 9c0:	e2 51       	subi	r30, 0x12	; 18
- 9c2:	f0 40       	sbci	r31, 0x00	; 0
- 9c4:	80 81       	ld	r24, Z
- 9c6:	08 95       	ret
+ 9ea:	f0 e0       	ldi	r31, 0x00	; 0
+ 9ec:	e2 51       	subi	r30, 0x12	; 18
+ 9ee:	f0 40       	sbci	r31, 0x00	; 0
+ 9f0:	80 81       	ld	r24, Z
+ 9f2:	08 95       	ret
     }else if(colorMode>63){//cycle all
- 9c8:	80 34       	cpi	r24, 0x40	; 64
- 9ca:	08 f0       	brcs	.+2      	; 0x9ce <getColor+0x2c>
+ 9f4:	80 34       	cpi	r24, 0x40	; 64
+ 9f6:	08 f0       	brcs	.+2      	; 0x9fa <getColor+0x2c>
         return RED;
- 9cc:	84 e0       	ldi	r24, 0x04	; 4
+ 9f8:	84 e0       	ldi	r24, 0x04	; 4
     }else{//fixed
         return colorMode;
     }
 }
- 9ce:	08 95       	ret
+ 9fa:	08 95       	ret
 
-000009d0 <isInAllowedTime>:
+000009fc <isInAllowedTime>:
 void MsetNightMode(uint8_t i){
     nightMode=i;
 }
 uint8_t isInAllowedTime(uint8_t h){
- 9d0:	98 2f       	mov	r25, r24
+ 9fc:	98 2f       	mov	r25, r24
     if(nightMode)return (h>=nightOnHour && h<=nightOffHour);
- 9d2:	80 91 c9 01 	lds	r24, 0x01C9	; 0x8001c9 <nightMode>
- 9d6:	88 23       	and	r24, r24
- 9d8:	59 f0       	breq	.+22     	; 0x9f0 <isInAllowedTime+0x20>
- 9da:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <nightOnHour>
- 9de:	98 17       	cp	r25, r24
- 9e0:	28 f0       	brcs	.+10     	; 0x9ec <isInAllowedTime+0x1c>
- 9e2:	81 e0       	ldi	r24, 0x01	; 1
- 9e4:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <__data_start>
- 9e8:	29 17       	cp	r18, r25
- 9ea:	18 f4       	brcc	.+6      	; 0x9f2 <isInAllowedTime+0x22>
- 9ec:	80 e0       	ldi	r24, 0x00	; 0
- 9ee:	08 95       	ret
+ 9fe:	80 91 c9 01 	lds	r24, 0x01C9	; 0x8001c9 <nightMode>
+ a02:	88 23       	and	r24, r24
+ a04:	59 f0       	breq	.+22     	; 0xa1c <isInAllowedTime+0x20>
+ a06:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <nightOnHour>
+ a0a:	98 17       	cp	r25, r24
+ a0c:	28 f0       	brcs	.+10     	; 0xa18 <isInAllowedTime+0x1c>
+ a0e:	81 e0       	ldi	r24, 0x01	; 1
+ a10:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <__data_start>
+ a14:	29 17       	cp	r18, r25
+ a16:	18 f4       	brcc	.+6      	; 0xa1e <isInAllowedTime+0x22>
+ a18:	80 e0       	ldi	r24, 0x00	; 0
+ a1a:	08 95       	ret
     return 1;
- 9f0:	81 e0       	ldi	r24, 0x01	; 1
+ a1c:	81 e0       	ldi	r24, 0x01	; 1
 }
- 9f2:	08 95       	ret
+ a1e:	08 95       	ret
 
-000009f4 <main>:
+00000a20 <main>:
 struct Menu* Mcurrent=0;
 uint8_t Mindex=0;
 Led leds[NBLEDS];
 
 int main(void){    
     ledInit(leds);
- 9f4:	8a ec       	ldi	r24, 0xCA	; 202
- 9f6:	91 e0       	ldi	r25, 0x01	; 1
- 9f8:	ab dc       	rcall	.-1706   	; 0x350 <ledInit>
+ a20:	8a ec       	ldi	r24, 0xCA	; 202
+ a22:	91 e0       	ldi	r25, 0x01	; 1
+ a24:	95 dc       	rcall	.-1750   	; 0x350 <ledInit>
     DDRA&=~(BTNINTERNAL|BTNOK);
- 9fa:	8a b3       	in	r24, 0x1a	; 26
- 9fc:	8f 75       	andi	r24, 0x5F	; 95
- 9fe:	8a bb       	out	0x1a, r24	; 26
+ a26:	8a b3       	in	r24, 0x1a	; 26
+ a28:	8f 75       	andi	r24, 0x5F	; 95
+ a2a:	8a bb       	out	0x1a, r24	; 26
     DDRB&=~BTNSELECT;
- a00:	ba 98       	cbi	0x17, 2	; 23
+ a2c:	ba 98       	cbi	0x17, 2	; 23
     PORTA|=(BTNINTERNAL|BTNOK);
- a02:	8b b3       	in	r24, 0x1b	; 27
- a04:	80 6a       	ori	r24, 0xA0	; 160
- a06:	8b bb       	out	0x1b, r24	; 27
+ a2e:	8b b3       	in	r24, 0x1b	; 27
+ a30:	80 6a       	ori	r24, 0xA0	; 160
+ a32:	8b bb       	out	0x1b, r24	; 27
     PORTB|=BTNSELECT;
- a08:	c2 9a       	sbi	0x18, 2	; 24
+ a34:	c2 9a       	sbi	0x18, 2	; 24
     TIMSK1|=(1<<TOIE1);//|(1<<OCIE1B);
- a0a:	60 9a       	sbi	0x0c, 0	; 12
+ a36:	60 9a       	sbi	0x0c, 0	; 12
    // OCR1B=32768;
     TIMSK0|=(1<<TOIE0);
- a0c:	89 b7       	in	r24, 0x39	; 57
- a0e:	81 60       	ori	r24, 0x01	; 1
- a10:	89 bf       	out	0x39, r24	; 57
+ a38:	89 b7       	in	r24, 0x39	; 57
+ a3a:	81 60       	ori	r24, 0x01	; 1
+ a3c:	89 bf       	out	0x39, r24	; 57
     GIMSK|=(1<<PCIE1)|(1<<PCIE0);
- a12:	8b b7       	in	r24, 0x3b	; 59
- a14:	80 63       	ori	r24, 0x30	; 48
- a16:	8b bf       	out	0x3b, r24	; 59
+ a3e:	8b b7       	in	r24, 0x3b	; 59
+ a40:	80 63       	ori	r24, 0x30	; 48
+ a42:	8b bf       	out	0x3b, r24	; 59
     PCMSK0|=(1<<PCINT7)|(1<<PCINT5);
- a18:	82 b3       	in	r24, 0x12	; 18
- a1a:	80 6a       	ori	r24, 0xA0	; 160
- a1c:	82 bb       	out	0x12, r24	; 18
+ a44:	82 b3       	in	r24, 0x12	; 18
+ a46:	80 6a       	ori	r24, 0xA0	; 160
+ a48:	82 bb       	out	0x12, r24	; 18
     PCMSK1|=(1<<PCINT10);
- a1e:	80 b5       	in	r24, 0x20	; 32
- a20:	84 60       	ori	r24, 0x04	; 4
- a22:	80 bd       	out	0x20, r24	; 32
+ a4a:	80 b5       	in	r24, 0x20	; 32
+ a4c:	84 60       	ori	r24, 0x04	; 4
+ a4e:	80 bd       	out	0x20, r24	; 32
     sei();
- a24:	78 94       	sei
+ a50:	78 94       	sei
     
     sendData(0b11111100001111111111);//white
- a26:	6f ef       	ldi	r22, 0xFF	; 255
- a28:	73 ec       	ldi	r23, 0xC3	; 195
- a2a:	8f e0       	ldi	r24, 0x0F	; 15
- a2c:	90 e0       	ldi	r25, 0x00	; 0
- a2e:	15 db       	rcall	.-2518   	; 0x5a <sendData>
+ a52:	6f ef       	ldi	r22, 0xFF	; 255
+ a54:	73 ec       	ldi	r23, 0xC3	; 195
+ a56:	8f e0       	ldi	r24, 0x0F	; 15
+ a58:	90 e0       	ldi	r25, 0x00	; 0
+ a5a:	ff da       	rcall	.-2562   	; 0x5a <sendData>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- a30:	2f ef       	ldi	r18, 0xFF	; 255
- a32:	89 e6       	ldi	r24, 0x69	; 105
- a34:	98 e1       	ldi	r25, 0x18	; 24
- a36:	21 50       	subi	r18, 0x01	; 1
- a38:	80 40       	sbci	r24, 0x00	; 0
- a3a:	90 40       	sbci	r25, 0x00	; 0
- a3c:	e1 f7       	brne	.-8      	; 0xa36 <main+0x42>
- a3e:	00 c0       	rjmp	.+0      	; 0xa40 <main+0x4c>
- a40:	00 00       	nop
+ a5c:	2f ef       	ldi	r18, 0xFF	; 255
+ a5e:	89 e6       	ldi	r24, 0x69	; 105
+ a60:	98 e1       	ldi	r25, 0x18	; 24
+ a62:	21 50       	subi	r18, 0x01	; 1
+ a64:	80 40       	sbci	r24, 0x00	; 0
+ a66:	90 40       	sbci	r25, 0x00	; 0
+ a68:	e1 f7       	brne	.-8      	; 0xa62 <main+0x42>
+ a6a:	00 c0       	rjmp	.+0      	; 0xa6c <main+0x4c>
+ a6c:	00 00       	nop
     _delay_ms(500);
     sendData(0b11000000001111111111);//green
- a42:	6f ef       	ldi	r22, 0xFF	; 255
- a44:	73 e0       	ldi	r23, 0x03	; 3
- a46:	8c e0       	ldi	r24, 0x0C	; 12
- a48:	90 e0       	ldi	r25, 0x00	; 0
- a4a:	07 db       	rcall	.-2546   	; 0x5a <sendData>
- a4c:	2f ef       	ldi	r18, 0xFF	; 255
- a4e:	89 e6       	ldi	r24, 0x69	; 105
- a50:	98 e1       	ldi	r25, 0x18	; 24
- a52:	21 50       	subi	r18, 0x01	; 1
- a54:	80 40       	sbci	r24, 0x00	; 0
- a56:	90 40       	sbci	r25, 0x00	; 0
- a58:	e1 f7       	brne	.-8      	; 0xa52 <main+0x5e>
- a5a:	00 c0       	rjmp	.+0      	; 0xa5c <main+0x68>
- a5c:	00 00       	nop
+ a6e:	6f ef       	ldi	r22, 0xFF	; 255
+ a70:	73 e0       	ldi	r23, 0x03	; 3
+ a72:	8c e0       	ldi	r24, 0x0C	; 12
+ a74:	90 e0       	ldi	r25, 0x00	; 0
+ a76:	f1 da       	rcall	.-2590   	; 0x5a <sendData>
+ a78:	2f ef       	ldi	r18, 0xFF	; 255
+ a7a:	89 e6       	ldi	r24, 0x69	; 105
+ a7c:	98 e1       	ldi	r25, 0x18	; 24
+ a7e:	21 50       	subi	r18, 0x01	; 1
+ a80:	80 40       	sbci	r24, 0x00	; 0
+ a82:	90 40       	sbci	r25, 0x00	; 0
+ a84:	e1 f7       	brne	.-8      	; 0xa7e <main+0x5e>
+ a86:	00 c0       	rjmp	.+0      	; 0xa88 <main+0x68>
+ a88:	00 00       	nop
     _delay_ms(500);
     sendData(0b00001100001111111111);//red
- a5e:	6f ef       	ldi	r22, 0xFF	; 255
- a60:	73 ec       	ldi	r23, 0xC3	; 195
- a62:	80 e0       	ldi	r24, 0x00	; 0
- a64:	90 e0       	ldi	r25, 0x00	; 0
- a66:	f9 da       	rcall	.-2574   	; 0x5a <sendData>
- a68:	2f ef       	ldi	r18, 0xFF	; 255
- a6a:	89 e6       	ldi	r24, 0x69	; 105
- a6c:	98 e1       	ldi	r25, 0x18	; 24
- a6e:	21 50       	subi	r18, 0x01	; 1
- a70:	80 40       	sbci	r24, 0x00	; 0
- a72:	90 40       	sbci	r25, 0x00	; 0
- a74:	e1 f7       	brne	.-8      	; 0xa6e <main+0x7a>
- a76:	00 c0       	rjmp	.+0      	; 0xa78 <main+0x84>
- a78:	00 00       	nop
+ a8a:	6f ef       	ldi	r22, 0xFF	; 255
+ a8c:	73 ec       	ldi	r23, 0xC3	; 195
+ a8e:	80 e0       	ldi	r24, 0x00	; 0
+ a90:	90 e0       	ldi	r25, 0x00	; 0
+ a92:	e3 da       	rcall	.-2618   	; 0x5a <sendData>
+ a94:	2f ef       	ldi	r18, 0xFF	; 255
+ a96:	89 e6       	ldi	r24, 0x69	; 105
+ a98:	98 e1       	ldi	r25, 0x18	; 24
+ a9a:	21 50       	subi	r18, 0x01	; 1
+ a9c:	80 40       	sbci	r24, 0x00	; 0
+ a9e:	90 40       	sbci	r25, 0x00	; 0
+ aa0:	e1 f7       	brne	.-8      	; 0xa9a <main+0x7a>
+ aa2:	00 c0       	rjmp	.+0      	; 0xaa4 <main+0x84>
+ aa4:	00 00       	nop
     _delay_ms(500);
     sendData(0b00110000001111111111);//blue
- a7a:	6f ef       	ldi	r22, 0xFF	; 255
- a7c:	73 e0       	ldi	r23, 0x03	; 3
- a7e:	83 e0       	ldi	r24, 0x03	; 3
- a80:	90 e0       	ldi	r25, 0x00	; 0
- a82:	eb da       	rcall	.-2602   	; 0x5a <sendData>
- a84:	2f ef       	ldi	r18, 0xFF	; 255
- a86:	89 e6       	ldi	r24, 0x69	; 105
- a88:	98 e1       	ldi	r25, 0x18	; 24
- a8a:	21 50       	subi	r18, 0x01	; 1
- a8c:	80 40       	sbci	r24, 0x00	; 0
- a8e:	90 40       	sbci	r25, 0x00	; 0
- a90:	e1 f7       	brne	.-8      	; 0xa8a <main+0x96>
- a92:	00 c0       	rjmp	.+0      	; 0xa94 <main+0xa0>
- a94:	00 00       	nop
+ aa6:	6f ef       	ldi	r22, 0xFF	; 255
+ aa8:	73 e0       	ldi	r23, 0x03	; 3
+ aaa:	83 e0       	ldi	r24, 0x03	; 3
+ aac:	90 e0       	ldi	r25, 0x00	; 0
+ aae:	d5 da       	rcall	.-2646   	; 0x5a <sendData>
+ ab0:	2f ef       	ldi	r18, 0xFF	; 255
+ ab2:	89 e6       	ldi	r24, 0x69	; 105
+ ab4:	98 e1       	ldi	r25, 0x18	; 24
+ ab6:	21 50       	subi	r18, 0x01	; 1
+ ab8:	80 40       	sbci	r24, 0x00	; 0
+ aba:	90 40       	sbci	r25, 0x00	; 0
+ abc:	e1 f7       	brne	.-8      	; 0xab6 <main+0x96>
+ abe:	00 c0       	rjmp	.+0      	; 0xac0 <main+0xa0>
+ ac0:	00 00       	nop
     _delay_ms(500);
     sendData(0b11110000001111111111);//cyan
- a96:	6f ef       	ldi	r22, 0xFF	; 255
- a98:	73 e0       	ldi	r23, 0x03	; 3
- a9a:	8f e0       	ldi	r24, 0x0F	; 15
- a9c:	90 e0       	ldi	r25, 0x00	; 0
- a9e:	dd da       	rcall	.-2630   	; 0x5a <sendData>
- aa0:	2f ef       	ldi	r18, 0xFF	; 255
- aa2:	89 e6       	ldi	r24, 0x69	; 105
- aa4:	98 e1       	ldi	r25, 0x18	; 24
- aa6:	21 50       	subi	r18, 0x01	; 1
- aa8:	80 40       	sbci	r24, 0x00	; 0
- aaa:	90 40       	sbci	r25, 0x00	; 0
- aac:	e1 f7       	brne	.-8      	; 0xaa6 <main+0xb2>
- aae:	00 c0       	rjmp	.+0      	; 0xab0 <main+0xbc>
- ab0:	00 00       	nop
+ ac2:	6f ef       	ldi	r22, 0xFF	; 255
+ ac4:	73 e0       	ldi	r23, 0x03	; 3
+ ac6:	8f e0       	ldi	r24, 0x0F	; 15
+ ac8:	90 e0       	ldi	r25, 0x00	; 0
+ aca:	c7 da       	rcall	.-2674   	; 0x5a <sendData>
+ acc:	2f ef       	ldi	r18, 0xFF	; 255
+ ace:	89 e6       	ldi	r24, 0x69	; 105
+ ad0:	98 e1       	ldi	r25, 0x18	; 24
+ ad2:	21 50       	subi	r18, 0x01	; 1
+ ad4:	80 40       	sbci	r24, 0x00	; 0
+ ad6:	90 40       	sbci	r25, 0x00	; 0
+ ad8:	e1 f7       	brne	.-8      	; 0xad2 <main+0xb2>
+ ada:	00 c0       	rjmp	.+0      	; 0xadc <main+0xbc>
+ adc:	00 00       	nop
     _delay_ms(500);
     sendData(0b00111100001111111111);//magenta
- ab2:	6f ef       	ldi	r22, 0xFF	; 255
- ab4:	73 ec       	ldi	r23, 0xC3	; 195
- ab6:	83 e0       	ldi	r24, 0x03	; 3
- ab8:	90 e0       	ldi	r25, 0x00	; 0
- aba:	cf da       	rcall	.-2658   	; 0x5a <sendData>
- abc:	2f ef       	ldi	r18, 0xFF	; 255
- abe:	89 e6       	ldi	r24, 0x69	; 105
- ac0:	98 e1       	ldi	r25, 0x18	; 24
- ac2:	21 50       	subi	r18, 0x01	; 1
- ac4:	80 40       	sbci	r24, 0x00	; 0
- ac6:	90 40       	sbci	r25, 0x00	; 0
- ac8:	e1 f7       	brne	.-8      	; 0xac2 <main+0xce>
- aca:	00 c0       	rjmp	.+0      	; 0xacc <main+0xd8>
- acc:	00 00       	nop
+ ade:	6f ef       	ldi	r22, 0xFF	; 255
+ ae0:	73 ec       	ldi	r23, 0xC3	; 195
+ ae2:	83 e0       	ldi	r24, 0x03	; 3
+ ae4:	90 e0       	ldi	r25, 0x00	; 0
+ ae6:	b9 da       	rcall	.-2702   	; 0x5a <sendData>
+ ae8:	2f ef       	ldi	r18, 0xFF	; 255
+ aea:	89 e6       	ldi	r24, 0x69	; 105
+ aec:	98 e1       	ldi	r25, 0x18	; 24
+ aee:	21 50       	subi	r18, 0x01	; 1
+ af0:	80 40       	sbci	r24, 0x00	; 0
+ af2:	90 40       	sbci	r25, 0x00	; 0
+ af4:	e1 f7       	brne	.-8      	; 0xaee <main+0xce>
+ af6:	00 c0       	rjmp	.+0      	; 0xaf8 <main+0xd8>
+ af8:	00 00       	nop
     _delay_ms(500);
     sendData(0b11001100001111111111);//yellow
- ace:	6f ef       	ldi	r22, 0xFF	; 255
- ad0:	73 ec       	ldi	r23, 0xC3	; 195
- ad2:	8c e0       	ldi	r24, 0x0C	; 12
- ad4:	90 e0       	ldi	r25, 0x00	; 0
- ad6:	c1 da       	rcall	.-2686   	; 0x5a <sendData>
- ad8:	2f ef       	ldi	r18, 0xFF	; 255
- ada:	89 e6       	ldi	r24, 0x69	; 105
- adc:	98 e1       	ldi	r25, 0x18	; 24
- ade:	21 50       	subi	r18, 0x01	; 1
- ae0:	80 40       	sbci	r24, 0x00	; 0
- ae2:	90 40       	sbci	r25, 0x00	; 0
- ae4:	e1 f7       	brne	.-8      	; 0xade <main+0xea>
- ae6:	00 c0       	rjmp	.+0      	; 0xae8 <main+0xf4>
- ae8:	00 00       	nop
+ afa:	6f ef       	ldi	r22, 0xFF	; 255
+ afc:	73 ec       	ldi	r23, 0xC3	; 195
+ afe:	8c e0       	ldi	r24, 0x0C	; 12
+ b00:	90 e0       	ldi	r25, 0x00	; 0
+ b02:	ab da       	rcall	.-2730   	; 0x5a <sendData>
+ b04:	2f ef       	ldi	r18, 0xFF	; 255
+ b06:	89 e6       	ldi	r24, 0x69	; 105
+ b08:	98 e1       	ldi	r25, 0x18	; 24
+ b0a:	21 50       	subi	r18, 0x01	; 1
+ b0c:	80 40       	sbci	r24, 0x00	; 0
+ b0e:	90 40       	sbci	r25, 0x00	; 0
+ b10:	e1 f7       	brne	.-8      	; 0xb0a <main+0xea>
+ b12:	00 c0       	rjmp	.+0      	; 0xb14 <main+0xf4>
+ b14:	00 00       	nop
     _delay_ms(500);
     
     #ifdef DELLONG
     TCCR1B|=(1<<CS12)|(1<<CS10);
- aea:	8e b5       	in	r24, 0x2e	; 46
- aec:	85 60       	ori	r24, 0x05	; 5
- aee:	8e bd       	out	0x2e, r24	; 46
+ b16:	8e b5       	in	r24, 0x2e	; 46
+ b18:	85 60       	ori	r24, 0x05	; 5
+ b1a:	8e bd       	out	0x2e, r24	; 46
     #else
     TCCR1B|=(1<<CS12);//|(1<<CS10);
     #endif
     
     TCCR0B|=(1<<CS01)|(1<<CS00);
- af0:	83 b7       	in	r24, 0x33	; 51
- af2:	83 60       	ori	r24, 0x03	; 3
- af4:	83 bf       	out	0x33, r24	; 51
+ b1c:	83 b7       	in	r24, 0x33	; 51
+ b1e:	83 60       	ori	r24, 0x03	; 3
+ b20:	83 bf       	out	0x33, r24	; 51
     
     setCurrentTime(0,10,7,12);
- af6:	2c e0       	ldi	r18, 0x0C	; 12
- af8:	47 e0       	ldi	r20, 0x07	; 7
- afa:	6a e0       	ldi	r22, 0x0A	; 10
- afc:	80 e0       	ldi	r24, 0x00	; 0
- afe:	38 dd       	rcall	.-1424   	; 0x570 <setCurrentTime>
+ b22:	2c e0       	ldi	r18, 0x0C	; 12
+ b24:	47 e0       	ldi	r20, 0x07	; 7
+ b26:	6a e0       	ldi	r22, 0x0A	; 10
+ b28:	80 e0       	ldi	r24, 0x00	; 0
+ b2a:	22 dd       	rcall	.-1468   	; 0x570 <setCurrentTime>
     // //RTC_setTime(currentTime,6,18);
-    RTC_readTime(&currentTime);
- b00:	84 e0       	ldi	r24, 0x04	; 4
- b02:	92 e0       	ldi	r25, 0x02	; 2
- b04:	9c de       	rcall	.-712    	; 0x83e <RTC_readTime>
-    EEPROM_write(0,0xAA);
- b06:	6a ea       	ldi	r22, 0xAA	; 170
- b08:	80 e0       	ldi	r24, 0x00	; 0
- b0a:	33 df       	rcall	.-410    	; 0x972 <EEPROM_write>
-    EEPROM_write(1,0xBC);
- b0c:	6c eb       	ldi	r22, 0xBC	; 188
- b0e:	81 e0       	ldi	r24, 0x01	; 1
- b10:	30 df       	rcall	.-416    	; 0x972 <EEPROM_write>
- b12:	ff cf       	rjmp	.-2      	; 0xb12 <main+0x11e>
+    RTC_readTime(&currentTime);/*
+ b2c:	84 e0       	ldi	r24, 0x04	; 4
+ b2e:	92 e0       	ldi	r25, 0x02	; 2
+ b30:	86 de       	rcall	.-756    	; 0x83e <RTC_readTime>
+ b32:	ff cf       	rjmp	.-2      	; 0xb32 <main+0x112>
 
-00000b14 <__mulqi3>:
- b14:	00 24       	eor	r0, r0
+00000b34 <__mulqi3>:
+ b34:	00 24       	eor	r0, r0
 
-00000b16 <__mulqi3_loop>:
- b16:	80 fd       	sbrc	r24, 0
- b18:	06 0e       	add	r0, r22
- b1a:	66 0f       	add	r22, r22
- b1c:	11 f0       	breq	.+4      	; 0xb22 <__mulqi3_exit>
- b1e:	86 95       	lsr	r24
- b20:	d1 f7       	brne	.-12     	; 0xb16 <__mulqi3_loop>
+00000b36 <__mulqi3_loop>:
+ b36:	80 fd       	sbrc	r24, 0
+ b38:	06 0e       	add	r0, r22
+ b3a:	66 0f       	add	r22, r22
+ b3c:	11 f0       	breq	.+4      	; 0xb42 <__mulqi3_exit>
+ b3e:	86 95       	lsr	r24
+ b40:	d1 f7       	brne	.-12     	; 0xb36 <__mulqi3_loop>
 
-00000b22 <__mulqi3_exit>:
- b22:	80 2d       	mov	r24, r0
- b24:	08 95       	ret
-
-00000b26 <__mulhi3>:
- b26:	00 24       	eor	r0, r0
- b28:	55 27       	eor	r21, r21
- b2a:	04 c0       	rjmp	.+8      	; 0xb34 <__mulhi3+0xe>
- b2c:	08 0e       	add	r0, r24
- b2e:	59 1f       	adc	r21, r25
- b30:	88 0f       	add	r24, r24
- b32:	99 1f       	adc	r25, r25
- b34:	00 97       	sbiw	r24, 0x00	; 0
- b36:	29 f0       	breq	.+10     	; 0xb42 <__mulhi3+0x1c>
- b38:	76 95       	lsr	r23
- b3a:	67 95       	ror	r22
- b3c:	b8 f3       	brcs	.-18     	; 0xb2c <__mulhi3+0x6>
- b3e:	71 05       	cpc	r23, r1
- b40:	b9 f7       	brne	.-18     	; 0xb30 <__mulhi3+0xa>
+00000b42 <__mulqi3_exit>:
  b42:	80 2d       	mov	r24, r0
- b44:	95 2f       	mov	r25, r21
- b46:	08 95       	ret
+ b44:	08 95       	ret
 
-00000b48 <__udivmodqi4>:
- b48:	99 1b       	sub	r25, r25
- b4a:	79 e0       	ldi	r23, 0x09	; 9
- b4c:	04 c0       	rjmp	.+8      	; 0xb56 <__udivmodqi4_ep>
+00000b46 <__mulhi3>:
+ b46:	00 24       	eor	r0, r0
+ b48:	55 27       	eor	r21, r21
+ b4a:	04 c0       	rjmp	.+8      	; 0xb54 <__mulhi3+0xe>
+ b4c:	08 0e       	add	r0, r24
+ b4e:	59 1f       	adc	r21, r25
+ b50:	88 0f       	add	r24, r24
+ b52:	99 1f       	adc	r25, r25
+ b54:	00 97       	sbiw	r24, 0x00	; 0
+ b56:	29 f0       	breq	.+10     	; 0xb62 <__mulhi3+0x1c>
+ b58:	76 95       	lsr	r23
+ b5a:	67 95       	ror	r22
+ b5c:	b8 f3       	brcs	.-18     	; 0xb4c <__mulhi3+0x6>
+ b5e:	71 05       	cpc	r23, r1
+ b60:	b9 f7       	brne	.-18     	; 0xb50 <__mulhi3+0xa>
+ b62:	80 2d       	mov	r24, r0
+ b64:	95 2f       	mov	r25, r21
+ b66:	08 95       	ret
 
-00000b4e <__udivmodqi4_loop>:
- b4e:	99 1f       	adc	r25, r25
- b50:	96 17       	cp	r25, r22
- b52:	08 f0       	brcs	.+2      	; 0xb56 <__udivmodqi4_ep>
- b54:	96 1b       	sub	r25, r22
+00000b68 <__udivmodqi4>:
+ b68:	99 1b       	sub	r25, r25
+ b6a:	79 e0       	ldi	r23, 0x09	; 9
+ b6c:	04 c0       	rjmp	.+8      	; 0xb76 <__udivmodqi4_ep>
 
-00000b56 <__udivmodqi4_ep>:
- b56:	88 1f       	adc	r24, r24
- b58:	7a 95       	dec	r23
- b5a:	c9 f7       	brne	.-14     	; 0xb4e <__udivmodqi4_loop>
- b5c:	80 95       	com	r24
- b5e:	08 95       	ret
+00000b6e <__udivmodqi4_loop>:
+ b6e:	99 1f       	adc	r25, r25
+ b70:	96 17       	cp	r25, r22
+ b72:	08 f0       	brcs	.+2      	; 0xb76 <__udivmodqi4_ep>
+ b74:	96 1b       	sub	r25, r22
 
-00000b60 <_exit>:
- b60:	f8 94       	cli
+00000b76 <__udivmodqi4_ep>:
+ b76:	88 1f       	adc	r24, r24
+ b78:	7a 95       	dec	r23
+ b7a:	c9 f7       	brne	.-14     	; 0xb6e <__udivmodqi4_loop>
+ b7c:	80 95       	com	r24
+ b7e:	08 95       	ret
 
-00000b62 <__stop_program>:
- b62:	ff cf       	rjmp	.-2      	; 0xb62 <__stop_program>
+00000b80 <_exit>:
+ b80:	f8 94       	cli
+
+00000b82 <__stop_program>:
+ b82:	ff cf       	rjmp	.-2      	; 0xb82 <__stop_program>

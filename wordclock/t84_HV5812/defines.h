@@ -48,6 +48,8 @@ enum Colors{BLACK=0b00000000,RED=0b00000100,GREEN=0b00000010,BLUE=0b00000001,CYA
 #define MAGENTA 0xFF00FF
 #define YELLOW  0xFFFF00
 */
+#define EE_COLOR 0x00
+
 #define ILEST   18
 #define HEURE   15
 #define MIDI    13

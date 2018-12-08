@@ -59,11 +59,11 @@ int main(void){
     
     TCCR0B|=(1<<CS01)|(1<<CS00);
     
-    setCurrentTime(0,10,7,12);
+    Minit();
     // //RTC_setTime(currentTime,6,18);
-    RTC_readTime(&currentTime);
+    RTC_readTime(&currentTime);/*
     EEPROM_write(0,0xAA);
-    EEPROM_write(1,0xBC);
+    EEPROM_write(1,0xBC);*/
     while(1){
     }
     return(0);
