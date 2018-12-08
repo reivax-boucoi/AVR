@@ -19,7 +19,7 @@ void MsetEventMode(uint8_t i);
 void Mreset(uint8_t i);
 void MsetRainbow(uint8_t i);
 
-const struct Menu;
+//const struct Menu;
 typedef const struct Menu{
     const uint8_t nb_optn;
     void (*fptr)(uint8_t);
