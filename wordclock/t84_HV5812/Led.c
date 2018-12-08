@@ -3,16 +3,6 @@
 static const uint8_t ledMap[11]={7,8,10,14,0,4,17,2,12,6,16};
 
 
-Tcolor tcolor(uint8_t r,uint8_t g,uint8_t b){
-    Tcolor c={r,g,b};
-    return c;
-}
-
-Tcolor tcolorV(uint32_t v){
-    Tcolor c={(v>>16)&0xFF,(v>>8)&0xFF,v&0xFF};
-    return c;
-}
-
 void ledInit(Led* leds){
     DDRA |= CLK|DATA|STROBE|LED;
     PORTA &= ~(CLK|DATA|STROBE|LED);
@@ -24,30 +14,15 @@ void ledInit(Led* leds){
         }else{
             leds[i].col=i-9;//1-9
         }
-        leds[i].c.r=0;
-        leds[i].c.g=0;
-        leds[i].c.b=0;
+        leds[i].c=BLACK;
     }
-}
-uint32_t getColorByLed(Led l){
-    uint32_t d=0;
-    if(l.row){
-        if(l.c.r)d|=R2;
-        if(l.c.g)d|=G2;
-        if(l.c.b)d|=B2;
-    }else{
-        if(l.c.r)d|=R1;
-        if(l.c.g)d|=G1;
-        if(l.c.b)d|=B1;
-    }
-    return d;
 }
 
-uint32_t getDataByColor(Tcolor c, uint8_t mode, Led* leds){
-    uint32_t data=0;
+uint32_t getDataByColor(uint8_t c, uint8_t mode, Led* leds){
+    uint32_t data=0x00000000;
     for(uint8_t i=0;i<NBLEDS;i++){
         if(leds[i].row==mode){
-            if((leds[i].c.r && c.r) || (leds[i].c.g && c.g) || (leds[i].c.b && c.b)){
+            if((leds[i].c & c) ){
                 data|=(1<<leds[i].col);
             }
         }
@@ -55,31 +30,19 @@ uint32_t getDataByColor(Tcolor c, uint8_t mode, Led* leds){
     return data;
 }
 
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+}
 void ledOff(Led* l){
-    l->c.r=0;
-    l->c.g=0;
-    l->c.b=0;
-}
-void ledOn(Led* l){
-    l->c.r=255;
-    l->c.g=255;
-    l->c.b=255;
+    l->c=BLACK;
 }
 
-void ledOnC(Led* l,Tcolor c){
-    l->c=c;   
-}
-
-void ledOnV(Led* l,uint32_t v){
-    l->c=tcolorV(v);
-}
-
-void setLeds(Ttime t,Led* l,Tcolor c){
+void setLeds(Ttime t,Led* l){
     uint8_t temp=0;
     for(;temp<NBLEDS;temp++){
         ledOff(&l[temp]);
     }
-    ledOnC(&l[ILEST],c);
+    ledOn(&l[ILEST],getColor());
     
     temp=currentTime.hour;
     if(currentTime.min>35){
@@ -88,56 +51,56 @@ void setLeds(Ttime t,Led* l,Tcolor c){
     temp=temp%12;
     switch(temp){
         case 0 :
-            ledOnC(&l[MINUIT],c);
+            ledOn(&l[MINUIT],getColor());
             break;
         case 12 :
-            ledOnC(&l[MIDI],c);
+            ledOn(&l[MIDI],getColor());
             break;
         default :
-            ledOnC(&l[ledMap[(temp-1)]],c);
-            ledOnC(&l[HEURE],c);
+            ledOn(&l[ledMap[(temp-1)]],getColor());
+            ledOn(&l[HEURE],getColor());
             break;
     }
     
     temp = minquad(currentTime.min); 
     if(temp > 30){
-        ledOnC(&l[MOINS],c);
+        ledOn(&l[MOINS],getColor());
         temp=60-temp;
     }
     switch(temp){
         case 10 :
-            ledOnC(&l[DIX],c);
+            ledOn(&l[DIX],getColor());
             break;
         case 20 :
-            ledOnC(&l[VINGT],c);
+            ledOn(&l[VINGT],getColor());
             break;
         case 30 :
-            ledOnC(&l[ETDEMIE],c);
+            ledOn(&l[ETDEMIE],getColor());
             break;
     }
 }
 
-void setLedsNb(int8_t nb, Led* l, Tcolor c){
+void setLedsNb(int8_t nb, Led* l){
     uint8_t i=0;
     for(;i<NBLEDS;i++){
         ledOff(&l[i]);
     }
     if(nb < 0){
-        ledOnC(&l[MOINS],c);
+        ledOn(&l[MOINS],getColor());
         nb=-nb;
     }
     if(nb>29){
-        ledOnC(&l[VINGT],c);
-        ledOnC(&l[DIX],c);
+        ledOn(&l[VINGT],getColor());
+        ledOn(&l[DIX],getColor());
         nb=nb-30;
     }else if(nb>19){
-        ledOnC(&l[VINGT],c);
+        ledOn(&l[VINGT],getColor());
         nb=nb-20;
     }else if(nb>11){
-        ledOnC(&l[DIX],c);
+        ledOn(&l[DIX],getColor());
         nb=nb-10;
     }
-    ledOnC(&l[ledMap[nb-1]],c);
+    ledOn(&l[ledMap[nb-1]],getColor());
 }
 void sendRawData(uint32_t data){
     PORTA &=~(STROBE|CLK);

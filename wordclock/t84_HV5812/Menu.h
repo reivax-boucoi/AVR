@@ -4,8 +4,11 @@
 #include "Led.h"
 
 void MsetMode(uint8_t i);
+uint8_t getMode(void);
 void MsetColorMode(uint8_t i);
+uint8_t getColor(void);
 void MsetNightMode(uint8_t i);
+uint8_t isInAllowedTime(uint8_t h);
 void MsetNightOff(uint8_t i);
 void MsetNightOn(uint8_t i);
 void MsetHouram(uint8_t i);

@@ -9,6 +9,7 @@
 
 uint8_t ledr=0;
 uint8_t ledb=0;
+
 void sendData(uint32_t data){
     if(ledr)data|=LEDR;
     if(ledb)data|=LEDB;
@@ -17,8 +18,8 @@ void sendData(uint32_t data){
 
 
 volatile uint8_t state=0;
-volatile struct Menu* Mcurrent=0;
-volatile uint8_t Mindex=0;
+struct Menu* Mcurrent=0;
+uint8_t Mindex=0;
 Led leds[NBLEDS];
 
 int main(void){    
@@ -27,7 +28,8 @@ int main(void){
     DDRB&=~BTNSELECT;
     PORTA|=(BTNINTERNAL|BTNOK);
     PORTB|=BTNSELECT;
-    TIMSK1|=(1<<TOIE1);
+    TIMSK1|=(1<<TOIE1);//|(1<<OCIE1B);
+   // OCR1B=32768;
     TIMSK0|=(1<<TOIE0);
     GIMSK|=(1<<PCIE1)|(1<<PCIE0);
     PCMSK0|=(1<<PCINT7)|(1<<PCINT5);
@@ -57,12 +59,9 @@ int main(void){
     
     TCCR0B|=(1<<CS01)|(1<<CS00);
     
-    currentColor=tcolorV(WHITE);
     setCurrentTime(0,10,7,12);
-   // //RTC_setTime(currentTime,6,18);
+    // //RTC_setTime(currentTime,6,18);
     RTC_readTime(&currentTime);
-    setLeds(currentTime,leds,currentColor);
-    //setLedsNb(currentTime.temp,leds,currentColor);
     while(1){
     }
     return(0);
@@ -70,46 +69,70 @@ int main(void){
 }
 ISR( PCINT1_vect){
     if(PINB&BTNSELECT){
-        ledb=1-ledb;
-        ledr=0;
+        Mindex=findNextEntry(Mcurrent,Mindex);
+        TCNT1=65534;
     }
 }
 ISR( PCINT0_vect){
     if(PINA&BTNOK){
-        ledr++;
+        if(!Mcurrent){
+            Mcurrent=&M0main;//if not in menu mode
+        }else{//enter menu and execute
+            if(Mcurrent->fptr!=0 && Mcurrent->sub[Mindex].submenu==0)Mcurrent->fptr(Mindex);//check if function is associated and selected value is not a navigation move
+            Mcurrent=getSubMenu(Mcurrent,Mindex);//get new menu
+            Mindex=0;
+            for(uint8_t i=0;i<NBLEDS;i++){
+                ledOff(&leds[i]);
+            }
+        }
+        TCNT1=65534;
     }
     if(PINA&BTNINTERNAL){
-        ledr--;
     }
-}
+}/*
+ISR( TIM1_COMPB_vect){
+}*/
 ISR( TIM1_OVF_vect ){
-    if(ledr){
+    if(!Mcurrent){
+        uint8_t m=getMode();
         RTC_readTime(&currentTime);
-        setLeds(currentTime,leds,tcolorV(YELLOW));
+        if(isInAllowedTime(currentTime.hour)){
+            if(m<2){
+                setLeds(currentTime,leds);
+            }else if(m<4){
+                setLedsNb(RTC_readTemp(),leds);
+            }
+        }
+        ledr=!ledr;
     }else{
-        setLedsNb(RTC_readTemp(),leds,tcolorV(CYAN));
+        for(uint8_t i=0;i<NBLEDS;i++){
+            if(Mcurrent->sub[Mindex].led==i){
+                ledOn(&leds[i],WHITE);
+            }else{
+                ledOff(&leds[i]);
+            }
+        }
     }
-    
 }
 ISR( TIM0_OVF_vect ){
     switch(state){
         case 0:
-            sendData(R2 | getDataByColor(tcolor(1,0,0),0,leds));
+            sendData(R2 | getDataByColor(RED,0,leds));
             break;
         case 1:
-            sendData(R1 | getDataByColor(tcolor(1,0,0),1,leds));
+            sendData(R1 | getDataByColor(RED,1,leds));
             break;
         case 2:
-            sendData(G2 | getDataByColor(tcolor(0,1,0),0,leds));
+            sendData(G2 | getDataByColor(GREEN,0,leds));
             break;
         case 3:
-            sendData(G1 | getDataByColor(tcolor(0,1,0),1,leds));
+            sendData(G1 | getDataByColor(GREEN,1,leds));
             break;
         case 4:
-            sendData(B2 | getDataByColor(tcolor(0,0,1),0,leds));
+            sendData(B2 | getDataByColor(BLUE,0,leds));
             break;
         case 5:
-            sendData(B1 | getDataByColor(tcolor(0,0,1),1,leds));
+            sendData(B1 | getDataByColor(BLUE,1,leds));
             break;
     }
     state++;
