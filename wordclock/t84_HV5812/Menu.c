@@ -1,6 +1,6 @@
 #include "Menu.h"
 
-uint8_t mode=1;//0: hour only, 1-2: hour+temp, 3: temp only
+uint8_t mode=1;//0: hour only, 1-2: hour+temp, 3: temp only, >=4:Rainbow !
 uint8_t colorMode=0;
 uint8_t findNextEntry(Menu* m,uint8_t index){
     if((index+2)>(m->nb_optn%16))return 0;
@@ -93,14 +93,14 @@ const Menu M3onhour={12+80,MsetNightOn,{//YELLOW
     {16,0},
     {HEURE,&M1nightmode}//return
 }};
-const Menu M1setTime={5,0,{
+const Menu M1setTime={5+96,0,{//GREEN
     {7,&M2sethouram},//hour am
     {8,&M2sethourpm},//hour pm
     {10,&M2setminam},//min am
     {14,&M2setminpm},//min pm
     {HEURE,&M0main}//return
 }};
-const Menu M2sethouram={13,MsetHouram,{
+const Menu M2sethouram={13+64,MsetHouram,{//RED
     {7,0},//heure
     {8,0},
     {10,0},
@@ -115,7 +115,7 @@ const Menu M2sethouram={13,MsetHouram,{
     {MIDI,0},//midi
     {HEURE,&M1setTime}//return
 }};
-const Menu M2sethourpm={13,MsetHourpm,{
+const Menu M2sethourpm={12+64,MsetHourpm,{//RED
     {7,0},//heure
     {8,0},
     {10,0},
@@ -127,38 +127,37 @@ const Menu M2sethourpm={13,MsetHourpm,{
     {12,0},
     {6,0},
     {16,0},
-    {MINUIT,0},//minuit
     {HEURE,&M1setTime}//return
 }};
-const Menu M2setminam={4,MsetMinam,{
+const Menu M2setminam={4+32,MsetMinam,{//BLUE
     {DIX,0},//dix
     {VINGT,0},//vingt
     {ETDEMIE,0},//1/2
     {HEURE,&M1setTime}//return
 }};
-const Menu M2setminpm={4,MsetMinpm,{
+const Menu M2setminpm={4+32,MsetMinpm,{//BLUE
     {DIX,0},//dix
     {VINGT,0},//vingt
     {ETDEMIE,0},//1/2
     {HEURE,&M1setTime}//return
 }};
-const Menu M1eventMode={3,MsetEventMode,{
+const Menu M1eventMode={3+16,MsetEventMode,{//CYAN
     {7,0},//Event on
     {8,0},//Event off
     {HEURE,&M0main}//return
 }};
-const Menu M1reset={2,Mreset,{
-    {18,0},//yes
+const Menu M1reset={2+64,Mreset,{//RED
+    {ILEST,0},//yes
     {HEURE,&M0main}//return
 }};
-const Menu M1rainbow={3,MsetRainbow,{
+const Menu M1rainbow={3+48,MsetRainbow,{//MAGENTA
     {7,0},//Rainbow on
     {8,0},//Rainbow off
     {HEURE,&M0main}//return
 }};
 
 void MsetMode(uint8_t i){
-    if(i<4){
+   if(i<4){
         TCCR1B|=(1<<CS12)|(1<<CS10);
         if(i==2)TCCR1B&=~(1<<CS10);
         mode=i;
@@ -189,7 +188,7 @@ uint8_t getColor(void){
     if(colorMode>127){//cycle single
         if(colorMode>134)colorMode=128;
         colorMode++;
-        return colorArray[colorMode-128];
+        return colorArray[colorMode-129];
     }else if(colorMode>63){//cycle all
         return RED;
     }else{//fixed
@@ -210,26 +209,33 @@ void MsetNightOn(uint8_t i){
     EEPROM_write(EE_ONHOUR,1+i);
 }
 void MsetHouram(uint8_t i){
+   if(i<12)RTC_setHour(i+1);
 }
 void MsetHourpm(uint8_t i){
+   if(i<11)RTC_setHour(i+13);    
 }
 void MsetMinam(uint8_t i){
-}
+    if(i<3)RTC_setMin((i+1)*10);
+    }
 void MsetMinpm(uint8_t i){
+    if(i<3)RTC_setMin(60-(i+1)*10);
 }
 void MsetEventMode(uint8_t i){
+    if(i<2)EEPROM_write(EE_EVENT,1-i);//1 for active
 }
 void Mreset(uint8_t i){
     if(i<1){
         MsetMode(1);
         MsetColorMode(0);
         EEPROM_write(EE_NIGHTMODE,1);
-        EEPROM_write(EE_OFFHOUR,12+22);
+        EEPROM_write(EE_OFFHOUR,12+10);
         EEPROM_write(EE_ONHOUR,1+8);
         TCCR1B|=(1<<CS12)|(1<<CS10);
     }
 }
+
 void MsetRainbow(uint8_t i){
+    if(i<2)mode=4;
   //  cli();
     sendRawData(0b11111100001111111111);//white
     _delay_ms(500);

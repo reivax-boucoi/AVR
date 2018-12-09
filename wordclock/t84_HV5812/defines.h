@@ -54,6 +54,7 @@ static const uint8_t colorArray[7]={WHITE,CYAN,BLUE,MAGENTA,RED,YELLOW,GREEN};
 #define EE_ONHOUR 0x02
 #define EE_OFFHOUR 0x03
 #define EE_MODE 0x04
+#define EE_EVENT 0x05
 
 #define ILEST   18
 #define HEURE   15
