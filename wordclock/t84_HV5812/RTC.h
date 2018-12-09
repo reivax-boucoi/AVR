@@ -16,6 +16,8 @@ uint8_t bcdToDec(uint8_t val);
 uint8_t decToBcd(uint8_t val);
 uint8_t RTC_readTime(struct Ttime *t);
 void RTC_setTime(struct Ttime t,uint8_t day, uint8_t year);
+void RTC_setHour(uint8_t hour);
+void RTC_setMin(uint8_t min);
 int8_t RTC_readTemp(void);
 
 uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val);

@@ -2,6 +2,7 @@
 #define MENU_H
 #include "defines.h"
 #include "Led.h"
+#include "RTC.h"
 
 void MsetMode(uint8_t i);
 uint8_t getMode(void);

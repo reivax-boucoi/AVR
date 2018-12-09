@@ -103,6 +103,22 @@ ISR( TIM1_OVF_vect ){
                 setLeds(currentTime,leds);
             }else if(m<4){
                 setLedsNb(RTC_readTemp(),leds);
+            }else if(m==4){
+                sendData(0b11111100001111111111);//white
+                _delay_ms(500);
+                sendData(0b11000000001111111111);//green
+                _delay_ms(500);
+                sendData(0b00001100001111111111);//red
+                _delay_ms(500);
+                sendData(0b00110000001111111111);//blue
+                _delay_ms(500);
+                sendData(0b11110000001111111111);//cyan
+                _delay_ms(500);
+                sendData(0b00111100001111111111);//magenta
+                _delay_ms(500);
+                sendData(0b11001100001111111111);//yellow
+                _delay_ms(500);
+                setLeds(currentTime,leds);
             }
         }else{
             clearLeds(leds);

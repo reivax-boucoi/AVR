@@ -58,6 +58,13 @@ void RTC_setTime(struct Ttime t,uint8_t day, uint8_t year){
     i2c_write(RTC_addr,5,decToBcd(t.month));
     i2c_write(RTC_addr,6,decToBcd(year));
 }
+
+void RTC_setHour(uint8_t hour){
+    i2c_write(RTC_addr,2,decToBcd(hour));
+}
+void RTC_setMin(uint8_t min){
+    i2c_write(RTC_addr,1,decToBcd(min));
+}
 uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val){ // only supports 1 byte write
     uint8_t i2c_buffer[3];
     uint8_t i2c_buffer_len = 3;

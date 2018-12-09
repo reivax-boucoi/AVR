@@ -2,6 +2,7 @@
 
 uint8_t mode=1;//0: hour only, 1-2: hour+temp, 3: temp only, >=4:Rainbow !
 uint8_t colorMode=0;
+
 uint8_t findNextEntry(Menu* m,uint8_t index){
     if((index+2)>(m->nb_optn%16))return 0;
     return index+1;
@@ -28,6 +29,7 @@ uint8_t EEPROM_read(uint8_t addr){
 
 void Minit(void){
     colorMode=EEPROM_read(EE_COLOR);
+    mode=EEPROM_read(EE_MODE);
     MsetMode(EEPROM_read(EE_MODE));
 }
 const Menu M0main={8,0,{//WHITE

@@ -51,19 +51,14 @@ void setLeds(Ttime t,Led* l){
     if(currentTime.min>35){
         temp++;
     }
-    if(temp)
-        temp=temp%12;
-    switch(temp){
-        case 0 :
-            ledOn(&l[MINUIT],getColor());
-            break;
-        case 12 :
+    if(temp==0){
+        ledOn(&l[MINUIT],getColor());
+    }else if(temp==12){
             ledOn(&l[MIDI],getColor());
-            break;
-        default :
-            ledOn(&l[ledMap[(temp-1)]],getColor());
-            ledOn(&l[HEURE],getColor());
-            break;
+    }else{
+        temp=temp%12;
+        ledOn(&l[ledMap[(temp-1)]],getColor());
+        ledOn(&l[HEURE],getColor());
     }
     
     temp = minquad(currentTime.min); 
