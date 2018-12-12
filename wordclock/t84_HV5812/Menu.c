@@ -231,7 +231,7 @@ void MsetEventMode(uint8_t i){
 void Mreset(uint8_t i){
     if(i<1){
         MsetMode(1);
-        MsetColorMode(128);
+        MsetColorMode(7);
         EEPROM_write(EE_NIGHTMODE,1);
         EEPROM_write(EE_OFFHOUR,12+10);
         EEPROM_write(EE_ONHOUR,1+8);

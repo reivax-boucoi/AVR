@@ -1436,26 +1436,26 @@
  1112               		.file 7 "defines.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/ccCD4rAN.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccCD4rAN.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccCD4rAN.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccCD4rAN.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccCD4rAN.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccCD4rAN.s:12     .text:0000000000000000 sendData
-     /tmp/ccCD4rAN.s:1077   .bss:0000000000000005 ledr
-     /tmp/ccCD4rAN.s:1072   .bss:0000000000000004 ledb
-     /tmp/ccCD4rAN.s:45     .text.startup:0000000000000000 main
+     /tmp/ccW3OZ7W.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccW3OZ7W.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccW3OZ7W.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccW3OZ7W.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccW3OZ7W.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccW3OZ7W.s:12     .text:0000000000000000 sendData
+     /tmp/ccW3OZ7W.s:1077   .bss:0000000000000005 ledr
+     /tmp/ccW3OZ7W.s:1072   .bss:0000000000000004 ledb
+     /tmp/ccW3OZ7W.s:45     .text.startup:0000000000000000 main
                             *COM*:0000000000000039 leds
                             *COM*:0000000000000005 currentTime
-     /tmp/ccCD4rAN.s:273    .text:0000000000000012 __vector_3
-     /tmp/ccCD4rAN.s:1062   .bss:0000000000000001 Mcurrent
-     /tmp/ccCD4rAN.s:1057   .bss:0000000000000000 Mindex
-     /tmp/ccCD4rAN.s:383    .text:0000000000000078 __vector_2
+     /tmp/ccW3OZ7W.s:273    .text:0000000000000012 __vector_3
+     /tmp/ccW3OZ7W.s:1062   .bss:0000000000000001 Mcurrent
+     /tmp/ccW3OZ7W.s:1057   .bss:0000000000000000 Mindex
+     /tmp/ccW3OZ7W.s:383    .text:0000000000000078 __vector_2
                             *COM*:0000000000000003 M0main
-     /tmp/ccCD4rAN.s:524    .text:0000000000000114 __vector_8
-     /tmp/ccCD4rAN.s:1098   .rodata:0000000000000000 colorArray
-     /tmp/ccCD4rAN.s:874    .text:00000000000002c0 __vector_11
-     /tmp/ccCD4rAN.s:1067   .bss:0000000000000003 state
+     /tmp/ccW3OZ7W.s:524    .text:0000000000000114 __vector_8
+     /tmp/ccW3OZ7W.s:1098   .rodata:0000000000000000 colorArray
+     /tmp/ccW3OZ7W.s:874    .text:00000000000002c0 __vector_11
+     /tmp/ccW3OZ7W.s:1067   .bss:0000000000000003 state
                             *COM*:0000000000000003 M1rainbow
                             *COM*:0000000000000003 M1reset
                             *COM*:0000000000000003 M1eventMode

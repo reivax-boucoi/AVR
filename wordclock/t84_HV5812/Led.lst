@@ -849,21 +849,21 @@
  732               		.file 6 "defines.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Led.c
-     /tmp/ccdWGxWG.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccdWGxWG.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccdWGxWG.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccdWGxWG.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccdWGxWG.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccdWGxWG.s:12     .text:0000000000000000 ledInit
-     /tmp/ccdWGxWG.s:70     .text:0000000000000030 getDataByColor
-     /tmp/ccdWGxWG.s:160    .text:0000000000000088 ledOn
-     /tmp/ccdWGxWG.s:178    .text:000000000000008e ledOff
-     /tmp/ccdWGxWG.s:196    .text:0000000000000094 clearLeds
-     /tmp/ccdWGxWG.s:233    .text:00000000000000a8 setLeds
+     /tmp/ccV5E7Ha.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccV5E7Ha.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccV5E7Ha.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccV5E7Ha.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccV5E7Ha.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccV5E7Ha.s:12     .text:0000000000000000 ledInit
+     /tmp/ccV5E7Ha.s:70     .text:0000000000000030 getDataByColor
+     /tmp/ccV5E7Ha.s:160    .text:0000000000000088 ledOn
+     /tmp/ccV5E7Ha.s:178    .text:000000000000008e ledOff
+     /tmp/ccV5E7Ha.s:196    .text:0000000000000094 clearLeds
+     /tmp/ccV5E7Ha.s:233    .text:00000000000000a8 setLeds
                             *COM*:0000000000000005 currentTime
-     /tmp/ccdWGxWG.s:698    .rodata:0000000000000000 ledMap
-     /tmp/ccdWGxWG.s:468    .text:0000000000000172 setLedsNb
-     /tmp/ccdWGxWG.s:621    .text:00000000000001e2 sendRawData
+     /tmp/ccV5E7Ha.s:698    .rodata:0000000000000000 ledMap
+     /tmp/ccV5E7Ha.s:468    .text:0000000000000172 setLedsNb
+     /tmp/ccV5E7Ha.s:621    .text:00000000000001e2 sendRawData
                             *COM*:0000000000000003 M1rainbow
                             *COM*:0000000000000003 M1reset
                             *COM*:0000000000000003 M1eventMode

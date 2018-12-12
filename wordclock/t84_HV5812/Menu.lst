@@ -288,7 +288,7 @@
  231:Menu.c        **** void Mreset(uint8_t i){
  232:Menu.c        ****     if(i<1){
  233:Menu.c        ****         MsetMode(1);
- 234:Menu.c        ****         MsetColorMode(128);
+ 234:Menu.c        ****         MsetColorMode(7);
  235:Menu.c        ****         EEPROM_write(EE_NIGHTMODE,1);
  236:Menu.c        ****         EEPROM_write(EE_OFFHOUR,12+10);
  237:Menu.c        ****         EEPROM_write(EE_ONHOUR,1+8);
@@ -322,8 +322,8 @@
   82 0024 90E0      		ldi r25,0
   83 0026 00D0      		rcall sendRawData
   84               	.LVL8:
-  85               	.LBB22:
-  86               	.LBB23:
+  85               	.LBB24:
+  86               	.LBB25:
   87               		.file 2 "/usr/lib/avr/include/util/delay.h"
    1:/usr/lib/avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
    2:/usr/lib/avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
@@ -523,8 +523,8 @@
   96 0036 00C0      		rjmp .
   97 0038 0000      		nop
   98               	.LVL9:
-  99               	.LBE23:
- 100               	.LBE22:
+  99               	.LBE25:
+ 100               	.LBE24:
  246:Menu.c        ****     _delay_ms(500);
  247:Menu.c        ****     sendRawData(0b11000000001111111111);//green
  101               		.loc 1 247 0
@@ -534,8 +534,8 @@
  105 0040 90E0      		ldi r25,0
  106 0042 00D0      		rcall sendRawData
  107               	.LVL10:
- 108               	.LBB24:
- 109               	.LBB25:
+ 108               	.LBB26:
+ 109               	.LBB27:
  110               		.loc 2 187 0
  111 0044 2FEF      		ldi r18,lo8(1599999)
  112 0046 89E6      		ldi r24,hi8(1599999)
@@ -547,1130 +547,1149 @@
  118 0052 00C0      		rjmp .
  119 0054 0000      		nop
  120               	.LVL11:
- 121               	.LBE25:
- 122               	.LBE24:
+ 121               	.LBE27:
+ 122               	.LBE26:
  248:Menu.c        ****     _delay_ms(500);
  249:Menu.c        ****     sendRawData(0b00001100001111111111);//red
  123               		.loc 1 249 0
- 124 0056 8FEF      		ldi r24,lo8(-1)
- 125 0058 93EC      		ldi r25,lo8(-61)
- 126 005a 00D0      		rcall sendRawData
- 127               	.LVL12:
- 128               	.LBB26:
- 129               	.LBB27:
- 130               		.loc 2 187 0
- 131 005c 2FEF      		ldi r18,lo8(1599999)
- 132 005e 89E6      		ldi r24,hi8(1599999)
- 133 0060 98E1      		ldi r25,hlo8(1599999)
- 134 0062 2150      	1:	subi r18,1
- 135 0064 8040      		sbci r24,0
- 136 0066 9040      		sbci r25,0
- 137 0068 01F4      		brne 1b
- 138 006a 00C0      		rjmp .
- 139 006c 0000      		nop
- 140               	.LVL13:
- 141               	.LBE27:
- 142               	.LBE26:
+ 124 0056 6FEF      		ldi r22,lo8(-1)
+ 125 0058 73EC      		ldi r23,lo8(-61)
+ 126 005a 80E0      		ldi r24,0
+ 127 005c 90E0      		ldi r25,0
+ 128 005e 00D0      		rcall sendRawData
+ 129               	.LVL12:
+ 130               	.LBB28:
+ 131               	.LBB29:
+ 132               		.loc 2 187 0
+ 133 0060 2FEF      		ldi r18,lo8(1599999)
+ 134 0062 89E6      		ldi r24,hi8(1599999)
+ 135 0064 98E1      		ldi r25,hlo8(1599999)
+ 136 0066 2150      	1:	subi r18,1
+ 137 0068 8040      		sbci r24,0
+ 138 006a 9040      		sbci r25,0
+ 139 006c 01F4      		brne 1b
+ 140 006e 00C0      		rjmp .
+ 141 0070 0000      		nop
+ 142               	.LVL13:
+ 143               	.LBE29:
+ 144               	.LBE28:
  250:Menu.c        ****     _delay_ms(500);
  251:Menu.c        ****     sendRawData(0b00110000001111111111);//blue
- 143               		.loc 1 251 0
- 144 006e 6FEF      		ldi r22,lo8(-1)
- 145 0070 73E0      		ldi r23,lo8(3)
- 146 0072 83E0      		ldi r24,lo8(3)
- 147 0074 90E0      		ldi r25,0
- 148 0076 00D0      		rcall sendRawData
- 149               	.LVL14:
- 150               	.LBB28:
- 151               	.LBB29:
- 152               		.loc 2 187 0
- 153 0078 2FEF      		ldi r18,lo8(1599999)
- 154 007a 89E6      		ldi r24,hi8(1599999)
- 155 007c 98E1      		ldi r25,hlo8(1599999)
- 156 007e 2150      	1:	subi r18,1
- 157 0080 8040      		sbci r24,0
- 158 0082 9040      		sbci r25,0
- 159 0084 01F4      		brne 1b
- 160 0086 00C0      		rjmp .
- 161 0088 0000      		nop
- 162               	.LVL15:
- 163               	.LBE29:
- 164               	.LBE28:
+ 145               		.loc 1 251 0
+ 146 0072 6FEF      		ldi r22,lo8(-1)
+ 147 0074 73E0      		ldi r23,lo8(3)
+ 148 0076 83E0      		ldi r24,lo8(3)
+ 149 0078 90E0      		ldi r25,0
+ 150 007a 00D0      		rcall sendRawData
+ 151               	.LVL14:
+ 152               	.LBB30:
+ 153               	.LBB31:
+ 154               		.loc 2 187 0
+ 155 007c 2FEF      		ldi r18,lo8(1599999)
+ 156 007e 89E6      		ldi r24,hi8(1599999)
+ 157 0080 98E1      		ldi r25,hlo8(1599999)
+ 158 0082 2150      	1:	subi r18,1
+ 159 0084 8040      		sbci r24,0
+ 160 0086 9040      		sbci r25,0
+ 161 0088 01F4      		brne 1b
+ 162 008a 00C0      		rjmp .
+ 163 008c 0000      		nop
+ 164               	.LVL15:
+ 165               	.LBE31:
+ 166               	.LBE30:
  252:Menu.c        ****     _delay_ms(500);
  253:Menu.c        ****     sendRawData(0b11110000001111111111);//cyan
- 165               		.loc 1 253 0
- 166 008a 6FEF      		ldi r22,lo8(-1)
- 167 008c 73E0      		ldi r23,lo8(3)
- 168 008e 8FE0      		ldi r24,lo8(15)
- 169 0090 90E0      		ldi r25,0
- 170 0092 00D0      		rcall sendRawData
- 171               	.LVL16:
- 172               	.LBB30:
- 173               	.LBB31:
- 174               		.loc 2 187 0
- 175 0094 2FEF      		ldi r18,lo8(1599999)
- 176 0096 89E6      		ldi r24,hi8(1599999)
- 177 0098 98E1      		ldi r25,hlo8(1599999)
- 178 009a 2150      	1:	subi r18,1
- 179 009c 8040      		sbci r24,0
- 180 009e 9040      		sbci r25,0
- 181 00a0 01F4      		brne 1b
- 182 00a2 00C0      		rjmp .
- 183 00a4 0000      		nop
- 184               	.LVL17:
- 185               	.LBE31:
- 186               	.LBE30:
+ 167               		.loc 1 253 0
+ 168 008e 6FEF      		ldi r22,lo8(-1)
+ 169 0090 73E0      		ldi r23,lo8(3)
+ 170 0092 8FE0      		ldi r24,lo8(15)
+ 171 0094 90E0      		ldi r25,0
+ 172 0096 00D0      		rcall sendRawData
+ 173               	.LVL16:
+ 174               	.LBB32:
+ 175               	.LBB33:
+ 176               		.loc 2 187 0
+ 177 0098 2FEF      		ldi r18,lo8(1599999)
+ 178 009a 89E6      		ldi r24,hi8(1599999)
+ 179 009c 98E1      		ldi r25,hlo8(1599999)
+ 180 009e 2150      	1:	subi r18,1
+ 181 00a0 8040      		sbci r24,0
+ 182 00a2 9040      		sbci r25,0
+ 183 00a4 01F4      		brne 1b
+ 184 00a6 00C0      		rjmp .
+ 185 00a8 0000      		nop
+ 186               	.LVL17:
+ 187               	.LBE33:
+ 188               	.LBE32:
  254:Menu.c        ****     _delay_ms(500);
  255:Menu.c        ****     sendRawData(0b00111100001111111111);//magenta
- 187               		.loc 1 255 0
- 188 00a6 6FEF      		ldi r22,lo8(-1)
- 189 00a8 73EC      		ldi r23,lo8(-61)
- 190 00aa 83E0      		ldi r24,lo8(3)
- 191 00ac 90E0      		ldi r25,0
- 192 00ae 00D0      		rcall sendRawData
- 193               	.LVL18:
- 194               	.LBB32:
- 195               	.LBB33:
- 196               		.loc 2 187 0
- 197 00b0 2FEF      		ldi r18,lo8(1599999)
- 198 00b2 89E6      		ldi r24,hi8(1599999)
- 199 00b4 98E1      		ldi r25,hlo8(1599999)
- 200 00b6 2150      	1:	subi r18,1
- 201 00b8 8040      		sbci r24,0
- 202 00ba 9040      		sbci r25,0
- 203 00bc 01F4      		brne 1b
- 204 00be 00C0      		rjmp .
- 205 00c0 0000      		nop
- 206               	.LVL19:
- 207               	.LBE33:
- 208               	.LBE32:
+ 189               		.loc 1 255 0
+ 190 00aa 6FEF      		ldi r22,lo8(-1)
+ 191 00ac 73EC      		ldi r23,lo8(-61)
+ 192 00ae 83E0      		ldi r24,lo8(3)
+ 193 00b0 90E0      		ldi r25,0
+ 194 00b2 00D0      		rcall sendRawData
+ 195               	.LVL18:
+ 196               	.LBB34:
+ 197               	.LBB35:
+ 198               		.loc 2 187 0
+ 199 00b4 2FEF      		ldi r18,lo8(1599999)
+ 200 00b6 89E6      		ldi r24,hi8(1599999)
+ 201 00b8 98E1      		ldi r25,hlo8(1599999)
+ 202 00ba 2150      	1:	subi r18,1
+ 203 00bc 8040      		sbci r24,0
+ 204 00be 9040      		sbci r25,0
+ 205 00c0 01F4      		brne 1b
+ 206 00c2 00C0      		rjmp .
+ 207 00c4 0000      		nop
+ 208               	.LVL19:
+ 209               	.LBE35:
+ 210               	.LBE34:
  256:Menu.c        ****     _delay_ms(500);
  257:Menu.c        ****     sendRawData(0b11001100001111111111);//yellow
- 209               		.loc 1 257 0
- 210 00c2 6FEF      		ldi r22,lo8(-1)
- 211 00c4 73EC      		ldi r23,lo8(-61)
- 212 00c6 8CE0      		ldi r24,lo8(12)
- 213 00c8 90E0      		ldi r25,0
- 214 00ca 00D0      		rcall sendRawData
- 215               	.LVL20:
- 216               	.LBB34:
- 217               	.LBB35:
- 218               		.loc 2 187 0
- 219 00cc 2FEF      		ldi r18,lo8(1599999)
- 220 00ce 89E6      		ldi r24,hi8(1599999)
- 221 00d0 98E1      		ldi r25,hlo8(1599999)
- 222 00d2 2150      	1:	subi r18,1
- 223 00d4 8040      		sbci r24,0
- 224 00d6 9040      		sbci r25,0
- 225 00d8 01F4      		brne 1b
- 226 00da 00C0      		rjmp .
- 227 00dc 0000      		nop
- 228               	.LVL21:
- 229 00de 0895      		ret
- 230               	.LBE35:
- 231               	.LBE34:
- 232               		.cfi_endproc
- 233               	.LFE25:
- 235               	.global	MsetMinam
- 237               	MsetMinam:
- 238               	.LFB21:
+ 211               		.loc 1 257 0
+ 212 00c6 6FEF      		ldi r22,lo8(-1)
+ 213 00c8 73EC      		ldi r23,lo8(-61)
+ 214 00ca 8CE0      		ldi r24,lo8(12)
+ 215 00cc 90E0      		ldi r25,0
+ 216 00ce 00D0      		rcall sendRawData
+ 217               	.LVL20:
+ 218               	.LBB36:
+ 219               	.LBB37:
+ 220               		.loc 2 187 0
+ 221 00d0 2FEF      		ldi r18,lo8(1599999)
+ 222 00d2 89E6      		ldi r24,hi8(1599999)
+ 223 00d4 98E1      		ldi r25,hlo8(1599999)
+ 224 00d6 2150      	1:	subi r18,1
+ 225 00d8 8040      		sbci r24,0
+ 226 00da 9040      		sbci r25,0
+ 227 00dc 01F4      		brne 1b
+ 228 00de 00C0      		rjmp .
+ 229 00e0 0000      		nop
+ 230               	.LVL21:
+ 231 00e2 0895      		ret
+ 232               	.LBE37:
+ 233               	.LBE36:
+ 234               		.cfi_endproc
+ 235               	.LFE25:
+ 237               	.global	MsetMinam
+ 239               	MsetMinam:
+ 240               	.LFB21:
  222:Menu.c        ****     if(i<3)RTC_setMin((i+1)*10);
- 239               		.loc 1 222 0
- 240               		.cfi_startproc
- 241               	.LVL22:
- 242               	/* prologue: function */
- 243               	/* frame size = 0 */
- 244               	/* stack size = 0 */
- 245               	.L__stack_usage = 0
+ 241               		.loc 1 222 0
+ 242               		.cfi_startproc
+ 243               	.LVL22:
+ 244               	/* prologue: function */
+ 245               	/* frame size = 0 */
+ 246               	/* stack size = 0 */
+ 247               	.L__stack_usage = 0
  223:Menu.c        ****     }
- 246               		.loc 1 223 0
- 247 00e0 8330      		cpi r24,lo8(3)
- 248 00e2 00F4      		brsh .L8
- 249               	.LVL23:
- 250               	.LBB38:
- 251               	.LBB39:
- 252 00e4 8F5F      		subi r24,lo8(-(1))
- 253               	.LVL24:
- 254 00e6 6AE0      		ldi r22,lo8(10)
- 255 00e8 00D0      		rcall __mulqi3
- 256               	.LVL25:
- 257 00ea 00C0      		rjmp RTC_setMin
- 258               	.LVL26:
- 259               	.L8:
- 260 00ec 0895      		ret
- 261               	.LBE39:
- 262               	.LBE38:
- 263               		.cfi_endproc
- 264               	.LFE21:
- 266               	.global	MsetMinpm
- 268               	MsetMinpm:
- 269               	.LFB22:
+ 248               		.loc 1 223 0
+ 249 00e4 8330      		cpi r24,lo8(3)
+ 250 00e6 00F4      		brsh .L8
+ 251               	.LVL23:
+ 252               	.LBB40:
+ 253               	.LBB41:
+ 254 00e8 8F5F      		subi r24,lo8(-(1))
+ 255               	.LVL24:
+ 256 00ea 6AE0      		ldi r22,lo8(10)
+ 257 00ec 00D0      		rcall __mulqi3
+ 258               	.LVL25:
+ 259 00ee 00C0      		rjmp RTC_setMin
+ 260               	.LVL26:
+ 261               	.L8:
+ 262 00f0 0895      		ret
+ 263               	.LBE41:
+ 264               	.LBE40:
+ 265               		.cfi_endproc
+ 266               	.LFE21:
+ 268               	.global	MsetMinpm
+ 270               	MsetMinpm:
+ 271               	.LFB22:
  225:Menu.c        ****     if(i<3)RTC_setMin(60-(i+1)*10);
- 270               		.loc 1 225 0
- 271               		.cfi_startproc
- 272               	.LVL27:
- 273               	/* prologue: function */
- 274               	/* frame size = 0 */
- 275               	/* stack size = 0 */
- 276               	.L__stack_usage = 0
+ 272               		.loc 1 225 0
+ 273               		.cfi_startproc
+ 274               	.LVL27:
+ 275               	/* prologue: function */
+ 276               	/* frame size = 0 */
+ 277               	/* stack size = 0 */
+ 278               	.L__stack_usage = 0
  226:Menu.c        **** }
- 277               		.loc 1 226 0
- 278 00ee 8330      		cpi r24,lo8(3)
- 279 00f0 00F4      		brsh .L10
- 280               	.LVL28:
- 281               	.LBB42:
- 282               	.LBB43:
- 283 00f2 8F5F      		subi r24,lo8(-(1))
- 284               	.LVL29:
- 285 00f4 66EF      		ldi r22,lo8(-10)
- 286 00f6 00D0      		rcall __mulqi3
- 287               	.LVL30:
- 288 00f8 845C      		subi r24,lo8(-(60))
- 289 00fa 00C0      		rjmp RTC_setMin
- 290               	.LVL31:
- 291               	.L10:
- 292 00fc 0895      		ret
- 293               	.LBE43:
- 294               	.LBE42:
- 295               		.cfi_endproc
- 296               	.LFE22:
- 298               	.global	findNextEntry
- 300               	findNextEntry:
- 301               	.LFB6:
+ 279               		.loc 1 226 0
+ 280 00f2 8330      		cpi r24,lo8(3)
+ 281 00f4 00F4      		brsh .L10
+ 282               	.LVL28:
+ 283               	.LBB44:
+ 284               	.LBB45:
+ 285 00f6 8F5F      		subi r24,lo8(-(1))
+ 286               	.LVL29:
+ 287 00f8 66EF      		ldi r22,lo8(-10)
+ 288 00fa 00D0      		rcall __mulqi3
+ 289               	.LVL30:
+ 290 00fc 845C      		subi r24,lo8(-(60))
+ 291 00fe 00C0      		rjmp RTC_setMin
+ 292               	.LVL31:
+ 293               	.L10:
+ 294 0100 0895      		ret
+ 295               	.LBE45:
+ 296               	.LBE44:
+ 297               		.cfi_endproc
+ 298               	.LFE22:
+ 300               	.global	findNextEntry
+ 302               	findNextEntry:
+ 303               	.LFB6:
    6:Menu.c        ****     if((index+2)>(m->nb_optn%16))return 0;
- 302               		.loc 1 6 0
- 303               		.cfi_startproc
- 304               	.LVL32:
- 305               	/* prologue: function */
- 306               	/* frame size = 0 */
- 307               	/* stack size = 0 */
- 308               	.L__stack_usage = 0
+ 304               		.loc 1 6 0
+ 305               		.cfi_startproc
+ 306               	.LVL32:
+ 307               	/* prologue: function */
+ 308               	/* frame size = 0 */
+ 309               	/* stack size = 0 */
+ 310               	.L__stack_usage = 0
    7:Menu.c        ****     return index+1;
- 309               		.loc 1 7 0
- 310 00fe 262F      		mov r18,r22
- 311 0100 30E0      		ldi r19,0
- 312 0102 2F5F      		subi r18,-1
- 313 0104 3F4F      		sbci r19,-1
- 314 0106 FC01      		movw r30,r24
- 315 0108 8081      		ld r24,Z
- 316               	.LVL33:
- 317 010a 8F70      		andi r24,lo8(15)
- 318 010c 90E0      		ldi r25,0
- 319 010e 2817      		cp r18,r24
- 320 0110 3907      		cpc r19,r25
- 321 0112 04F4      		brge .L14
+ 311               		.loc 1 7 0
+ 312 0102 262F      		mov r18,r22
+ 313 0104 30E0      		ldi r19,0
+ 314 0106 2F5F      		subi r18,-1
+ 315 0108 3F4F      		sbci r19,-1
+ 316 010a FC01      		movw r30,r24
+ 317 010c 8081      		ld r24,Z
+ 318               	.LVL33:
+ 319 010e 8F70      		andi r24,lo8(15)
+ 320 0110 90E0      		ldi r25,0
+ 321 0112 2817      		cp r18,r24
+ 322 0114 3907      		cpc r19,r25
+ 323 0116 04F4      		brge .L14
    8:Menu.c        **** }
- 322               		.loc 1 8 0
- 323 0114 81E0      		ldi r24,lo8(1)
- 324 0116 860F      		add r24,r22
- 325 0118 0895      		ret
- 326               	.L14:
+ 324               		.loc 1 8 0
+ 325 0118 81E0      		ldi r24,lo8(1)
+ 326 011a 860F      		add r24,r22
+ 327 011c 0895      		ret
+ 328               	.L14:
    7:Menu.c        ****     return index+1;
- 327               		.loc 1 7 0
- 328 011a 80E0      		ldi r24,0
+ 329               		.loc 1 7 0
+ 330 011e 80E0      		ldi r24,0
    9:Menu.c        **** 
- 329               		.loc 1 9 0
- 330 011c 0895      		ret
- 331               		.cfi_endproc
- 332               	.LFE6:
- 334               	.global	getSubMenu
- 336               	getSubMenu:
- 337               	.LFB7:
+ 331               		.loc 1 9 0
+ 332 0120 0895      		ret
+ 333               		.cfi_endproc
+ 334               	.LFE6:
+ 336               	.global	getSubMenu
+ 338               	getSubMenu:
+ 339               	.LFB7:
   11:Menu.c        ****     if(m->sub[index].submenu==0)return 0;//if executed NULL, return blank menu (==exit setup)
- 338               		.loc 1 11 0
- 339               		.cfi_startproc
- 340               	.LVL34:
- 341               	/* prologue: function */
- 342               	/* frame size = 0 */
- 343               	/* stack size = 0 */
- 344               	.L__stack_usage = 0
- 345 011e 9C01      		movw r18,r24
+ 340               		.loc 1 11 0
+ 341               		.cfi_startproc
+ 342               	.LVL34:
+ 343               	/* prologue: function */
+ 344               	/* frame size = 0 */
+ 345               	/* stack size = 0 */
+ 346               	.L__stack_usage = 0
+ 347 0122 9C01      		movw r18,r24
   12:Menu.c        ****     return m->sub[index].submenu;
- 346               		.loc 1 12 0
- 347 0120 862F      		mov r24,r22
- 348               	.LVL35:
- 349 0122 90E0      		ldi r25,0
- 350 0124 63E0      		ldi r22,lo8(3)
- 351 0126 70E0      		ldi r23,0
- 352               	.LVL36:
- 353 0128 00D0      		rcall __mulhi3
- 354               	.LVL37:
- 355 012a 820F      		add r24,r18
- 356 012c 931F      		adc r25,r19
+ 348               		.loc 1 12 0
+ 349 0124 862F      		mov r24,r22
+ 350               	.LVL35:
+ 351 0126 90E0      		ldi r25,0
+ 352 0128 63E0      		ldi r22,lo8(3)
+ 353 012a 70E0      		ldi r23,0
+ 354               	.LVL36:
+ 355 012c 00D0      		rcall __mulhi3
+ 356               	.LVL37:
+ 357 012e 820F      		add r24,r18
+ 358 0130 931F      		adc r25,r19
   14:Menu.c        **** void EEPROM_write(uint8_t addr, uint8_t data){
- 357               		.loc 1 14 0
- 358 012e FC01      		movw r30,r24
- 359 0130 8481      		ldd r24,Z+4
- 360 0132 9581      		ldd r25,Z+5
- 361 0134 0895      		ret
- 362               		.cfi_endproc
- 363               	.LFE7:
- 365               	.global	EEPROM_write
- 367               	EEPROM_write:
- 368               	.LFB8:
+ 359               		.loc 1 14 0
+ 360 0132 FC01      		movw r30,r24
+ 361 0134 8481      		ldd r24,Z+4
+ 362 0136 9581      		ldd r25,Z+5
+ 363 0138 0895      		ret
+ 364               		.cfi_endproc
+ 365               	.LFE7:
+ 367               	.global	EEPROM_write
+ 369               	EEPROM_write:
+ 370               	.LFB8:
   15:Menu.c        ****     while(EECR & (1<<EEPE));
- 369               		.loc 1 15 0
- 370               		.cfi_startproc
- 371               	/* prologue: function */
- 372               	/* frame size = 0 */
- 373               	/* stack size = 0 */
- 374               	.L__stack_usage = 0
- 375               	.LVL38:
- 376               	.L17:
+ 371               		.loc 1 15 0
+ 372               		.cfi_startproc
+ 373               	/* prologue: function */
+ 374               	/* frame size = 0 */
+ 375               	/* stack size = 0 */
+ 376               	.L__stack_usage = 0
+ 377               	.LVL38:
+ 378               	.L17:
   16:Menu.c        ****     EECR = (0<<EEPM1)|(0<<EEPM0);
- 377               		.loc 1 16 0 discriminator 1
- 378 0136 E199      		sbic 0x1c,1
- 379 0138 00C0      		rjmp .L17
+ 379               		.loc 1 16 0 discriminator 1
+ 380 013a E199      		sbic 0x1c,1
+ 381 013c 00C0      		rjmp .L17
   17:Menu.c        ****     EEAR = addr;
- 380               		.loc 1 17 0
- 381 013a 1CBA      		out 0x1c,__zero_reg__
+ 382               		.loc 1 17 0
+ 383 013e 1CBA      		out 0x1c,__zero_reg__
   18:Menu.c        ****     EEDR = data;
- 382               		.loc 1 18 0
- 383 013c 90E0      		ldi r25,0
- 384 013e 9FBB      		out 0x1e+1,r25
- 385 0140 8EBB      		out 0x1e,r24
+ 384               		.loc 1 18 0
+ 385 0140 90E0      		ldi r25,0
+ 386 0142 9FBB      		out 0x1e+1,r25
+ 387 0144 8EBB      		out 0x1e,r24
   19:Menu.c        ****     EECR |= (1<<EEMPE);
- 386               		.loc 1 19 0
- 387 0142 6DBB      		out 0x1d,r22
+ 388               		.loc 1 19 0
+ 389 0146 6DBB      		out 0x1d,r22
   20:Menu.c        ****     EECR |= (1<<EEPE);
- 388               		.loc 1 20 0
- 389 0144 E29A      		sbi 0x1c,2
+ 390               		.loc 1 20 0
+ 391 0148 E29A      		sbi 0x1c,2
   21:Menu.c        **** }
- 390               		.loc 1 21 0
- 391 0146 E19A      		sbi 0x1c,1
- 392 0148 0895      		ret
- 393               		.cfi_endproc
- 394               	.LFE8:
- 396               	.global	MsetMode
- 398               	MsetMode:
- 399               	.LFB11:
+ 392               		.loc 1 21 0
+ 393 014a E19A      		sbi 0x1c,1
+ 394 014c 0895      		ret
+ 395               		.cfi_endproc
+ 396               	.LFE8:
+ 398               	.global	MsetMode
+ 400               	MsetMode:
+ 401               	.LFB11:
  161:Menu.c        ****    if(i<4){
- 400               		.loc 1 161 0
- 401               		.cfi_startproc
- 402               	.LVL39:
- 403               	/* prologue: function */
- 404               	/* frame size = 0 */
- 405               	/* stack size = 0 */
- 406               	.L__stack_usage = 0
+ 402               		.loc 1 161 0
+ 403               		.cfi_startproc
+ 404               	.LVL39:
+ 405               	/* prologue: function */
+ 406               	/* frame size = 0 */
+ 407               	/* stack size = 0 */
+ 408               	.L__stack_usage = 0
  162:Menu.c        ****         TCCR1B|=(1<<CS12)|(1<<CS10);
- 407               		.loc 1 162 0
- 408 014a 8430      		cpi r24,lo8(4)
- 409 014c 00F4      		brsh .L19
- 410               	.LVL40:
- 411               	.LBB46:
- 412               	.LBB47:
+ 409               		.loc 1 162 0
+ 410 014e 8430      		cpi r24,lo8(4)
+ 411 0150 00F4      		brsh .L19
+ 412               	.LVL40:
+ 413               	.LBB48:
+ 414               	.LBB49:
  163:Menu.c        ****         if(i==2)TCCR1B&=~(1<<CS10);
- 413               		.loc 1 163 0
- 414 014e 9EB5      		in r25,0x2e
- 415 0150 9560      		ori r25,lo8(5)
- 416 0152 9EBD      		out 0x2e,r25
+ 415               		.loc 1 163 0
+ 416 0152 9EB5      		in r25,0x2e
+ 417 0154 9560      		ori r25,lo8(5)
+ 418 0156 9EBD      		out 0x2e,r25
  164:Menu.c        ****         mode=i;
- 417               		.loc 1 164 0
- 418 0154 8230      		cpi r24,lo8(2)
- 419 0156 01F4      		brne .L21
- 420 0158 9EB5      		in r25,0x2e
- 421 015a 9E7F      		andi r25,lo8(-2)
- 422 015c 9EBD      		out 0x2e,r25
- 423               	.L21:
+ 419               		.loc 1 164 0
+ 420 0158 8230      		cpi r24,lo8(2)
+ 421 015a 01F4      		brne .L21
+ 422 015c 9EB5      		in r25,0x2e
+ 423 015e 9E7F      		andi r25,lo8(-2)
+ 424 0160 9EBD      		out 0x2e,r25
+ 425               	.L21:
  165:Menu.c        ****         EEPROM_write(EE_MODE,i);
- 424               		.loc 1 165 0
- 425 015e 8093 0000 		sts mode,r24
+ 426               		.loc 1 165 0
+ 427 0162 8093 0000 		sts mode,r24
  166:Menu.c        ****     }
- 426               		.loc 1 166 0
- 427 0162 682F      		mov r22,r24
- 428 0164 84E0      		ldi r24,lo8(4)
- 429               	.LVL41:
- 430 0166 00C0      		rjmp EEPROM_write
- 431               	.LVL42:
- 432               	.L19:
- 433 0168 0895      		ret
- 434               	.LBE47:
- 435               	.LBE46:
- 436               		.cfi_endproc
- 437               	.LFE11:
- 439               	.global	MsetColorMode
- 441               	MsetColorMode:
- 442               	.LFB13:
+ 428               		.loc 1 166 0
+ 429 0166 682F      		mov r22,r24
+ 430 0168 84E0      		ldi r24,lo8(4)
+ 431               	.LVL41:
+ 432 016a 00C0      		rjmp EEPROM_write
+ 433               	.LVL42:
+ 434               	.L19:
+ 435 016c 0895      		ret
+ 436               	.LBE49:
+ 437               	.LBE48:
+ 438               		.cfi_endproc
+ 439               	.LFE11:
+ 441               	.global	MsetColorMode
+ 443               	MsetColorMode:
+ 444               	.LFB13:
  180:Menu.c        ****     if(i<7){
- 443               		.loc 1 180 0
- 444               		.cfi_startproc
- 445               	.LVL43:
- 446               	/* prologue: function */
- 447               	/* frame size = 0 */
- 448               	/* stack size = 0 */
- 449               	.L__stack_usage = 0
+ 445               		.loc 1 180 0
+ 446               		.cfi_startproc
+ 447               	.LVL43:
+ 448               	/* prologue: function */
+ 449               	/* frame size = 0 */
+ 450               	/* stack size = 0 */
+ 451               	.L__stack_usage = 0
  181:Menu.c        ****         colorMode=colorArray[i];//fixed
- 450               		.loc 1 181 0
- 451 016a 8730      		cpi r24,lo8(7)
- 452 016c 00F4      		brsh .L23
+ 452               		.loc 1 181 0
+ 453 016e 8730      		cpi r24,lo8(7)
+ 454 0170 00F4      		brsh .L23
  182:Menu.c        ****         EEPROM_write(EE_COLOR,colorArray[i]);
- 453               		.loc 1 182 0
- 454 016e E82F      		mov r30,r24
- 455 0170 F0E0      		ldi r31,0
- 456 0172 E050      		subi r30,lo8(-(colorArray))
- 457 0174 F040      		sbci r31,hi8(-(colorArray))
- 458 0176 6081      		ld r22,Z
- 459 0178 6093 0000 		sts colorMode,r22
- 460 017c 00C0      		rjmp .L26
- 461               	.L23:
+ 455               		.loc 1 182 0
+ 456 0172 E82F      		mov r30,r24
+ 457 0174 F0E0      		ldi r31,0
+ 458 0176 E050      		subi r30,lo8(-(colorArray))
+ 459 0178 F040      		sbci r31,hi8(-(colorArray))
+ 460 017a 6081      		ld r22,Z
+ 461 017c 6093 0000 		sts colorMode,r22
+ 462 0180 00C0      		rjmp .L26
+ 463               	.L23:
  184:Menu.c        ****         colorMode=WHITE+128;
- 462               		.loc 1 184 0
- 463 017e 8730      		cpi r24,lo8(7)
- 464 0180 01F4      		brne .L24
- 465               	.LVL44:
- 466               	.LBB50:
- 467               	.LBB51:
+ 464               		.loc 1 184 0
+ 465 0182 8730      		cpi r24,lo8(7)
+ 466 0184 01F4      		brne .L24
+ 467               	.LVL44:
+ 468               	.LBB52:
+ 469               	.LBB53:
  185:Menu.c        ****         EEPROM_write(EE_COLOR,128);
- 468               		.loc 1 185 0
- 469 0182 87E8      		ldi r24,lo8(-121)
- 470               	.LVL45:
- 471 0184 8093 0000 		sts colorMode,r24
+ 470               		.loc 1 185 0
+ 471 0186 87E8      		ldi r24,lo8(-121)
+ 472               	.LVL45:
+ 473 0188 8093 0000 		sts colorMode,r24
  186:Menu.c        ****     }else if(i==8){//cycle all
- 472               		.loc 1 186 0
- 473 0188 60E8      		ldi r22,lo8(-128)
- 474 018a 00C0      		rjmp .L26
- 475               	.LVL46:
- 476               	.L24:
- 477               	.LBE51:
- 478               	.LBE50:
+ 474               		.loc 1 186 0
+ 475 018c 60E8      		ldi r22,lo8(-128)
+ 476 018e 00C0      		rjmp .L26
+ 477               	.LVL46:
+ 478               	.L24:
+ 479               	.LBE53:
+ 480               	.LBE52:
  187:Menu.c        ****         colorMode=WHITE+64;
- 479               		.loc 1 187 0
- 480 018c 8830      		cpi r24,lo8(8)
- 481 018e 01F4      		brne .L22
+ 481               		.loc 1 187 0
+ 482 0190 8830      		cpi r24,lo8(8)
+ 483 0192 01F4      		brne .L22
  188:Menu.c        ****         EEPROM_write(EE_COLOR,64);
- 482               		.loc 1 188 0
- 483 0190 87E4      		ldi r24,lo8(71)
- 484               	.LVL47:
- 485 0192 8093 0000 		sts colorMode,r24
+ 484               		.loc 1 188 0
+ 485 0194 87E4      		ldi r24,lo8(71)
+ 486               	.LVL47:
+ 487 0196 8093 0000 		sts colorMode,r24
  189:Menu.c        ****     }
- 486               		.loc 1 189 0
- 487 0196 60E4      		ldi r22,lo8(64)
- 488               	.L26:
- 489 0198 80E0      		ldi r24,0
- 490 019a 00C0      		rjmp EEPROM_write
- 491               	.LVL48:
- 492               	.L22:
- 493 019c 0895      		ret
- 494               		.cfi_endproc
- 495               	.LFE13:
- 497               	.global	MsetNightMode
- 499               	MsetNightMode:
- 500               	.LFB15:
+ 488               		.loc 1 189 0
+ 489 019a 60E4      		ldi r22,lo8(64)
+ 490               	.L26:
+ 491 019c 80E0      		ldi r24,0
+ 492 019e 00C0      		rjmp EEPROM_write
+ 493               	.LVL48:
+ 494               	.L22:
+ 495 01a0 0895      		ret
+ 496               		.cfi_endproc
+ 497               	.LFE13:
+ 499               	.global	MsetNightMode
+ 501               	MsetNightMode:
+ 502               	.LFB15:
  203:Menu.c        ****     if(i<3)EEPROM_write(EE_NIGHTMODE,i);
- 501               		.loc 1 203 0
- 502               		.cfi_startproc
- 503               	.LVL49:
- 504               	/* prologue: function */
- 505               	/* frame size = 0 */
- 506               	/* stack size = 0 */
- 507               	.L__stack_usage = 0
+ 503               		.loc 1 203 0
+ 504               		.cfi_startproc
+ 505               	.LVL49:
+ 506               	/* prologue: function */
+ 507               	/* frame size = 0 */
+ 508               	/* stack size = 0 */
+ 509               	.L__stack_usage = 0
  204:Menu.c        **** }
- 508               		.loc 1 204 0
- 509 019e 8330      		cpi r24,lo8(3)
- 510 01a0 00F4      		brsh .L27
+ 510               		.loc 1 204 0
+ 511 01a2 8330      		cpi r24,lo8(3)
+ 512 01a4 00F4      		brsh .L27
  204:Menu.c        **** }
- 511               		.loc 1 204 0 is_stmt 0 discriminator 1
- 512 01a2 682F      		mov r22,r24
- 513 01a4 81E0      		ldi r24,lo8(1)
- 514               	.LVL50:
- 515 01a6 00C0      		rjmp EEPROM_write
- 516               	.LVL51:
- 517               	.L27:
- 518 01a8 0895      		ret
- 519               		.cfi_endproc
- 520               	.LFE15:
- 522               	.global	MsetNightOff
- 524               	MsetNightOff:
- 525               	.LFB17:
+ 513               		.loc 1 204 0 is_stmt 0 discriminator 1
+ 514 01a6 682F      		mov r22,r24
+ 515 01a8 81E0      		ldi r24,lo8(1)
+ 516               	.LVL50:
+ 517 01aa 00C0      		rjmp EEPROM_write
+ 518               	.LVL51:
+ 519               	.L27:
+ 520 01ac 0895      		ret
+ 521               		.cfi_endproc
+ 522               	.LFE15:
+ 524               	.global	MsetNightOff
+ 526               	MsetNightOff:
+ 527               	.LFB17:
  210:Menu.c        ****     EEPROM_write(EE_OFFHOUR,12+i);
- 526               		.loc 1 210 0 is_stmt 1
- 527               		.cfi_startproc
- 528               	.LVL52:
- 529               	/* prologue: function */
- 530               	/* frame size = 0 */
- 531               	/* stack size = 0 */
- 532               	.L__stack_usage = 0
+ 528               		.loc 1 210 0 is_stmt 1
+ 529               		.cfi_startproc
+ 530               	.LVL52:
+ 531               	/* prologue: function */
+ 532               	/* frame size = 0 */
+ 533               	/* stack size = 0 */
+ 534               	.L__stack_usage = 0
  211:Menu.c        **** }
- 533               		.loc 1 211 0
- 534 01aa 6CE0      		ldi r22,lo8(12)
- 535 01ac 680F      		add r22,r24
- 536 01ae 83E0      		ldi r24,lo8(3)
- 537               	.LVL53:
- 538 01b0 00C0      		rjmp EEPROM_write
- 539               	.LVL54:
- 540               		.cfi_endproc
- 541               	.LFE17:
- 543               	.global	MsetNightOn
- 545               	MsetNightOn:
- 546               	.LFB18:
+ 535               		.loc 1 211 0
+ 536 01ae 6CE0      		ldi r22,lo8(12)
+ 537 01b0 680F      		add r22,r24
+ 538 01b2 83E0      		ldi r24,lo8(3)
+ 539               	.LVL53:
+ 540 01b4 00C0      		rjmp EEPROM_write
+ 541               	.LVL54:
+ 542               		.cfi_endproc
+ 543               	.LFE17:
+ 545               	.global	MsetNightOn
+ 547               	MsetNightOn:
+ 548               	.LFB18:
  213:Menu.c        ****     EEPROM_write(EE_ONHOUR,1+i);
- 547               		.loc 1 213 0
- 548               		.cfi_startproc
- 549               	.LVL55:
- 550               	/* prologue: function */
- 551               	/* frame size = 0 */
- 552               	/* stack size = 0 */
- 553               	.L__stack_usage = 0
+ 549               		.loc 1 213 0
+ 550               		.cfi_startproc
+ 551               	.LVL55:
+ 552               	/* prologue: function */
+ 553               	/* frame size = 0 */
+ 554               	/* stack size = 0 */
+ 555               	.L__stack_usage = 0
  214:Menu.c        **** }
- 554               		.loc 1 214 0
- 555 01b2 61E0      		ldi r22,lo8(1)
- 556 01b4 680F      		add r22,r24
- 557 01b6 82E0      		ldi r24,lo8(2)
- 558               	.LVL56:
- 559 01b8 00C0      		rjmp EEPROM_write
- 560               	.LVL57:
- 561               		.cfi_endproc
- 562               	.LFE18:
- 564               	.global	MsetEventMode
- 566               	MsetEventMode:
- 567               	.LFB23:
+ 556               		.loc 1 214 0
+ 557 01b6 61E0      		ldi r22,lo8(1)
+ 558 01b8 680F      		add r22,r24
+ 559 01ba 82E0      		ldi r24,lo8(2)
+ 560               	.LVL56:
+ 561 01bc 00C0      		rjmp EEPROM_write
+ 562               	.LVL57:
+ 563               		.cfi_endproc
+ 564               	.LFE18:
+ 566               	.global	MsetEventMode
+ 568               	MsetEventMode:
+ 569               	.LFB23:
  228:Menu.c        ****     if(i<2)EEPROM_write(EE_EVENT,1-i);//1 for active
- 568               		.loc 1 228 0
- 569               		.cfi_startproc
- 570               	.LVL58:
- 571               	/* prologue: function */
- 572               	/* frame size = 0 */
- 573               	/* stack size = 0 */
- 574               	.L__stack_usage = 0
+ 570               		.loc 1 228 0
+ 571               		.cfi_startproc
+ 572               	.LVL58:
+ 573               	/* prologue: function */
+ 574               	/* frame size = 0 */
+ 575               	/* stack size = 0 */
+ 576               	.L__stack_usage = 0
  229:Menu.c        **** }
- 575               		.loc 1 229 0
- 576 01ba 8230      		cpi r24,lo8(2)
- 577 01bc 00F4      		brsh .L31
- 578               	.LVL59:
- 579               	.LBB54:
- 580               	.LBB55:
- 581 01be 61E0      		ldi r22,lo8(1)
- 582 01c0 681B      		sub r22,r24
- 583 01c2 85E0      		ldi r24,lo8(5)
- 584               	.LVL60:
- 585 01c4 00C0      		rjmp EEPROM_write
- 586               	.LVL61:
- 587               	.L31:
- 588 01c6 0895      		ret
- 589               	.LBE55:
- 590               	.LBE54:
- 591               		.cfi_endproc
- 592               	.LFE23:
- 594               	.global	Mreset
- 596               	Mreset:
- 597               	.LFB24:
+ 577               		.loc 1 229 0
+ 578 01be 8230      		cpi r24,lo8(2)
+ 579 01c0 00F4      		brsh .L31
+ 580               	.LVL59:
+ 581               	.LBB56:
+ 582               	.LBB57:
+ 583 01c2 61E0      		ldi r22,lo8(1)
+ 584 01c4 681B      		sub r22,r24
+ 585 01c6 85E0      		ldi r24,lo8(5)
+ 586               	.LVL60:
+ 587 01c8 00C0      		rjmp EEPROM_write
+ 588               	.LVL61:
+ 589               	.L31:
+ 590 01ca 0895      		ret
+ 591               	.LBE57:
+ 592               	.LBE56:
+ 593               		.cfi_endproc
+ 594               	.LFE23:
+ 596               	.global	Mreset
+ 598               	Mreset:
+ 599               	.LFB24:
  231:Menu.c        ****     if(i<1){
- 598               		.loc 1 231 0
- 599               		.cfi_startproc
- 600               	.LVL62:
- 601               	/* prologue: function */
- 602               	/* frame size = 0 */
- 603               	/* stack size = 0 */
- 604               	.L__stack_usage = 0
+ 600               		.loc 1 231 0
+ 601               		.cfi_startproc
+ 602               	.LVL62:
+ 603               	/* prologue: function */
+ 604               	/* frame size = 0 */
+ 605               	/* stack size = 0 */
+ 606               	.L__stack_usage = 0
  232:Menu.c        ****         MsetMode(1);
- 605               		.loc 1 232 0
- 606 01c8 8111      		cpse r24,__zero_reg__
- 607 01ca 00C0      		rjmp .L33
- 608               	.LVL63:
- 609               	.LBB62:
- 610               	.LBB63:
- 611               	.LBB64:
- 612               	.LBB65:
- 613               	.LBB66:
+ 607               		.loc 1 232 0
+ 608 01cc 8111      		cpse r24,__zero_reg__
+ 609 01ce 00C0      		rjmp .L33
+ 610               	.LVL63:
+ 611               	.LBB68:
+ 612               	.LBB69:
+ 613               	.LBB70:
+ 614               	.LBB71:
+ 615               	.LBB72:
  163:Menu.c        ****         if(i==2)TCCR1B&=~(1<<CS10);
- 614               		.loc 1 163 0
- 615 01cc 8EB5      		in r24,0x2e
- 616               	.LVL64:
- 617 01ce 8560      		ori r24,lo8(5)
- 618 01d0 8EBD      		out 0x2e,r24
+ 616               		.loc 1 163 0
+ 617 01d0 8EB5      		in r24,0x2e
+ 618               	.LVL64:
+ 619 01d2 8560      		ori r24,lo8(5)
+ 620 01d4 8EBD      		out 0x2e,r24
  165:Menu.c        ****         EEPROM_write(EE_MODE,i);
- 619               		.loc 1 165 0
- 620 01d2 81E0      		ldi r24,lo8(1)
- 621 01d4 8093 0000 		sts mode,r24
+ 621               		.loc 1 165 0
+ 622 01d6 81E0      		ldi r24,lo8(1)
+ 623 01d8 8093 0000 		sts mode,r24
  166:Menu.c        ****     }
- 622               		.loc 1 166 0
- 623 01d8 61E0      		ldi r22,lo8(1)
- 624 01da 84E0      		ldi r24,lo8(4)
- 625 01dc 00D0      		rcall EEPROM_write
- 626               	.LVL65:
- 627               	.LBE66:
- 628               	.LBE65:
- 629               	.LBE64:
+ 624               		.loc 1 166 0
+ 625 01dc 61E0      		ldi r22,lo8(1)
+ 626 01de 84E0      		ldi r24,lo8(4)
+ 627 01e0 00D0      		rcall EEPROM_write
+ 628               	.LVL65:
+ 629               	.LBE72:
+ 630               	.LBE71:
+ 631               	.LBE70:
+ 632               	.LBB73:
+ 633               	.LBB74:
+ 634               	.LBB75:
+ 185:Menu.c        ****         EEPROM_write(EE_COLOR,128);
+ 635               		.loc 1 185 0
+ 636 01e2 87E8      		ldi r24,lo8(-121)
+ 637 01e4 8093 0000 		sts colorMode,r24
+ 186:Menu.c        ****     }else if(i==8){//cycle all
+ 638               		.loc 1 186 0
+ 639 01e8 60E8      		ldi r22,lo8(-128)
+ 640 01ea 80E0      		ldi r24,0
+ 641 01ec 00D0      		rcall EEPROM_write
+ 642               	.LVL66:
+ 643               	.LBE75:
+ 644               	.LBE74:
+ 645               	.LBE73:
  235:Menu.c        ****         EEPROM_write(EE_OFFHOUR,12+10);
- 630               		.loc 1 235 0
- 631 01de 61E0      		ldi r22,lo8(1)
- 632 01e0 81E0      		ldi r24,lo8(1)
- 633 01e2 00D0      		rcall EEPROM_write
- 634               	.LVL66:
+ 646               		.loc 1 235 0
+ 647 01ee 61E0      		ldi r22,lo8(1)
+ 648 01f0 81E0      		ldi r24,lo8(1)
+ 649 01f2 00D0      		rcall EEPROM_write
+ 650               	.LVL67:
  236:Menu.c        ****         EEPROM_write(EE_ONHOUR,1+8);
- 635               		.loc 1 236 0
- 636 01e4 66E1      		ldi r22,lo8(22)
- 637 01e6 83E0      		ldi r24,lo8(3)
- 638 01e8 00D0      		rcall EEPROM_write
- 639               	.LVL67:
+ 651               		.loc 1 236 0
+ 652 01f4 66E1      		ldi r22,lo8(22)
+ 653 01f6 83E0      		ldi r24,lo8(3)
+ 654 01f8 00D0      		rcall EEPROM_write
+ 655               	.LVL68:
  237:Menu.c        ****         TCCR1B|=(1<<CS12)|(1<<CS10);
- 640               		.loc 1 237 0
- 641 01ea 69E0      		ldi r22,lo8(9)
- 642 01ec 82E0      		ldi r24,lo8(2)
- 643 01ee 00D0      		rcall EEPROM_write
- 644               	.LVL68:
+ 656               		.loc 1 237 0
+ 657 01fa 69E0      		ldi r22,lo8(9)
+ 658 01fc 82E0      		ldi r24,lo8(2)
+ 659 01fe 00D0      		rcall EEPROM_write
+ 660               	.LVL69:
  238:Menu.c        ****     }
- 645               		.loc 1 238 0
- 646 01f0 8EB5      		in r24,0x2e
- 647 01f2 8560      		ori r24,lo8(5)
- 648 01f4 8EBD      		out 0x2e,r24
- 649               	.LVL69:
- 650               	.L33:
- 651 01f6 0895      		ret
- 652               	.LBE63:
- 653               	.LBE62:
- 654               		.cfi_endproc
- 655               	.LFE24:
- 657               	.global	EEPROM_read
- 659               	EEPROM_read:
- 660               	.LFB9:
+ 661               		.loc 1 238 0
+ 662 0200 8EB5      		in r24,0x2e
+ 663 0202 8560      		ori r24,lo8(5)
+ 664 0204 8EBD      		out 0x2e,r24
+ 665               	.LVL70:
+ 666               	.L33:
+ 667 0206 0895      		ret
+ 668               	.LBE69:
+ 669               	.LBE68:
+ 670               		.cfi_endproc
+ 671               	.LFE24:
+ 673               	.global	EEPROM_read
+ 675               	EEPROM_read:
+ 676               	.LFB9:
   23:Menu.c        ****     while(EECR & (1<<EEPE));
- 661               		.loc 1 23 0
- 662               		.cfi_startproc
- 663               	/* prologue: function */
- 664               	/* frame size = 0 */
- 665               	/* stack size = 0 */
- 666               	.L__stack_usage = 0
- 667               	.LVL70:
- 668               	.L36:
+ 677               		.loc 1 23 0
+ 678               		.cfi_startproc
+ 679               	/* prologue: function */
+ 680               	/* frame size = 0 */
+ 681               	/* stack size = 0 */
+ 682               	.L__stack_usage = 0
+ 683               	.LVL71:
+ 684               	.L36:
   24:Menu.c        ****     EEAR = addr;
- 669               		.loc 1 24 0 discriminator 1
- 670 01f8 E199      		sbic 0x1c,1
- 671 01fa 00C0      		rjmp .L36
+ 685               		.loc 1 24 0 discriminator 1
+ 686 0208 E199      		sbic 0x1c,1
+ 687 020a 00C0      		rjmp .L36
   25:Menu.c        ****     EECR |= (1<<EERE);
- 672               		.loc 1 25 0
- 673 01fc 90E0      		ldi r25,0
- 674 01fe 9FBB      		out 0x1e+1,r25
- 675 0200 8EBB      		out 0x1e,r24
+ 688               		.loc 1 25 0
+ 689 020c 90E0      		ldi r25,0
+ 690 020e 9FBB      		out 0x1e+1,r25
+ 691 0210 8EBB      		out 0x1e,r24
   26:Menu.c        ****     return EEDR;
- 676               		.loc 1 26 0
- 677 0202 E09A      		sbi 0x1c,0
+ 692               		.loc 1 26 0
+ 693 0212 E09A      		sbi 0x1c,0
   27:Menu.c        **** }
- 678               		.loc 1 27 0
- 679 0204 8DB3      		in r24,0x1d
- 680               	.LVL71:
+ 694               		.loc 1 27 0
+ 695 0214 8DB3      		in r24,0x1d
+ 696               	.LVL72:
   28:Menu.c        **** 
- 681               		.loc 1 28 0
- 682 0206 0895      		ret
- 683               		.cfi_endproc
- 684               	.LFE9:
- 686               	.global	Minit
- 688               	Minit:
- 689               	.LFB10:
+ 697               		.loc 1 28 0
+ 698 0216 0895      		ret
+ 699               		.cfi_endproc
+ 700               	.LFE9:
+ 702               	.global	Minit
+ 704               	Minit:
+ 705               	.LFB10:
   30:Menu.c        ****     colorMode=EEPROM_read(EE_COLOR);
- 690               		.loc 1 30 0
- 691               		.cfi_startproc
- 692               	/* prologue: function */
- 693               	/* frame size = 0 */
- 694               	/* stack size = 0 */
- 695               	.L__stack_usage = 0
+ 706               		.loc 1 30 0
+ 707               		.cfi_startproc
+ 708               	/* prologue: function */
+ 709               	/* frame size = 0 */
+ 710               	/* stack size = 0 */
+ 711               	.L__stack_usage = 0
   31:Menu.c        ****     mode=EEPROM_read(EE_MODE);
- 696               		.loc 1 31 0
- 697 0208 80E0      		ldi r24,0
- 698 020a 00D0      		rcall EEPROM_read
- 699               	.LVL72:
- 700 020c 8093 0000 		sts colorMode,r24
+ 712               		.loc 1 31 0
+ 713 0218 80E0      		ldi r24,0
+ 714 021a 00D0      		rcall EEPROM_read
+ 715               	.LVL73:
+ 716 021c 8093 0000 		sts colorMode,r24
   32:Menu.c        ****     MsetMode(EEPROM_read(EE_MODE));
- 701               		.loc 1 32 0
- 702 0210 84E0      		ldi r24,lo8(4)
- 703 0212 00D0      		rcall EEPROM_read
- 704               	.LVL73:
- 705 0214 8093 0000 		sts mode,r24
+ 717               		.loc 1 32 0
+ 718 0220 84E0      		ldi r24,lo8(4)
+ 719 0222 00D0      		rcall EEPROM_read
+ 720               	.LVL74:
+ 721 0224 8093 0000 		sts mode,r24
   33:Menu.c        **** }
- 706               		.loc 1 33 0
- 707 0218 84E0      		ldi r24,lo8(4)
- 708 021a 00D0      		rcall EEPROM_read
- 709               	.LVL74:
- 710 021c 00C0      		rjmp MsetMode
- 711               	.LVL75:
- 712               		.cfi_endproc
- 713               	.LFE10:
- 715               	.global	getMode
- 717               	getMode:
- 718               	.LFB12:
+ 722               		.loc 1 33 0
+ 723 0228 84E0      		ldi r24,lo8(4)
+ 724 022a 00D0      		rcall EEPROM_read
+ 725               	.LVL75:
+ 726 022c 00C0      		rjmp MsetMode
+ 727               	.LVL76:
+ 728               		.cfi_endproc
+ 729               	.LFE10:
+ 731               	.global	getMode
+ 733               	getMode:
+ 734               	.LFB12:
  169:Menu.c        ****     if(mode==2){
- 719               		.loc 1 169 0
- 720               		.cfi_startproc
- 721               	/* prologue: function */
- 722               	/* frame size = 0 */
- 723               	/* stack size = 0 */
- 724               	.L__stack_usage = 0
+ 735               		.loc 1 169 0
+ 736               		.cfi_startproc
+ 737               	/* prologue: function */
+ 738               	/* frame size = 0 */
+ 739               	/* stack size = 0 */
+ 740               	.L__stack_usage = 0
  170:Menu.c        ****         mode=1;
- 725               		.loc 1 170 0
- 726 021e 8091 0000 		lds r24,mode
- 727 0222 8230      		cpi r24,lo8(2)
- 728 0224 01F4      		brne .L40
+ 741               		.loc 1 170 0
+ 742 022e 8091 0000 		lds r24,mode
+ 743 0232 8230      		cpi r24,lo8(2)
+ 744 0234 01F4      		brne .L40
  171:Menu.c        ****     }else if(mode==1){
- 729               		.loc 1 171 0
- 730 0226 81E0      		ldi r24,lo8(1)
- 731 0228 00C0      		rjmp .L43
- 732               	.L40:
+ 745               		.loc 1 171 0
+ 746 0236 81E0      		ldi r24,lo8(1)
+ 747 0238 00C0      		rjmp .L43
+ 748               	.L40:
  172:Menu.c        ****         mode=2;
- 733               		.loc 1 172 0
- 734 022a 8130      		cpi r24,lo8(1)
- 735 022c 01F4      		brne .L41
+ 749               		.loc 1 172 0
+ 750 023a 8130      		cpi r24,lo8(1)
+ 751 023c 01F4      		brne .L41
  173:Menu.c        ****     }
- 736               		.loc 1 173 0
- 737 022e 82E0      		ldi r24,lo8(2)
- 738               	.L43:
- 739 0230 8093 0000 		sts mode,r24
- 740               	.L41:
+ 752               		.loc 1 173 0
+ 753 023e 82E0      		ldi r24,lo8(2)
+ 754               	.L43:
+ 755 0240 8093 0000 		sts mode,r24
+ 756               	.L41:
  175:Menu.c        ****         colorMode=((colorMode-64+1)%7)+64;
- 741               		.loc 1 175 0
- 742 0234 8091 0000 		lds r24,colorMode
- 743 0238 90EC      		ldi r25,lo8(-64)
- 744 023a 980F      		add r25,r24
- 745 023c 9034      		cpi r25,lo8(64)
- 746 023e 00F4      		brsh .L42
+ 757               		.loc 1 175 0
+ 758 0244 8091 0000 		lds r24,colorMode
+ 759 0248 90EC      		ldi r25,lo8(-64)
+ 760 024a 980F      		add r25,r24
+ 761 024c 9034      		cpi r25,lo8(64)
+ 762 024e 00F4      		brsh .L42
  176:Menu.c        ****     }
- 747               		.loc 1 176 0
- 748 0240 90E0      		ldi r25,0
- 749 0242 CF97      		sbiw r24,63
- 750 0244 67E0      		ldi r22,lo8(7)
- 751 0246 70E0      		ldi r23,0
- 752 0248 00D0      		rcall __divmodhi4
- 753 024a 805C      		subi r24,lo8(-(64))
- 754 024c 8093 0000 		sts colorMode,r24
- 755               	.L42:
+ 763               		.loc 1 176 0
+ 764 0250 90E0      		ldi r25,0
+ 765 0252 CF97      		sbiw r24,63
+ 766 0254 67E0      		ldi r22,lo8(7)
+ 767 0256 70E0      		ldi r23,0
+ 768 0258 00D0      		rcall __divmodhi4
+ 769 025a 805C      		subi r24,lo8(-(64))
+ 770 025c 8093 0000 		sts colorMode,r24
+ 771               	.L42:
  179:Menu.c        **** void MsetColorMode(uint8_t i){
- 756               		.loc 1 179 0
- 757 0250 8091 0000 		lds r24,mode
- 758 0254 0895      		ret
- 759               		.cfi_endproc
- 760               	.LFE12:
- 762               	.global	getColor
- 764               	getColor:
- 765               	.LFB14:
+ 772               		.loc 1 179 0
+ 773 0260 8091 0000 		lds r24,mode
+ 774 0264 0895      		ret
+ 775               		.cfi_endproc
+ 776               	.LFE12:
+ 778               	.global	getColor
+ 780               	getColor:
+ 781               	.LFB14:
  192:Menu.c        ****     if(colorMode>127){//cycle single
- 766               		.loc 1 192 0
- 767               		.cfi_startproc
- 768               	/* prologue: function */
- 769               	/* frame size = 0 */
- 770               	/* stack size = 0 */
- 771               	.L__stack_usage = 0
+ 782               		.loc 1 192 0
+ 783               		.cfi_startproc
+ 784               	/* prologue: function */
+ 785               	/* frame size = 0 */
+ 786               	/* stack size = 0 */
+ 787               	.L__stack_usage = 0
  193:Menu.c        ****         if(colorMode>134)colorMode=128;
- 772               		.loc 1 193 0
- 773 0256 8091 0000 		lds r24,colorMode
- 774 025a 87FF      		sbrs r24,7
- 775 025c 00C0      		rjmp .L45
+ 788               		.loc 1 193 0
+ 789 0266 8091 0000 		lds r24,colorMode
+ 790 026a 87FF      		sbrs r24,7
+ 791 026c 00C0      		rjmp .L45
  194:Menu.c        ****         colorMode++;
- 776               		.loc 1 194 0
- 777 025e 8738      		cpi r24,lo8(-121)
- 778 0260 00F0      		brlo .L46
+ 792               		.loc 1 194 0
+ 793 026e 8738      		cpi r24,lo8(-121)
+ 794 0270 00F0      		brlo .L46
  194:Menu.c        ****         colorMode++;
- 779               		.loc 1 194 0 is_stmt 0 discriminator 1
- 780 0262 80E8      		ldi r24,lo8(-128)
- 781 0264 8093 0000 		sts colorMode,r24
- 782               	.L46:
+ 795               		.loc 1 194 0 is_stmt 0 discriminator 1
+ 796 0272 80E8      		ldi r24,lo8(-128)
+ 797 0274 8093 0000 		sts colorMode,r24
+ 798               	.L46:
  195:Menu.c        ****         return colorArray[colorMode-129];
- 783               		.loc 1 195 0 is_stmt 1
- 784 0268 E091 0000 		lds r30,colorMode
- 785 026c EF5F      		subi r30,lo8(-(1))
- 786 026e E093 0000 		sts colorMode,r30
+ 799               		.loc 1 195 0 is_stmt 1
+ 800 0278 E091 0000 		lds r30,colorMode
+ 801 027c EF5F      		subi r30,lo8(-(1))
+ 802 027e E093 0000 		sts colorMode,r30
  196:Menu.c        ****     }else if(colorMode>63){//cycle all
- 787               		.loc 1 196 0
- 788 0272 F0E0      		ldi r31,0
- 789 0274 E050      		subi r30,lo8(-(colorArray-129))
- 790 0276 F040      		sbci r31,hi8(-(colorArray-129))
- 791 0278 00C0      		rjmp .L48
- 792               	.L45:
+ 803               		.loc 1 196 0
+ 804 0282 F0E0      		ldi r31,0
+ 805 0284 E050      		subi r30,lo8(-(colorArray-129))
+ 806 0286 F040      		sbci r31,hi8(-(colorArray-129))
+ 807 0288 00C0      		rjmp .L48
+ 808               	.L45:
  197:Menu.c        ****         return colorArray[colorMode-64];
- 793               		.loc 1 197 0
- 794 027a 8034      		cpi r24,lo8(64)
- 795 027c 00F0      		brlo .L47
+ 809               		.loc 1 197 0
+ 810 028a 8034      		cpi r24,lo8(64)
+ 811 028c 00F0      		brlo .L47
  198:Menu.c        ****     }else{//fixed
- 796               		.loc 1 198 0
- 797 027e E82F      		mov r30,r24
- 798 0280 F0E0      		ldi r31,0
- 799 0282 E050      		subi r30,lo8(-(colorArray-64))
- 800 0284 F040      		sbci r31,hi8(-(colorArray-64))
- 801               	.L48:
- 802 0286 8081      		ld r24,Z
- 803               	.L47:
+ 812               		.loc 1 198 0
+ 813 028e E82F      		mov r30,r24
+ 814 0290 F0E0      		ldi r31,0
+ 815 0292 E050      		subi r30,lo8(-(colorArray-64))
+ 816 0294 F040      		sbci r31,hi8(-(colorArray-64))
+ 817               	.L48:
+ 818 0296 8081      		ld r24,Z
+ 819               	.L47:
  202:Menu.c        **** void MsetNightMode(uint8_t i){
- 804               		.loc 1 202 0
- 805 0288 0895      		ret
- 806               		.cfi_endproc
- 807               	.LFE14:
- 809               	.global	isInAllowedTime
- 811               	isInAllowedTime:
- 812               	.LFB16:
+ 820               		.loc 1 202 0
+ 821 0298 0895      		ret
+ 822               		.cfi_endproc
+ 823               	.LFE14:
+ 825               	.global	isInAllowedTime
+ 827               	isInAllowedTime:
+ 828               	.LFB16:
  206:Menu.c        ****     if(EEPROM_read(EE_NIGHTMODE))return (h>=EEPROM_read(EE_ONHOUR) && h<=EEPROM_read(EE_OFFHOUR));
- 813               		.loc 1 206 0
- 814               		.cfi_startproc
- 815               	.LVL76:
- 816 028a CF93      		push r28
- 817               	.LCFI0:
- 818               		.cfi_def_cfa_offset 3
- 819               		.cfi_offset 28, -2
- 820               	/* prologue: function */
- 821               	/* frame size = 0 */
- 822               	/* stack size = 1 */
- 823               	.L__stack_usage = 1
- 824 028c C82F      		mov r28,r24
+ 829               		.loc 1 206 0
+ 830               		.cfi_startproc
+ 831               	.LVL77:
+ 832 029a CF93      		push r28
+ 833               	.LCFI0:
+ 834               		.cfi_def_cfa_offset 3
+ 835               		.cfi_offset 28, -2
+ 836               	/* prologue: function */
+ 837               	/* frame size = 0 */
+ 838               	/* stack size = 1 */
+ 839               	.L__stack_usage = 1
+ 840 029c C82F      		mov r28,r24
  207:Menu.c        ****     return 1;
- 825               		.loc 1 207 0
- 826 028e 81E0      		ldi r24,lo8(1)
- 827               	.LVL77:
- 828 0290 00D0      		rcall EEPROM_read
- 829               	.LVL78:
- 830 0292 8823      		tst r24
- 831 0294 01F0      		breq .L53
+ 841               		.loc 1 207 0
+ 842 029e 81E0      		ldi r24,lo8(1)
+ 843               	.LVL78:
+ 844 02a0 00D0      		rcall EEPROM_read
+ 845               	.LVL79:
+ 846 02a2 8823      		tst r24
+ 847 02a4 01F0      		breq .L53
  207:Menu.c        ****     return 1;
- 832               		.loc 1 207 0 is_stmt 0 discriminator 1
- 833 0296 82E0      		ldi r24,lo8(2)
- 834 0298 00D0      		rcall EEPROM_read
- 835               	.LVL79:
- 836 029a C817      		cp r28,r24
- 837 029c 00F0      		brlo .L54
+ 848               		.loc 1 207 0 is_stmt 0 discriminator 1
+ 849 02a6 82E0      		ldi r24,lo8(2)
+ 850 02a8 00D0      		rcall EEPROM_read
+ 851               	.LVL80:
+ 852 02aa C817      		cp r28,r24
+ 853 02ac 00F0      		brlo .L54
  207:Menu.c        ****     return 1;
- 838               		.loc 1 207 0 discriminator 2
- 839 029e 83E0      		ldi r24,lo8(3)
- 840 02a0 00D0      		rcall EEPROM_read
- 841               	.LVL80:
- 842 02a2 91E0      		ldi r25,lo8(1)
- 843 02a4 8C17      		cp r24,r28
- 844 02a6 00F4      		brsh .L52
- 845 02a8 90E0      		ldi r25,0
- 846               	.L52:
- 847 02aa 892F      		mov r24,r25
- 848 02ac 00C0      		rjmp .L50
- 849               	.L54:
+ 854               		.loc 1 207 0 discriminator 2
+ 855 02ae 83E0      		ldi r24,lo8(3)
+ 856 02b0 00D0      		rcall EEPROM_read
+ 857               	.LVL81:
+ 858 02b2 91E0      		ldi r25,lo8(1)
+ 859 02b4 8C17      		cp r24,r28
+ 860 02b6 00F4      		brsh .L52
+ 861 02b8 90E0      		ldi r25,0
+ 862               	.L52:
+ 863 02ba 892F      		mov r24,r25
+ 864 02bc 00C0      		rjmp .L50
+ 865               	.L54:
  207:Menu.c        ****     return 1;
- 850               		.loc 1 207 0
- 851 02ae 80E0      		ldi r24,0
- 852 02b0 00C0      		rjmp .L50
- 853               	.L53:
+ 866               		.loc 1 207 0
+ 867 02be 80E0      		ldi r24,0
+ 868 02c0 00C0      		rjmp .L50
+ 869               	.L53:
  208:Menu.c        **** }
- 854               		.loc 1 208 0 is_stmt 1
- 855 02b2 81E0      		ldi r24,lo8(1)
- 856               	.L50:
- 857               	/* epilogue start */
+ 870               		.loc 1 208 0 is_stmt 1
+ 871 02c2 81E0      		ldi r24,lo8(1)
+ 872               	.L50:
+ 873               	/* epilogue start */
  209:Menu.c        **** void MsetNightOff(uint8_t i){
- 858               		.loc 1 209 0
- 859 02b4 CF91      		pop r28
- 860               	.LVL81:
- 861 02b6 0895      		ret
- 862               		.cfi_endproc
- 863               	.LFE16:
- 865               	.global	colorMode
- 866               		.section .bss
- 869               	colorMode:
- 870 0000 00        		.zero	1
- 871               	.global	mode
- 872               		.data
- 875               	mode:
- 876 0000 01        		.byte	1
- 877               	.global	M1rainbow
- 878               		.section	.rodata
- 881               	M1rainbow:
- 882 0000 33        		.byte	51
- 883 0001 0000      		.word	gs(MsetRainbow)
- 884 0003 07        		.byte	7
- 885 0004 0000      		.word	0
- 886 0006 08        		.byte	8
- 887 0007 0000      		.word	0
- 888 0009 0F        		.byte	15
- 889 000a 0000      		.word	M0main
- 890               	.global	M1reset
- 893               	M1reset:
- 894 000c 42        		.byte	66
- 895 000d 0000      		.word	gs(Mreset)
- 896 000f 12        		.byte	18
- 897 0010 0000      		.word	0
- 898 0012 0F        		.byte	15
- 899 0013 0000      		.word	M0main
- 900               	.global	M1eventMode
- 903               	M1eventMode:
- 904 0015 13        		.byte	19
- 905 0016 0000      		.word	gs(MsetEventMode)
- 906 0018 07        		.byte	7
- 907 0019 0000      		.word	0
- 908 001b 08        		.byte	8
- 909 001c 0000      		.word	0
- 910 001e 0F        		.byte	15
- 911 001f 0000      		.word	M0main
- 912               	.global	M2setminpm
- 915               	M2setminpm:
- 916 0021 24        		.byte	36
- 917 0022 0000      		.word	gs(MsetMinpm)
- 918 0024 05        		.byte	5
- 919 0025 0000      		.word	0
- 920 0027 0B        		.byte	11
- 921 0028 0000      		.word	0
- 922 002a 01        		.byte	1
- 923 002b 0000      		.word	0
- 924 002d 0F        		.byte	15
- 925 002e 0000      		.word	M1setTime
- 926               	.global	M2setminam
- 929               	M2setminam:
- 930 0030 24        		.byte	36
- 931 0031 0000      		.word	gs(MsetMinam)
- 932 0033 05        		.byte	5
- 933 0034 0000      		.word	0
- 934 0036 0B        		.byte	11
- 935 0037 0000      		.word	0
- 936 0039 01        		.byte	1
- 937 003a 0000      		.word	0
- 938 003c 0F        		.byte	15
- 939 003d 0000      		.word	M1setTime
- 940               	.global	M2sethourpm
- 943               	M2sethourpm:
- 944 003f 4C        		.byte	76
- 945 0040 0000      		.word	gs(MsetHourpm)
- 946 0042 07        		.byte	7
- 947 0043 0000      		.word	0
- 948 0045 08        		.byte	8
- 949 0046 0000      		.word	0
- 950 0048 0A        		.byte	10
- 951 0049 0000      		.word	0
- 952 004b 0E        		.byte	14
- 953 004c 0000      		.word	0
- 954 004e 00        		.byte	0
- 955 004f 0000      		.word	0
- 956 0051 04        		.byte	4
- 957 0052 0000      		.word	0
- 958 0054 11        		.byte	17
- 959 0055 0000      		.word	0
- 960 0057 02        		.byte	2
- 961 0058 0000      		.word	0
- 962 005a 0C        		.byte	12
- 963 005b 0000      		.word	0
- 964 005d 06        		.byte	6
- 965 005e 0000      		.word	0
- 966 0060 10        		.byte	16
- 967 0061 0000      		.word	0
- 968 0063 0F        		.byte	15
- 969 0064 0000      		.word	M1setTime
- 970               	.global	M2sethouram
- 973               	M2sethouram:
- 974 0066 4D        		.byte	77
- 975 0067 0000      		.word	gs(MsetHouram)
- 976 0069 07        		.byte	7
- 977 006a 0000      		.word	0
- 978 006c 08        		.byte	8
- 979 006d 0000      		.word	0
- 980 006f 0A        		.byte	10
- 981 0070 0000      		.word	0
- 982 0072 0E        		.byte	14
- 983 0073 0000      		.word	0
- 984 0075 00        		.byte	0
- 985 0076 0000      		.word	0
- 986 0078 04        		.byte	4
- 987 0079 0000      		.word	0
- 988 007b 11        		.byte	17
- 989 007c 0000      		.word	0
- 990 007e 02        		.byte	2
- 991 007f 0000      		.word	0
- 992 0081 0C        		.byte	12
- 993 0082 0000      		.word	0
- 994 0084 06        		.byte	6
- 995 0085 0000      		.word	0
- 996 0087 10        		.byte	16
- 997 0088 0000      		.word	0
- 998 008a 0D        		.byte	13
- 999 008b 0000      		.word	0
- 1000 008d 0F        		.byte	15
- 1001 008e 0000      		.word	M1setTime
- 1002               	.global	M1setTime
- 1005               	M1setTime:
- 1006 0090 65        		.byte	101
- 1007 0091 0000      		.word	0
- 1008 0093 07        		.byte	7
- 1009 0094 0000      		.word	M2sethouram
- 1010 0096 08        		.byte	8
- 1011 0097 0000      		.word	M2sethourpm
- 1012 0099 0A        		.byte	10
- 1013 009a 0000      		.word	M2setminam
- 1014 009c 0E        		.byte	14
- 1015 009d 0000      		.word	M2setminpm
- 1016 009f 0F        		.byte	15
- 1017 00a0 0000      		.word	M0main
- 1018               	.global	M3onhour
- 1021               	M3onhour:
- 1022 00a2 5C        		.byte	92
- 1023 00a3 0000      		.word	gs(MsetNightOn)
- 1024 00a5 07        		.byte	7
- 1025 00a6 0000      		.word	0
- 1026 00a8 08        		.byte	8
- 1027 00a9 0000      		.word	0
- 1028 00ab 0A        		.byte	10
- 1029 00ac 0000      		.word	0
- 1030 00ae 0E        		.byte	14
- 1031 00af 0000      		.word	0
- 1032 00b1 00        		.byte	0
- 1033 00b2 0000      		.word	0
- 1034 00b4 04        		.byte	4
- 1035 00b5 0000      		.word	0
- 1036 00b7 11        		.byte	17
- 1037 00b8 0000      		.word	0
- 1038 00ba 02        		.byte	2
- 1039 00bb 0000      		.word	0
- 1040 00bd 0C        		.byte	12
- 1041 00be 0000      		.word	0
- 1042 00c0 06        		.byte	6
- 1043 00c1 0000      		.word	0
- 1044 00c3 10        		.byte	16
- 1045 00c4 0000      		.word	0
- 1046 00c6 0F        		.byte	15
- 1047 00c7 0000      		.word	M1nightmode
- 1048               	.global	M2offhour
- 1051               	M2offhour:
- 1052 00c9 4C        		.byte	76
- 1053 00ca 0000      		.word	gs(MsetNightOff)
- 1054 00cc 07        		.byte	7
- 1055 00cd 0000      		.word	M3onhour
- 1056 00cf 08        		.byte	8
- 1057 00d0 0000      		.word	M3onhour
- 1058 00d2 0A        		.byte	10
- 1059 00d3 0000      		.word	M3onhour
- 1060 00d5 0E        		.byte	14
- 1061 00d6 0000      		.word	M3onhour
- 1062 00d8 00        		.byte	0
- 1063 00d9 0000      		.word	M3onhour
- 1064 00db 04        		.byte	4
- 1065 00dc 0000      		.word	M3onhour
- 1066 00de 11        		.byte	17
- 1067 00df 0000      		.word	M3onhour
- 1068 00e1 02        		.byte	2
- 1069 00e2 0000      		.word	M3onhour
- 1070 00e4 0C        		.byte	12
- 1071 00e5 0000      		.word	M3onhour
- 1072 00e7 06        		.byte	6
- 1073 00e8 0000      		.word	M3onhour
- 1074 00ea 10        		.byte	16
- 1075 00eb 0000      		.word	M3onhour
- 1076 00ed 0F        		.byte	15
- 1077 00ee 0000      		.word	M1nightmode
- 1078               	.global	M1nightmode
- 1081               	M1nightmode:
- 1082 00f0 34        		.byte	52
- 1083 00f1 0000      		.word	gs(MsetNightMode)
- 1084 00f3 07        		.byte	7
- 1085 00f4 0000      		.word	0
- 1086 00f6 08        		.byte	8
- 1087 00f7 0000      		.word	M2offhour
- 1088 00f9 0A        		.byte	10
- 1089 00fa 0000      		.word	M2offhour
- 1090 00fc 0F        		.byte	15
- 1091 00fd 0000      		.word	M0main
- 1092               	.global	M1cmode
- 1095               	M1cmode:
- 1096 00ff 2A        		.byte	42
- 1097 0100 0000      		.word	gs(MsetColorMode)
- 1098 0102 07        		.byte	7
- 1099 0103 0000      		.word	0
- 1100 0105 08        		.byte	8
- 1101 0106 0000      		.word	0
- 1102 0108 0A        		.byte	10
- 1103 0109 0000      		.word	0
- 1104 010b 0E        		.byte	14
- 1105 010c 0000      		.word	0
- 1106 010e 00        		.byte	0
- 1107 010f 0000      		.word	0
- 1108 0111 04        		.byte	4
- 1109 0112 0000      		.word	0
- 1110 0114 11        		.byte	17
- 1111 0115 0000      		.word	0
- 1112 0117 02        		.byte	2
- 1113 0118 0000      		.word	0
- 1114 011a 0C        		.byte	12
- 1115 011b 0000      		.word	0
- 1116 011d 0F        		.byte	15
- 1117 011e 0000      		.word	M0main
- 1118               	.global	M1mode
- 1121               	M1mode:
- 1122 0120 15        		.byte	21
- 1123 0121 0000      		.word	gs(MsetMode)
- 1124 0123 07        		.byte	7
- 1125 0124 0000      		.word	0
- 1126 0126 08        		.byte	8
- 1127 0127 0000      		.word	0
- 1128 0129 0A        		.byte	10
- 1129 012a 0000      		.word	0
- 1130 012c 0E        		.byte	14
- 1131 012d 0000      		.word	0
- 1132 012f 0F        		.byte	15
- 1133 0130 0000      		.word	M0main
- 1134               	.global	M0main
- 1137               	M0main:
- 1138 0132 08        		.byte	8
- 1139 0133 0000      		.word	0
- 1140 0135 07        		.byte	7
- 1141 0136 0000      		.word	M1mode
- 1142 0138 08        		.byte	8
- 1143 0139 0000      		.word	M1cmode
- 1144 013b 0A        		.byte	10
- 1145 013c 0000      		.word	M1nightmode
- 1146 013e 0E        		.byte	14
- 1147 013f 0000      		.word	M1setTime
- 1148 0141 00        		.byte	0
- 1149 0142 0000      		.word	M1eventMode
- 1150 0144 04        		.byte	4
- 1151 0145 0000      		.word	M1reset
- 1152 0147 11        		.byte	17
- 1153 0148 0000      		.word	M1rainbow
- 1154 014a 0F        		.byte	15
- 1155 014b 0000      		.word	0
- 1156               		.comm	USI_I2C_Master_State,1,1
- 1157               		.comm	currentTime,5,1
- 1160               	colorArray:
- 1161 014d 07        		.byte	7
- 1162 014e 03        		.byte	3
- 1163 014f 01        		.byte	1
- 1164 0150 05        		.byte	5
- 1165 0151 04        		.byte	4
- 1166 0152 06        		.byte	6
- 1167 0153 02        		.byte	2
- 1168               		.text
- 1169               	.Letext0:
- 1170               		.file 3 "/usr/lib/avr/include/stdint.h"
- 1171               		.file 4 "RTC.h"
- 1172               		.file 5 "Menu.h"
- 1173               		.file 6 "defines.h"
+ 874               		.loc 1 209 0
+ 875 02c4 CF91      		pop r28
+ 876               	.LVL82:
+ 877 02c6 0895      		ret
+ 878               		.cfi_endproc
+ 879               	.LFE16:
+ 881               	.global	colorMode
+ 882               		.section .bss
+ 885               	colorMode:
+ 886 0000 00        		.zero	1
+ 887               	.global	mode
+ 888               		.data
+ 891               	mode:
+ 892 0000 01        		.byte	1
+ 893               	.global	M1rainbow
+ 894               		.section	.rodata
+ 897               	M1rainbow:
+ 898 0000 33        		.byte	51
+ 899 0001 0000      		.word	gs(MsetRainbow)
+ 900 0003 07        		.byte	7
+ 901 0004 0000      		.word	0
+ 902 0006 08        		.byte	8
+ 903 0007 0000      		.word	0
+ 904 0009 0F        		.byte	15
+ 905 000a 0000      		.word	M0main
+ 906               	.global	M1reset
+ 909               	M1reset:
+ 910 000c 42        		.byte	66
+ 911 000d 0000      		.word	gs(Mreset)
+ 912 000f 12        		.byte	18
+ 913 0010 0000      		.word	0
+ 914 0012 0F        		.byte	15
+ 915 0013 0000      		.word	M0main
+ 916               	.global	M1eventMode
+ 919               	M1eventMode:
+ 920 0015 13        		.byte	19
+ 921 0016 0000      		.word	gs(MsetEventMode)
+ 922 0018 07        		.byte	7
+ 923 0019 0000      		.word	0
+ 924 001b 08        		.byte	8
+ 925 001c 0000      		.word	0
+ 926 001e 0F        		.byte	15
+ 927 001f 0000      		.word	M0main
+ 928               	.global	M2setminpm
+ 931               	M2setminpm:
+ 932 0021 24        		.byte	36
+ 933 0022 0000      		.word	gs(MsetMinpm)
+ 934 0024 05        		.byte	5
+ 935 0025 0000      		.word	0
+ 936 0027 0B        		.byte	11
+ 937 0028 0000      		.word	0
+ 938 002a 01        		.byte	1
+ 939 002b 0000      		.word	0
+ 940 002d 0F        		.byte	15
+ 941 002e 0000      		.word	M1setTime
+ 942               	.global	M2setminam
+ 945               	M2setminam:
+ 946 0030 24        		.byte	36
+ 947 0031 0000      		.word	gs(MsetMinam)
+ 948 0033 05        		.byte	5
+ 949 0034 0000      		.word	0
+ 950 0036 0B        		.byte	11
+ 951 0037 0000      		.word	0
+ 952 0039 01        		.byte	1
+ 953 003a 0000      		.word	0
+ 954 003c 0F        		.byte	15
+ 955 003d 0000      		.word	M1setTime
+ 956               	.global	M2sethourpm
+ 959               	M2sethourpm:
+ 960 003f 4C        		.byte	76
+ 961 0040 0000      		.word	gs(MsetHourpm)
+ 962 0042 07        		.byte	7
+ 963 0043 0000      		.word	0
+ 964 0045 08        		.byte	8
+ 965 0046 0000      		.word	0
+ 966 0048 0A        		.byte	10
+ 967 0049 0000      		.word	0
+ 968 004b 0E        		.byte	14
+ 969 004c 0000      		.word	0
+ 970 004e 00        		.byte	0
+ 971 004f 0000      		.word	0
+ 972 0051 04        		.byte	4
+ 973 0052 0000      		.word	0
+ 974 0054 11        		.byte	17
+ 975 0055 0000      		.word	0
+ 976 0057 02        		.byte	2
+ 977 0058 0000      		.word	0
+ 978 005a 0C        		.byte	12
+ 979 005b 0000      		.word	0
+ 980 005d 06        		.byte	6
+ 981 005e 0000      		.word	0
+ 982 0060 10        		.byte	16
+ 983 0061 0000      		.word	0
+ 984 0063 0F        		.byte	15
+ 985 0064 0000      		.word	M1setTime
+ 986               	.global	M2sethouram
+ 989               	M2sethouram:
+ 990 0066 4D        		.byte	77
+ 991 0067 0000      		.word	gs(MsetHouram)
+ 992 0069 07        		.byte	7
+ 993 006a 0000      		.word	0
+ 994 006c 08        		.byte	8
+ 995 006d 0000      		.word	0
+ 996 006f 0A        		.byte	10
+ 997 0070 0000      		.word	0
+ 998 0072 0E        		.byte	14
+ 999 0073 0000      		.word	0
+ 1000 0075 00        		.byte	0
+ 1001 0076 0000      		.word	0
+ 1002 0078 04        		.byte	4
+ 1003 0079 0000      		.word	0
+ 1004 007b 11        		.byte	17
+ 1005 007c 0000      		.word	0
+ 1006 007e 02        		.byte	2
+ 1007 007f 0000      		.word	0
+ 1008 0081 0C        		.byte	12
+ 1009 0082 0000      		.word	0
+ 1010 0084 06        		.byte	6
+ 1011 0085 0000      		.word	0
+ 1012 0087 10        		.byte	16
+ 1013 0088 0000      		.word	0
+ 1014 008a 0D        		.byte	13
+ 1015 008b 0000      		.word	0
+ 1016 008d 0F        		.byte	15
+ 1017 008e 0000      		.word	M1setTime
+ 1018               	.global	M1setTime
+ 1021               	M1setTime:
+ 1022 0090 65        		.byte	101
+ 1023 0091 0000      		.word	0
+ 1024 0093 07        		.byte	7
+ 1025 0094 0000      		.word	M2sethouram
+ 1026 0096 08        		.byte	8
+ 1027 0097 0000      		.word	M2sethourpm
+ 1028 0099 0A        		.byte	10
+ 1029 009a 0000      		.word	M2setminam
+ 1030 009c 0E        		.byte	14
+ 1031 009d 0000      		.word	M2setminpm
+ 1032 009f 0F        		.byte	15
+ 1033 00a0 0000      		.word	M0main
+ 1034               	.global	M3onhour
+ 1037               	M3onhour:
+ 1038 00a2 5C        		.byte	92
+ 1039 00a3 0000      		.word	gs(MsetNightOn)
+ 1040 00a5 07        		.byte	7
+ 1041 00a6 0000      		.word	0
+ 1042 00a8 08        		.byte	8
+ 1043 00a9 0000      		.word	0
+ 1044 00ab 0A        		.byte	10
+ 1045 00ac 0000      		.word	0
+ 1046 00ae 0E        		.byte	14
+ 1047 00af 0000      		.word	0
+ 1048 00b1 00        		.byte	0
+ 1049 00b2 0000      		.word	0
+ 1050 00b4 04        		.byte	4
+ 1051 00b5 0000      		.word	0
+ 1052 00b7 11        		.byte	17
+ 1053 00b8 0000      		.word	0
+ 1054 00ba 02        		.byte	2
+ 1055 00bb 0000      		.word	0
+ 1056 00bd 0C        		.byte	12
+ 1057 00be 0000      		.word	0
+ 1058 00c0 06        		.byte	6
+ 1059 00c1 0000      		.word	0
+ 1060 00c3 10        		.byte	16
+ 1061 00c4 0000      		.word	0
+ 1062 00c6 0F        		.byte	15
+ 1063 00c7 0000      		.word	M1nightmode
+ 1064               	.global	M2offhour
+ 1067               	M2offhour:
+ 1068 00c9 4C        		.byte	76
+ 1069 00ca 0000      		.word	gs(MsetNightOff)
+ 1070 00cc 07        		.byte	7
+ 1071 00cd 0000      		.word	M3onhour
+ 1072 00cf 08        		.byte	8
+ 1073 00d0 0000      		.word	M3onhour
+ 1074 00d2 0A        		.byte	10
+ 1075 00d3 0000      		.word	M3onhour
+ 1076 00d5 0E        		.byte	14
+ 1077 00d6 0000      		.word	M3onhour
+ 1078 00d8 00        		.byte	0
+ 1079 00d9 0000      		.word	M3onhour
+ 1080 00db 04        		.byte	4
+ 1081 00dc 0000      		.word	M3onhour
+ 1082 00de 11        		.byte	17
+ 1083 00df 0000      		.word	M3onhour
+ 1084 00e1 02        		.byte	2
+ 1085 00e2 0000      		.word	M3onhour
+ 1086 00e4 0C        		.byte	12
+ 1087 00e5 0000      		.word	M3onhour
+ 1088 00e7 06        		.byte	6
+ 1089 00e8 0000      		.word	M3onhour
+ 1090 00ea 10        		.byte	16
+ 1091 00eb 0000      		.word	M3onhour
+ 1092 00ed 0F        		.byte	15
+ 1093 00ee 0000      		.word	M1nightmode
+ 1094               	.global	M1nightmode
+ 1097               	M1nightmode:
+ 1098 00f0 34        		.byte	52
+ 1099 00f1 0000      		.word	gs(MsetNightMode)
+ 1100 00f3 07        		.byte	7
+ 1101 00f4 0000      		.word	0
+ 1102 00f6 08        		.byte	8
+ 1103 00f7 0000      		.word	M2offhour
+ 1104 00f9 0A        		.byte	10
+ 1105 00fa 0000      		.word	M2offhour
+ 1106 00fc 0F        		.byte	15
+ 1107 00fd 0000      		.word	M0main
+ 1108               	.global	M1cmode
+ 1111               	M1cmode:
+ 1112 00ff 2A        		.byte	42
+ 1113 0100 0000      		.word	gs(MsetColorMode)
+ 1114 0102 07        		.byte	7
+ 1115 0103 0000      		.word	0
+ 1116 0105 08        		.byte	8
+ 1117 0106 0000      		.word	0
+ 1118 0108 0A        		.byte	10
+ 1119 0109 0000      		.word	0
+ 1120 010b 0E        		.byte	14
+ 1121 010c 0000      		.word	0
+ 1122 010e 00        		.byte	0
+ 1123 010f 0000      		.word	0
+ 1124 0111 04        		.byte	4
+ 1125 0112 0000      		.word	0
+ 1126 0114 11        		.byte	17
+ 1127 0115 0000      		.word	0
+ 1128 0117 02        		.byte	2
+ 1129 0118 0000      		.word	0
+ 1130 011a 0C        		.byte	12
+ 1131 011b 0000      		.word	0
+ 1132 011d 0F        		.byte	15
+ 1133 011e 0000      		.word	M0main
+ 1134               	.global	M1mode
+ 1137               	M1mode:
+ 1138 0120 15        		.byte	21
+ 1139 0121 0000      		.word	gs(MsetMode)
+ 1140 0123 07        		.byte	7
+ 1141 0124 0000      		.word	0
+ 1142 0126 08        		.byte	8
+ 1143 0127 0000      		.word	0
+ 1144 0129 0A        		.byte	10
+ 1145 012a 0000      		.word	0
+ 1146 012c 0E        		.byte	14
+ 1147 012d 0000      		.word	0
+ 1148 012f 0F        		.byte	15
+ 1149 0130 0000      		.word	M0main
+ 1150               	.global	M0main
+ 1153               	M0main:
+ 1154 0132 08        		.byte	8
+ 1155 0133 0000      		.word	0
+ 1156 0135 07        		.byte	7
+ 1157 0136 0000      		.word	M1mode
+ 1158 0138 08        		.byte	8
+ 1159 0139 0000      		.word	M1cmode
+ 1160 013b 0A        		.byte	10
+ 1161 013c 0000      		.word	M1nightmode
+ 1162 013e 0E        		.byte	14
+ 1163 013f 0000      		.word	M1setTime
+ 1164 0141 00        		.byte	0
+ 1165 0142 0000      		.word	M1eventMode
+ 1166 0144 04        		.byte	4
+ 1167 0145 0000      		.word	M1reset
+ 1168 0147 11        		.byte	17
+ 1169 0148 0000      		.word	M1rainbow
+ 1170 014a 0F        		.byte	15
+ 1171 014b 0000      		.word	0
+ 1172               		.comm	USI_I2C_Master_State,1,1
+ 1173               		.comm	currentTime,5,1
+ 1176               	colorArray:
+ 1177 014d 07        		.byte	7
+ 1178 014e 03        		.byte	3
+ 1179 014f 01        		.byte	1
+ 1180 0150 05        		.byte	5
+ 1181 0151 04        		.byte	4
+ 1182 0152 06        		.byte	6
+ 1183 0153 02        		.byte	2
+ 1184               		.text
+ 1185               	.Letext0:
+ 1186               		.file 3 "/usr/lib/avr/include/stdint.h"
+ 1187               		.file 4 "RTC.h"
+ 1188               		.file 5 "Menu.h"
+ 1189               		.file 6 "Led.h"
+ 1190               		.file 7 "defines.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Menu.c
-     /tmp/ccTs0AkT.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccTs0AkT.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccTs0AkT.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccTs0AkT.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccTs0AkT.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccTs0AkT.s:12     .text:0000000000000000 MsetHouram
-     /tmp/ccTs0AkT.s:37     .text:000000000000000a MsetHourpm
-     /tmp/ccTs0AkT.s:61     .text:0000000000000014 MsetRainbow
-     /tmp/ccTs0AkT.s:875    .data:0000000000000000 mode
-     /tmp/ccTs0AkT.s:237    .text:00000000000000e0 MsetMinam
-     /tmp/ccTs0AkT.s:268    .text:00000000000000ee MsetMinpm
-     /tmp/ccTs0AkT.s:300    .text:00000000000000fe findNextEntry
-     /tmp/ccTs0AkT.s:336    .text:000000000000011e getSubMenu
-     /tmp/ccTs0AkT.s:367    .text:0000000000000136 EEPROM_write
-     /tmp/ccTs0AkT.s:398    .text:000000000000014a MsetMode
-     /tmp/ccTs0AkT.s:441    .text:000000000000016a MsetColorMode
-     /tmp/ccTs0AkT.s:1160   .rodata:000000000000014d colorArray
-     /tmp/ccTs0AkT.s:869    .bss:0000000000000000 colorMode
-     /tmp/ccTs0AkT.s:499    .text:000000000000019e MsetNightMode
-     /tmp/ccTs0AkT.s:524    .text:00000000000001aa MsetNightOff
-     /tmp/ccTs0AkT.s:545    .text:00000000000001b2 MsetNightOn
-     /tmp/ccTs0AkT.s:566    .text:00000000000001ba MsetEventMode
-     /tmp/ccTs0AkT.s:596    .text:00000000000001c8 Mreset
-     /tmp/ccTs0AkT.s:659    .text:00000000000001f8 EEPROM_read
-     /tmp/ccTs0AkT.s:688    .text:0000000000000208 Minit
-     /tmp/ccTs0AkT.s:717    .text:000000000000021e getMode
-     /tmp/ccTs0AkT.s:764    .text:0000000000000256 getColor
-     /tmp/ccTs0AkT.s:811    .text:000000000000028a isInAllowedTime
-     /tmp/ccTs0AkT.s:881    .rodata:0000000000000000 M1rainbow
-     /tmp/ccTs0AkT.s:1137   .rodata:0000000000000132 M0main
-     /tmp/ccTs0AkT.s:893    .rodata:000000000000000c M1reset
-     /tmp/ccTs0AkT.s:903    .rodata:0000000000000015 M1eventMode
-     /tmp/ccTs0AkT.s:915    .rodata:0000000000000021 M2setminpm
-     /tmp/ccTs0AkT.s:1005   .rodata:0000000000000090 M1setTime
-     /tmp/ccTs0AkT.s:929    .rodata:0000000000000030 M2setminam
-     /tmp/ccTs0AkT.s:943    .rodata:000000000000003f M2sethourpm
-     /tmp/ccTs0AkT.s:973    .rodata:0000000000000066 M2sethouram
-     /tmp/ccTs0AkT.s:1021   .rodata:00000000000000a2 M3onhour
-     /tmp/ccTs0AkT.s:1081   .rodata:00000000000000f0 M1nightmode
-     /tmp/ccTs0AkT.s:1051   .rodata:00000000000000c9 M2offhour
-     /tmp/ccTs0AkT.s:1095   .rodata:00000000000000ff M1cmode
-     /tmp/ccTs0AkT.s:1121   .rodata:0000000000000120 M1mode
+     /tmp/ccVXsdIg.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccVXsdIg.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccVXsdIg.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccVXsdIg.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccVXsdIg.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccVXsdIg.s:12     .text:0000000000000000 MsetHouram
+     /tmp/ccVXsdIg.s:37     .text:000000000000000a MsetHourpm
+     /tmp/ccVXsdIg.s:61     .text:0000000000000014 MsetRainbow
+     /tmp/ccVXsdIg.s:891    .data:0000000000000000 mode
+     /tmp/ccVXsdIg.s:239    .text:00000000000000e4 MsetMinam
+     /tmp/ccVXsdIg.s:270    .text:00000000000000f2 MsetMinpm
+     /tmp/ccVXsdIg.s:302    .text:0000000000000102 findNextEntry
+     /tmp/ccVXsdIg.s:338    .text:0000000000000122 getSubMenu
+     /tmp/ccVXsdIg.s:369    .text:000000000000013a EEPROM_write
+     /tmp/ccVXsdIg.s:400    .text:000000000000014e MsetMode
+     /tmp/ccVXsdIg.s:443    .text:000000000000016e MsetColorMode
+     /tmp/ccVXsdIg.s:1176   .rodata:000000000000014d colorArray
+     /tmp/ccVXsdIg.s:885    .bss:0000000000000000 colorMode
+     /tmp/ccVXsdIg.s:501    .text:00000000000001a2 MsetNightMode
+     /tmp/ccVXsdIg.s:526    .text:00000000000001ae MsetNightOff
+     /tmp/ccVXsdIg.s:547    .text:00000000000001b6 MsetNightOn
+     /tmp/ccVXsdIg.s:568    .text:00000000000001be MsetEventMode
+     /tmp/ccVXsdIg.s:598    .text:00000000000001cc Mreset
+     /tmp/ccVXsdIg.s:675    .text:0000000000000208 EEPROM_read
+     /tmp/ccVXsdIg.s:704    .text:0000000000000218 Minit
+     /tmp/ccVXsdIg.s:733    .text:000000000000022e getMode
+     /tmp/ccVXsdIg.s:780    .text:0000000000000266 getColor
+     /tmp/ccVXsdIg.s:827    .text:000000000000029a isInAllowedTime
+     /tmp/ccVXsdIg.s:897    .rodata:0000000000000000 M1rainbow
+     /tmp/ccVXsdIg.s:1153   .rodata:0000000000000132 M0main
+     /tmp/ccVXsdIg.s:909    .rodata:000000000000000c M1reset
+     /tmp/ccVXsdIg.s:919    .rodata:0000000000000015 M1eventMode
+     /tmp/ccVXsdIg.s:931    .rodata:0000000000000021 M2setminpm
+     /tmp/ccVXsdIg.s:1021   .rodata:0000000000000090 M1setTime
+     /tmp/ccVXsdIg.s:945    .rodata:0000000000000030 M2setminam
+     /tmp/ccVXsdIg.s:959    .rodata:000000000000003f M2sethourpm
+     /tmp/ccVXsdIg.s:989    .rodata:0000000000000066 M2sethouram
+     /tmp/ccVXsdIg.s:1037   .rodata:00000000000000a2 M3onhour
+     /tmp/ccVXsdIg.s:1097   .rodata:00000000000000f0 M1nightmode
+     /tmp/ccVXsdIg.s:1067   .rodata:00000000000000c9 M2offhour
+     /tmp/ccVXsdIg.s:1111   .rodata:00000000000000ff M1cmode
+     /tmp/ccVXsdIg.s:1137   .rodata:0000000000000120 M1mode
                             *COM*:0000000000000001 USI_I2C_Master_State
                             *COM*:0000000000000005 currentTime
 

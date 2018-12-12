@@ -24,6 +24,6 @@ void setLeds(Ttime t, Led* l);
 void setLedsNb(int8_t nb, Led* l);
 
 
-void sendData(uint32_t data);
+void sendRawData(uint32_t data);
 
 #endif
