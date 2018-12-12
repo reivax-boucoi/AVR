@@ -1270,7 +1270,7 @@
  955 02fc 00D0      		rcall getDataByColor
  956               	.LVL51:
  957 02fe 7068      		ori r23,128
- 958 0300 00C0      		rjmp .L50
+ 958 0300 00C0      		rjmp .L51
  959               	.L39:
  134:main.c        ****     switch(state){
  960               		.loc 1 134 0
@@ -1294,7 +1294,7 @@
  972 0316 00D0      		rcall getDataByColor
  973               	.LVL52:
  974 0318 8860      		ori r24,8
- 975 031a 00C0      		rjmp .L50
+ 975 031a 00C0      		rjmp .L51
  976               	.L40:
  136:main.c        ****             break;
  977               		.loc 1 136 0
@@ -1305,7 +1305,7 @@
  982 0324 00D0      		rcall getDataByColor
  983               	.LVL53:
  984 0326 7064      		ori r23,64
- 985 0328 00C0      		rjmp .L50
+ 985 0328 00C0      		rjmp .L51
  986               	.L38:
  142:main.c        ****             break;
  987               		.loc 1 142 0
@@ -1316,7 +1316,7 @@
  992 0332 00D0      		rcall getDataByColor
  993               	.LVL54:
  994 0334 8460      		ori r24,4
- 995 0336 00C0      		rjmp .L50
+ 995 0336 00C0      		rjmp .L51
  996               	.L42:
  146:main.c        ****             break;
  147:main.c        ****         case 8:
@@ -1329,7 +1329,7 @@
  1002 0340 00D0      		rcall getDataByColor
  1003               	.LVL55:
  1004 0342 8160      		ori r24,1
- 1005 0344 00C0      		rjmp .L50
+ 1005 0344 00C0      		rjmp .L51
  1006               	.L43:
  149:main.c        ****             break;
  150:main.c        ****         case 10:
@@ -1342,130 +1342,137 @@
  1012 034e 00D0      		rcall getDataByColor
  1013               	.LVL56:
  1014 0350 8260      		ori r24,2
- 1015               	.L50:
- 1016 0352 00D0      		rcall sendData
- 1017               	.LVL57:
- 1018               	.L37:
+ 1015 0352 00C0      		rjmp .L51
+ 1016               	.L37:
  152:main.c        ****             break;
- 153:main.c        ****     }
- 154:main.c        ****     if(EEPROM_read(EE_NIGHTMODE)!=1)state++;
- 1019               		.loc 1 154 0
- 1020 0354 81E0      		ldi r24,lo8(1)
- 1021 0356 00D0      		rcall EEPROM_read
- 1022               	.LVL58:
- 1023 0358 8130      		cpi r24,lo8(1)
- 1024 035a 01F0      		breq .L45
- 1025               		.loc 1 154 0 is_stmt 0 discriminator 1
- 1026 035c 8091 0000 		lds r24,state
- 1027 0360 8F5F      		subi r24,lo8(-(1))
- 1028 0362 8093 0000 		sts state,r24
- 1029               	.L45:
- 155:main.c        ****     state++;
- 1030               		.loc 1 155 0 is_stmt 1
- 1031 0366 8091 0000 		lds r24,state
- 1032 036a 8F5F      		subi r24,lo8(-(1))
- 1033 036c 8093 0000 		sts state,r24
- 156:main.c        ****     if(state>10)state=0;
- 1034               		.loc 1 156 0
- 1035 0370 8091 0000 		lds r24,state
- 1036 0374 8B30      		cpi r24,lo8(11)
- 1037 0376 00F0      		brlo .L36
- 1038               		.loc 1 156 0 is_stmt 0 discriminator 1
- 1039 0378 1092 0000 		sts state,__zero_reg__
- 1040               	.L36:
- 1041               	/* epilogue start */
- 157:main.c        **** }
- 1042               		.loc 1 157 0 is_stmt 1
- 1043 037c FF91      		pop r31
- 1044 037e EF91      		pop r30
- 1045 0380 BF91      		pop r27
- 1046 0382 AF91      		pop r26
- 1047 0384 9F91      		pop r25
- 1048 0386 8F91      		pop r24
- 1049 0388 7F91      		pop r23
- 1050 038a 6F91      		pop r22
- 1051 038c 5F91      		pop r21
- 1052 038e 4F91      		pop r20
- 1053 0390 3F91      		pop r19
- 1054 0392 2F91      		pop r18
- 1055 0394 0F90      		pop r0
- 1056 0396 0FBE      		out __SREG__,r0
- 1057 0398 0F90      		pop r0
- 1058 039a 1F90      		pop r1
- 1059 039c 1895      		reti
- 1060               		.cfi_endproc
- 1061               	.LFE11:
- 1063               		.comm	leds,57,1
- 1064               	.global	Mindex
- 1065               		.section .bss
- 1068               	Mindex:
- 1069 0000 00        		.zero	1
- 1070               	.global	Mcurrent
- 1073               	Mcurrent:
- 1074 0001 0000      		.zero	2
- 1075               	.global	state
- 1078               	state:
- 1079 0003 00        		.zero	1
- 1080               	.global	ledb
- 1083               	ledb:
- 1084 0004 00        		.zero	1
- 1085               	.global	ledr
- 1088               	ledr:
- 1089 0005 00        		.zero	1
- 1090               		.comm	M1rainbow,3,1
- 1091               		.comm	M1reset,3,1
- 1092               		.comm	M1eventMode,3,1
- 1093               		.comm	M2setminpm,3,1
- 1094               		.comm	M2setminam,3,1
- 1095               		.comm	M2sethourpm,3,1
- 1096               		.comm	M2sethouram,3,1
- 1097               		.comm	M1setTime,3,1
- 1098               		.comm	M3onhour,3,1
- 1099               		.comm	M2offhour,3,1
- 1100               		.comm	M1nightmode,3,1
- 1101               		.comm	M1cmode,3,1
- 1102               		.comm	M1mode,3,1
- 1103               		.comm	M0main,3,1
- 1104               		.comm	USI_I2C_Master_State,1,1
- 1105               		.comm	currentTime,5,1
- 1106               		.section	.rodata
- 1109               	colorArray:
- 1110 0000 07        		.byte	7
- 1111 0001 03        		.byte	3
- 1112 0002 01        		.byte	1
- 1113 0003 05        		.byte	5
- 1114 0004 04        		.byte	4
- 1115 0005 06        		.byte	6
- 1116 0006 02        		.byte	2
- 1117               		.text
- 1118               	.Letext0:
- 1119               		.file 3 "/usr/lib/avr/include/stdint.h"
- 1120               		.file 4 "RTC.h"
- 1121               		.file 5 "Menu.h"
- 1122               		.file 6 "Led.h"
- 1123               		.file 7 "defines.h"
+ 153:main.c        ****         default:
+ 154:main.c        ****             sendData(0x000000);
+ 1017               		.loc 1 154 0
+ 1018 0354 60E0      		ldi r22,0
+ 1019 0356 70E0      		ldi r23,0
+ 1020 0358 CB01      		movw r24,r22
+ 1021               	.L51:
+ 1022 035a 00D0      		rcall sendData
+ 1023               	.LVL57:
+ 155:main.c        ****     }
+ 156:main.c        ****     if(EEPROM_read(EE_NIGHTMODE)!=1)state++;
+ 1024               		.loc 1 156 0
+ 1025 035c 81E0      		ldi r24,lo8(1)
+ 1026 035e 00D0      		rcall EEPROM_read
+ 1027               	.LVL58:
+ 1028 0360 8130      		cpi r24,lo8(1)
+ 1029 0362 01F0      		breq .L46
+ 1030               		.loc 1 156 0 is_stmt 0 discriminator 1
+ 1031 0364 8091 0000 		lds r24,state
+ 1032 0368 8F5F      		subi r24,lo8(-(1))
+ 1033 036a 8093 0000 		sts state,r24
+ 1034               	.L46:
+ 157:main.c        ****     state++;
+ 1035               		.loc 1 157 0 is_stmt 1
+ 1036 036e 8091 0000 		lds r24,state
+ 1037 0372 8F5F      		subi r24,lo8(-(1))
+ 1038 0374 8093 0000 		sts state,r24
+ 158:main.c        ****     if(state>10)state=0;
+ 1039               		.loc 1 158 0
+ 1040 0378 8091 0000 		lds r24,state
+ 1041 037c 8B30      		cpi r24,lo8(11)
+ 1042 037e 00F0      		brlo .L36
+ 1043               		.loc 1 158 0 is_stmt 0 discriminator 1
+ 1044 0380 1092 0000 		sts state,__zero_reg__
+ 1045               	.L36:
+ 1046               	/* epilogue start */
+ 159:main.c        **** }
+ 1047               		.loc 1 159 0 is_stmt 1
+ 1048 0384 FF91      		pop r31
+ 1049 0386 EF91      		pop r30
+ 1050 0388 BF91      		pop r27
+ 1051 038a AF91      		pop r26
+ 1052 038c 9F91      		pop r25
+ 1053 038e 8F91      		pop r24
+ 1054 0390 7F91      		pop r23
+ 1055 0392 6F91      		pop r22
+ 1056 0394 5F91      		pop r21
+ 1057 0396 4F91      		pop r20
+ 1058 0398 3F91      		pop r19
+ 1059 039a 2F91      		pop r18
+ 1060 039c 0F90      		pop r0
+ 1061 039e 0FBE      		out __SREG__,r0
+ 1062 03a0 0F90      		pop r0
+ 1063 03a2 1F90      		pop r1
+ 1064 03a4 1895      		reti
+ 1065               		.cfi_endproc
+ 1066               	.LFE11:
+ 1068               		.comm	leds,57,1
+ 1069               	.global	Mindex
+ 1070               		.section .bss
+ 1073               	Mindex:
+ 1074 0000 00        		.zero	1
+ 1075               	.global	Mcurrent
+ 1078               	Mcurrent:
+ 1079 0001 0000      		.zero	2
+ 1080               	.global	state
+ 1083               	state:
+ 1084 0003 00        		.zero	1
+ 1085               	.global	ledb
+ 1088               	ledb:
+ 1089 0004 00        		.zero	1
+ 1090               	.global	ledr
+ 1093               	ledr:
+ 1094 0005 00        		.zero	1
+ 1095               		.comm	M1rainbow,3,1
+ 1096               		.comm	M1reset,3,1
+ 1097               		.comm	M1eventMode,3,1
+ 1098               		.comm	M2setminpm,3,1
+ 1099               		.comm	M2setminam,3,1
+ 1100               		.comm	M2sethourpm,3,1
+ 1101               		.comm	M2sethouram,3,1
+ 1102               		.comm	M1setTime,3,1
+ 1103               		.comm	M3onhour,3,1
+ 1104               		.comm	M2offhour,3,1
+ 1105               		.comm	M1nightmode,3,1
+ 1106               		.comm	M1cmode,3,1
+ 1107               		.comm	M1mode,3,1
+ 1108               		.comm	M0main,3,1
+ 1109               		.comm	USI_I2C_Master_State,1,1
+ 1110               		.comm	currentTime,5,1
+ 1111               		.section	.rodata
+ 1114               	colorArray:
+ 1115 0000 07        		.byte	7
+ 1116 0001 03        		.byte	3
+ 1117 0002 01        		.byte	1
+ 1118 0003 05        		.byte	5
+ 1119 0004 04        		.byte	4
+ 1120 0005 06        		.byte	6
+ 1121 0006 02        		.byte	2
+ 1122               		.text
+ 1123               	.Letext0:
+ 1124               		.file 3 "/usr/lib/avr/include/stdint.h"
+ 1125               		.file 4 "RTC.h"
+ 1126               		.file 5 "Menu.h"
+ 1127               		.file 6 "Led.h"
+ 1128               		.file 7 "defines.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/ccFgxgeO.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccFgxgeO.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccFgxgeO.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccFgxgeO.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccFgxgeO.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccFgxgeO.s:12     .text:0000000000000000 sendData
-     /tmp/ccFgxgeO.s:1088   .bss:0000000000000005 ledr
-     /tmp/ccFgxgeO.s:1083   .bss:0000000000000004 ledb
-     /tmp/ccFgxgeO.s:45     .text.startup:0000000000000000 main
+     /tmp/ccdKiZCH.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccdKiZCH.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccdKiZCH.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccdKiZCH.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccdKiZCH.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccdKiZCH.s:12     .text:0000000000000000 sendData
+     /tmp/ccdKiZCH.s:1093   .bss:0000000000000005 ledr
+     /tmp/ccdKiZCH.s:1088   .bss:0000000000000004 ledb
+     /tmp/ccdKiZCH.s:45     .text.startup:0000000000000000 main
                             *COM*:0000000000000039 leds
                             *COM*:0000000000000005 currentTime
-     /tmp/ccFgxgeO.s:273    .text:0000000000000012 __vector_3
-     /tmp/ccFgxgeO.s:1073   .bss:0000000000000001 Mcurrent
-     /tmp/ccFgxgeO.s:1068   .bss:0000000000000000 Mindex
-     /tmp/ccFgxgeO.s:383    .text:0000000000000078 __vector_2
+     /tmp/ccdKiZCH.s:273    .text:0000000000000012 __vector_3
+     /tmp/ccdKiZCH.s:1078   .bss:0000000000000001 Mcurrent
+     /tmp/ccdKiZCH.s:1073   .bss:0000000000000000 Mindex
+     /tmp/ccdKiZCH.s:383    .text:0000000000000078 __vector_2
                             *COM*:0000000000000003 M0main
-     /tmp/ccFgxgeO.s:524    .text:0000000000000114 __vector_8
-     /tmp/ccFgxgeO.s:1109   .rodata:0000000000000000 colorArray
-     /tmp/ccFgxgeO.s:874    .text:00000000000002c0 __vector_11
-     /tmp/ccFgxgeO.s:1078   .bss:0000000000000003 state
+     /tmp/ccdKiZCH.s:524    .text:0000000000000114 __vector_8
+     /tmp/ccdKiZCH.s:1114   .rodata:0000000000000000 colorArray
+     /tmp/ccdKiZCH.s:874    .text:00000000000002c0 __vector_11
+     /tmp/ccdKiZCH.s:1083   .bss:0000000000000003 state
                             *COM*:0000000000000003 M1rainbow
                             *COM*:0000000000000003 M1reset
                             *COM*:0000000000000003 M1eventMode
