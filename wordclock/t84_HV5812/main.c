@@ -135,22 +135,25 @@ ISR( TIM0_OVF_vect ){//mux for each color, row 0 and 1
         case 0:
             sendData(R2 | getDataByColor(RED,0,leds));
             break;
-        case 1:
+        case 2:
             sendData(R1 | getDataByColor(RED,1,leds));
             break;
-        case 2:
+        case 4:
             sendData(G2 | getDataByColor(GREEN,0,leds));
             break;
-        case 3:
+        case 6:
             sendData(G1 | getDataByColor(GREEN,1,leds));
             break;
-        case 4:
+        case 8:
             sendData(B2 | getDataByColor(BLUE,0,leds));
             break;
-        case 5:
+        case 10:
             sendData(B1 | getDataByColor(BLUE,1,leds));
             break;
+        default:
+            sendData(0x000000);
     }
+    if(EEPROM_read(EE_NIGHTMODE)!=1)state++;
     state++;
-    if(state>5)state=0;
+    if(state>10)state=0;
 }

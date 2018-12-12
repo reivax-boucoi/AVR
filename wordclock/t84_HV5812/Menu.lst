@@ -217,7 +217,7 @@
  204:Menu.c        ****     if(i<3)EEPROM_write(EE_NIGHTMODE,i);
  205:Menu.c        **** }
  206:Menu.c        **** uint8_t isInAllowedTime(uint8_t h){
- 207:Menu.c        ****     if(EEPROM_read(EE_NIGHTMODE))return (h>=EEPROM_read(EE_ONHOUR) && h<=EEPROM_read(EE_OFFHOUR));
+ 207:Menu.c        ****     if(EEPROM_read(EE_NIGHTMODE)==2)return (h>=EEPROM_read(EE_ONHOUR) && h<=EEPROM_read(EE_OFFHOUR)
  208:Menu.c        ****     return 1;
  209:Menu.c        **** }
  210:Menu.c        **** void MsetNightOff(uint8_t i){
@@ -1312,7 +1312,7 @@
  825               	.global	isInAllowedTime
  827               	isInAllowedTime:
  828               	.LFB16:
- 206:Menu.c        ****     if(EEPROM_read(EE_NIGHTMODE))return (h>=EEPROM_read(EE_ONHOUR) && h<=EEPROM_read(EE_OFFHOUR));
+ 206:Menu.c        ****     if(EEPROM_read(EE_NIGHTMODE)==2)return (h>=EEPROM_read(EE_ONHOUR) && h<=EEPROM_read(EE_OFFHOUR)
  829               		.loc 1 206 0
  830               		.cfi_startproc
  831               	.LVL77:
@@ -1331,365 +1331,364 @@
  843               	.LVL78:
  844 02a0 00D0      		rcall EEPROM_read
  845               	.LVL79:
- 846 02a2 8823      		tst r24
- 847 02a4 01F0      		breq .L53
+ 846 02a2 8230      		cpi r24,lo8(2)
+ 847 02a4 01F4      		brne .L53
  207:Menu.c        ****     return 1;
  848               		.loc 1 207 0 is_stmt 0 discriminator 1
- 849 02a6 82E0      		ldi r24,lo8(2)
- 850 02a8 00D0      		rcall EEPROM_read
- 851               	.LVL80:
- 852 02aa C817      		cp r28,r24
- 853 02ac 00F0      		brlo .L54
+ 849 02a6 00D0      		rcall EEPROM_read
+ 850               	.LVL80:
+ 851 02a8 C817      		cp r28,r24
+ 852 02aa 00F0      		brlo .L54
  207:Menu.c        ****     return 1;
- 854               		.loc 1 207 0 discriminator 2
- 855 02ae 83E0      		ldi r24,lo8(3)
- 856 02b0 00D0      		rcall EEPROM_read
- 857               	.LVL81:
- 858 02b2 91E0      		ldi r25,lo8(1)
- 859 02b4 8C17      		cp r24,r28
- 860 02b6 00F4      		brsh .L52
- 861 02b8 90E0      		ldi r25,0
- 862               	.L52:
- 863 02ba 892F      		mov r24,r25
- 864 02bc 00C0      		rjmp .L50
- 865               	.L54:
+ 853               		.loc 1 207 0 discriminator 2
+ 854 02ac 83E0      		ldi r24,lo8(3)
+ 855 02ae 00D0      		rcall EEPROM_read
+ 856               	.LVL81:
+ 857 02b0 91E0      		ldi r25,lo8(1)
+ 858 02b2 8C17      		cp r24,r28
+ 859 02b4 00F4      		brsh .L52
+ 860 02b6 90E0      		ldi r25,0
+ 861               	.L52:
+ 862 02b8 892F      		mov r24,r25
+ 863 02ba 00C0      		rjmp .L50
+ 864               	.L54:
  207:Menu.c        ****     return 1;
- 866               		.loc 1 207 0
- 867 02be 80E0      		ldi r24,0
- 868 02c0 00C0      		rjmp .L50
- 869               	.L53:
+ 865               		.loc 1 207 0
+ 866 02bc 80E0      		ldi r24,0
+ 867 02be 00C0      		rjmp .L50
+ 868               	.L53:
  208:Menu.c        **** }
- 870               		.loc 1 208 0 is_stmt 1
- 871 02c2 81E0      		ldi r24,lo8(1)
- 872               	.L50:
- 873               	/* epilogue start */
+ 869               		.loc 1 208 0 is_stmt 1
+ 870 02c0 81E0      		ldi r24,lo8(1)
+ 871               	.L50:
+ 872               	/* epilogue start */
  209:Menu.c        **** void MsetNightOff(uint8_t i){
- 874               		.loc 1 209 0
- 875 02c4 CF91      		pop r28
- 876               	.LVL82:
- 877 02c6 0895      		ret
- 878               		.cfi_endproc
- 879               	.LFE16:
- 881               	.global	colorMode
- 882               		.section .bss
- 885               	colorMode:
- 886 0000 00        		.zero	1
- 887               	.global	mode
- 888               		.data
- 891               	mode:
- 892 0000 01        		.byte	1
- 893               	.global	M1rainbow
- 894               		.section	.rodata
- 897               	M1rainbow:
- 898 0000 33        		.byte	51
- 899 0001 0000      		.word	gs(MsetRainbow)
- 900 0003 07        		.byte	7
- 901 0004 0000      		.word	0
- 902 0006 08        		.byte	8
- 903 0007 0000      		.word	0
- 904 0009 0F        		.byte	15
- 905 000a 0000      		.word	M0main
- 906               	.global	M1reset
- 909               	M1reset:
- 910 000c 42        		.byte	66
- 911 000d 0000      		.word	gs(Mreset)
- 912 000f 12        		.byte	18
- 913 0010 0000      		.word	0
- 914 0012 0F        		.byte	15
- 915 0013 0000      		.word	M0main
- 916               	.global	M1eventMode
- 919               	M1eventMode:
- 920 0015 13        		.byte	19
- 921 0016 0000      		.word	gs(MsetEventMode)
- 922 0018 07        		.byte	7
- 923 0019 0000      		.word	0
- 924 001b 08        		.byte	8
- 925 001c 0000      		.word	0
- 926 001e 0F        		.byte	15
- 927 001f 0000      		.word	M0main
- 928               	.global	M2setminpm
- 931               	M2setminpm:
- 932 0021 24        		.byte	36
- 933 0022 0000      		.word	gs(MsetMinpm)
- 934 0024 05        		.byte	5
- 935 0025 0000      		.word	0
- 936 0027 0B        		.byte	11
- 937 0028 0000      		.word	0
- 938 002a 01        		.byte	1
- 939 002b 0000      		.word	0
- 940 002d 0F        		.byte	15
- 941 002e 0000      		.word	M1setTime
- 942               	.global	M2setminam
- 945               	M2setminam:
- 946 0030 24        		.byte	36
- 947 0031 0000      		.word	gs(MsetMinam)
- 948 0033 05        		.byte	5
- 949 0034 0000      		.word	0
- 950 0036 0B        		.byte	11
- 951 0037 0000      		.word	0
- 952 0039 01        		.byte	1
- 953 003a 0000      		.word	0
- 954 003c 0F        		.byte	15
- 955 003d 0000      		.word	M1setTime
- 956               	.global	M2sethourpm
- 959               	M2sethourpm:
- 960 003f 4C        		.byte	76
- 961 0040 0000      		.word	gs(MsetHourpm)
- 962 0042 07        		.byte	7
- 963 0043 0000      		.word	0
- 964 0045 08        		.byte	8
- 965 0046 0000      		.word	0
- 966 0048 0A        		.byte	10
- 967 0049 0000      		.word	0
- 968 004b 0E        		.byte	14
- 969 004c 0000      		.word	0
- 970 004e 00        		.byte	0
- 971 004f 0000      		.word	0
- 972 0051 04        		.byte	4
- 973 0052 0000      		.word	0
- 974 0054 11        		.byte	17
- 975 0055 0000      		.word	0
- 976 0057 02        		.byte	2
- 977 0058 0000      		.word	0
- 978 005a 0C        		.byte	12
- 979 005b 0000      		.word	0
- 980 005d 06        		.byte	6
- 981 005e 0000      		.word	0
- 982 0060 10        		.byte	16
- 983 0061 0000      		.word	0
- 984 0063 0F        		.byte	15
- 985 0064 0000      		.word	M1setTime
- 986               	.global	M2sethouram
- 989               	M2sethouram:
- 990 0066 4D        		.byte	77
- 991 0067 0000      		.word	gs(MsetHouram)
- 992 0069 07        		.byte	7
- 993 006a 0000      		.word	0
- 994 006c 08        		.byte	8
- 995 006d 0000      		.word	0
- 996 006f 0A        		.byte	10
- 997 0070 0000      		.word	0
- 998 0072 0E        		.byte	14
- 999 0073 0000      		.word	0
- 1000 0075 00        		.byte	0
- 1001 0076 0000      		.word	0
- 1002 0078 04        		.byte	4
- 1003 0079 0000      		.word	0
- 1004 007b 11        		.byte	17
- 1005 007c 0000      		.word	0
- 1006 007e 02        		.byte	2
- 1007 007f 0000      		.word	0
- 1008 0081 0C        		.byte	12
- 1009 0082 0000      		.word	0
- 1010 0084 06        		.byte	6
- 1011 0085 0000      		.word	0
- 1012 0087 10        		.byte	16
- 1013 0088 0000      		.word	0
- 1014 008a 0D        		.byte	13
- 1015 008b 0000      		.word	0
- 1016 008d 0F        		.byte	15
- 1017 008e 0000      		.word	M1setTime
- 1018               	.global	M1setTime
- 1021               	M1setTime:
- 1022 0090 65        		.byte	101
- 1023 0091 0000      		.word	0
- 1024 0093 07        		.byte	7
- 1025 0094 0000      		.word	M2sethouram
- 1026 0096 08        		.byte	8
- 1027 0097 0000      		.word	M2sethourpm
- 1028 0099 0A        		.byte	10
- 1029 009a 0000      		.word	M2setminam
- 1030 009c 0E        		.byte	14
- 1031 009d 0000      		.word	M2setminpm
- 1032 009f 0F        		.byte	15
- 1033 00a0 0000      		.word	M0main
- 1034               	.global	M3onhour
- 1037               	M3onhour:
- 1038 00a2 5C        		.byte	92
- 1039 00a3 0000      		.word	gs(MsetNightOn)
- 1040 00a5 07        		.byte	7
- 1041 00a6 0000      		.word	0
- 1042 00a8 08        		.byte	8
- 1043 00a9 0000      		.word	0
- 1044 00ab 0A        		.byte	10
- 1045 00ac 0000      		.word	0
- 1046 00ae 0E        		.byte	14
- 1047 00af 0000      		.word	0
- 1048 00b1 00        		.byte	0
- 1049 00b2 0000      		.word	0
- 1050 00b4 04        		.byte	4
- 1051 00b5 0000      		.word	0
- 1052 00b7 11        		.byte	17
- 1053 00b8 0000      		.word	0
- 1054 00ba 02        		.byte	2
- 1055 00bb 0000      		.word	0
- 1056 00bd 0C        		.byte	12
- 1057 00be 0000      		.word	0
- 1058 00c0 06        		.byte	6
- 1059 00c1 0000      		.word	0
- 1060 00c3 10        		.byte	16
- 1061 00c4 0000      		.word	0
- 1062 00c6 0F        		.byte	15
- 1063 00c7 0000      		.word	M1nightmode
- 1064               	.global	M2offhour
- 1067               	M2offhour:
- 1068 00c9 4C        		.byte	76
- 1069 00ca 0000      		.word	gs(MsetNightOff)
- 1070 00cc 07        		.byte	7
- 1071 00cd 0000      		.word	M3onhour
- 1072 00cf 08        		.byte	8
- 1073 00d0 0000      		.word	M3onhour
- 1074 00d2 0A        		.byte	10
- 1075 00d3 0000      		.word	M3onhour
- 1076 00d5 0E        		.byte	14
- 1077 00d6 0000      		.word	M3onhour
- 1078 00d8 00        		.byte	0
- 1079 00d9 0000      		.word	M3onhour
- 1080 00db 04        		.byte	4
- 1081 00dc 0000      		.word	M3onhour
- 1082 00de 11        		.byte	17
- 1083 00df 0000      		.word	M3onhour
- 1084 00e1 02        		.byte	2
- 1085 00e2 0000      		.word	M3onhour
- 1086 00e4 0C        		.byte	12
- 1087 00e5 0000      		.word	M3onhour
- 1088 00e7 06        		.byte	6
- 1089 00e8 0000      		.word	M3onhour
- 1090 00ea 10        		.byte	16
- 1091 00eb 0000      		.word	M3onhour
- 1092 00ed 0F        		.byte	15
- 1093 00ee 0000      		.word	M1nightmode
- 1094               	.global	M1nightmode
- 1097               	M1nightmode:
- 1098 00f0 34        		.byte	52
- 1099 00f1 0000      		.word	gs(MsetNightMode)
- 1100 00f3 07        		.byte	7
- 1101 00f4 0000      		.word	0
- 1102 00f6 08        		.byte	8
- 1103 00f7 0000      		.word	M2offhour
- 1104 00f9 0A        		.byte	10
- 1105 00fa 0000      		.word	M2offhour
- 1106 00fc 0F        		.byte	15
- 1107 00fd 0000      		.word	M0main
- 1108               	.global	M1cmode
- 1111               	M1cmode:
- 1112 00ff 2A        		.byte	42
- 1113 0100 0000      		.word	gs(MsetColorMode)
- 1114 0102 07        		.byte	7
- 1115 0103 0000      		.word	0
- 1116 0105 08        		.byte	8
- 1117 0106 0000      		.word	0
- 1118 0108 0A        		.byte	10
- 1119 0109 0000      		.word	0
- 1120 010b 0E        		.byte	14
- 1121 010c 0000      		.word	0
- 1122 010e 00        		.byte	0
- 1123 010f 0000      		.word	0
- 1124 0111 04        		.byte	4
- 1125 0112 0000      		.word	0
- 1126 0114 11        		.byte	17
- 1127 0115 0000      		.word	0
- 1128 0117 02        		.byte	2
- 1129 0118 0000      		.word	0
- 1130 011a 0C        		.byte	12
- 1131 011b 0000      		.word	0
- 1132 011d 0F        		.byte	15
- 1133 011e 0000      		.word	M0main
- 1134               	.global	M1mode
- 1137               	M1mode:
- 1138 0120 15        		.byte	21
- 1139 0121 0000      		.word	gs(MsetMode)
- 1140 0123 07        		.byte	7
- 1141 0124 0000      		.word	0
- 1142 0126 08        		.byte	8
- 1143 0127 0000      		.word	0
- 1144 0129 0A        		.byte	10
- 1145 012a 0000      		.word	0
- 1146 012c 0E        		.byte	14
- 1147 012d 0000      		.word	0
- 1148 012f 0F        		.byte	15
- 1149 0130 0000      		.word	M0main
- 1150               	.global	M0main
- 1153               	M0main:
- 1154 0132 08        		.byte	8
- 1155 0133 0000      		.word	0
- 1156 0135 07        		.byte	7
- 1157 0136 0000      		.word	M1mode
- 1158 0138 08        		.byte	8
- 1159 0139 0000      		.word	M1cmode
- 1160 013b 0A        		.byte	10
- 1161 013c 0000      		.word	M1nightmode
- 1162 013e 0E        		.byte	14
- 1163 013f 0000      		.word	M1setTime
- 1164 0141 00        		.byte	0
- 1165 0142 0000      		.word	M1eventMode
- 1166 0144 04        		.byte	4
- 1167 0145 0000      		.word	M1reset
- 1168 0147 11        		.byte	17
- 1169 0148 0000      		.word	M1rainbow
- 1170 014a 0F        		.byte	15
- 1171 014b 0000      		.word	0
- 1172               		.comm	USI_I2C_Master_State,1,1
- 1173               		.comm	currentTime,5,1
- 1176               	colorArray:
- 1177 014d 07        		.byte	7
- 1178 014e 03        		.byte	3
- 1179 014f 01        		.byte	1
- 1180 0150 05        		.byte	5
- 1181 0151 04        		.byte	4
- 1182 0152 06        		.byte	6
- 1183 0153 02        		.byte	2
- 1184               		.text
- 1185               	.Letext0:
- 1186               		.file 3 "/usr/lib/avr/include/stdint.h"
- 1187               		.file 4 "RTC.h"
- 1188               		.file 5 "Menu.h"
- 1189               		.file 6 "Led.h"
- 1190               		.file 7 "defines.h"
+ 873               		.loc 1 209 0
+ 874 02c2 CF91      		pop r28
+ 875               	.LVL82:
+ 876 02c4 0895      		ret
+ 877               		.cfi_endproc
+ 878               	.LFE16:
+ 880               	.global	colorMode
+ 881               		.section .bss
+ 884               	colorMode:
+ 885 0000 00        		.zero	1
+ 886               	.global	mode
+ 887               		.data
+ 890               	mode:
+ 891 0000 01        		.byte	1
+ 892               	.global	M1rainbow
+ 893               		.section	.rodata
+ 896               	M1rainbow:
+ 897 0000 33        		.byte	51
+ 898 0001 0000      		.word	gs(MsetRainbow)
+ 899 0003 07        		.byte	7
+ 900 0004 0000      		.word	0
+ 901 0006 08        		.byte	8
+ 902 0007 0000      		.word	0
+ 903 0009 0F        		.byte	15
+ 904 000a 0000      		.word	M0main
+ 905               	.global	M1reset
+ 908               	M1reset:
+ 909 000c 42        		.byte	66
+ 910 000d 0000      		.word	gs(Mreset)
+ 911 000f 12        		.byte	18
+ 912 0010 0000      		.word	0
+ 913 0012 0F        		.byte	15
+ 914 0013 0000      		.word	M0main
+ 915               	.global	M1eventMode
+ 918               	M1eventMode:
+ 919 0015 13        		.byte	19
+ 920 0016 0000      		.word	gs(MsetEventMode)
+ 921 0018 07        		.byte	7
+ 922 0019 0000      		.word	0
+ 923 001b 08        		.byte	8
+ 924 001c 0000      		.word	0
+ 925 001e 0F        		.byte	15
+ 926 001f 0000      		.word	M0main
+ 927               	.global	M2setminpm
+ 930               	M2setminpm:
+ 931 0021 24        		.byte	36
+ 932 0022 0000      		.word	gs(MsetMinpm)
+ 933 0024 05        		.byte	5
+ 934 0025 0000      		.word	0
+ 935 0027 0B        		.byte	11
+ 936 0028 0000      		.word	0
+ 937 002a 01        		.byte	1
+ 938 002b 0000      		.word	0
+ 939 002d 0F        		.byte	15
+ 940 002e 0000      		.word	M1setTime
+ 941               	.global	M2setminam
+ 944               	M2setminam:
+ 945 0030 24        		.byte	36
+ 946 0031 0000      		.word	gs(MsetMinam)
+ 947 0033 05        		.byte	5
+ 948 0034 0000      		.word	0
+ 949 0036 0B        		.byte	11
+ 950 0037 0000      		.word	0
+ 951 0039 01        		.byte	1
+ 952 003a 0000      		.word	0
+ 953 003c 0F        		.byte	15
+ 954 003d 0000      		.word	M1setTime
+ 955               	.global	M2sethourpm
+ 958               	M2sethourpm:
+ 959 003f 4C        		.byte	76
+ 960 0040 0000      		.word	gs(MsetHourpm)
+ 961 0042 07        		.byte	7
+ 962 0043 0000      		.word	0
+ 963 0045 08        		.byte	8
+ 964 0046 0000      		.word	0
+ 965 0048 0A        		.byte	10
+ 966 0049 0000      		.word	0
+ 967 004b 0E        		.byte	14
+ 968 004c 0000      		.word	0
+ 969 004e 00        		.byte	0
+ 970 004f 0000      		.word	0
+ 971 0051 04        		.byte	4
+ 972 0052 0000      		.word	0
+ 973 0054 11        		.byte	17
+ 974 0055 0000      		.word	0
+ 975 0057 02        		.byte	2
+ 976 0058 0000      		.word	0
+ 977 005a 0C        		.byte	12
+ 978 005b 0000      		.word	0
+ 979 005d 06        		.byte	6
+ 980 005e 0000      		.word	0
+ 981 0060 10        		.byte	16
+ 982 0061 0000      		.word	0
+ 983 0063 0F        		.byte	15
+ 984 0064 0000      		.word	M1setTime
+ 985               	.global	M2sethouram
+ 988               	M2sethouram:
+ 989 0066 4D        		.byte	77
+ 990 0067 0000      		.word	gs(MsetHouram)
+ 991 0069 07        		.byte	7
+ 992 006a 0000      		.word	0
+ 993 006c 08        		.byte	8
+ 994 006d 0000      		.word	0
+ 995 006f 0A        		.byte	10
+ 996 0070 0000      		.word	0
+ 997 0072 0E        		.byte	14
+ 998 0073 0000      		.word	0
+ 999 0075 00        		.byte	0
+ 1000 0076 0000      		.word	0
+ 1001 0078 04        		.byte	4
+ 1002 0079 0000      		.word	0
+ 1003 007b 11        		.byte	17
+ 1004 007c 0000      		.word	0
+ 1005 007e 02        		.byte	2
+ 1006 007f 0000      		.word	0
+ 1007 0081 0C        		.byte	12
+ 1008 0082 0000      		.word	0
+ 1009 0084 06        		.byte	6
+ 1010 0085 0000      		.word	0
+ 1011 0087 10        		.byte	16
+ 1012 0088 0000      		.word	0
+ 1013 008a 0D        		.byte	13
+ 1014 008b 0000      		.word	0
+ 1015 008d 0F        		.byte	15
+ 1016 008e 0000      		.word	M1setTime
+ 1017               	.global	M1setTime
+ 1020               	M1setTime:
+ 1021 0090 65        		.byte	101
+ 1022 0091 0000      		.word	0
+ 1023 0093 07        		.byte	7
+ 1024 0094 0000      		.word	M2sethouram
+ 1025 0096 08        		.byte	8
+ 1026 0097 0000      		.word	M2sethourpm
+ 1027 0099 0A        		.byte	10
+ 1028 009a 0000      		.word	M2setminam
+ 1029 009c 0E        		.byte	14
+ 1030 009d 0000      		.word	M2setminpm
+ 1031 009f 0F        		.byte	15
+ 1032 00a0 0000      		.word	M0main
+ 1033               	.global	M3onhour
+ 1036               	M3onhour:
+ 1037 00a2 5C        		.byte	92
+ 1038 00a3 0000      		.word	gs(MsetNightOn)
+ 1039 00a5 07        		.byte	7
+ 1040 00a6 0000      		.word	0
+ 1041 00a8 08        		.byte	8
+ 1042 00a9 0000      		.word	0
+ 1043 00ab 0A        		.byte	10
+ 1044 00ac 0000      		.word	0
+ 1045 00ae 0E        		.byte	14
+ 1046 00af 0000      		.word	0
+ 1047 00b1 00        		.byte	0
+ 1048 00b2 0000      		.word	0
+ 1049 00b4 04        		.byte	4
+ 1050 00b5 0000      		.word	0
+ 1051 00b7 11        		.byte	17
+ 1052 00b8 0000      		.word	0
+ 1053 00ba 02        		.byte	2
+ 1054 00bb 0000      		.word	0
+ 1055 00bd 0C        		.byte	12
+ 1056 00be 0000      		.word	0
+ 1057 00c0 06        		.byte	6
+ 1058 00c1 0000      		.word	0
+ 1059 00c3 10        		.byte	16
+ 1060 00c4 0000      		.word	0
+ 1061 00c6 0F        		.byte	15
+ 1062 00c7 0000      		.word	M1nightmode
+ 1063               	.global	M2offhour
+ 1066               	M2offhour:
+ 1067 00c9 4C        		.byte	76
+ 1068 00ca 0000      		.word	gs(MsetNightOff)
+ 1069 00cc 07        		.byte	7
+ 1070 00cd 0000      		.word	M3onhour
+ 1071 00cf 08        		.byte	8
+ 1072 00d0 0000      		.word	M3onhour
+ 1073 00d2 0A        		.byte	10
+ 1074 00d3 0000      		.word	M3onhour
+ 1075 00d5 0E        		.byte	14
+ 1076 00d6 0000      		.word	M3onhour
+ 1077 00d8 00        		.byte	0
+ 1078 00d9 0000      		.word	M3onhour
+ 1079 00db 04        		.byte	4
+ 1080 00dc 0000      		.word	M3onhour
+ 1081 00de 11        		.byte	17
+ 1082 00df 0000      		.word	M3onhour
+ 1083 00e1 02        		.byte	2
+ 1084 00e2 0000      		.word	M3onhour
+ 1085 00e4 0C        		.byte	12
+ 1086 00e5 0000      		.word	M3onhour
+ 1087 00e7 06        		.byte	6
+ 1088 00e8 0000      		.word	M3onhour
+ 1089 00ea 10        		.byte	16
+ 1090 00eb 0000      		.word	M3onhour
+ 1091 00ed 0F        		.byte	15
+ 1092 00ee 0000      		.word	M1nightmode
+ 1093               	.global	M1nightmode
+ 1096               	M1nightmode:
+ 1097 00f0 34        		.byte	52
+ 1098 00f1 0000      		.word	gs(MsetNightMode)
+ 1099 00f3 07        		.byte	7
+ 1100 00f4 0000      		.word	0
+ 1101 00f6 08        		.byte	8
+ 1102 00f7 0000      		.word	M2offhour
+ 1103 00f9 0A        		.byte	10
+ 1104 00fa 0000      		.word	M2offhour
+ 1105 00fc 0F        		.byte	15
+ 1106 00fd 0000      		.word	M0main
+ 1107               	.global	M1cmode
+ 1110               	M1cmode:
+ 1111 00ff 2A        		.byte	42
+ 1112 0100 0000      		.word	gs(MsetColorMode)
+ 1113 0102 07        		.byte	7
+ 1114 0103 0000      		.word	0
+ 1115 0105 08        		.byte	8
+ 1116 0106 0000      		.word	0
+ 1117 0108 0A        		.byte	10
+ 1118 0109 0000      		.word	0
+ 1119 010b 0E        		.byte	14
+ 1120 010c 0000      		.word	0
+ 1121 010e 00        		.byte	0
+ 1122 010f 0000      		.word	0
+ 1123 0111 04        		.byte	4
+ 1124 0112 0000      		.word	0
+ 1125 0114 11        		.byte	17
+ 1126 0115 0000      		.word	0
+ 1127 0117 02        		.byte	2
+ 1128 0118 0000      		.word	0
+ 1129 011a 0C        		.byte	12
+ 1130 011b 0000      		.word	0
+ 1131 011d 0F        		.byte	15
+ 1132 011e 0000      		.word	M0main
+ 1133               	.global	M1mode
+ 1136               	M1mode:
+ 1137 0120 15        		.byte	21
+ 1138 0121 0000      		.word	gs(MsetMode)
+ 1139 0123 07        		.byte	7
+ 1140 0124 0000      		.word	0
+ 1141 0126 08        		.byte	8
+ 1142 0127 0000      		.word	0
+ 1143 0129 0A        		.byte	10
+ 1144 012a 0000      		.word	0
+ 1145 012c 0E        		.byte	14
+ 1146 012d 0000      		.word	0
+ 1147 012f 0F        		.byte	15
+ 1148 0130 0000      		.word	M0main
+ 1149               	.global	M0main
+ 1152               	M0main:
+ 1153 0132 08        		.byte	8
+ 1154 0133 0000      		.word	0
+ 1155 0135 07        		.byte	7
+ 1156 0136 0000      		.word	M1mode
+ 1157 0138 08        		.byte	8
+ 1158 0139 0000      		.word	M1cmode
+ 1159 013b 0A        		.byte	10
+ 1160 013c 0000      		.word	M1nightmode
+ 1161 013e 0E        		.byte	14
+ 1162 013f 0000      		.word	M1setTime
+ 1163 0141 00        		.byte	0
+ 1164 0142 0000      		.word	M1eventMode
+ 1165 0144 04        		.byte	4
+ 1166 0145 0000      		.word	M1reset
+ 1167 0147 11        		.byte	17
+ 1168 0148 0000      		.word	M1rainbow
+ 1169 014a 0F        		.byte	15
+ 1170 014b 0000      		.word	0
+ 1171               		.comm	USI_I2C_Master_State,1,1
+ 1172               		.comm	currentTime,5,1
+ 1175               	colorArray:
+ 1176 014d 07        		.byte	7
+ 1177 014e 03        		.byte	3
+ 1178 014f 01        		.byte	1
+ 1179 0150 05        		.byte	5
+ 1180 0151 04        		.byte	4
+ 1181 0152 06        		.byte	6
+ 1182 0153 02        		.byte	2
+ 1183               		.text
+ 1184               	.Letext0:
+ 1185               		.file 3 "/usr/lib/avr/include/stdint.h"
+ 1186               		.file 4 "RTC.h"
+ 1187               		.file 5 "Menu.h"
+ 1188               		.file 6 "Led.h"
+ 1189               		.file 7 "defines.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 Menu.c
-     /tmp/ccVXsdIg.s:2      *ABS*:000000000000003e __SP_H__
-     /tmp/ccVXsdIg.s:3      *ABS*:000000000000003d __SP_L__
-     /tmp/ccVXsdIg.s:4      *ABS*:000000000000003f __SREG__
-     /tmp/ccVXsdIg.s:5      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/ccVXsdIg.s:6      *ABS*:0000000000000001 __zero_reg__
-     /tmp/ccVXsdIg.s:12     .text:0000000000000000 MsetHouram
-     /tmp/ccVXsdIg.s:37     .text:000000000000000a MsetHourpm
-     /tmp/ccVXsdIg.s:61     .text:0000000000000014 MsetRainbow
-     /tmp/ccVXsdIg.s:891    .data:0000000000000000 mode
-     /tmp/ccVXsdIg.s:239    .text:00000000000000e4 MsetMinam
-     /tmp/ccVXsdIg.s:270    .text:00000000000000f2 MsetMinpm
-     /tmp/ccVXsdIg.s:302    .text:0000000000000102 findNextEntry
-     /tmp/ccVXsdIg.s:338    .text:0000000000000122 getSubMenu
-     /tmp/ccVXsdIg.s:369    .text:000000000000013a EEPROM_write
-     /tmp/ccVXsdIg.s:400    .text:000000000000014e MsetMode
-     /tmp/ccVXsdIg.s:443    .text:000000000000016e MsetColorMode
-     /tmp/ccVXsdIg.s:1176   .rodata:000000000000014d colorArray
-     /tmp/ccVXsdIg.s:885    .bss:0000000000000000 colorMode
-     /tmp/ccVXsdIg.s:501    .text:00000000000001a2 MsetNightMode
-     /tmp/ccVXsdIg.s:526    .text:00000000000001ae MsetNightOff
-     /tmp/ccVXsdIg.s:547    .text:00000000000001b6 MsetNightOn
-     /tmp/ccVXsdIg.s:568    .text:00000000000001be MsetEventMode
-     /tmp/ccVXsdIg.s:598    .text:00000000000001cc Mreset
-     /tmp/ccVXsdIg.s:675    .text:0000000000000208 EEPROM_read
-     /tmp/ccVXsdIg.s:704    .text:0000000000000218 Minit
-     /tmp/ccVXsdIg.s:733    .text:000000000000022e getMode
-     /tmp/ccVXsdIg.s:780    .text:0000000000000266 getColor
-     /tmp/ccVXsdIg.s:827    .text:000000000000029a isInAllowedTime
-     /tmp/ccVXsdIg.s:897    .rodata:0000000000000000 M1rainbow
-     /tmp/ccVXsdIg.s:1153   .rodata:0000000000000132 M0main
-     /tmp/ccVXsdIg.s:909    .rodata:000000000000000c M1reset
-     /tmp/ccVXsdIg.s:919    .rodata:0000000000000015 M1eventMode
-     /tmp/ccVXsdIg.s:931    .rodata:0000000000000021 M2setminpm
-     /tmp/ccVXsdIg.s:1021   .rodata:0000000000000090 M1setTime
-     /tmp/ccVXsdIg.s:945    .rodata:0000000000000030 M2setminam
-     /tmp/ccVXsdIg.s:959    .rodata:000000000000003f M2sethourpm
-     /tmp/ccVXsdIg.s:989    .rodata:0000000000000066 M2sethouram
-     /tmp/ccVXsdIg.s:1037   .rodata:00000000000000a2 M3onhour
-     /tmp/ccVXsdIg.s:1097   .rodata:00000000000000f0 M1nightmode
-     /tmp/ccVXsdIg.s:1067   .rodata:00000000000000c9 M2offhour
-     /tmp/ccVXsdIg.s:1111   .rodata:00000000000000ff M1cmode
-     /tmp/ccVXsdIg.s:1137   .rodata:0000000000000120 M1mode
+     /tmp/cc6hF7U2.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cc6hF7U2.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cc6hF7U2.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cc6hF7U2.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc6hF7U2.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc6hF7U2.s:12     .text:0000000000000000 MsetHouram
+     /tmp/cc6hF7U2.s:37     .text:000000000000000a MsetHourpm
+     /tmp/cc6hF7U2.s:61     .text:0000000000000014 MsetRainbow
+     /tmp/cc6hF7U2.s:890    .data:0000000000000000 mode
+     /tmp/cc6hF7U2.s:239    .text:00000000000000e4 MsetMinam
+     /tmp/cc6hF7U2.s:270    .text:00000000000000f2 MsetMinpm
+     /tmp/cc6hF7U2.s:302    .text:0000000000000102 findNextEntry
+     /tmp/cc6hF7U2.s:338    .text:0000000000000122 getSubMenu
+     /tmp/cc6hF7U2.s:369    .text:000000000000013a EEPROM_write
+     /tmp/cc6hF7U2.s:400    .text:000000000000014e MsetMode
+     /tmp/cc6hF7U2.s:443    .text:000000000000016e MsetColorMode
+     /tmp/cc6hF7U2.s:1175   .rodata:000000000000014d colorArray
+     /tmp/cc6hF7U2.s:884    .bss:0000000000000000 colorMode
+     /tmp/cc6hF7U2.s:501    .text:00000000000001a2 MsetNightMode
+     /tmp/cc6hF7U2.s:526    .text:00000000000001ae MsetNightOff
+     /tmp/cc6hF7U2.s:547    .text:00000000000001b6 MsetNightOn
+     /tmp/cc6hF7U2.s:568    .text:00000000000001be MsetEventMode
+     /tmp/cc6hF7U2.s:598    .text:00000000000001cc Mreset
+     /tmp/cc6hF7U2.s:675    .text:0000000000000208 EEPROM_read
+     /tmp/cc6hF7U2.s:704    .text:0000000000000218 Minit
+     /tmp/cc6hF7U2.s:733    .text:000000000000022e getMode
+     /tmp/cc6hF7U2.s:780    .text:0000000000000266 getColor
+     /tmp/cc6hF7U2.s:827    .text:000000000000029a isInAllowedTime
+     /tmp/cc6hF7U2.s:896    .rodata:0000000000000000 M1rainbow
+     /tmp/cc6hF7U2.s:1152   .rodata:0000000000000132 M0main
+     /tmp/cc6hF7U2.s:908    .rodata:000000000000000c M1reset
+     /tmp/cc6hF7U2.s:918    .rodata:0000000000000015 M1eventMode
+     /tmp/cc6hF7U2.s:930    .rodata:0000000000000021 M2setminpm
+     /tmp/cc6hF7U2.s:1020   .rodata:0000000000000090 M1setTime
+     /tmp/cc6hF7U2.s:944    .rodata:0000000000000030 M2setminam
+     /tmp/cc6hF7U2.s:958    .rodata:000000000000003f M2sethourpm
+     /tmp/cc6hF7U2.s:988    .rodata:0000000000000066 M2sethouram
+     /tmp/cc6hF7U2.s:1036   .rodata:00000000000000a2 M3onhour
+     /tmp/cc6hF7U2.s:1096   .rodata:00000000000000f0 M1nightmode
+     /tmp/cc6hF7U2.s:1066   .rodata:00000000000000c9 M2offhour
+     /tmp/cc6hF7U2.s:1110   .rodata:00000000000000ff M1cmode
+     /tmp/cc6hF7U2.s:1136   .rodata:0000000000000120 M1mode
                             *COM*:0000000000000001 USI_I2C_Master_State
                             *COM*:0000000000000005 currentTime
 

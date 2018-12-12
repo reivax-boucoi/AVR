@@ -204,7 +204,7 @@ void MsetNightMode(uint8_t i){
     if(i<3)EEPROM_write(EE_NIGHTMODE,i);
 }
 uint8_t isInAllowedTime(uint8_t h){
-    if(EEPROM_read(EE_NIGHTMODE))return (h>=EEPROM_read(EE_ONHOUR) && h<=EEPROM_read(EE_OFFHOUR));
+    if(EEPROM_read(EE_NIGHTMODE)==2)return (h>=EEPROM_read(EE_ONHOUR) && h<=EEPROM_read(EE_OFFHOUR));
     return 1;
 }
 void MsetNightOff(uint8_t i){
