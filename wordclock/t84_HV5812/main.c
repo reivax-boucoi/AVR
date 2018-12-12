@@ -123,7 +123,7 @@ ISR( TIM1_OVF_vect ){
         }else{
             clearLeds(leds);
         }
-        ledr=!ledr;
+        //ledr=!ledr;
     }else{//menu settings mode
         clearLeds(leds);
         ledOn(&leds[Mcurrent->sub[Mindex].led],colorArray[Mcurrent->nb_optn>>4]);

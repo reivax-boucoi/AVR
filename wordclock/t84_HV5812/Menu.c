@@ -195,7 +195,7 @@ uint8_t getColor(void){
         colorMode++;
         return colorArray[colorMode-129];
     }else if(colorMode>63){//cycle all
-        return colorArray[(colorMode-64)%7];
+        return colorArray[colorMode-64];
     }else{//fixed
         return colorMode;
     }
@@ -231,7 +231,7 @@ void MsetEventMode(uint8_t i){
 void Mreset(uint8_t i){
     if(i<1){
         MsetMode(1);
-        MsetColorMode(0);
+        MsetColorMode(128);
         EEPROM_write(EE_NIGHTMODE,1);
         EEPROM_write(EE_OFFHOUR,12+10);
         EEPROM_write(EE_ONHOUR,1+8);
