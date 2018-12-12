@@ -1,0 +1,2837 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000ddc  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000168  00800060  00000ddc  00000e70  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000046  008001c8  008001c8  00000fd8  2**0
+                  ALLOC
+  3 .comment      00000011  00000000  00000000  00000fd8  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000fec  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000088  00000000  00000000  00001028  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00002f67  00000000  00000000  000010b0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000ddc  00000000  00000000  00004017  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000d9e  00000000  00000000  00004df3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000005d4  00000000  00000000  00005b94  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000006a1  00000000  00000000  00006168  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00001c4c  00000000  00000000  00006809  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000018  00000000  00000000  00008455  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	10 c0       	rjmp	.+32     	; 0x22 <__ctors_end>
+   2:	2a c0       	rjmp	.+84     	; 0x58 <__bad_interrupt>
+   4:	66 c0       	rjmp	.+204    	; 0xd2 <__vector_2>
+   6:	32 c0       	rjmp	.+100    	; 0x6c <__vector_3>
+   8:	27 c0       	rjmp	.+78     	; 0x58 <__bad_interrupt>
+   a:	26 c0       	rjmp	.+76     	; 0x58 <__bad_interrupt>
+   c:	25 c0       	rjmp	.+74     	; 0x58 <__bad_interrupt>
+   e:	24 c0       	rjmp	.+72     	; 0x58 <__bad_interrupt>
+  10:	ae c0       	rjmp	.+348    	; 0x16e <__vector_8>
+  12:	22 c0       	rjmp	.+68     	; 0x58 <__bad_interrupt>
+  14:	21 c0       	rjmp	.+66     	; 0x58 <__bad_interrupt>
+  16:	88 c1       	rjmp	.+784    	; 0x328 <__vector_11>
+  18:	1f c0       	rjmp	.+62     	; 0x58 <__bad_interrupt>
+  1a:	1e c0       	rjmp	.+60     	; 0x58 <__bad_interrupt>
+  1c:	1d c0       	rjmp	.+58     	; 0x58 <__bad_interrupt>
+  1e:	1c c0       	rjmp	.+56     	; 0x58 <__bad_interrupt>
+  20:	1b c0       	rjmp	.+54     	; 0x58 <__bad_interrupt>
+
+00000022 <__ctors_end>:
+  22:	11 24       	eor	r1, r1
+  24:	1f be       	out	0x3f, r1	; 63
+  26:	cf e5       	ldi	r28, 0x5F	; 95
+  28:	d2 e0       	ldi	r29, 0x02	; 2
+  2a:	de bf       	out	0x3e, r29	; 62
+  2c:	cd bf       	out	0x3d, r28	; 61
+
+0000002e <__do_copy_data>:
+  2e:	11 e0       	ldi	r17, 0x01	; 1
+  30:	a0 e6       	ldi	r26, 0x60	; 96
+  32:	b0 e0       	ldi	r27, 0x00	; 0
+  34:	ec ed       	ldi	r30, 0xDC	; 220
+  36:	fd e0       	ldi	r31, 0x0D	; 13
+  38:	02 c0       	rjmp	.+4      	; 0x3e <__SP_H__>
+  3a:	05 90       	lpm	r0, Z+
+  3c:	0d 92       	st	X+, r0
+  3e:	a8 3c       	cpi	r26, 0xC8	; 200
+  40:	b1 07       	cpc	r27, r17
+  42:	d9 f7       	brne	.-10     	; 0x3a <__do_copy_data+0xc>
+
+00000044 <__do_clear_bss>:
+  44:	22 e0       	ldi	r18, 0x02	; 2
+  46:	a8 ec       	ldi	r26, 0xC8	; 200
+  48:	b1 e0       	ldi	r27, 0x01	; 1
+  4a:	01 c0       	rjmp	.+2      	; 0x4e <.do_clear_bss_start>
+
+0000004c <.do_clear_bss_loop>:
+  4c:	1d 92       	st	X+, r1
+
+0000004e <.do_clear_bss_start>:
+  4e:	ae 30       	cpi	r26, 0x0E	; 14
+  50:	b2 07       	cpc	r27, r18
+  52:	e1 f7       	brne	.-8      	; 0x4c <.do_clear_bss_loop>
+  54:	ee d5       	rcall	.+3036   	; 0xc32 <main>
+  56:	c0 c6       	rjmp	.+3456   	; 0xdd8 <_exit>
+
+00000058 <__bad_interrupt>:
+  58:	d3 cf       	rjmp	.-90     	; 0x0 <__vectors>
+
+0000005a <sendData>:
+
+uint8_t ledr=0;
+uint8_t ledb=0;
+
+void sendData(uint32_t data){
+    if(ledr)data|=LEDR;
+  5a:	20 91 cd 01 	lds	r18, 0x01CD	; 0x8001cd <ledr>
+  5e:	21 11       	cpse	r18, r1
+  60:	78 60       	ori	r23, 0x08	; 8
+    if(ledb)data|=LEDB;
+  62:	20 91 cc 01 	lds	r18, 0x01CC	; 0x8001cc <ledb>
+  66:	21 11       	cpse	r18, r1
+  68:	74 60       	ori	r23, 0x04	; 4
+    sendRawData(data);
+  6a:	b4 c2       	rjmp	.+1384   	; 0x5d4 <sendRawData>
+
+0000006c <__vector_3>:
+    while(1){
+    }
+    return(0);
+    
+}
+ISR( PCINT1_vect){
+  6c:	1f 92       	push	r1
+  6e:	0f 92       	push	r0
+  70:	0f b6       	in	r0, 0x3f	; 63
+  72:	0f 92       	push	r0
+  74:	11 24       	eor	r1, r1
+  76:	2f 93       	push	r18
+  78:	3f 93       	push	r19
+  7a:	4f 93       	push	r20
+  7c:	5f 93       	push	r21
+  7e:	6f 93       	push	r22
+  80:	7f 93       	push	r23
+  82:	8f 93       	push	r24
+  84:	9f 93       	push	r25
+  86:	af 93       	push	r26
+  88:	bf 93       	push	r27
+  8a:	ef 93       	push	r30
+  8c:	ff 93       	push	r31
+    if(PINB&BTNSELECT && Mcurrent){
+  8e:	b2 9b       	sbis	0x16, 2	; 22
+  90:	0f c0       	rjmp	.+30     	; 0xb0 <__vector_3+0x44>
+  92:	80 91 c9 01 	lds	r24, 0x01C9	; 0x8001c9 <Mcurrent>
+  96:	90 91 ca 01 	lds	r25, 0x01CA	; 0x8001ca <Mcurrent+0x1>
+  9a:	00 97       	sbiw	r24, 0x00	; 0
+  9c:	49 f0       	breq	.+18     	; 0xb0 <__vector_3+0x44>
+        Mindex=findNextEntry(Mcurrent,Mindex);
+  9e:	60 91 c8 01 	lds	r22, 0x01C8	; 0x8001c8 <__data_end>
+  a2:	e3 d4       	rcall	.+2502   	; 0xa6a <findNextEntry>
+  a4:	80 93 c8 01 	sts	0x01C8, r24	; 0x8001c8 <__data_end>
+        TCNT1=65534;//get straight to led update
+  a8:	8e ef       	ldi	r24, 0xFE	; 254
+  aa:	9f ef       	ldi	r25, 0xFF	; 255
+  ac:	9d bd       	out	0x2d, r25	; 45
+  ae:	8c bd       	out	0x2c, r24	; 44
+    }
+}
+  b0:	ff 91       	pop	r31
+  b2:	ef 91       	pop	r30
+  b4:	bf 91       	pop	r27
+  b6:	af 91       	pop	r26
+  b8:	9f 91       	pop	r25
+  ba:	8f 91       	pop	r24
+  bc:	7f 91       	pop	r23
+  be:	6f 91       	pop	r22
+  c0:	5f 91       	pop	r21
+  c2:	4f 91       	pop	r20
+  c4:	3f 91       	pop	r19
+  c6:	2f 91       	pop	r18
+  c8:	0f 90       	pop	r0
+  ca:	0f be       	out	0x3f, r0	; 63
+  cc:	0f 90       	pop	r0
+  ce:	1f 90       	pop	r1
+  d0:	18 95       	reti
+
+000000d2 <__vector_2>:
+ISR( PCINT0_vect){
+  d2:	1f 92       	push	r1
+  d4:	0f 92       	push	r0
+  d6:	0f b6       	in	r0, 0x3f	; 63
+  d8:	0f 92       	push	r0
+  da:	11 24       	eor	r1, r1
+  dc:	2f 93       	push	r18
+  de:	3f 93       	push	r19
+  e0:	4f 93       	push	r20
+  e2:	5f 93       	push	r21
+  e4:	6f 93       	push	r22
+  e6:	7f 93       	push	r23
+  e8:	8f 93       	push	r24
+  ea:	9f 93       	push	r25
+  ec:	af 93       	push	r26
+  ee:	bf 93       	push	r27
+  f0:	ef 93       	push	r30
+  f2:	ff 93       	push	r31
+    if(PINA&BTNOK){
+  f4:	cf 9b       	sbis	0x19, 7	; 25
+  f6:	29 c0       	rjmp	.+82     	; 0x14a <__vector_2+0x78>
+        if(!Mcurrent){
+  f8:	e0 91 c9 01 	lds	r30, 0x01C9	; 0x8001c9 <Mcurrent>
+  fc:	f0 91 ca 01 	lds	r31, 0x01CA	; 0x8001ca <Mcurrent+0x1>
+ 100:	30 97       	sbiw	r30, 0x00	; 0
+ 102:	39 f4       	brne	.+14     	; 0x112 <__vector_2+0x40>
+            Mcurrent=&M0main;//if not in menu mode
+ 104:	85 ea       	ldi	r24, 0xA5	; 165
+ 106:	91 e0       	ldi	r25, 0x01	; 1
+ 108:	90 93 ca 01 	sts	0x01CA, r25	; 0x8001ca <Mcurrent+0x1>
+ 10c:	80 93 c9 01 	sts	0x01C9, r24	; 0x8001c9 <Mcurrent>
+ 110:	18 c0       	rjmp	.+48     	; 0x142 <__vector_2+0x70>
+        }else{//enter menu and execute
+            if(Mcurrent->fptr!=0)Mcurrent->fptr(Mindex);//check if function is associated and selected value is not a navigation move
+ 112:	01 80       	ldd	r0, Z+1	; 0x01
+ 114:	f2 81       	ldd	r31, Z+2	; 0x02
+ 116:	e0 2d       	mov	r30, r0
+ 118:	30 97       	sbiw	r30, 0x00	; 0
+ 11a:	19 f0       	breq	.+6      	; 0x122 <__vector_2+0x50>
+ 11c:	80 91 c8 01 	lds	r24, 0x01C8	; 0x8001c8 <__data_end>
+ 120:	09 95       	icall
+            Mcurrent=getSubMenu(Mcurrent,Mindex);//get new menu
+ 122:	60 91 c8 01 	lds	r22, 0x01C8	; 0x8001c8 <__data_end>
+ 126:	80 91 c9 01 	lds	r24, 0x01C9	; 0x8001c9 <Mcurrent>
+ 12a:	90 91 ca 01 	lds	r25, 0x01CA	; 0x8001ca <Mcurrent+0x1>
+ 12e:	ad d4       	rcall	.+2394   	; 0xa8a <getSubMenu>
+ 130:	90 93 ca 01 	sts	0x01CA, r25	; 0x8001ca <Mcurrent+0x1>
+ 134:	80 93 c9 01 	sts	0x01C9, r24	; 0x8001c9 <Mcurrent>
+            Mindex=0;
+ 138:	10 92 c8 01 	sts	0x01C8, r1	; 0x8001c8 <__data_end>
+            clearLeds(leds);
+ 13c:	8f ec       	ldi	r24, 0xCF	; 207
+ 13e:	91 e0       	ldi	r25, 0x01	; 1
+ 140:	a2 d1       	rcall	.+836    	; 0x486 <clearLeds>
+        }
+        TCNT1=65534;//get straight to led update
+ 142:	8e ef       	ldi	r24, 0xFE	; 254
+ 144:	9f ef       	ldi	r25, 0xFF	; 255
+ 146:	9d bd       	out	0x2d, r25	; 45
+ 148:	8c bd       	out	0x2c, r24	; 44
+    }
+    if(PINA&BTNINTERNAL){//unused secret button
+ 14a:	89 b3       	in	r24, 0x19	; 25
+    }
+}/*
+ 14c:	ff 91       	pop	r31
+ 14e:	ef 91       	pop	r30
+ 150:	bf 91       	pop	r27
+ 152:	af 91       	pop	r26
+ 154:	9f 91       	pop	r25
+ 156:	8f 91       	pop	r24
+ 158:	7f 91       	pop	r23
+ 15a:	6f 91       	pop	r22
+ 15c:	5f 91       	pop	r21
+ 15e:	4f 91       	pop	r20
+ 160:	3f 91       	pop	r19
+ 162:	2f 91       	pop	r18
+ 164:	0f 90       	pop	r0
+ 166:	0f be       	out	0x3f, r0	; 63
+ 168:	0f 90       	pop	r0
+ 16a:	1f 90       	pop	r1
+ 16c:	18 95       	reti
+
+0000016e <__vector_8>:
+ISR( TIM1_COMPB_vect){
+}*/
+ISR( TIM1_OVF_vect ){
+ 16e:	1f 92       	push	r1
+ 170:	0f 92       	push	r0
+ 172:	0f b6       	in	r0, 0x3f	; 63
+ 174:	0f 92       	push	r0
+ 176:	11 24       	eor	r1, r1
+ 178:	2f 93       	push	r18
+ 17a:	3f 93       	push	r19
+ 17c:	4f 93       	push	r20
+ 17e:	5f 93       	push	r21
+ 180:	6f 93       	push	r22
+ 182:	7f 93       	push	r23
+ 184:	8f 93       	push	r24
+ 186:	9f 93       	push	r25
+ 188:	af 93       	push	r26
+ 18a:	bf 93       	push	r27
+ 18c:	cf 93       	push	r28
+ 18e:	ef 93       	push	r30
+ 190:	ff 93       	push	r31
+    if(!Mcurrent){//if in normal display mode
+ 192:	80 91 c9 01 	lds	r24, 0x01C9	; 0x8001c9 <Mcurrent>
+ 196:	90 91 ca 01 	lds	r25, 0x01CA	; 0x8001ca <Mcurrent+0x1>
+ 19a:	89 2b       	or	r24, r25
+ 19c:	09 f0       	breq	.+2      	; 0x1a0 <__vector_8+0x32>
+ 19e:	93 c0       	rjmp	.+294    	; 0x2c6 <__stack+0x67>
+        uint8_t m=getMode();
+ 1a0:	f6 d4       	rcall	.+2540   	; 0xb8e <getMode>
+ 1a2:	c8 2f       	mov	r28, r24
+        RTC_readTime(&currentTime);
+ 1a4:	89 e0       	ldi	r24, 0x09	; 9
+ 1a6:	92 e0       	ldi	r25, 0x02	; 2
+ 1a8:	a8 d3       	rcall	.+1872   	; 0x8fa <RTC_readTime>
+        if(isInAllowedTime(currentTime.hour)){
+ 1aa:	80 91 09 02 	lds	r24, 0x0209	; 0x800209 <currentTime>
+ 1ae:	2a d5       	rcall	.+2644   	; 0xc04 <isInAllowedTime>
+ 1b0:	88 23       	and	r24, r24
+ 1b2:	09 f4       	brne	.+2      	; 0x1b6 <__vector_8+0x48>
+ 1b4:	7d c0       	rjmp	.+250    	; 0x2b0 <__stack+0x51>
+            if(m<2){
+ 1b6:	c2 30       	cpi	r28, 0x02	; 2
+ 1b8:	08 f4       	brcc	.+2      	; 0x1bc <__vector_8+0x4e>
+ 1ba:	6c c0       	rjmp	.+216    	; 0x294 <__stack+0x35>
+                setLeds(currentTime,leds);
+            }else if(m<4){
+ 1bc:	c4 30       	cpi	r28, 0x04	; 4
+ 1be:	28 f4       	brcc	.+10     	; 0x1ca <__vector_8+0x5c>
+                setLedsNb(RTC_readTemp(),leds);
+ 1c0:	86 d3       	rcall	.+1804   	; 0x8ce <RTC_readTemp>
+ 1c2:	6f ec       	ldi	r22, 0xCF	; 207
+ 1c4:	71 e0       	ldi	r23, 0x01	; 1
+ 1c6:	ce d1       	rcall	.+924    	; 0x564 <setLedsNb>
+ 1c8:	76 c0       	rjmp	.+236    	; 0x2b6 <__stack+0x57>
+            }else if(m==4){
+ 1ca:	c4 30       	cpi	r28, 0x04	; 4
+ 1cc:	09 f0       	breq	.+2      	; 0x1d0 <__vector_8+0x62>
+ 1ce:	73 c0       	rjmp	.+230    	; 0x2b6 <__stack+0x57>
+                sendData(0b11111100001111111111);//white
+ 1d0:	6f ef       	ldi	r22, 0xFF	; 255
+ 1d2:	73 ec       	ldi	r23, 0xC3	; 195
+ 1d4:	8f e0       	ldi	r24, 0x0F	; 15
+ 1d6:	90 e0       	ldi	r25, 0x00	; 0
+ 1d8:	40 df       	rcall	.-384    	; 0x5a <sendData>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 1da:	2f ef       	ldi	r18, 0xFF	; 255
+ 1dc:	89 e6       	ldi	r24, 0x69	; 105
+ 1de:	98 e1       	ldi	r25, 0x18	; 24
+ 1e0:	21 50       	subi	r18, 0x01	; 1
+ 1e2:	80 40       	sbci	r24, 0x00	; 0
+ 1e4:	90 40       	sbci	r25, 0x00	; 0
+ 1e6:	e1 f7       	brne	.-8      	; 0x1e0 <__vector_8+0x72>
+ 1e8:	00 c0       	rjmp	.+0      	; 0x1ea <__vector_8+0x7c>
+ 1ea:	00 00       	nop
+                _delay_ms(500);
+                sendData(0b11000000001111111111);//green
+ 1ec:	6f ef       	ldi	r22, 0xFF	; 255
+ 1ee:	73 e0       	ldi	r23, 0x03	; 3
+ 1f0:	8c e0       	ldi	r24, 0x0C	; 12
+ 1f2:	90 e0       	ldi	r25, 0x00	; 0
+ 1f4:	32 df       	rcall	.-412    	; 0x5a <sendData>
+ 1f6:	2f ef       	ldi	r18, 0xFF	; 255
+ 1f8:	89 e6       	ldi	r24, 0x69	; 105
+ 1fa:	98 e1       	ldi	r25, 0x18	; 24
+ 1fc:	21 50       	subi	r18, 0x01	; 1
+ 1fe:	80 40       	sbci	r24, 0x00	; 0
+ 200:	90 40       	sbci	r25, 0x00	; 0
+ 202:	e1 f7       	brne	.-8      	; 0x1fc <__vector_8+0x8e>
+ 204:	00 c0       	rjmp	.+0      	; 0x206 <__vector_8+0x98>
+ 206:	00 00       	nop
+                _delay_ms(500);
+                sendData(0b00001100001111111111);//red
+ 208:	6f ef       	ldi	r22, 0xFF	; 255
+ 20a:	73 ec       	ldi	r23, 0xC3	; 195
+ 20c:	80 e0       	ldi	r24, 0x00	; 0
+ 20e:	90 e0       	ldi	r25, 0x00	; 0
+ 210:	24 df       	rcall	.-440    	; 0x5a <sendData>
+ 212:	2f ef       	ldi	r18, 0xFF	; 255
+ 214:	89 e6       	ldi	r24, 0x69	; 105
+ 216:	98 e1       	ldi	r25, 0x18	; 24
+ 218:	21 50       	subi	r18, 0x01	; 1
+ 21a:	80 40       	sbci	r24, 0x00	; 0
+ 21c:	90 40       	sbci	r25, 0x00	; 0
+ 21e:	e1 f7       	brne	.-8      	; 0x218 <__vector_8+0xaa>
+ 220:	00 c0       	rjmp	.+0      	; 0x222 <__vector_8+0xb4>
+ 222:	00 00       	nop
+                _delay_ms(500);
+                sendData(0b00110000001111111111);//blue
+ 224:	6f ef       	ldi	r22, 0xFF	; 255
+ 226:	73 e0       	ldi	r23, 0x03	; 3
+ 228:	83 e0       	ldi	r24, 0x03	; 3
+ 22a:	90 e0       	ldi	r25, 0x00	; 0
+ 22c:	16 df       	rcall	.-468    	; 0x5a <sendData>
+ 22e:	2f ef       	ldi	r18, 0xFF	; 255
+ 230:	89 e6       	ldi	r24, 0x69	; 105
+ 232:	98 e1       	ldi	r25, 0x18	; 24
+ 234:	21 50       	subi	r18, 0x01	; 1
+ 236:	80 40       	sbci	r24, 0x00	; 0
+ 238:	90 40       	sbci	r25, 0x00	; 0
+ 23a:	e1 f7       	brne	.-8      	; 0x234 <__vector_8+0xc6>
+ 23c:	00 c0       	rjmp	.+0      	; 0x23e <__vector_8+0xd0>
+ 23e:	00 00       	nop
+                _delay_ms(500);
+                sendData(0b11110000001111111111);//cyan
+ 240:	6f ef       	ldi	r22, 0xFF	; 255
+ 242:	73 e0       	ldi	r23, 0x03	; 3
+ 244:	8f e0       	ldi	r24, 0x0F	; 15
+ 246:	90 e0       	ldi	r25, 0x00	; 0
+ 248:	08 df       	rcall	.-496    	; 0x5a <sendData>
+ 24a:	2f ef       	ldi	r18, 0xFF	; 255
+ 24c:	89 e6       	ldi	r24, 0x69	; 105
+ 24e:	98 e1       	ldi	r25, 0x18	; 24
+ 250:	21 50       	subi	r18, 0x01	; 1
+ 252:	80 40       	sbci	r24, 0x00	; 0
+ 254:	90 40       	sbci	r25, 0x00	; 0
+ 256:	e1 f7       	brne	.-8      	; 0x250 <__vector_8+0xe2>
+ 258:	00 c0       	rjmp	.+0      	; 0x25a <__vector_8+0xec>
+ 25a:	00 00       	nop
+                _delay_ms(500);
+                sendData(0b00111100001111111111);//magenta
+ 25c:	6f ef       	ldi	r22, 0xFF	; 255
+ 25e:	73 ec       	ldi	r23, 0xC3	; 195
+ 260:	83 e0       	ldi	r24, 0x03	; 3
+ 262:	90 e0       	ldi	r25, 0x00	; 0
+ 264:	fa de       	rcall	.-524    	; 0x5a <sendData>
+ 266:	2f ef       	ldi	r18, 0xFF	; 255
+ 268:	89 e6       	ldi	r24, 0x69	; 105
+ 26a:	98 e1       	ldi	r25, 0x18	; 24
+ 26c:	21 50       	subi	r18, 0x01	; 1
+ 26e:	80 40       	sbci	r24, 0x00	; 0
+ 270:	90 40       	sbci	r25, 0x00	; 0
+ 272:	e1 f7       	brne	.-8      	; 0x26c <__stack+0xd>
+ 274:	00 c0       	rjmp	.+0      	; 0x276 <__stack+0x17>
+ 276:	00 00       	nop
+                _delay_ms(500);
+                sendData(0b11001100001111111111);//yellow
+ 278:	6f ef       	ldi	r22, 0xFF	; 255
+ 27a:	73 ec       	ldi	r23, 0xC3	; 195
+ 27c:	8c e0       	ldi	r24, 0x0C	; 12
+ 27e:	90 e0       	ldi	r25, 0x00	; 0
+ 280:	ec de       	rcall	.-552    	; 0x5a <sendData>
+ 282:	2f ef       	ldi	r18, 0xFF	; 255
+ 284:	89 e6       	ldi	r24, 0x69	; 105
+ 286:	98 e1       	ldi	r25, 0x18	; 24
+ 288:	21 50       	subi	r18, 0x01	; 1
+ 28a:	80 40       	sbci	r24, 0x00	; 0
+ 28c:	90 40       	sbci	r25, 0x00	; 0
+ 28e:	e1 f7       	brne	.-8      	; 0x288 <__stack+0x29>
+ 290:	00 c0       	rjmp	.+0      	; 0x292 <__stack+0x33>
+ 292:	00 00       	nop
+                _delay_ms(500);
+                setLeds(currentTime,leds);
+ 294:	2f ec       	ldi	r18, 0xCF	; 207
+ 296:	31 e0       	ldi	r19, 0x01	; 1
+ 298:	40 91 09 02 	lds	r20, 0x0209	; 0x800209 <currentTime>
+ 29c:	50 91 0a 02 	lds	r21, 0x020A	; 0x80020a <currentTime+0x1>
+ 2a0:	60 91 0b 02 	lds	r22, 0x020B	; 0x80020b <currentTime+0x2>
+ 2a4:	70 91 0c 02 	lds	r23, 0x020C	; 0x80020c <currentTime+0x3>
+ 2a8:	80 91 0d 02 	lds	r24, 0x020D	; 0x80020d <currentTime+0x4>
+ 2ac:	f6 d0       	rcall	.+492    	; 0x49a <setLeds>
+ 2ae:	03 c0       	rjmp	.+6      	; 0x2b6 <__stack+0x57>
+            }
+        }else{
+            clearLeds(leds);
+ 2b0:	8f ec       	ldi	r24, 0xCF	; 207
+ 2b2:	91 e0       	ldi	r25, 0x01	; 1
+ 2b4:	e8 d0       	rcall	.+464    	; 0x486 <clearLeds>
+        }
+        ledr=!ledr;
+ 2b6:	81 e0       	ldi	r24, 0x01	; 1
+ 2b8:	90 91 cd 01 	lds	r25, 0x01CD	; 0x8001cd <ledr>
+ 2bc:	91 11       	cpse	r25, r1
+ 2be:	80 e0       	ldi	r24, 0x00	; 0
+ 2c0:	80 93 cd 01 	sts	0x01CD, r24	; 0x8001cd <ledr>
+ 2c4:	1f c0       	rjmp	.+62     	; 0x304 <__stack+0xa5>
+    }else{//menu settings mode
+        clearLeds(leds);
+ 2c6:	8f ec       	ldi	r24, 0xCF	; 207
+ 2c8:	91 e0       	ldi	r25, 0x01	; 1
+ 2ca:	dd d0       	rcall	.+442    	; 0x486 <clearLeds>
+        ledOn(&leds[Mcurrent->sub[Mindex].led],colorArray[Mcurrent->nb_optn>>4]);
+ 2cc:	a0 91 c9 01 	lds	r26, 0x01C9	; 0x8001c9 <Mcurrent>
+ 2d0:	b0 91 ca 01 	lds	r27, 0x01CA	; 0x8001ca <Mcurrent+0x1>
+ 2d4:	ec 91       	ld	r30, X
+ 2d6:	e2 95       	swap	r30
+ 2d8:	ef 70       	andi	r30, 0x0F	; 15
+ 2da:	f0 e0       	ldi	r31, 0x00	; 0
+ 2dc:	ef 59       	subi	r30, 0x9F	; 159
+ 2de:	ff 4f       	sbci	r31, 0xFF	; 255
+ 2e0:	80 91 c8 01 	lds	r24, 0x01C8	; 0x8001c8 <__data_end>
+ 2e4:	90 e0       	ldi	r25, 0x00	; 0
+ 2e6:	01 96       	adiw	r24, 0x01	; 1
+ 2e8:	63 e0       	ldi	r22, 0x03	; 3
+ 2ea:	70 e0       	ldi	r23, 0x00	; 0
+ 2ec:	31 d5       	rcall	.+2658   	; 0xd50 <__mulhi3>
+ 2ee:	a8 0f       	add	r26, r24
+ 2f0:	b9 1f       	adc	r27, r25
+ 2f2:	8c 91       	ld	r24, X
+ 2f4:	90 e0       	ldi	r25, 0x00	; 0
+ 2f6:	63 e0       	ldi	r22, 0x03	; 3
+ 2f8:	70 e0       	ldi	r23, 0x00	; 0
+ 2fa:	2a d5       	rcall	.+2644   	; 0xd50 <__mulhi3>
+ 2fc:	60 81       	ld	r22, Z
+ 2fe:	81 53       	subi	r24, 0x31	; 49
+ 300:	9e 4f       	sbci	r25, 0xFE	; 254
+ 302:	bb d0       	rcall	.+374    	; 0x47a <ledOn>
+    }
+    
+}
+ 304:	ff 91       	pop	r31
+ 306:	ef 91       	pop	r30
+ 308:	cf 91       	pop	r28
+ 30a:	bf 91       	pop	r27
+ 30c:	af 91       	pop	r26
+ 30e:	9f 91       	pop	r25
+ 310:	8f 91       	pop	r24
+ 312:	7f 91       	pop	r23
+ 314:	6f 91       	pop	r22
+ 316:	5f 91       	pop	r21
+ 318:	4f 91       	pop	r20
+ 31a:	3f 91       	pop	r19
+ 31c:	2f 91       	pop	r18
+ 31e:	0f 90       	pop	r0
+ 320:	0f be       	out	0x3f, r0	; 63
+ 322:	0f 90       	pop	r0
+ 324:	1f 90       	pop	r1
+ 326:	18 95       	reti
+
+00000328 <__vector_11>:
+ISR( TIM0_OVF_vect ){//mux for each color, row 0 and 1
+ 328:	1f 92       	push	r1
+ 32a:	0f 92       	push	r0
+ 32c:	0f b6       	in	r0, 0x3f	; 63
+ 32e:	0f 92       	push	r0
+ 330:	11 24       	eor	r1, r1
+ 332:	2f 93       	push	r18
+ 334:	3f 93       	push	r19
+ 336:	4f 93       	push	r20
+ 338:	5f 93       	push	r21
+ 33a:	6f 93       	push	r22
+ 33c:	7f 93       	push	r23
+ 33e:	8f 93       	push	r24
+ 340:	9f 93       	push	r25
+ 342:	af 93       	push	r26
+ 344:	bf 93       	push	r27
+ 346:	ef 93       	push	r30
+ 348:	ff 93       	push	r31
+    switch(state){
+ 34a:	80 91 cb 01 	lds	r24, 0x01CB	; 0x8001cb <state>
+ 34e:	82 30       	cpi	r24, 0x02	; 2
+ 350:	f9 f0       	breq	.+62     	; 0x390 <__vector_11+0x68>
+ 352:	58 f4       	brcc	.+22     	; 0x36a <__vector_11+0x42>
+ 354:	88 23       	and	r24, r24
+ 356:	a9 f0       	breq	.+42     	; 0x382 <__vector_11+0x5a>
+ 358:	81 30       	cpi	r24, 0x01	; 1
+ 35a:	79 f5       	brne	.+94     	; 0x3ba <__vector_11+0x92>
+        case 0:
+            sendData(R2 | getDataByColor(RED,0,leds));
+            break;
+        case 1:
+            sendData(R1 | getDataByColor(RED,1,leds));
+ 35c:	4f ec       	ldi	r20, 0xCF	; 207
+ 35e:	51 e0       	ldi	r21, 0x01	; 1
+ 360:	61 e0       	ldi	r22, 0x01	; 1
+ 362:	84 e0       	ldi	r24, 0x04	; 4
+ 364:	5e d0       	rcall	.+188    	; 0x422 <getDataByColor>
+ 366:	70 68       	ori	r23, 0x80	; 128
+ 368:	27 c0       	rjmp	.+78     	; 0x3b8 <__vector_11+0x90>
+        ledOn(&leds[Mcurrent->sub[Mindex].led],colorArray[Mcurrent->nb_optn>>4]);
+    }
+    
+}
+ISR( TIM0_OVF_vect ){//mux for each color, row 0 and 1
+    switch(state){
+ 36a:	84 30       	cpi	r24, 0x04	; 4
+ 36c:	f9 f0       	breq	.+62     	; 0x3ac <__vector_11+0x84>
+ 36e:	b8 f0       	brcs	.+46     	; 0x39e <__vector_11+0x76>
+ 370:	85 30       	cpi	r24, 0x05	; 5
+ 372:	19 f5       	brne	.+70     	; 0x3ba <__vector_11+0x92>
+            break;
+        case 4:
+            sendData(B2 | getDataByColor(BLUE,0,leds));
+            break;
+        case 5:
+            sendData(B1 | getDataByColor(BLUE,1,leds));
+ 374:	4f ec       	ldi	r20, 0xCF	; 207
+ 376:	51 e0       	ldi	r21, 0x01	; 1
+ 378:	61 e0       	ldi	r22, 0x01	; 1
+ 37a:	81 e0       	ldi	r24, 0x01	; 1
+ 37c:	52 d0       	rcall	.+164    	; 0x422 <getDataByColor>
+ 37e:	82 60       	ori	r24, 0x02	; 2
+ 380:	1b c0       	rjmp	.+54     	; 0x3b8 <__vector_11+0x90>
+    
+}
+ISR( TIM0_OVF_vect ){//mux for each color, row 0 and 1
+    switch(state){
+        case 0:
+            sendData(R2 | getDataByColor(RED,0,leds));
+ 382:	4f ec       	ldi	r20, 0xCF	; 207
+ 384:	51 e0       	ldi	r21, 0x01	; 1
+ 386:	60 e0       	ldi	r22, 0x00	; 0
+ 388:	84 e0       	ldi	r24, 0x04	; 4
+ 38a:	4b d0       	rcall	.+150    	; 0x422 <getDataByColor>
+ 38c:	70 64       	ori	r23, 0x40	; 64
+ 38e:	14 c0       	rjmp	.+40     	; 0x3b8 <__vector_11+0x90>
+            break;
+        case 1:
+            sendData(R1 | getDataByColor(RED,1,leds));
+            break;
+        case 2:
+            sendData(G2 | getDataByColor(GREEN,0,leds));
+ 390:	4f ec       	ldi	r20, 0xCF	; 207
+ 392:	51 e0       	ldi	r21, 0x01	; 1
+ 394:	60 e0       	ldi	r22, 0x00	; 0
+ 396:	82 e0       	ldi	r24, 0x02	; 2
+ 398:	44 d0       	rcall	.+136    	; 0x422 <getDataByColor>
+ 39a:	84 60       	ori	r24, 0x04	; 4
+ 39c:	0d c0       	rjmp	.+26     	; 0x3b8 <__vector_11+0x90>
+            break;
+        case 3:
+            sendData(G1 | getDataByColor(GREEN,1,leds));
+ 39e:	4f ec       	ldi	r20, 0xCF	; 207
+ 3a0:	51 e0       	ldi	r21, 0x01	; 1
+ 3a2:	61 e0       	ldi	r22, 0x01	; 1
+ 3a4:	82 e0       	ldi	r24, 0x02	; 2
+ 3a6:	3d d0       	rcall	.+122    	; 0x422 <getDataByColor>
+ 3a8:	88 60       	ori	r24, 0x08	; 8
+ 3aa:	06 c0       	rjmp	.+12     	; 0x3b8 <__vector_11+0x90>
+            break;
+        case 4:
+            sendData(B2 | getDataByColor(BLUE,0,leds));
+ 3ac:	4f ec       	ldi	r20, 0xCF	; 207
+ 3ae:	51 e0       	ldi	r21, 0x01	; 1
+ 3b0:	60 e0       	ldi	r22, 0x00	; 0
+ 3b2:	81 e0       	ldi	r24, 0x01	; 1
+ 3b4:	36 d0       	rcall	.+108    	; 0x422 <getDataByColor>
+ 3b6:	81 60       	ori	r24, 0x01	; 1
+            break;
+        case 5:
+            sendData(B1 | getDataByColor(BLUE,1,leds));
+ 3b8:	50 de       	rcall	.-864    	; 0x5a <sendData>
+            break;
+    }
+    state++;
+ 3ba:	80 91 cb 01 	lds	r24, 0x01CB	; 0x8001cb <state>
+ 3be:	8f 5f       	subi	r24, 0xFF	; 255
+ 3c0:	80 93 cb 01 	sts	0x01CB, r24	; 0x8001cb <state>
+    if(state>5)state=0;
+ 3c4:	80 91 cb 01 	lds	r24, 0x01CB	; 0x8001cb <state>
+ 3c8:	86 30       	cpi	r24, 0x06	; 6
+ 3ca:	10 f0       	brcs	.+4      	; 0x3d0 <__vector_11+0xa8>
+ 3cc:	10 92 cb 01 	sts	0x01CB, r1	; 0x8001cb <state>
+}
+ 3d0:	ff 91       	pop	r31
+ 3d2:	ef 91       	pop	r30
+ 3d4:	bf 91       	pop	r27
+ 3d6:	af 91       	pop	r26
+ 3d8:	9f 91       	pop	r25
+ 3da:	8f 91       	pop	r24
+ 3dc:	7f 91       	pop	r23
+ 3de:	6f 91       	pop	r22
+ 3e0:	5f 91       	pop	r21
+ 3e2:	4f 91       	pop	r20
+ 3e4:	3f 91       	pop	r19
+ 3e6:	2f 91       	pop	r18
+ 3e8:	0f 90       	pop	r0
+ 3ea:	0f be       	out	0x3f, r0	; 63
+ 3ec:	0f 90       	pop	r0
+ 3ee:	1f 90       	pop	r1
+ 3f0:	18 95       	reti
+
+000003f2 <ledInit>:
+
+static const uint8_t ledMap[11]={7,8,10,14,0,4,17,2,12,6,16};
+
+
+void ledInit(Led* leds){
+    DDRA |= CLK|DATA|STROBE|LED;
+ 3f2:	2a b3       	in	r18, 0x1a	; 26
+ 3f4:	2f 60       	ori	r18, 0x0F	; 15
+ 3f6:	2a bb       	out	0x1a, r18	; 26
+    PORTA &= ~(CLK|DATA|STROBE|LED);
+ 3f8:	2b b3       	in	r18, 0x1b	; 27
+ 3fa:	20 7f       	andi	r18, 0xF0	; 240
+ 3fc:	2b bb       	out	0x1b, r18	; 27
+ 3fe:	fc 01       	movw	r30, r24
+    
+    for(uint8_t i=0;i<NBLEDS;i++){
+ 400:	90 e0       	ldi	r25, 0x00	; 0
+        leds[i].row=i%2;//leds[0]=0, leds[1]=1
+ 402:	89 2f       	mov	r24, r25
+ 404:	81 70       	andi	r24, 0x01	; 1
+ 406:	81 83       	std	Z+1, r24	; 0x01
+        if(i<10){
+ 408:	9a 30       	cpi	r25, 0x0A	; 10
+ 40a:	10 f4       	brcc	.+4      	; 0x410 <__LOCK_REGION_LENGTH__+0x10>
+            leds[i].col=i;//0-9
+ 40c:	90 83       	st	Z, r25
+ 40e:	03 c0       	rjmp	.+6      	; 0x416 <__LOCK_REGION_LENGTH__+0x16>
+        }else{
+            leds[i].col=i-9;//1-9
+ 410:	87 ef       	ldi	r24, 0xF7	; 247
+ 412:	89 0f       	add	r24, r25
+ 414:	80 83       	st	Z, r24
+        }
+        leds[i].c=BLACK;
+ 416:	12 82       	std	Z+2, r1	; 0x02
+
+void ledInit(Led* leds){
+    DDRA |= CLK|DATA|STROBE|LED;
+    PORTA &= ~(CLK|DATA|STROBE|LED);
+    
+    for(uint8_t i=0;i<NBLEDS;i++){
+ 418:	9f 5f       	subi	r25, 0xFF	; 255
+ 41a:	33 96       	adiw	r30, 0x03	; 3
+ 41c:	93 31       	cpi	r25, 0x13	; 19
+ 41e:	89 f7       	brne	.-30     	; 0x402 <__LOCK_REGION_LENGTH__+0x2>
+        }else{
+            leds[i].col=i-9;//1-9
+        }
+        leds[i].c=BLACK;
+    }
+}
+ 420:	08 95       	ret
+
+00000422 <getDataByColor>:
+
+uint32_t getDataByColor(uint8_t c, uint8_t mode, Led* leds){
+ 422:	0f 93       	push	r16
+ 424:	1f 93       	push	r17
+ 426:	cf 93       	push	r28
+ 428:	df 93       	push	r29
+ 42a:	c8 2f       	mov	r28, r24
+ 42c:	d6 2f       	mov	r29, r22
+ 42e:	fa 01       	movw	r30, r20
+ 430:	47 5c       	subi	r20, 0xC7	; 199
+ 432:	5f 4f       	sbci	r21, 0xFF	; 255
+    uint32_t data=0x00000000;
+ 434:	60 e0       	ldi	r22, 0x00	; 0
+ 436:	70 e0       	ldi	r23, 0x00	; 0
+ 438:	cb 01       	movw	r24, r22
+    for(uint8_t i=0;i<NBLEDS;i++){
+        if(leds[i].row==mode){
+            if((leds[i].c & c) ){
+                data|=(1<<leds[i].col);
+ 43a:	a1 e0       	ldi	r26, 0x01	; 1
+ 43c:	b0 e0       	ldi	r27, 0x00	; 0
+}
+
+uint32_t getDataByColor(uint8_t c, uint8_t mode, Led* leds){
+    uint32_t data=0x00000000;
+    for(uint8_t i=0;i<NBLEDS;i++){
+        if(leds[i].row==mode){
+ 43e:	21 81       	ldd	r18, Z+1	; 0x01
+ 440:	2d 13       	cpse	r18, r29
+ 442:	12 c0       	rjmp	.+36     	; 0x468 <getDataByColor+0x46>
+            if((leds[i].c & c) ){
+ 444:	22 81       	ldd	r18, Z+2	; 0x02
+ 446:	2c 23       	and	r18, r28
+ 448:	79 f0       	breq	.+30     	; 0x468 <getDataByColor+0x46>
+                data|=(1<<leds[i].col);
+ 44a:	8d 01       	movw	r16, r26
+ 44c:	00 80       	ld	r0, Z
+ 44e:	02 c0       	rjmp	.+4      	; 0x454 <getDataByColor+0x32>
+ 450:	00 0f       	add	r16, r16
+ 452:	11 1f       	adc	r17, r17
+ 454:	0a 94       	dec	r0
+ 456:	e2 f7       	brpl	.-8      	; 0x450 <getDataByColor+0x2e>
+ 458:	01 2e       	mov	r0, r17
+ 45a:	00 0c       	add	r0, r0
+ 45c:	22 0b       	sbc	r18, r18
+ 45e:	33 0b       	sbc	r19, r19
+ 460:	60 2b       	or	r22, r16
+ 462:	71 2b       	or	r23, r17
+ 464:	82 2b       	or	r24, r18
+ 466:	93 2b       	or	r25, r19
+ 468:	33 96       	adiw	r30, 0x03	; 3
+    }
+}
+
+uint32_t getDataByColor(uint8_t c, uint8_t mode, Led* leds){
+    uint32_t data=0x00000000;
+    for(uint8_t i=0;i<NBLEDS;i++){
+ 46a:	e4 17       	cp	r30, r20
+ 46c:	f5 07       	cpc	r31, r21
+ 46e:	39 f7       	brne	.-50     	; 0x43e <getDataByColor+0x1c>
+                data|=(1<<leds[i].col);
+            }
+        }
+    }
+    return data;
+}
+ 470:	df 91       	pop	r29
+ 472:	cf 91       	pop	r28
+ 474:	1f 91       	pop	r17
+ 476:	0f 91       	pop	r16
+ 478:	08 95       	ret
+
+0000047a <ledOn>:
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 47a:	fc 01       	movw	r30, r24
+ 47c:	62 83       	std	Z+2, r22	; 0x02
+ 47e:	08 95       	ret
+
+00000480 <ledOff>:
+}
+void ledOff(Led* l){
+    l->c=BLACK;
+ 480:	fc 01       	movw	r30, r24
+ 482:	12 82       	std	Z+2, r1	; 0x02
+ 484:	08 95       	ret
+
+00000486 <clearLeds>:
+}
+void clearLeds(Led* l){
+ 486:	9c 01       	movw	r18, r24
+ 488:	27 5c       	subi	r18, 0xC7	; 199
+ 48a:	3f 4f       	sbci	r19, 0xFF	; 255
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+}
+void ledOff(Led* l){
+    l->c=BLACK;
+ 48c:	fc 01       	movw	r30, r24
+ 48e:	12 82       	std	Z+2, r1	; 0x02
+ 490:	03 96       	adiw	r24, 0x03	; 3
+}
+void clearLeds(Led* l){
+    for(uint8_t i=0;i<NBLEDS;i++){
+ 492:	82 17       	cp	r24, r18
+ 494:	93 07       	cpc	r25, r19
+ 496:	d1 f7       	brne	.-12     	; 0x48c <clearLeds+0x6>
+        ledOff(&l[i]);
+    }
+}
+ 498:	08 95       	ret
+
+0000049a <setLeds>:
+
+void setLeds(Ttime t,Led* l){
+ 49a:	ff 92       	push	r15
+ 49c:	0f 93       	push	r16
+ 49e:	1f 93       	push	r17
+ 4a0:	cf 93       	push	r28
+ 4a2:	df 93       	push	r29
+ 4a4:	00 d0       	rcall	.+0      	; 0x4a6 <setLeds+0xc>
+ 4a6:	00 d0       	rcall	.+0      	; 0x4a8 <setLeds+0xe>
+ 4a8:	1f 92       	push	r1
+ 4aa:	cd b7       	in	r28, 0x3d	; 61
+ 4ac:	de b7       	in	r29, 0x3e	; 62
+ 4ae:	89 01       	movw	r16, r18
+    uint8_t temp=0;
+    clearLeds(l);
+ 4b0:	c9 01       	movw	r24, r18
+ 4b2:	e9 df       	rcall	.-46     	; 0x486 <clearLeds>
+    ledOn(&l[ILEST],getColor());
+ 4b4:	88 d3       	rcall	.+1808   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 4b6:	f8 01       	movw	r30, r16
+ 4b8:	80 af       	std	Z+56, r24	; 0x38
+void setLeds(Ttime t,Led* l){
+    uint8_t temp=0;
+    clearLeds(l);
+    ledOn(&l[ILEST],getColor());
+    
+    temp=currentTime.hour;
+ 4ba:	f0 90 09 02 	lds	r15, 0x0209	; 0x800209 <currentTime>
+    if(currentTime.min>35){
+ 4be:	80 91 0a 02 	lds	r24, 0x020A	; 0x80020a <currentTime+0x1>
+ 4c2:	84 32       	cpi	r24, 0x24	; 36
+ 4c4:	08 f0       	brcs	.+2      	; 0x4c8 <setLeds+0x2e>
+        temp++;
+ 4c6:	f3 94       	inc	r15
+    }
+    if(temp==0){
+ 4c8:	f1 10       	cpse	r15, r1
+ 4ca:	04 c0       	rjmp	.+8      	; 0x4d4 <setLeds+0x3a>
+        ledOn(&l[MINUIT],getColor());
+ 4cc:	7c d3       	rcall	.+1784   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 4ce:	f8 01       	movw	r30, r16
+ 4d0:	83 87       	std	Z+11, r24	; 0x0b
+ 4d2:	1c c0       	rjmp	.+56     	; 0x50c <setLeds+0x72>
+    if(currentTime.min>35){
+        temp++;
+    }
+    if(temp==0){
+        ledOn(&l[MINUIT],getColor());
+    }else if(temp==12){
+ 4d4:	fc e0       	ldi	r31, 0x0C	; 12
+ 4d6:	ff 12       	cpse	r15, r31
+ 4d8:	04 c0       	rjmp	.+8      	; 0x4e2 <setLeds+0x48>
+            ledOn(&l[MIDI],getColor());
+ 4da:	75 d3       	rcall	.+1770   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 4dc:	f8 01       	movw	r30, r16
+ 4de:	81 a7       	std	Z+41, r24	; 0x29
+ 4e0:	15 c0       	rjmp	.+42     	; 0x50c <setLeds+0x72>
+        ledOn(&l[MINUIT],getColor());
+    }else if(temp==12){
+            ledOn(&l[MIDI],getColor());
+    }else{
+        temp=temp%12;
+        ledOn(&l[ledMap[(temp-1)]],getColor());
+ 4e2:	71 d3       	rcall	.+1762   	; 0xbc6 <getColor>
+ 4e4:	28 2f       	mov	r18, r24
+ 4e6:	8f 2d       	mov	r24, r15
+ 4e8:	6c e0       	ldi	r22, 0x0C	; 12
+ 4ea:	43 d4       	rcall	.+2182   	; 0xd72 <__udivmodqi4>
+ 4ec:	e9 2f       	mov	r30, r25
+ 4ee:	f0 e0       	ldi	r31, 0x00	; 0
+ 4f0:	e9 59       	subi	r30, 0x99	; 153
+ 4f2:	ff 4f       	sbci	r31, 0xFF	; 255
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 4f4:	80 81       	ld	r24, Z
+ 4f6:	90 e0       	ldi	r25, 0x00	; 0
+ 4f8:	63 e0       	ldi	r22, 0x03	; 3
+ 4fa:	70 e0       	ldi	r23, 0x00	; 0
+ 4fc:	29 d4       	rcall	.+2130   	; 0xd50 <__mulhi3>
+ 4fe:	80 0f       	add	r24, r16
+ 500:	91 1f       	adc	r25, r17
+ 502:	fc 01       	movw	r30, r24
+ 504:	22 83       	std	Z+2, r18	; 0x02
+    }else if(temp==12){
+            ledOn(&l[MIDI],getColor());
+    }else{
+        temp=temp%12;
+        ledOn(&l[ledMap[(temp-1)]],getColor());
+        ledOn(&l[HEURE],getColor());
+ 506:	5f d3       	rcall	.+1726   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 508:	f8 01       	movw	r30, r16
+ 50a:	87 a7       	std	Z+47, r24	; 0x2f
+        temp=temp%12;
+        ledOn(&l[ledMap[(temp-1)]],getColor());
+        ledOn(&l[HEURE],getColor());
+    }
+    
+    temp = minquad(currentTime.min); 
+ 50c:	80 91 0a 02 	lds	r24, 0x020A	; 0x80020a <currentTime+0x1>
+ 510:	8a d0       	rcall	.+276    	; 0x626 <minquad>
+ 512:	f8 2e       	mov	r15, r24
+    if(temp > 30){
+ 514:	fe e1       	ldi	r31, 0x1E	; 30
+ 516:	f8 17       	cp	r31, r24
+ 518:	30 f4       	brcc	.+12     	; 0x526 <setLeds+0x8c>
+        ledOn(&l[MOINS],getColor());
+ 51a:	55 d3       	rcall	.+1706   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 51c:	f8 01       	movw	r30, r16
+ 51e:	85 8f       	std	Z+29, r24	; 0x1d
+    }
+    
+    temp = minquad(currentTime.min); 
+    if(temp > 30){
+        ledOn(&l[MOINS],getColor());
+        temp=60-temp;
+ 520:	8c e3       	ldi	r24, 0x3C	; 60
+ 522:	8f 19       	sub	r24, r15
+ 524:	f8 2e       	mov	r15, r24
+    }
+    switch(temp){
+ 526:	f4 e1       	ldi	r31, 0x14	; 20
+ 528:	ff 16       	cp	r15, r31
+ 52a:	51 f0       	breq	.+20     	; 0x540 <setLeds+0xa6>
+ 52c:	8e e1       	ldi	r24, 0x1E	; 30
+ 52e:	f8 16       	cp	r15, r24
+ 530:	59 f0       	breq	.+22     	; 0x548 <setLeds+0xae>
+ 532:	ea e0       	ldi	r30, 0x0A	; 10
+ 534:	fe 12       	cpse	r15, r30
+ 536:	0b c0       	rjmp	.+22     	; 0x54e <setLeds+0xb4>
+        case 10 :
+            ledOn(&l[DIX],getColor());
+ 538:	46 d3       	rcall	.+1676   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 53a:	f8 01       	movw	r30, r16
+ 53c:	81 8b       	std	Z+17, r24	; 0x11
+ 53e:	07 c0       	rjmp	.+14     	; 0x54e <setLeds+0xb4>
+    switch(temp){
+        case 10 :
+            ledOn(&l[DIX],getColor());
+            break;
+        case 20 :
+            ledOn(&l[VINGT],getColor());
+ 540:	42 d3       	rcall	.+1668   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 542:	f8 01       	movw	r30, r16
+ 544:	83 a3       	std	Z+35, r24	; 0x23
+ 546:	03 c0       	rjmp	.+6      	; 0x54e <setLeds+0xb4>
+            break;
+        case 20 :
+            ledOn(&l[VINGT],getColor());
+            break;
+        case 30 :
+            ledOn(&l[ETDEMIE],getColor());
+ 548:	3e d3       	rcall	.+1660   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 54a:	f8 01       	movw	r30, r16
+ 54c:	85 83       	std	Z+5, r24	; 0x05
+            break;
+        case 30 :
+            ledOn(&l[ETDEMIE],getColor());
+            break;
+    }
+}
+ 54e:	0f 90       	pop	r0
+ 550:	0f 90       	pop	r0
+ 552:	0f 90       	pop	r0
+ 554:	0f 90       	pop	r0
+ 556:	0f 90       	pop	r0
+ 558:	df 91       	pop	r29
+ 55a:	cf 91       	pop	r28
+ 55c:	1f 91       	pop	r17
+ 55e:	0f 91       	pop	r16
+ 560:	ff 90       	pop	r15
+ 562:	08 95       	ret
+
+00000564 <setLedsNb>:
+
+void setLedsNb(int8_t nb, Led* l){
+ 564:	0f 93       	push	r16
+ 566:	1f 93       	push	r17
+ 568:	cf 93       	push	r28
+ 56a:	c8 2f       	mov	r28, r24
+ 56c:	8b 01       	movw	r16, r22
+    clearLeds(l);
+ 56e:	cb 01       	movw	r24, r22
+ 570:	8a df       	rcall	.-236    	; 0x486 <clearLeds>
+    if(nb < 0){
+ 572:	c7 ff       	sbrs	r28, 7
+ 574:	04 c0       	rjmp	.+8      	; 0x57e <setLedsNb+0x1a>
+        ledOn(&l[MOINS],getColor());
+ 576:	27 d3       	rcall	.+1614   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 578:	f8 01       	movw	r30, r16
+ 57a:	85 8f       	std	Z+29, r24	; 0x1d
+
+void setLedsNb(int8_t nb, Led* l){
+    clearLeds(l);
+    if(nb < 0){
+        ledOn(&l[MOINS],getColor());
+        nb=-nb;
+ 57c:	c1 95       	neg	r28
+    }
+    if(nb>29){
+ 57e:	ce 31       	cpi	r28, 0x1E	; 30
+ 580:	44 f0       	brlt	.+16     	; 0x592 <setLedsNb+0x2e>
+        ledOn(&l[VINGT],getColor());
+ 582:	21 d3       	rcall	.+1602   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 584:	f8 01       	movw	r30, r16
+ 586:	83 a3       	std	Z+35, r24	; 0x23
+        ledOn(&l[MOINS],getColor());
+        nb=-nb;
+    }
+    if(nb>29){
+        ledOn(&l[VINGT],getColor());
+        ledOn(&l[DIX],getColor());
+ 588:	1e d3       	rcall	.+1596   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 58a:	f8 01       	movw	r30, r16
+ 58c:	81 8b       	std	Z+17, r24	; 0x11
+        nb=-nb;
+    }
+    if(nb>29){
+        ledOn(&l[VINGT],getColor());
+        ledOn(&l[DIX],getColor());
+        nb=nb-30;
+ 58e:	ce 51       	subi	r28, 0x1E	; 30
+ 590:	0d c0       	rjmp	.+26     	; 0x5ac <setLedsNb+0x48>
+    }else if(nb>19){
+ 592:	c4 31       	cpi	r28, 0x14	; 20
+ 594:	2c f0       	brlt	.+10     	; 0x5a0 <setLedsNb+0x3c>
+        ledOn(&l[VINGT],getColor());
+ 596:	17 d3       	rcall	.+1582   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 598:	f8 01       	movw	r30, r16
+ 59a:	83 a3       	std	Z+35, r24	; 0x23
+        ledOn(&l[VINGT],getColor());
+        ledOn(&l[DIX],getColor());
+        nb=nb-30;
+    }else if(nb>19){
+        ledOn(&l[VINGT],getColor());
+        nb=nb-20;
+ 59c:	c4 51       	subi	r28, 0x14	; 20
+ 59e:	06 c0       	rjmp	.+12     	; 0x5ac <setLedsNb+0x48>
+    }else if(nb>11){
+ 5a0:	cc 30       	cpi	r28, 0x0C	; 12
+ 5a2:	24 f0       	brlt	.+8      	; 0x5ac <setLedsNb+0x48>
+        ledOn(&l[DIX],getColor());
+ 5a4:	10 d3       	rcall	.+1568   	; 0xbc6 <getColor>
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 5a6:	f8 01       	movw	r30, r16
+ 5a8:	81 8b       	std	Z+17, r24	; 0x11
+    }else if(nb>19){
+        ledOn(&l[VINGT],getColor());
+        nb=nb-20;
+    }else if(nb>11){
+        ledOn(&l[DIX],getColor());
+        nb=nb-10;
+ 5aa:	ca 50       	subi	r28, 0x0A	; 10
+    }
+    ledOn(&l[ledMap[nb-1]],getColor());
+ 5ac:	0c d3       	rcall	.+1560   	; 0xbc6 <getColor>
+ 5ae:	28 2f       	mov	r18, r24
+ 5b0:	ec 2f       	mov	r30, r28
+ 5b2:	cc 0f       	add	r28, r28
+ 5b4:	ff 0b       	sbc	r31, r31
+ 5b6:	e9 59       	subi	r30, 0x99	; 153
+ 5b8:	ff 4f       	sbci	r31, 0xFF	; 255
+    }
+    return data;
+}
+
+void ledOn(Led* l,uint8_t c){
+    l->c=c;
+ 5ba:	80 81       	ld	r24, Z
+ 5bc:	90 e0       	ldi	r25, 0x00	; 0
+ 5be:	63 e0       	ldi	r22, 0x03	; 3
+ 5c0:	70 e0       	ldi	r23, 0x00	; 0
+ 5c2:	c6 d3       	rcall	.+1932   	; 0xd50 <__mulhi3>
+ 5c4:	80 0f       	add	r24, r16
+ 5c6:	91 1f       	adc	r25, r17
+ 5c8:	fc 01       	movw	r30, r24
+ 5ca:	22 83       	std	Z+2, r18	; 0x02
+    }else if(nb>11){
+        ledOn(&l[DIX],getColor());
+        nb=nb-10;
+    }
+    ledOn(&l[ledMap[nb-1]],getColor());
+}
+ 5cc:	cf 91       	pop	r28
+ 5ce:	1f 91       	pop	r17
+ 5d0:	0f 91       	pop	r16
+ 5d2:	08 95       	ret
+
+000005d4 <sendRawData>:
+void sendRawData(uint32_t data){
+ 5d4:	0f 93       	push	r16
+ 5d6:	1f 93       	push	r17
+    PORTA &=~(STROBE|CLK);
+ 5d8:	2b b3       	in	r18, 0x1b	; 27
+ 5da:	23 7f       	andi	r18, 0xF3	; 243
+ 5dc:	2b bb       	out	0x1b, r18	; 27
+ 5de:	40 e0       	ldi	r20, 0x00	; 0
+ 5e0:	50 e0       	ldi	r21, 0x00	; 0
+    for(uint8_t i=0;i<20;i++){
+        if((data>>i) & 0x00000001){
+ 5e2:	8b 01       	movw	r16, r22
+ 5e4:	9c 01       	movw	r18, r24
+ 5e6:	04 2e       	mov	r0, r20
+ 5e8:	04 c0       	rjmp	.+8      	; 0x5f2 <sendRawData+0x1e>
+ 5ea:	36 95       	lsr	r19
+ 5ec:	27 95       	ror	r18
+ 5ee:	17 95       	ror	r17
+ 5f0:	07 95       	ror	r16
+ 5f2:	0a 94       	dec	r0
+ 5f4:	d2 f7       	brpl	.-12     	; 0x5ea <sendRawData+0x16>
+ 5f6:	00 ff       	sbrs	r16, 0
+ 5f8:	02 c0       	rjmp	.+4      	; 0x5fe <sendRawData+0x2a>
+            PORTA|=DATA;
+ 5fa:	d9 9a       	sbi	0x1b, 1	; 27
+ 5fc:	01 c0       	rjmp	.+2      	; 0x600 <sendRawData+0x2c>
+        }else{
+            PORTA&=~DATA;
+ 5fe:	d9 98       	cbi	0x1b, 1	; 27
+        }
+        PORTA|=CLK;
+ 600:	db 9a       	sbi	0x1b, 3	; 27
+        PORTA&=~CLK;
+ 602:	db 98       	cbi	0x1b, 3	; 27
+ 604:	4f 5f       	subi	r20, 0xFF	; 255
+ 606:	5f 4f       	sbci	r21, 0xFF	; 255
+    }
+    ledOn(&l[ledMap[nb-1]],getColor());
+}
+void sendRawData(uint32_t data){
+    PORTA &=~(STROBE|CLK);
+    for(uint8_t i=0;i<20;i++){
+ 608:	44 31       	cpi	r20, 0x14	; 20
+ 60a:	51 05       	cpc	r21, r1
+ 60c:	51 f7       	brne	.-44     	; 0x5e2 <sendRawData+0xe>
+            PORTA&=~DATA;
+        }
+        PORTA|=CLK;
+        PORTA&=~CLK;
+    }
+    PORTA|=STROBE;
+ 60e:	da 9a       	sbi	0x1b, 2	; 27
+    PORTA&=~STROBE;
+ 610:	da 98       	cbi	0x1b, 2	; 27
+}
+ 612:	1f 91       	pop	r17
+ 614:	0f 91       	pop	r16
+ 616:	08 95       	ret
+
+00000618 <setCurrentTime>:
+#include "RTC.h" 
+
+void setCurrentTime(uint8_t hour,uint8_t min,uint8_t monthDay,uint8_t month){
+    currentTime.hour=hour;
+ 618:	e9 e0       	ldi	r30, 0x09	; 9
+ 61a:	f2 e0       	ldi	r31, 0x02	; 2
+ 61c:	80 83       	st	Z, r24
+    currentTime.min=min;
+ 61e:	61 83       	std	Z+1, r22	; 0x01
+    currentTime.monthDay=monthDay;
+ 620:	42 83       	std	Z+2, r20	; 0x02
+    currentTime.month=month;
+ 622:	23 83       	std	Z+3, r18	; 0x03
+ 624:	08 95       	ret
+
+00000626 <minquad>:
+}
+
+uint8_t minquad(uint8_t min){
+    if(min > 5){
+ 626:	86 30       	cpi	r24, 0x06	; 6
+ 628:	a0 f0       	brcs	.+40     	; 0x652 <minquad+0x2c>
+        if(min > 15){
+ 62a:	80 31       	cpi	r24, 0x10	; 16
+ 62c:	50 f0       	brcs	.+20     	; 0x642 <minquad+0x1c>
+            if(min > 25){
+ 62e:	8a 31       	cpi	r24, 0x1A	; 26
+ 630:	50 f0       	brcs	.+20     	; 0x646 <minquad+0x20>
+                if(min > 35){
+ 632:	84 32       	cpi	r24, 0x24	; 36
+ 634:	50 f0       	brcs	.+20     	; 0x64a <minquad+0x24>
+                    if(min > 45){
+ 636:	8e 32       	cpi	r24, 0x2E	; 46
+ 638:	50 f0       	brcs	.+20     	; 0x64e <minquad+0x28>
+                        if(min > 55){
+ 63a:	88 33       	cpi	r24, 0x38	; 56
+ 63c:	50 f4       	brcc	.+20     	; 0x652 <minquad+0x2c>
+                            return 0;
+                        }else{return 50;}
+ 63e:	82 e3       	ldi	r24, 0x32	; 50
+ 640:	08 95       	ret
+                    }else{return 40;}
+                }else{return 30;}
+            }else{return 20;}
+        }else{return 10;}
+ 642:	8a e0       	ldi	r24, 0x0A	; 10
+ 644:	08 95       	ret
+                        if(min > 55){
+                            return 0;
+                        }else{return 50;}
+                    }else{return 40;}
+                }else{return 30;}
+            }else{return 20;}
+ 646:	84 e1       	ldi	r24, 0x14	; 20
+ 648:	08 95       	ret
+                    if(min > 45){
+                        if(min > 55){
+                            return 0;
+                        }else{return 50;}
+                    }else{return 40;}
+                }else{return 30;}
+ 64a:	8e e1       	ldi	r24, 0x1E	; 30
+ 64c:	08 95       	ret
+                if(min > 35){
+                    if(min > 45){
+                        if(min > 55){
+                            return 0;
+                        }else{return 50;}
+                    }else{return 40;}
+ 64e:	88 e2       	ldi	r24, 0x28	; 40
+ 650:	08 95       	ret
+                }else{return 30;}
+            }else{return 20;}
+        }else{return 10;}
+    }else{return 0;}
+ 652:	80 e0       	ldi	r24, 0x00	; 0
+}
+ 654:	08 95       	ret
+
+00000656 <bcdToDec>:
+    }else{
+        return 0;
+    }
+    
+}
+uint8_t bcdToDec(uint8_t val){
+ 656:	98 2f       	mov	r25, r24
+    return ((val/16*10) + (val%16));
+ 658:	82 95       	swap	r24
+ 65a:	8f 70       	andi	r24, 0x0F	; 15
+ 65c:	6a e0       	ldi	r22, 0x0A	; 10
+ 65e:	6f d3       	rcall	.+1758   	; 0xd3e <__mulqi3>
+ 660:	9f 70       	andi	r25, 0x0F	; 15
+}
+ 662:	89 0f       	add	r24, r25
+ 664:	08 95       	ret
+
+00000666 <decToBcd>:
+uint8_t decToBcd(uint8_t val){
+    return( (val/10*16) + (val%10) );
+ 666:	6a e0       	ldi	r22, 0x0A	; 10
+ 668:	84 d3       	rcall	.+1800   	; 0xd72 <__udivmodqi4>
+ 66a:	82 95       	swap	r24
+ 66c:	80 7f       	andi	r24, 0xF0	; 240
+}
+ 66e:	89 0f       	add	r24, r25
+ 670:	08 95       	ret
+
+00000672 <i2c_in_transfer>:
+        return 0;
+    }
+}
+
+uint8_t i2c_in_transfer(uint8_t USISR_temp){
+    USISR = USISR_temp;								//Set USISR as requested by calling function
+ 672:	8e b9       	out	0x0e, r24	; 14
+    do{
+        _delay_us(I2C_TLOW);
+        USICR = 0b00101011;								//SCL Positive Edge
+ 674:	8b e2       	ldi	r24, 0x2B	; 43
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 676:	95 e0       	ldi	r25, 0x05	; 5
+ 678:	9a 95       	dec	r25
+ 67a:	f1 f7       	brne	.-4      	; 0x678 <i2c_in_transfer+0x6>
+ 67c:	00 00       	nop
+ 67e:	8d b9       	out	0x0d, r24	; 13
+        while (!(PIN_USI&(1<<PIN_USI_SCL)));		//Wait for SCL to go high
+ 680:	cc 9b       	sbis	0x19, 4	; 25
+ 682:	fe cf       	rjmp	.-4      	; 0x680 <i2c_in_transfer+0xe>
+ 684:	94 e0       	ldi	r25, 0x04	; 4
+ 686:	9a 95       	dec	r25
+ 688:	f1 f7       	brne	.-4      	; 0x686 <i2c_in_transfer+0x14>
+        _delay_us(I2C_THIGH);
+        USICR = 0b00101011;								//SCL Negative Edge
+ 68a:	8d b9       	out	0x0d, r24	; 13
+    }while (!(USISR&(1<<USIOIF)));					//Do until transfer is complete
+ 68c:	76 9b       	sbis	0x0e, 6	; 14
+ 68e:	f3 cf       	rjmp	.-26     	; 0x676 <i2c_in_transfer+0x4>
+ 690:	85 e0       	ldi	r24, 0x05	; 5
+ 692:	8a 95       	dec	r24
+ 694:	f1 f7       	brne	.-4      	; 0x692 <i2c_in_transfer+0x20>
+ 696:	00 00       	nop
+    _delay_us(I2C_TLOW);
+    return USIDR;
+ 698:	8f b1       	in	r24, 0x0f	; 15
+}
+ 69a:	08 95       	ret
+
+0000069c <i2c_in_transmit>:
+uint8_t i2c_in_transmit(uint8_t *msg, uint8_t msg_size){
+ 69c:	ef 92       	push	r14
+ 69e:	ff 92       	push	r15
+ 6a0:	0f 93       	push	r16
+ 6a2:	1f 93       	push	r17
+ 6a4:	cf 93       	push	r28
+ 6a6:	df 93       	push	r29
+ 6a8:	ec 01       	movw	r28, r24
+ 6aa:	16 2f       	mov	r17, r22
+    USI_I2C_Master_State = USI_ADDRESS;
+ 6ac:	10 92 08 02 	sts	0x0208, r1	; 0x800208 <USI_I2C_Master_State>
+    
+    //   Start Condition
+    PORT_USI |=  (1 << PORT_USI_SCL); 						//Setting input makes line pull high
+ 6b0:	dc 9a       	sbi	0x1b, 4	; 27
+    while (!(PIN_USI & (1<<PIN_USI_SCL)));		//Wait for SCL to go high
+ 6b2:	cc 9b       	sbis	0x19, 4	; 25
+ 6b4:	fe cf       	rjmp	.-4      	; 0x6b2 <i2c_in_transmit+0x16>
+ 6b6:	84 e0       	ldi	r24, 0x04	; 4
+ 6b8:	8a 95       	dec	r24
+ 6ba:	f1 f7       	brne	.-4      	; 0x6b8 <i2c_in_transmit+0x1c>
+    #ifdef I2C_FAST_MODE
+    _delay_us(I2C_THIGH);
+    #else
+    _delay_us(I2C_TLOW);
+    #endif
+    DDR_USI |=  (1 << PORT_USI_SDA);
+ 6bc:	d6 9a       	sbi	0x1a, 6	; 26
+    DDR_USI |=  (1 << PORT_USI_SCL);
+ 6be:	d4 9a       	sbi	0x1a, 4	; 26
+    PORT_USI &= ~(1 << PORT_USI_SDA);
+ 6c0:	de 98       	cbi	0x1b, 6	; 27
+ 6c2:	84 e0       	ldi	r24, 0x04	; 4
+ 6c4:	8a 95       	dec	r24
+ 6c6:	f1 f7       	brne	.-4      	; 0x6c4 <i2c_in_transmit+0x28>
+    _delay_us(I2C_THIGH);;
+    PORT_USI &= ~(1 << PORT_USI_SCL);
+ 6c8:	dc 98       	cbi	0x1b, 4	; 27
+ 6ca:	85 e0       	ldi	r24, 0x05	; 5
+ 6cc:	8a 95       	dec	r24
+ 6ce:	f1 f7       	brne	.-4      	; 0x6cc <i2c_in_transmit+0x30>
+ 6d0:	00 00       	nop
+    _delay_us(I2C_TLOW);
+    PORT_USI |=  (1 << PORT_USI_SDA);
+ 6d2:	de 9a       	sbi	0x1b, 6	; 27
+        switch(USI_I2C_Master_State){
+            case USI_ADDRESS:
+                if(!(*msg & 0x01)){
+                    USI_I2C_Master_State = USI_WRITE;
+                }else{
+                    USI_I2C_Master_State = USI_READ;
+ 6d4:	02 e0       	ldi	r16, 0x02	; 2
+    
+    do{
+        switch(USI_I2C_Master_State){
+            case USI_ADDRESS:
+                if(!(*msg & 0x01)){
+                    USI_I2C_Master_State = USI_WRITE;
+ 6d6:	ff 24       	eor	r15, r15
+ 6d8:	f3 94       	inc	r15
+                DDR_USI &= ~(1 << PORT_USI_SDA);
+                (*msg) = i2c_in_transfer(0b11110000 | (0x00<<USICNT0));			
+                msg++;
+                DDR_USI |=  (1 << PORT_USI_SDA);				
+                if(msg_size == 1){
+                    USIDR = 0xFF;			//Load NACK to end transmission
+ 6da:	ee 24       	eor	r14, r14
+ 6dc:	ea 94       	dec	r14
+    PORT_USI &= ~(1 << PORT_USI_SCL);
+    _delay_us(I2C_TLOW);
+    PORT_USI |=  (1 << PORT_USI_SDA);
+    
+    do{
+        switch(USI_I2C_Master_State){
+ 6de:	80 91 08 02 	lds	r24, 0x0208	; 0x800208 <USI_I2C_Master_State>
+ 6e2:	81 30       	cpi	r24, 0x01	; 1
+ 6e4:	61 f0       	breq	.+24     	; 0x6fe <i2c_in_transmit+0x62>
+ 6e6:	18 f0       	brcs	.+6      	; 0x6ee <i2c_in_transmit+0x52>
+ 6e8:	82 30       	cpi	r24, 0x02	; 2
+ 6ea:	c9 f0       	breq	.+50     	; 0x71e <i2c_in_transmit+0x82>
+ 6ec:	24 c0       	rjmp	.+72     	; 0x736 <i2c_in_transmit+0x9a>
+            case USI_ADDRESS:
+                if(!(*msg & 0x01)){
+ 6ee:	88 81       	ld	r24, Y
+ 6f0:	80 fd       	sbrc	r24, 0
+ 6f2:	03 c0       	rjmp	.+6      	; 0x6fa <i2c_in_transmit+0x5e>
+                    USI_I2C_Master_State = USI_WRITE;
+ 6f4:	f0 92 08 02 	sts	0x0208, r15	; 0x800208 <USI_I2C_Master_State>
+ 6f8:	02 c0       	rjmp	.+4      	; 0x6fe <i2c_in_transmit+0x62>
+                }else{
+                    USI_I2C_Master_State = USI_READ;
+ 6fa:	00 93 08 02 	sts	0x0208, r16	; 0x800208 <USI_I2C_Master_State>
+                }//no break so goes to Write
+                
+            case USI_WRITE:
+                PORT_USI &= ~(1 << PORT_USI_SCL);
+ 6fe:	dc 98       	cbi	0x1b, 4	; 27
+                USIDR = *(msg);				//Load data			
+ 700:	89 91       	ld	r24, Y+
+ 702:	8f b9       	out	0x0f, r24	; 15
+                msg++;						//Increment buffer pointer
+                i2c_in_transfer(0b11110000 | (0x00<<USICNT0));
+ 704:	80 ef       	ldi	r24, 0xF0	; 240
+ 706:	b5 df       	rcall	.-150    	; 0x672 <i2c_in_transfer>
+                DDR_USI &= ~(1 << PORT_USI_SDA);
+ 708:	d6 98       	cbi	0x1a, 6	; 26
+                if(i2c_in_transfer(0b11110000 | (0x0E<<USICNT0)) & 0x01){
+ 70a:	8e ef       	ldi	r24, 0xFE	; 254
+ 70c:	b2 df       	rcall	.-156    	; 0x672 <i2c_in_transfer>
+ 70e:	80 ff       	sbrs	r24, 0
+ 710:	04 c0       	rjmp	.+8      	; 0x71a <i2c_in_transmit+0x7e>
+                    PORT_USI |=  (1 << PORT_USI_SCL);
+ 712:	dc 9a       	sbi	0x1b, 4	; 27
+                    PORT_USI |=  (1 << PORT_USI_SDA);
+ 714:	de 9a       	sbi	0x1b, 6	; 27
+                    return 0;
+ 716:	80 e0       	ldi	r24, 0x00	; 0
+ 718:	1f c0       	rjmp	.+62     	; 0x758 <i2c_in_transmit+0xbc>
+                }
+                DDR_USI |=  (1 << PORT_USI_SDA);
+ 71a:	d6 9a       	sbi	0x1a, 6	; 26
+                break;
+ 71c:	0c c0       	rjmp	.+24     	; 0x736 <i2c_in_transmit+0x9a>
+                
+            case USI_READ:
+                DDR_USI &= ~(1 << PORT_USI_SDA);
+ 71e:	d6 98       	cbi	0x1a, 6	; 26
+                (*msg) = i2c_in_transfer(0b11110000 | (0x00<<USICNT0));			
+ 720:	80 ef       	ldi	r24, 0xF0	; 240
+ 722:	a7 df       	rcall	.-178    	; 0x672 <i2c_in_transfer>
+ 724:	89 93       	st	Y+, r24
+                msg++;
+                DDR_USI |=  (1 << PORT_USI_SDA);				
+ 726:	d6 9a       	sbi	0x1a, 6	; 26
+                if(msg_size == 1){
+ 728:	11 30       	cpi	r17, 0x01	; 1
+ 72a:	11 f4       	brne	.+4      	; 0x730 <i2c_in_transmit+0x94>
+                    USIDR = 0xFF;			//Load NACK to end transmission
+ 72c:	ef b8       	out	0x0f, r14	; 15
+ 72e:	01 c0       	rjmp	.+2      	; 0x732 <i2c_in_transmit+0x96>
+                }else{
+                    USIDR = 0x00;			//Load ACK
+ 730:	1f b8       	out	0x0f, r1	; 15
+                }
+                i2c_in_transfer(0b11110000 | (0x0E<<USICNT0));
+ 732:	8e ef       	ldi	r24, 0xFE	; 254
+ 734:	9e df       	rcall	.-196    	; 0x672 <i2c_in_transfer>
+                break;
+        }
+    }while(--msg_size);
+ 736:	11 50       	subi	r17, 0x01	; 1
+ 738:	91 f6       	brne	.-92     	; 0x6de <i2c_in_transmit+0x42>
+    
+    //Stop Condition
+    PORT_USI &= ~(1 << PORT_USI_SDA);           				// Pull SDA low.
+ 73a:	de 98       	cbi	0x1b, 6	; 27
+ 73c:	85 e0       	ldi	r24, 0x05	; 5
+ 73e:	8a 95       	dec	r24
+ 740:	f1 f7       	brne	.-4      	; 0x73e <i2c_in_transmit+0xa2>
+ 742:	00 00       	nop
+    _delay_us(I2C_TLOW);
+    DDR_USI &= ~(1 << PORT_USI_SCL);            				// Release SCL.
+ 744:	d4 98       	cbi	0x1a, 4	; 26
+    while( !(PIN_USI & (1<<PIN_USI_SCL)) );  	// Wait for SCL to go high.  
+ 746:	cc 9b       	sbis	0x19, 4	; 25
+ 748:	fe cf       	rjmp	.-4      	; 0x746 <i2c_in_transmit+0xaa>
+ 74a:	84 e0       	ldi	r24, 0x04	; 4
+ 74c:	8a 95       	dec	r24
+ 74e:	f1 f7       	brne	.-4      	; 0x74c <i2c_in_transmit+0xb0>
+    _delay_us(I2C_THIGH);
+    DDR_USI &= ~(1 << PORT_USI_SDA);            				// Release SDA.
+ 750:	d6 98       	cbi	0x1a, 6	; 26
+    while( !(PIN_USI & (1<<PIN_USI_SDA)) );  	// Wait for SDA to go high. 
+ 752:	ce 9b       	sbis	0x19, 6	; 25
+ 754:	fe cf       	rjmp	.-4      	; 0x752 <i2c_in_transmit+0xb6>
+    return 1;
+ 756:	81 e0       	ldi	r24, 0x01	; 1
+}
+ 758:	df 91       	pop	r29
+ 75a:	cf 91       	pop	r28
+ 75c:	1f 91       	pop	r17
+ 75e:	0f 91       	pop	r16
+ 760:	ff 90       	pop	r15
+ 762:	ef 90       	pop	r14
+ 764:	08 95       	ret
+
+00000766 <i2c_write>:
+    i2c_write(RTC_addr,2,decToBcd(hour));
+}
+void RTC_setMin(uint8_t min){
+    i2c_write(RTC_addr,1,decToBcd(min));
+}
+uint8_t i2c_write(uint8_t addr, uint8_t adrs, uint8_t val){ // only supports 1 byte write
+ 766:	cf 93       	push	r28
+ 768:	df 93       	push	r29
+ 76a:	00 d0       	rcall	.+0      	; 0x76c <i2c_write+0x6>
+ 76c:	1f 92       	push	r1
+ 76e:	cd b7       	in	r28, 0x3d	; 61
+ 770:	de b7       	in	r29, 0x3e	; 62
+    uint8_t i2c_buffer[3];
+    uint8_t i2c_buffer_len = 3;
+    i2c_buffer[0] = (addr << 1) | I2CWRITE ;
+ 772:	88 0f       	add	r24, r24
+ 774:	89 83       	std	Y+1, r24	; 0x01
+    i2c_buffer[1] = adrs;
+ 776:	6a 83       	std	Y+2, r22	; 0x02
+    i2c_buffer[2] = val;
+ 778:	4b 83       	std	Y+3, r20	; 0x03
+    return i2c_in_transmit(i2c_buffer, i2c_buffer_len);
+ 77a:	63 e0       	ldi	r22, 0x03	; 3
+ 77c:	ce 01       	movw	r24, r28
+ 77e:	01 96       	adiw	r24, 0x01	; 1
+ 780:	8d df       	rcall	.-230    	; 0x69c <i2c_in_transmit>
+}
+ 782:	0f 90       	pop	r0
+ 784:	0f 90       	pop	r0
+ 786:	0f 90       	pop	r0
+ 788:	df 91       	pop	r29
+ 78a:	cf 91       	pop	r28
+ 78c:	08 95       	ret
+
+0000078e <RTC_setTime>:
+        return 1;
+    }else{
+        return 0;
+    }
+}
+void RTC_setTime(struct Ttime t,uint8_t day, uint8_t year){
+ 78e:	0f 93       	push	r16
+ 790:	1f 93       	push	r17
+ 792:	cf 93       	push	r28
+ 794:	df 93       	push	r29
+ 796:	00 d0       	rcall	.+0      	; 0x798 <RTC_setTime+0xa>
+ 798:	00 d0       	rcall	.+0      	; 0x79a <RTC_setTime+0xc>
+ 79a:	1f 92       	push	r1
+ 79c:	cd b7       	in	r28, 0x3d	; 61
+ 79e:	de b7       	in	r29, 0x3e	; 62
+ 7a0:	49 83       	std	Y+1, r20	; 0x01
+ 7a2:	85 2f       	mov	r24, r21
+ 7a4:	6b 83       	std	Y+3, r22	; 0x03
+ 7a6:	7c 83       	std	Y+4, r23	; 0x04
+ 7a8:	12 2f       	mov	r17, r18
+    i2c_write(RTC_addr,1,decToBcd(t.min));
+ 7aa:	5d df       	rcall	.-326    	; 0x666 <decToBcd>
+ 7ac:	48 2f       	mov	r20, r24
+ 7ae:	61 e0       	ldi	r22, 0x01	; 1
+ 7b0:	88 e6       	ldi	r24, 0x68	; 104
+ 7b2:	d9 df       	rcall	.-78     	; 0x766 <i2c_write>
+    i2c_write(RTC_addr,2,decToBcd(t.hour));
+ 7b4:	89 81       	ldd	r24, Y+1	; 0x01
+ 7b6:	57 df       	rcall	.-338    	; 0x666 <decToBcd>
+ 7b8:	48 2f       	mov	r20, r24
+ 7ba:	62 e0       	ldi	r22, 0x02	; 2
+ 7bc:	88 e6       	ldi	r24, 0x68	; 104
+ 7be:	d3 df       	rcall	.-90     	; 0x766 <i2c_write>
+    i2c_write(RTC_addr,3,decToBcd(day));
+ 7c0:	81 2f       	mov	r24, r17
+ 7c2:	51 df       	rcall	.-350    	; 0x666 <decToBcd>
+ 7c4:	48 2f       	mov	r20, r24
+ 7c6:	63 e0       	ldi	r22, 0x03	; 3
+ 7c8:	88 e6       	ldi	r24, 0x68	; 104
+ 7ca:	cd df       	rcall	.-102    	; 0x766 <i2c_write>
+    i2c_write(RTC_addr,4,decToBcd(t.monthDay));
+ 7cc:	8b 81       	ldd	r24, Y+3	; 0x03
+ 7ce:	4b df       	rcall	.-362    	; 0x666 <decToBcd>
+ 7d0:	48 2f       	mov	r20, r24
+ 7d2:	64 e0       	ldi	r22, 0x04	; 4
+ 7d4:	88 e6       	ldi	r24, 0x68	; 104
+ 7d6:	c7 df       	rcall	.-114    	; 0x766 <i2c_write>
+    i2c_write(RTC_addr,5,decToBcd(t.month));
+ 7d8:	8c 81       	ldd	r24, Y+4	; 0x04
+ 7da:	45 df       	rcall	.-374    	; 0x666 <decToBcd>
+ 7dc:	48 2f       	mov	r20, r24
+ 7de:	65 e0       	ldi	r22, 0x05	; 5
+ 7e0:	88 e6       	ldi	r24, 0x68	; 104
+ 7e2:	c1 df       	rcall	.-126    	; 0x766 <i2c_write>
+    i2c_write(RTC_addr,6,decToBcd(year));
+ 7e4:	80 2f       	mov	r24, r16
+ 7e6:	3f df       	rcall	.-386    	; 0x666 <decToBcd>
+ 7e8:	48 2f       	mov	r20, r24
+ 7ea:	66 e0       	ldi	r22, 0x06	; 6
+ 7ec:	88 e6       	ldi	r24, 0x68	; 104
+}
+ 7ee:	0f 90       	pop	r0
+ 7f0:	0f 90       	pop	r0
+ 7f2:	0f 90       	pop	r0
+ 7f4:	0f 90       	pop	r0
+ 7f6:	0f 90       	pop	r0
+ 7f8:	df 91       	pop	r29
+ 7fa:	cf 91       	pop	r28
+ 7fc:	1f 91       	pop	r17
+ 7fe:	0f 91       	pop	r16
+    i2c_write(RTC_addr,1,decToBcd(t.min));
+    i2c_write(RTC_addr,2,decToBcd(t.hour));
+    i2c_write(RTC_addr,3,decToBcd(day));
+    i2c_write(RTC_addr,4,decToBcd(t.monthDay));
+    i2c_write(RTC_addr,5,decToBcd(t.month));
+    i2c_write(RTC_addr,6,decToBcd(year));
+ 800:	b2 cf       	rjmp	.-156    	; 0x766 <i2c_write>
+
+00000802 <RTC_setHour>:
+}
+
+void RTC_setHour(uint8_t hour){
+    i2c_write(RTC_addr,2,decToBcd(hour));
+ 802:	31 df       	rcall	.-414    	; 0x666 <decToBcd>
+ 804:	48 2f       	mov	r20, r24
+ 806:	62 e0       	ldi	r22, 0x02	; 2
+ 808:	88 e6       	ldi	r24, 0x68	; 104
+ 80a:	ad cf       	rjmp	.-166    	; 0x766 <i2c_write>
+
+0000080c <RTC_setMin>:
+}
+void RTC_setMin(uint8_t min){
+    i2c_write(RTC_addr,1,decToBcd(min));
+ 80c:	2c df       	rcall	.-424    	; 0x666 <decToBcd>
+ 80e:	48 2f       	mov	r20, r24
+ 810:	61 e0       	ldi	r22, 0x01	; 1
+ 812:	88 e6       	ldi	r24, 0x68	; 104
+ 814:	a8 cf       	rjmp	.-176    	; 0x766 <i2c_write>
+
+00000816 <i2c_read>:
+    i2c_buffer[0] = (addr << 1) | I2CWRITE ;
+    i2c_buffer[1] = adrs;
+    i2c_buffer[2] = val;
+    return i2c_in_transmit(i2c_buffer, i2c_buffer_len);
+}
+uint8_t i2c_read(uint8_t addr, uint8_t len, uint8_t adrs, uint8_t *buf){
+ 816:	8f 92       	push	r8
+ 818:	9f 92       	push	r9
+ 81a:	af 92       	push	r10
+ 81c:	bf 92       	push	r11
+ 81e:	cf 92       	push	r12
+ 820:	df 92       	push	r13
+ 822:	ef 92       	push	r14
+ 824:	ff 92       	push	r15
+ 826:	0f 93       	push	r16
+ 828:	1f 93       	push	r17
+ 82a:	cf 93       	push	r28
+ 82c:	df 93       	push	r29
+ 82e:	cd b7       	in	r28, 0x3d	; 61
+ 830:	de b7       	in	r29, 0x3e	; 62
+ 832:	18 2f       	mov	r17, r24
+ 834:	06 2f       	mov	r16, r22
+ 836:	49 01       	movw	r8, r18
+        }
+        return 1; // provide success check
+    }else{
+        return 0;
+    }
+}
+ 838:	ad b6       	in	r10, 0x3d	; 61
+ 83a:	be b6       	in	r11, 0x3e	; 62
+    i2c_buffer[2] = val;
+    return i2c_in_transmit(i2c_buffer, i2c_buffer_len);
+}
+uint8_t i2c_read(uint8_t addr, uint8_t len, uint8_t adrs, uint8_t *buf){
+    //set register pointer to adrs
+    uint8_t i2c_buffer[len+1];
+ 83c:	c6 2e       	mov	r12, r22
+ 83e:	d1 2c       	mov	r13, r1
+ 840:	c6 01       	movw	r24, r12
+ 842:	01 96       	adiw	r24, 0x01	; 1
+ 844:	2d b7       	in	r18, 0x3d	; 61
+ 846:	3e b7       	in	r19, 0x3e	; 62
+ 848:	28 1b       	sub	r18, r24
+ 84a:	39 0b       	sbc	r19, r25
+ 84c:	0f b6       	in	r0, 0x3f	; 63
+ 84e:	f8 94       	cli
+ 850:	3e bf       	out	0x3e, r19	; 62
+ 852:	0f be       	out	0x3f, r0	; 63
+ 854:	2d bf       	out	0x3d, r18	; 61
+ 856:	8d b7       	in	r24, 0x3d	; 61
+ 858:	9e b7       	in	r25, 0x3e	; 62
+ 85a:	01 96       	adiw	r24, 0x01	; 1
+ 85c:	7c 01       	movw	r14, r24
+    uint8_t i2c_buffer_len = 2;
+    i2c_buffer[0] = (addr << 1) | I2CWRITE;
+ 85e:	81 2f       	mov	r24, r17
+ 860:	88 0f       	add	r24, r24
+ 862:	ed b7       	in	r30, 0x3d	; 61
+ 864:	fe b7       	in	r31, 0x3e	; 62
+ 866:	81 83       	std	Z+1, r24	; 0x01
+    i2c_buffer[1] = adrs;
+ 868:	f7 01       	movw	r30, r14
+ 86a:	41 83       	std	Z+1, r20	; 0x01
+    i2c_in_transmit(i2c_buffer, i2c_buffer_len);
+ 86c:	62 e0       	ldi	r22, 0x02	; 2
+ 86e:	c7 01       	movw	r24, r14
+ 870:	15 df       	rcall	.-470    	; 0x69c <i2c_in_transmit>
+    //read actual data
+    i2c_buffer_len = len+1;
+    i2c_buffer[0] = (addr << 1) | I2CREAD;
+ 872:	11 0f       	add	r17, r17
+ 874:	11 60       	ori	r17, 0x01	; 1
+ 876:	f7 01       	movw	r30, r14
+ 878:	10 83       	st	Z, r17
+    if(i2c_in_transmit(i2c_buffer, i2c_buffer_len)){
+ 87a:	61 e0       	ldi	r22, 0x01	; 1
+ 87c:	60 0f       	add	r22, r16
+ 87e:	c7 01       	movw	r24, r14
+ 880:	0d df       	rcall	.-486    	; 0x69c <i2c_in_transmit>
+ 882:	88 23       	and	r24, r24
+ 884:	91 f0       	breq	.+36     	; 0x8aa <i2c_read+0x94>
+ 886:	21 e0       	ldi	r18, 0x01	; 1
+        uint8_t i;
+        for(i=1;i<len+1;i++){ // fetch in buffer
+ 888:	82 2f       	mov	r24, r18
+ 88a:	90 e0       	ldi	r25, 0x00	; 0
+ 88c:	c8 16       	cp	r12, r24
+ 88e:	d9 06       	cpc	r13, r25
+ 890:	5c f0       	brlt	.+22     	; 0x8a8 <i2c_read+0x92>
+            buf[i-1]=i2c_buffer[i];
+ 892:	f4 01       	movw	r30, r8
+ 894:	e8 0f       	add	r30, r24
+ 896:	f9 1f       	adc	r31, r25
+ 898:	31 97       	sbiw	r30, 0x01	; 1
+ 89a:	d7 01       	movw	r26, r14
+ 89c:	a8 0f       	add	r26, r24
+ 89e:	b9 1f       	adc	r27, r25
+ 8a0:	8c 91       	ld	r24, X
+ 8a2:	80 83       	st	Z, r24
+    //read actual data
+    i2c_buffer_len = len+1;
+    i2c_buffer[0] = (addr << 1) | I2CREAD;
+    if(i2c_in_transmit(i2c_buffer, i2c_buffer_len)){
+        uint8_t i;
+        for(i=1;i<len+1;i++){ // fetch in buffer
+ 8a4:	2f 5f       	subi	r18, 0xFF	; 255
+ 8a6:	f0 cf       	rjmp	.-32     	; 0x888 <i2c_read+0x72>
+            buf[i-1]=i2c_buffer[i];
+        }
+        return 1; // provide success check
+ 8a8:	81 e0       	ldi	r24, 0x01	; 1
+    }else{
+        return 0;
+    }
+}
+ 8aa:	0f b6       	in	r0, 0x3f	; 63
+ 8ac:	f8 94       	cli
+ 8ae:	be be       	out	0x3e, r11	; 62
+ 8b0:	0f be       	out	0x3f, r0	; 63
+ 8b2:	ad be       	out	0x3d, r10	; 61
+ 8b4:	df 91       	pop	r29
+ 8b6:	cf 91       	pop	r28
+ 8b8:	1f 91       	pop	r17
+ 8ba:	0f 91       	pop	r16
+ 8bc:	ff 90       	pop	r15
+ 8be:	ef 90       	pop	r14
+ 8c0:	df 90       	pop	r13
+ 8c2:	cf 90       	pop	r12
+ 8c4:	bf 90       	pop	r11
+ 8c6:	af 90       	pop	r10
+ 8c8:	9f 90       	pop	r9
+ 8ca:	8f 90       	pop	r8
+ 8cc:	08 95       	ret
+
+000008ce <RTC_readTemp>:
+            }else{return 20;}
+        }else{return 10;}
+    }else{return 0;}
+}
+
+int8_t RTC_readTemp(void){
+ 8ce:	cf 93       	push	r28
+ 8d0:	df 93       	push	r29
+ 8d2:	1f 92       	push	r1
+ 8d4:	cd b7       	in	r28, 0x3d	; 61
+ 8d6:	de b7       	in	r29, 0x3e	; 62
+    int8_t data=0;
+ 8d8:	19 82       	std	Y+1, r1	; 0x01
+    if(i2c_read(RTC_addr,1,0x11,&data)){
+ 8da:	9e 01       	movw	r18, r28
+ 8dc:	2f 5f       	subi	r18, 0xFF	; 255
+ 8de:	3f 4f       	sbci	r19, 0xFF	; 255
+ 8e0:	41 e1       	ldi	r20, 0x11	; 17
+ 8e2:	61 e0       	ldi	r22, 0x01	; 1
+ 8e4:	88 e6       	ldi	r24, 0x68	; 104
+ 8e6:	97 df       	rcall	.-210    	; 0x816 <i2c_read>
+ 8e8:	88 23       	and	r24, r24
+ 8ea:	11 f0       	breq	.+4      	; 0x8f0 <RTC_readTemp+0x22>
+        return (data);
+ 8ec:	89 81       	ldd	r24, Y+1	; 0x01
+ 8ee:	01 c0       	rjmp	.+2      	; 0x8f2 <RTC_readTemp+0x24>
+    }else{
+        return 0;
+ 8f0:	80 e0       	ldi	r24, 0x00	; 0
+    }
+    
+}
+ 8f2:	0f 90       	pop	r0
+ 8f4:	df 91       	pop	r29
+ 8f6:	cf 91       	pop	r28
+ 8f8:	08 95       	ret
+
+000008fa <RTC_readTime>:
+    return ((val/16*10) + (val%16));
+}
+uint8_t decToBcd(uint8_t val){
+    return( (val/10*16) + (val%10) );
+}
+uint8_t RTC_readTime(struct Ttime *t){
+ 8fa:	0f 93       	push	r16
+ 8fc:	1f 93       	push	r17
+ 8fe:	cf 93       	push	r28
+ 900:	df 93       	push	r29
+ 902:	cd b7       	in	r28, 0x3d	; 61
+ 904:	de b7       	in	r29, 0x3e	; 62
+ 906:	27 97       	sbiw	r28, 0x07	; 7
+ 908:	0f b6       	in	r0, 0x3f	; 63
+ 90a:	f8 94       	cli
+ 90c:	de bf       	out	0x3e, r29	; 62
+ 90e:	0f be       	out	0x3f, r0	; 63
+ 910:	cd bf       	out	0x3d, r28	; 61
+ 912:	8c 01       	movw	r16, r24
+    uint8_t data[7] = {0};
+ 914:	9e 01       	movw	r18, r28
+ 916:	2f 5f       	subi	r18, 0xFF	; 255
+ 918:	3f 4f       	sbci	r19, 0xFF	; 255
+ 91a:	87 e0       	ldi	r24, 0x07	; 7
+ 91c:	f9 01       	movw	r30, r18
+ 91e:	11 92       	st	Z+, r1
+ 920:	8a 95       	dec	r24
+ 922:	e9 f7       	brne	.-6      	; 0x91e <RTC_readTime+0x24>
+    if(i2c_read(RTC_addr,7,0x00,data)){
+ 924:	40 e0       	ldi	r20, 0x00	; 0
+ 926:	67 e0       	ldi	r22, 0x07	; 7
+ 928:	88 e6       	ldi	r24, 0x68	; 104
+ 92a:	75 df       	rcall	.-278    	; 0x816 <i2c_read>
+ 92c:	88 23       	and	r24, r24
+ 92e:	89 f0       	breq	.+34     	; 0x952 <RTC_readTime+0x58>
+        t->hour = bcdToDec(data[2]);
+ 930:	8b 81       	ldd	r24, Y+3	; 0x03
+ 932:	91 de       	rcall	.-734    	; 0x656 <bcdToDec>
+ 934:	f8 01       	movw	r30, r16
+ 936:	80 83       	st	Z, r24
+        t->min = bcdToDec(data[1]);
+ 938:	8a 81       	ldd	r24, Y+2	; 0x02
+ 93a:	8d de       	rcall	.-742    	; 0x656 <bcdToDec>
+ 93c:	f8 01       	movw	r30, r16
+ 93e:	81 83       	std	Z+1, r24	; 0x01
+        t->monthDay = bcdToDec(data[4]);
+ 940:	8d 81       	ldd	r24, Y+5	; 0x05
+ 942:	89 de       	rcall	.-750    	; 0x656 <bcdToDec>
+ 944:	f8 01       	movw	r30, r16
+ 946:	82 83       	std	Z+2, r24	; 0x02
+        t->month = bcdToDec(data[5]);
+ 948:	8e 81       	ldd	r24, Y+6	; 0x06
+ 94a:	85 de       	rcall	.-758    	; 0x656 <bcdToDec>
+ 94c:	f8 01       	movw	r30, r16
+ 94e:	83 83       	std	Z+3, r24	; 0x03
+        return 1;
+ 950:	81 e0       	ldi	r24, 0x01	; 1
+    }else{
+        return 0;
+    }
+}
+ 952:	27 96       	adiw	r28, 0x07	; 7
+ 954:	0f b6       	in	r0, 0x3f	; 63
+ 956:	f8 94       	cli
+ 958:	de bf       	out	0x3e, r29	; 62
+ 95a:	0f be       	out	0x3f, r0	; 63
+ 95c:	cd bf       	out	0x3d, r28	; 61
+ 95e:	df 91       	pop	r29
+ 960:	cf 91       	pop	r28
+ 962:	1f 91       	pop	r17
+ 964:	0f 91       	pop	r16
+ 966:	08 95       	ret
+
+00000968 <MsetHouram>:
+}
+void MsetNightOn(uint8_t i){
+    EEPROM_write(EE_ONHOUR,1+i);
+}
+void MsetHouram(uint8_t i){
+   if(i<12)RTC_setHour(i+1);
+ 968:	8c 30       	cpi	r24, 0x0C	; 12
+ 96a:	10 f4       	brcc	.+4      	; 0x970 <MsetHouram+0x8>
+ 96c:	8f 5f       	subi	r24, 0xFF	; 255
+ 96e:	49 cf       	rjmp	.-366    	; 0x802 <RTC_setHour>
+ 970:	08 95       	ret
+
+00000972 <MsetHourpm>:
+}
+void MsetHourpm(uint8_t i){
+   if(i<11)RTC_setHour(i+13);    
+ 972:	8b 30       	cpi	r24, 0x0B	; 11
+ 974:	10 f4       	brcc	.+4      	; 0x97a <MsetHourpm+0x8>
+ 976:	83 5f       	subi	r24, 0xF3	; 243
+ 978:	44 cf       	rjmp	.-376    	; 0x802 <RTC_setHour>
+ 97a:	08 95       	ret
+
+0000097c <MsetRainbow>:
+        TCCR1B|=(1<<CS12)|(1<<CS10);
+    }
+}
+
+void MsetRainbow(uint8_t i){
+    if(i<2)mode=4;
+ 97c:	82 30       	cpi	r24, 0x02	; 2
+ 97e:	18 f4       	brcc	.+6      	; 0x986 <MsetRainbow+0xa>
+ 980:	84 e0       	ldi	r24, 0x04	; 4
+ 982:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+  //  cli();
+    sendRawData(0b11111100001111111111);//white
+ 986:	6f ef       	ldi	r22, 0xFF	; 255
+ 988:	73 ec       	ldi	r23, 0xC3	; 195
+ 98a:	8f e0       	ldi	r24, 0x0F	; 15
+ 98c:	90 e0       	ldi	r25, 0x00	; 0
+ 98e:	22 de       	rcall	.-956    	; 0x5d4 <sendRawData>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 990:	2f ef       	ldi	r18, 0xFF	; 255
+ 992:	89 e6       	ldi	r24, 0x69	; 105
+ 994:	98 e1       	ldi	r25, 0x18	; 24
+ 996:	21 50       	subi	r18, 0x01	; 1
+ 998:	80 40       	sbci	r24, 0x00	; 0
+ 99a:	90 40       	sbci	r25, 0x00	; 0
+ 99c:	e1 f7       	brne	.-8      	; 0x996 <MsetRainbow+0x1a>
+ 99e:	00 c0       	rjmp	.+0      	; 0x9a0 <MsetRainbow+0x24>
+ 9a0:	00 00       	nop
+    _delay_ms(500);
+    sendRawData(0b11000000001111111111);//green
+ 9a2:	6f ef       	ldi	r22, 0xFF	; 255
+ 9a4:	73 e0       	ldi	r23, 0x03	; 3
+ 9a6:	8c e0       	ldi	r24, 0x0C	; 12
+ 9a8:	90 e0       	ldi	r25, 0x00	; 0
+ 9aa:	14 de       	rcall	.-984    	; 0x5d4 <sendRawData>
+ 9ac:	2f ef       	ldi	r18, 0xFF	; 255
+ 9ae:	89 e6       	ldi	r24, 0x69	; 105
+ 9b0:	98 e1       	ldi	r25, 0x18	; 24
+ 9b2:	21 50       	subi	r18, 0x01	; 1
+ 9b4:	80 40       	sbci	r24, 0x00	; 0
+ 9b6:	90 40       	sbci	r25, 0x00	; 0
+ 9b8:	e1 f7       	brne	.-8      	; 0x9b2 <MsetRainbow+0x36>
+ 9ba:	00 c0       	rjmp	.+0      	; 0x9bc <MsetRainbow+0x40>
+ 9bc:	00 00       	nop
+    _delay_ms(500);
+    sendRawData(0b00001100001111111111);//red
+ 9be:	6f ef       	ldi	r22, 0xFF	; 255
+ 9c0:	73 ec       	ldi	r23, 0xC3	; 195
+ 9c2:	80 e0       	ldi	r24, 0x00	; 0
+ 9c4:	90 e0       	ldi	r25, 0x00	; 0
+ 9c6:	06 de       	rcall	.-1012   	; 0x5d4 <sendRawData>
+ 9c8:	2f ef       	ldi	r18, 0xFF	; 255
+ 9ca:	89 e6       	ldi	r24, 0x69	; 105
+ 9cc:	98 e1       	ldi	r25, 0x18	; 24
+ 9ce:	21 50       	subi	r18, 0x01	; 1
+ 9d0:	80 40       	sbci	r24, 0x00	; 0
+ 9d2:	90 40       	sbci	r25, 0x00	; 0
+ 9d4:	e1 f7       	brne	.-8      	; 0x9ce <MsetRainbow+0x52>
+ 9d6:	00 c0       	rjmp	.+0      	; 0x9d8 <MsetRainbow+0x5c>
+ 9d8:	00 00       	nop
+    _delay_ms(500);
+    sendRawData(0b00110000001111111111);//blue
+ 9da:	6f ef       	ldi	r22, 0xFF	; 255
+ 9dc:	73 e0       	ldi	r23, 0x03	; 3
+ 9de:	83 e0       	ldi	r24, 0x03	; 3
+ 9e0:	90 e0       	ldi	r25, 0x00	; 0
+ 9e2:	f8 dd       	rcall	.-1040   	; 0x5d4 <sendRawData>
+ 9e4:	2f ef       	ldi	r18, 0xFF	; 255
+ 9e6:	89 e6       	ldi	r24, 0x69	; 105
+ 9e8:	98 e1       	ldi	r25, 0x18	; 24
+ 9ea:	21 50       	subi	r18, 0x01	; 1
+ 9ec:	80 40       	sbci	r24, 0x00	; 0
+ 9ee:	90 40       	sbci	r25, 0x00	; 0
+ 9f0:	e1 f7       	brne	.-8      	; 0x9ea <MsetRainbow+0x6e>
+ 9f2:	00 c0       	rjmp	.+0      	; 0x9f4 <MsetRainbow+0x78>
+ 9f4:	00 00       	nop
+    _delay_ms(500);
+    sendRawData(0b11110000001111111111);//cyan
+ 9f6:	6f ef       	ldi	r22, 0xFF	; 255
+ 9f8:	73 e0       	ldi	r23, 0x03	; 3
+ 9fa:	8f e0       	ldi	r24, 0x0F	; 15
+ 9fc:	90 e0       	ldi	r25, 0x00	; 0
+ 9fe:	ea dd       	rcall	.-1068   	; 0x5d4 <sendRawData>
+ a00:	2f ef       	ldi	r18, 0xFF	; 255
+ a02:	89 e6       	ldi	r24, 0x69	; 105
+ a04:	98 e1       	ldi	r25, 0x18	; 24
+ a06:	21 50       	subi	r18, 0x01	; 1
+ a08:	80 40       	sbci	r24, 0x00	; 0
+ a0a:	90 40       	sbci	r25, 0x00	; 0
+ a0c:	e1 f7       	brne	.-8      	; 0xa06 <MsetRainbow+0x8a>
+ a0e:	00 c0       	rjmp	.+0      	; 0xa10 <MsetRainbow+0x94>
+ a10:	00 00       	nop
+    _delay_ms(500);
+    sendRawData(0b00111100001111111111);//magenta
+ a12:	6f ef       	ldi	r22, 0xFF	; 255
+ a14:	73 ec       	ldi	r23, 0xC3	; 195
+ a16:	83 e0       	ldi	r24, 0x03	; 3
+ a18:	90 e0       	ldi	r25, 0x00	; 0
+ a1a:	dc dd       	rcall	.-1096   	; 0x5d4 <sendRawData>
+ a1c:	2f ef       	ldi	r18, 0xFF	; 255
+ a1e:	89 e6       	ldi	r24, 0x69	; 105
+ a20:	98 e1       	ldi	r25, 0x18	; 24
+ a22:	21 50       	subi	r18, 0x01	; 1
+ a24:	80 40       	sbci	r24, 0x00	; 0
+ a26:	90 40       	sbci	r25, 0x00	; 0
+ a28:	e1 f7       	brne	.-8      	; 0xa22 <MsetRainbow+0xa6>
+ a2a:	00 c0       	rjmp	.+0      	; 0xa2c <MsetRainbow+0xb0>
+ a2c:	00 00       	nop
+    _delay_ms(500);
+    sendRawData(0b11001100001111111111);//yellow
+ a2e:	6f ef       	ldi	r22, 0xFF	; 255
+ a30:	73 ec       	ldi	r23, 0xC3	; 195
+ a32:	8c e0       	ldi	r24, 0x0C	; 12
+ a34:	90 e0       	ldi	r25, 0x00	; 0
+ a36:	ce dd       	rcall	.-1124   	; 0x5d4 <sendRawData>
+ a38:	2f ef       	ldi	r18, 0xFF	; 255
+ a3a:	89 e6       	ldi	r24, 0x69	; 105
+ a3c:	98 e1       	ldi	r25, 0x18	; 24
+ a3e:	21 50       	subi	r18, 0x01	; 1
+ a40:	80 40       	sbci	r24, 0x00	; 0
+ a42:	90 40       	sbci	r25, 0x00	; 0
+ a44:	e1 f7       	brne	.-8      	; 0xa3e <MsetRainbow+0xc2>
+ a46:	00 c0       	rjmp	.+0      	; 0xa48 <MsetRainbow+0xcc>
+ a48:	00 00       	nop
+ a4a:	08 95       	ret
+
+00000a4c <MsetMinam>:
+}
+void MsetHourpm(uint8_t i){
+   if(i<11)RTC_setHour(i+13);    
+}
+void MsetMinam(uint8_t i){
+    if(i<3)RTC_setMin((i+1)*10);
+ a4c:	83 30       	cpi	r24, 0x03	; 3
+ a4e:	20 f4       	brcc	.+8      	; 0xa58 <MsetMinam+0xc>
+ a50:	8f 5f       	subi	r24, 0xFF	; 255
+ a52:	6a e0       	ldi	r22, 0x0A	; 10
+ a54:	74 d1       	rcall	.+744    	; 0xd3e <__mulqi3>
+ a56:	da ce       	rjmp	.-588    	; 0x80c <RTC_setMin>
+ a58:	08 95       	ret
+
+00000a5a <MsetMinpm>:
+    }
+void MsetMinpm(uint8_t i){
+    if(i<3)RTC_setMin(60-(i+1)*10);
+ a5a:	83 30       	cpi	r24, 0x03	; 3
+ a5c:	28 f4       	brcc	.+10     	; 0xa68 <MsetMinpm+0xe>
+ a5e:	8f 5f       	subi	r24, 0xFF	; 255
+ a60:	66 ef       	ldi	r22, 0xF6	; 246
+ a62:	6d d1       	rcall	.+730    	; 0xd3e <__mulqi3>
+ a64:	84 5c       	subi	r24, 0xC4	; 196
+ a66:	d2 ce       	rjmp	.-604    	; 0x80c <RTC_setMin>
+ a68:	08 95       	ret
+
+00000a6a <findNextEntry>:
+
+uint8_t mode=1;//0: hour only, 1-2: hour+temp, 3: temp only, >=4:Rainbow !
+uint8_t colorMode=0;
+
+uint8_t findNextEntry(Menu* m,uint8_t index){
+    if((index+2)>(m->nb_optn%16))return 0;
+ a6a:	26 2f       	mov	r18, r22
+ a6c:	30 e0       	ldi	r19, 0x00	; 0
+ a6e:	2f 5f       	subi	r18, 0xFF	; 255
+ a70:	3f 4f       	sbci	r19, 0xFF	; 255
+ a72:	fc 01       	movw	r30, r24
+ a74:	80 81       	ld	r24, Z
+ a76:	8f 70       	andi	r24, 0x0F	; 15
+ a78:	90 e0       	ldi	r25, 0x00	; 0
+ a7a:	28 17       	cp	r18, r24
+ a7c:	39 07       	cpc	r19, r25
+ a7e:	1c f4       	brge	.+6      	; 0xa86 <findNextEntry+0x1c>
+    return index+1;
+ a80:	81 e0       	ldi	r24, 0x01	; 1
+ a82:	86 0f       	add	r24, r22
+ a84:	08 95       	ret
+
+uint8_t mode=1;//0: hour only, 1-2: hour+temp, 3: temp only, >=4:Rainbow !
+uint8_t colorMode=0;
+
+uint8_t findNextEntry(Menu* m,uint8_t index){
+    if((index+2)>(m->nb_optn%16))return 0;
+ a86:	80 e0       	ldi	r24, 0x00	; 0
+    return index+1;
+}
+ a88:	08 95       	ret
+
+00000a8a <getSubMenu>:
+
+Menu* getSubMenu(Menu* m,uint8_t index){
+ a8a:	9c 01       	movw	r18, r24
+    if(m->sub[index].submenu==0)return 0;//if executed NULL, return blank menu (==exit setup)
+ a8c:	86 2f       	mov	r24, r22
+ a8e:	90 e0       	ldi	r25, 0x00	; 0
+ a90:	63 e0       	ldi	r22, 0x03	; 3
+ a92:	70 e0       	ldi	r23, 0x00	; 0
+ a94:	5d d1       	rcall	.+698    	; 0xd50 <__mulhi3>
+ a96:	82 0f       	add	r24, r18
+ a98:	93 1f       	adc	r25, r19
+    return m->sub[index].submenu;
+}
+ a9a:	fc 01       	movw	r30, r24
+ a9c:	84 81       	ldd	r24, Z+4	; 0x04
+ a9e:	95 81       	ldd	r25, Z+5	; 0x05
+ aa0:	08 95       	ret
+
+00000aa2 <EEPROM_write>:
+void EEPROM_write(uint8_t addr, uint8_t data){
+    while(EECR & (1<<EEPE));
+ aa2:	e1 99       	sbic	0x1c, 1	; 28
+ aa4:	fe cf       	rjmp	.-4      	; 0xaa2 <EEPROM_write>
+    EECR = (0<<EEPM1)|(0<<EEPM0);
+ aa6:	1c ba       	out	0x1c, r1	; 28
+    EEAR = addr;
+ aa8:	90 e0       	ldi	r25, 0x00	; 0
+ aaa:	9f bb       	out	0x1f, r25	; 31
+ aac:	8e bb       	out	0x1e, r24	; 30
+    EEDR = data;
+ aae:	6d bb       	out	0x1d, r22	; 29
+    EECR |= (1<<EEMPE);
+ ab0:	e2 9a       	sbi	0x1c, 2	; 28
+    EECR |= (1<<EEPE);
+ ab2:	e1 9a       	sbi	0x1c, 1	; 28
+ ab4:	08 95       	ret
+
+00000ab6 <MsetMode>:
+    {8,0},//Rainbow off
+    {HEURE,&M0main}//return
+}};
+
+void MsetMode(uint8_t i){
+   if(i<4){
+ ab6:	84 30       	cpi	r24, 0x04	; 4
+ ab8:	68 f4       	brcc	.+26     	; 0xad4 <MsetMode+0x1e>
+        TCCR1B|=(1<<CS12)|(1<<CS10);
+ aba:	9e b5       	in	r25, 0x2e	; 46
+ abc:	95 60       	ori	r25, 0x05	; 5
+ abe:	9e bd       	out	0x2e, r25	; 46
+        if(i==2)TCCR1B&=~(1<<CS10);
+ ac0:	82 30       	cpi	r24, 0x02	; 2
+ ac2:	19 f4       	brne	.+6      	; 0xaca <MsetMode+0x14>
+ ac4:	9e b5       	in	r25, 0x2e	; 46
+ ac6:	9e 7f       	andi	r25, 0xFE	; 254
+ ac8:	9e bd       	out	0x2e, r25	; 46
+        mode=i;
+ aca:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+        EEPROM_write(EE_MODE,i);
+ ace:	68 2f       	mov	r22, r24
+ ad0:	84 e0       	ldi	r24, 0x04	; 4
+ ad2:	e7 cf       	rjmp	.-50     	; 0xaa2 <EEPROM_write>
+ ad4:	08 95       	ret
+
+00000ad6 <MsetColorMode>:
+        colorMode=((colorMode-64+1)%7)+64;
+    }
+    return mode;
+}
+void MsetColorMode(uint8_t i){
+    if(i<7){
+ ad6:	87 30       	cpi	r24, 0x07	; 7
+ ad8:	40 f4       	brcc	.+16     	; 0xaea <MsetColorMode+0x14>
+        colorMode=colorArray[i];//fixed
+ ada:	e8 2f       	mov	r30, r24
+ adc:	f0 e0       	ldi	r31, 0x00	; 0
+ ade:	e0 54       	subi	r30, 0x40	; 64
+ ae0:	fe 4f       	sbci	r31, 0xFE	; 254
+ ae2:	60 81       	ld	r22, Z
+ ae4:	60 93 ce 01 	sts	0x01CE, r22	; 0x8001ce <colorMode>
+ ae8:	0d c0       	rjmp	.+26     	; 0xb04 <MsetColorMode+0x2e>
+        EEPROM_write(EE_COLOR,colorArray[i]);
+    }else if(i==7){//cycle single
+ aea:	87 30       	cpi	r24, 0x07	; 7
+ aec:	29 f4       	brne	.+10     	; 0xaf8 <MsetColorMode+0x22>
+        colorMode=WHITE+128;
+ aee:	87 e8       	ldi	r24, 0x87	; 135
+ af0:	80 93 ce 01 	sts	0x01CE, r24	; 0x8001ce <colorMode>
+        EEPROM_write(EE_COLOR,128);
+ af4:	60 e8       	ldi	r22, 0x80	; 128
+ af6:	06 c0       	rjmp	.+12     	; 0xb04 <MsetColorMode+0x2e>
+    }else if(i==8){//cycle all
+ af8:	88 30       	cpi	r24, 0x08	; 8
+ afa:	31 f4       	brne	.+12     	; 0xb08 <MsetColorMode+0x32>
+        colorMode=WHITE+64;
+ afc:	87 e4       	ldi	r24, 0x47	; 71
+ afe:	80 93 ce 01 	sts	0x01CE, r24	; 0x8001ce <colorMode>
+        EEPROM_write(EE_COLOR,64);
+ b02:	60 e4       	ldi	r22, 0x40	; 64
+ b04:	80 e0       	ldi	r24, 0x00	; 0
+ b06:	cd cf       	rjmp	.-102    	; 0xaa2 <EEPROM_write>
+ b08:	08 95       	ret
+
+00000b0a <MsetNightMode>:
+    }else{//fixed
+        return colorMode;
+    }
+}
+void MsetNightMode(uint8_t i){
+    if(i<3)EEPROM_write(EE_NIGHTMODE,i);
+ b0a:	83 30       	cpi	r24, 0x03	; 3
+ b0c:	18 f4       	brcc	.+6      	; 0xb14 <MsetNightMode+0xa>
+ b0e:	68 2f       	mov	r22, r24
+ b10:	81 e0       	ldi	r24, 0x01	; 1
+ b12:	c7 cf       	rjmp	.-114    	; 0xaa2 <EEPROM_write>
+ b14:	08 95       	ret
+
+00000b16 <MsetNightOff>:
+uint8_t isInAllowedTime(uint8_t h){
+    if(EEPROM_read(EE_NIGHTMODE))return (h>=EEPROM_read(EE_ONHOUR) && h<=EEPROM_read(EE_OFFHOUR));
+    return 1;
+}
+void MsetNightOff(uint8_t i){
+    EEPROM_write(EE_OFFHOUR,12+i);
+ b16:	6c e0       	ldi	r22, 0x0C	; 12
+ b18:	68 0f       	add	r22, r24
+ b1a:	83 e0       	ldi	r24, 0x03	; 3
+ b1c:	c2 cf       	rjmp	.-124    	; 0xaa2 <EEPROM_write>
+
+00000b1e <MsetNightOn>:
+}
+void MsetNightOn(uint8_t i){
+    EEPROM_write(EE_ONHOUR,1+i);
+ b1e:	61 e0       	ldi	r22, 0x01	; 1
+ b20:	68 0f       	add	r22, r24
+ b22:	82 e0       	ldi	r24, 0x02	; 2
+ b24:	be cf       	rjmp	.-132    	; 0xaa2 <EEPROM_write>
+
+00000b26 <MsetEventMode>:
+    }
+void MsetMinpm(uint8_t i){
+    if(i<3)RTC_setMin(60-(i+1)*10);
+}
+void MsetEventMode(uint8_t i){
+    if(i<2)EEPROM_write(EE_EVENT,1-i);//1 for active
+ b26:	82 30       	cpi	r24, 0x02	; 2
+ b28:	20 f4       	brcc	.+8      	; 0xb32 <MsetEventMode+0xc>
+ b2a:	61 e0       	ldi	r22, 0x01	; 1
+ b2c:	68 1b       	sub	r22, r24
+ b2e:	85 e0       	ldi	r24, 0x05	; 5
+ b30:	b8 cf       	rjmp	.-144    	; 0xaa2 <EEPROM_write>
+ b32:	08 95       	ret
+
+00000b34 <Mreset>:
+}
+void Mreset(uint8_t i){
+    if(i<1){
+ b34:	81 11       	cpse	r24, r1
+ b36:	17 c0       	rjmp	.+46     	; 0xb66 <Mreset+0x32>
+    {HEURE,&M0main}//return
+}};
+
+void MsetMode(uint8_t i){
+   if(i<4){
+        TCCR1B|=(1<<CS12)|(1<<CS10);
+ b38:	8e b5       	in	r24, 0x2e	; 46
+ b3a:	85 60       	ori	r24, 0x05	; 5
+ b3c:	8e bd       	out	0x2e, r24	; 46
+        if(i==2)TCCR1B&=~(1<<CS10);
+        mode=i;
+ b3e:	81 e0       	ldi	r24, 0x01	; 1
+ b40:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+        EEPROM_write(EE_MODE,i);
+ b44:	61 e0       	ldi	r22, 0x01	; 1
+ b46:	84 e0       	ldi	r24, 0x04	; 4
+ b48:	ac df       	rcall	.-168    	; 0xaa2 <EEPROM_write>
+    if(i<2)EEPROM_write(EE_EVENT,1-i);//1 for active
+}
+void Mreset(uint8_t i){
+    if(i<1){
+        MsetMode(1);
+        MsetColorMode(0);
+ b4a:	80 e0       	ldi	r24, 0x00	; 0
+ b4c:	c4 df       	rcall	.-120    	; 0xad6 <MsetColorMode>
+        EEPROM_write(EE_NIGHTMODE,1);
+ b4e:	61 e0       	ldi	r22, 0x01	; 1
+ b50:	81 e0       	ldi	r24, 0x01	; 1
+ b52:	a7 df       	rcall	.-178    	; 0xaa2 <EEPROM_write>
+        EEPROM_write(EE_OFFHOUR,12+10);
+ b54:	66 e1       	ldi	r22, 0x16	; 22
+ b56:	83 e0       	ldi	r24, 0x03	; 3
+ b58:	a4 df       	rcall	.-184    	; 0xaa2 <EEPROM_write>
+        EEPROM_write(EE_ONHOUR,1+8);
+ b5a:	69 e0       	ldi	r22, 0x09	; 9
+ b5c:	82 e0       	ldi	r24, 0x02	; 2
+ b5e:	a1 df       	rcall	.-190    	; 0xaa2 <EEPROM_write>
+        TCCR1B|=(1<<CS12)|(1<<CS10);
+ b60:	8e b5       	in	r24, 0x2e	; 46
+ b62:	85 60       	ori	r24, 0x05	; 5
+ b64:	8e bd       	out	0x2e, r24	; 46
+ b66:	08 95       	ret
+
+00000b68 <EEPROM_read>:
+    EEDR = data;
+    EECR |= (1<<EEMPE);
+    EECR |= (1<<EEPE);
+}
+uint8_t EEPROM_read(uint8_t addr){
+    while(EECR & (1<<EEPE));
+ b68:	e1 99       	sbic	0x1c, 1	; 28
+ b6a:	fe cf       	rjmp	.-4      	; 0xb68 <EEPROM_read>
+    EEAR = addr;
+ b6c:	90 e0       	ldi	r25, 0x00	; 0
+ b6e:	9f bb       	out	0x1f, r25	; 31
+ b70:	8e bb       	out	0x1e, r24	; 30
+    EECR |= (1<<EERE);
+ b72:	e0 9a       	sbi	0x1c, 0	; 28
+    return EEDR;
+ b74:	8d b3       	in	r24, 0x1d	; 29
+}
+ b76:	08 95       	ret
+
+00000b78 <Minit>:
+
+void Minit(void){
+    colorMode=EEPROM_read(EE_COLOR);
+ b78:	80 e0       	ldi	r24, 0x00	; 0
+ b7a:	f6 df       	rcall	.-20     	; 0xb68 <EEPROM_read>
+ b7c:	80 93 ce 01 	sts	0x01CE, r24	; 0x8001ce <colorMode>
+    mode=EEPROM_read(EE_MODE);
+ b80:	84 e0       	ldi	r24, 0x04	; 4
+ b82:	f2 df       	rcall	.-28     	; 0xb68 <EEPROM_read>
+ b84:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+    MsetMode(EEPROM_read(EE_MODE));
+ b88:	84 e0       	ldi	r24, 0x04	; 4
+ b8a:	ee df       	rcall	.-36     	; 0xb68 <EEPROM_read>
+ b8c:	94 cf       	rjmp	.-216    	; 0xab6 <MsetMode>
+
+00000b8e <getMode>:
+        mode=i;
+        EEPROM_write(EE_MODE,i);
+    }
+}
+uint8_t getMode(void){
+    if(mode==2){
+ b8e:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+ b92:	82 30       	cpi	r24, 0x02	; 2
+ b94:	11 f4       	brne	.+4      	; 0xb9a <getMode+0xc>
+        mode=1;
+ b96:	81 e0       	ldi	r24, 0x01	; 1
+ b98:	03 c0       	rjmp	.+6      	; 0xba0 <getMode+0x12>
+    }else if(mode==1){
+ b9a:	81 30       	cpi	r24, 0x01	; 1
+ b9c:	19 f4       	brne	.+6      	; 0xba4 <getMode+0x16>
+        mode=2;
+ b9e:	82 e0       	ldi	r24, 0x02	; 2
+ ba0:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__data_start>
+    }
+    if(colorMode>63 && colorMode<128){
+ ba4:	80 91 ce 01 	lds	r24, 0x01CE	; 0x8001ce <colorMode>
+ ba8:	90 ec       	ldi	r25, 0xC0	; 192
+ baa:	98 0f       	add	r25, r24
+ bac:	90 34       	cpi	r25, 0x40	; 64
+ bae:	40 f4       	brcc	.+16     	; 0xbc0 <getMode+0x32>
+        colorMode=((colorMode-64+1)%7)+64;
+ bb0:	90 e0       	ldi	r25, 0x00	; 0
+ bb2:	cf 97       	sbiw	r24, 0x3f	; 63
+ bb4:	67 e0       	ldi	r22, 0x07	; 7
+ bb6:	70 e0       	ldi	r23, 0x00	; 0
+ bb8:	e8 d0       	rcall	.+464    	; 0xd8a <__divmodhi4>
+ bba:	80 5c       	subi	r24, 0xC0	; 192
+ bbc:	80 93 ce 01 	sts	0x01CE, r24	; 0x8001ce <colorMode>
+    }
+    return mode;
+}
+ bc0:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__data_start>
+ bc4:	08 95       	ret
+
+00000bc6 <getColor>:
+        colorMode=WHITE+64;
+        EEPROM_write(EE_COLOR,64);
+    }
+}
+uint8_t getColor(void){
+    if(colorMode>127){//cycle single
+ bc6:	80 91 ce 01 	lds	r24, 0x01CE	; 0x8001ce <colorMode>
+ bca:	87 ff       	sbrs	r24, 7
+ bcc:	0e c0       	rjmp	.+28     	; 0xbea <getColor+0x24>
+        if(colorMode>134)colorMode=128;
+ bce:	87 38       	cpi	r24, 0x87	; 135
+ bd0:	18 f0       	brcs	.+6      	; 0xbd8 <getColor+0x12>
+ bd2:	80 e8       	ldi	r24, 0x80	; 128
+ bd4:	80 93 ce 01 	sts	0x01CE, r24	; 0x8001ce <colorMode>
+        colorMode++;
+ bd8:	e0 91 ce 01 	lds	r30, 0x01CE	; 0x8001ce <colorMode>
+ bdc:	ef 5f       	subi	r30, 0xFF	; 255
+ bde:	e0 93 ce 01 	sts	0x01CE, r30	; 0x8001ce <colorMode>
+        return colorArray[colorMode-129];
+ be2:	f0 e0       	ldi	r31, 0x00	; 0
+ be4:	e1 5c       	subi	r30, 0xC1	; 193
+ be6:	fe 4f       	sbci	r31, 0xFE	; 254
+ be8:	0b c0       	rjmp	.+22     	; 0xc00 <getColor+0x3a>
+    }else if(colorMode>63){//cycle all
+ bea:	80 34       	cpi	r24, 0x40	; 64
+ bec:	50 f0       	brcs	.+20     	; 0xc02 <getColor+0x3c>
+        return colorArray[(colorMode-64)%7];
+ bee:	90 e0       	ldi	r25, 0x00	; 0
+ bf0:	80 54       	subi	r24, 0x40	; 64
+ bf2:	91 09       	sbc	r25, r1
+ bf4:	67 e0       	ldi	r22, 0x07	; 7
+ bf6:	70 e0       	ldi	r23, 0x00	; 0
+ bf8:	c8 d0       	rcall	.+400    	; 0xd8a <__divmodhi4>
+ bfa:	fc 01       	movw	r30, r24
+ bfc:	e0 54       	subi	r30, 0x40	; 64
+ bfe:	fe 4f       	sbci	r31, 0xFE	; 254
+ c00:	80 81       	ld	r24, Z
+    }else{//fixed
+        return colorMode;
+    }
+}
+ c02:	08 95       	ret
+
+00000c04 <isInAllowedTime>:
+void MsetNightMode(uint8_t i){
+    if(i<3)EEPROM_write(EE_NIGHTMODE,i);
+}
+uint8_t isInAllowedTime(uint8_t h){
+ c04:	cf 93       	push	r28
+ c06:	c8 2f       	mov	r28, r24
+    if(EEPROM_read(EE_NIGHTMODE))return (h>=EEPROM_read(EE_ONHOUR) && h<=EEPROM_read(EE_OFFHOUR));
+ c08:	81 e0       	ldi	r24, 0x01	; 1
+ c0a:	ae df       	rcall	.-164    	; 0xb68 <EEPROM_read>
+ c0c:	88 23       	and	r24, r24
+ c0e:	71 f0       	breq	.+28     	; 0xc2c <isInAllowedTime+0x28>
+ c10:	82 e0       	ldi	r24, 0x02	; 2
+ c12:	aa df       	rcall	.-172    	; 0xb68 <EEPROM_read>
+ c14:	c8 17       	cp	r28, r24
+ c16:	40 f0       	brcs	.+16     	; 0xc28 <isInAllowedTime+0x24>
+ c18:	83 e0       	ldi	r24, 0x03	; 3
+ c1a:	a6 df       	rcall	.-180    	; 0xb68 <EEPROM_read>
+ c1c:	91 e0       	ldi	r25, 0x01	; 1
+ c1e:	8c 17       	cp	r24, r28
+ c20:	08 f4       	brcc	.+2      	; 0xc24 <isInAllowedTime+0x20>
+ c22:	90 e0       	ldi	r25, 0x00	; 0
+ c24:	89 2f       	mov	r24, r25
+ c26:	03 c0       	rjmp	.+6      	; 0xc2e <isInAllowedTime+0x2a>
+ c28:	80 e0       	ldi	r24, 0x00	; 0
+ c2a:	01 c0       	rjmp	.+2      	; 0xc2e <isInAllowedTime+0x2a>
+    return 1;
+ c2c:	81 e0       	ldi	r24, 0x01	; 1
+}
+ c2e:	cf 91       	pop	r28
+ c30:	08 95       	ret
+
+00000c32 <main>:
+const Menu* Mcurrent=0;
+uint8_t Mindex=0;
+Led leds[NBLEDS];
+
+int main(void){    
+    ledInit(leds);
+ c32:	8f ec       	ldi	r24, 0xCF	; 207
+ c34:	91 e0       	ldi	r25, 0x01	; 1
+ c36:	dd db       	rcall	.-2118   	; 0x3f2 <ledInit>
+    DDRA&=~(BTNINTERNAL|BTNOK);
+ c38:	8a b3       	in	r24, 0x1a	; 26
+ c3a:	8f 75       	andi	r24, 0x5F	; 95
+ c3c:	8a bb       	out	0x1a, r24	; 26
+    DDRB&=~BTNSELECT;
+ c3e:	ba 98       	cbi	0x17, 2	; 23
+    PORTA|=(BTNINTERNAL|BTNOK);
+ c40:	8b b3       	in	r24, 0x1b	; 27
+ c42:	80 6a       	ori	r24, 0xA0	; 160
+ c44:	8b bb       	out	0x1b, r24	; 27
+    PORTB|=BTNSELECT;
+ c46:	c2 9a       	sbi	0x18, 2	; 24
+    TIMSK1|=(1<<TOIE1);//|(1<<OCIE1B);
+ c48:	60 9a       	sbi	0x0c, 0	; 12
+    // OCR1B=32768;
+    TIMSK0|=(1<<TOIE0);
+ c4a:	89 b7       	in	r24, 0x39	; 57
+ c4c:	81 60       	ori	r24, 0x01	; 1
+ c4e:	89 bf       	out	0x39, r24	; 57
+    
+    sendData(0b11111100001111111111);//white
+ c50:	6f ef       	ldi	r22, 0xFF	; 255
+ c52:	73 ec       	ldi	r23, 0xC3	; 195
+ c54:	8f e0       	ldi	r24, 0x0F	; 15
+ c56:	90 e0       	ldi	r25, 0x00	; 0
+ c58:	00 da       	rcall	.-3072   	; 0x5a <sendData>
+ c5a:	2f ef       	ldi	r18, 0xFF	; 255
+ c5c:	89 e6       	ldi	r24, 0x69	; 105
+ c5e:	98 e1       	ldi	r25, 0x18	; 24
+ c60:	21 50       	subi	r18, 0x01	; 1
+ c62:	80 40       	sbci	r24, 0x00	; 0
+ c64:	90 40       	sbci	r25, 0x00	; 0
+ c66:	e1 f7       	brne	.-8      	; 0xc60 <main+0x2e>
+ c68:	00 c0       	rjmp	.+0      	; 0xc6a <main+0x38>
+ c6a:	00 00       	nop
+    _delay_ms(500);
+    sendData(0b11000000001111111111);//green
+ c6c:	6f ef       	ldi	r22, 0xFF	; 255
+ c6e:	73 e0       	ldi	r23, 0x03	; 3
+ c70:	8c e0       	ldi	r24, 0x0C	; 12
+ c72:	90 e0       	ldi	r25, 0x00	; 0
+ c74:	f2 d9       	rcall	.-3100   	; 0x5a <sendData>
+ c76:	2f ef       	ldi	r18, 0xFF	; 255
+ c78:	89 e6       	ldi	r24, 0x69	; 105
+ c7a:	98 e1       	ldi	r25, 0x18	; 24
+ c7c:	21 50       	subi	r18, 0x01	; 1
+ c7e:	80 40       	sbci	r24, 0x00	; 0
+ c80:	90 40       	sbci	r25, 0x00	; 0
+ c82:	e1 f7       	brne	.-8      	; 0xc7c <main+0x4a>
+ c84:	00 c0       	rjmp	.+0      	; 0xc86 <main+0x54>
+ c86:	00 00       	nop
+    _delay_ms(500);
+    sendData(0b00001100001111111111);//red
+ c88:	6f ef       	ldi	r22, 0xFF	; 255
+ c8a:	73 ec       	ldi	r23, 0xC3	; 195
+ c8c:	80 e0       	ldi	r24, 0x00	; 0
+ c8e:	90 e0       	ldi	r25, 0x00	; 0
+ c90:	e4 d9       	rcall	.-3128   	; 0x5a <sendData>
+ c92:	2f ef       	ldi	r18, 0xFF	; 255
+ c94:	89 e6       	ldi	r24, 0x69	; 105
+ c96:	98 e1       	ldi	r25, 0x18	; 24
+ c98:	21 50       	subi	r18, 0x01	; 1
+ c9a:	80 40       	sbci	r24, 0x00	; 0
+ c9c:	90 40       	sbci	r25, 0x00	; 0
+ c9e:	e1 f7       	brne	.-8      	; 0xc98 <main+0x66>
+ ca0:	00 c0       	rjmp	.+0      	; 0xca2 <main+0x70>
+ ca2:	00 00       	nop
+    _delay_ms(500);
+    sendData(0b00110000001111111111);//blue
+ ca4:	6f ef       	ldi	r22, 0xFF	; 255
+ ca6:	73 e0       	ldi	r23, 0x03	; 3
+ ca8:	83 e0       	ldi	r24, 0x03	; 3
+ caa:	90 e0       	ldi	r25, 0x00	; 0
+ cac:	d6 d9       	rcall	.-3156   	; 0x5a <sendData>
+ cae:	2f ef       	ldi	r18, 0xFF	; 255
+ cb0:	89 e6       	ldi	r24, 0x69	; 105
+ cb2:	98 e1       	ldi	r25, 0x18	; 24
+ cb4:	21 50       	subi	r18, 0x01	; 1
+ cb6:	80 40       	sbci	r24, 0x00	; 0
+ cb8:	90 40       	sbci	r25, 0x00	; 0
+ cba:	e1 f7       	brne	.-8      	; 0xcb4 <main+0x82>
+ cbc:	00 c0       	rjmp	.+0      	; 0xcbe <main+0x8c>
+ cbe:	00 00       	nop
+    _delay_ms(500);
+    sendData(0b11110000001111111111);//cyan
+ cc0:	6f ef       	ldi	r22, 0xFF	; 255
+ cc2:	73 e0       	ldi	r23, 0x03	; 3
+ cc4:	8f e0       	ldi	r24, 0x0F	; 15
+ cc6:	90 e0       	ldi	r25, 0x00	; 0
+ cc8:	c8 d9       	rcall	.-3184   	; 0x5a <sendData>
+ cca:	2f ef       	ldi	r18, 0xFF	; 255
+ ccc:	89 e6       	ldi	r24, 0x69	; 105
+ cce:	98 e1       	ldi	r25, 0x18	; 24
+ cd0:	21 50       	subi	r18, 0x01	; 1
+ cd2:	80 40       	sbci	r24, 0x00	; 0
+ cd4:	90 40       	sbci	r25, 0x00	; 0
+ cd6:	e1 f7       	brne	.-8      	; 0xcd0 <main+0x9e>
+ cd8:	00 c0       	rjmp	.+0      	; 0xcda <main+0xa8>
+ cda:	00 00       	nop
+    _delay_ms(500);
+    sendData(0b00111100001111111111);//magenta
+ cdc:	6f ef       	ldi	r22, 0xFF	; 255
+ cde:	73 ec       	ldi	r23, 0xC3	; 195
+ ce0:	83 e0       	ldi	r24, 0x03	; 3
+ ce2:	90 e0       	ldi	r25, 0x00	; 0
+ ce4:	ba d9       	rcall	.-3212   	; 0x5a <sendData>
+ ce6:	2f ef       	ldi	r18, 0xFF	; 255
+ ce8:	89 e6       	ldi	r24, 0x69	; 105
+ cea:	98 e1       	ldi	r25, 0x18	; 24
+ cec:	21 50       	subi	r18, 0x01	; 1
+ cee:	80 40       	sbci	r24, 0x00	; 0
+ cf0:	90 40       	sbci	r25, 0x00	; 0
+ cf2:	e1 f7       	brne	.-8      	; 0xcec <main+0xba>
+ cf4:	00 c0       	rjmp	.+0      	; 0xcf6 <main+0xc4>
+ cf6:	00 00       	nop
+    _delay_ms(500);
+    sendData(0b11001100001111111111);//yellow
+ cf8:	6f ef       	ldi	r22, 0xFF	; 255
+ cfa:	73 ec       	ldi	r23, 0xC3	; 195
+ cfc:	8c e0       	ldi	r24, 0x0C	; 12
+ cfe:	90 e0       	ldi	r25, 0x00	; 0
+ d00:	ac d9       	rcall	.-3240   	; 0x5a <sendData>
+ d02:	2f ef       	ldi	r18, 0xFF	; 255
+ d04:	89 e6       	ldi	r24, 0x69	; 105
+ d06:	98 e1       	ldi	r25, 0x18	; 24
+ d08:	21 50       	subi	r18, 0x01	; 1
+ d0a:	80 40       	sbci	r24, 0x00	; 0
+ d0c:	90 40       	sbci	r25, 0x00	; 0
+ d0e:	e1 f7       	brne	.-8      	; 0xd08 <main+0xd6>
+ d10:	00 c0       	rjmp	.+0      	; 0xd12 <main+0xe0>
+ d12:	00 00       	nop
+    _delay_ms(500);
+    
+    //no sooner to let inputs debounce
+    GIMSK|=(1<<PCIE1)|(1<<PCIE0);
+ d14:	8b b7       	in	r24, 0x3b	; 59
+ d16:	80 63       	ori	r24, 0x30	; 48
+ d18:	8b bf       	out	0x3b, r24	; 59
+    PCMSK0|=(1<<PCINT7)|(1<<PCINT5);
+ d1a:	82 b3       	in	r24, 0x12	; 18
+ d1c:	80 6a       	ori	r24, 0xA0	; 160
+ d1e:	82 bb       	out	0x12, r24	; 18
+    PCMSK1|=(1<<PCINT10);
+ d20:	80 b5       	in	r24, 0x20	; 32
+ d22:	84 60       	ori	r24, 0x04	; 4
+ d24:	80 bd       	out	0x20, r24	; 32
+    sei();
+ d26:	78 94       	sei
+    
+    //update time & UI timer
+    #ifdef DELLONG
+    TCCR1B|=(1<<CS12)|(1<<CS10);
+ d28:	8e b5       	in	r24, 0x2e	; 46
+ d2a:	85 60       	ori	r24, 0x05	; 5
+ d2c:	8e bd       	out	0x2e, r24	; 46
+    #else
+    TCCR1B|=(1<<CS12);//|(1<<CS10);
+    #endif
+    
+    //led mux timer
+    TCCR0B|=(1<<CS01)|(1<<CS00);
+ d2e:	83 b7       	in	r24, 0x33	; 51
+ d30:	83 60       	ori	r24, 0x03	; 3
+ d32:	83 bf       	out	0x33, r24	; 51
+    
+    Minit();
+ d34:	21 df       	rcall	.-446    	; 0xb78 <Minit>
+    // //RTC_setTime(currentTime,6,18);
+    RTC_readTime(&currentTime);
+ d36:	89 e0       	ldi	r24, 0x09	; 9
+ d38:	92 e0       	ldi	r25, 0x02	; 2
+ d3a:	df dd       	rcall	.-1090   	; 0x8fa <RTC_readTime>
+ d3c:	ff cf       	rjmp	.-2      	; 0xd3c <main+0x10a>
+
+00000d3e <__mulqi3>:
+ d3e:	00 24       	eor	r0, r0
+
+00000d40 <__mulqi3_loop>:
+ d40:	80 fd       	sbrc	r24, 0
+ d42:	06 0e       	add	r0, r22
+ d44:	66 0f       	add	r22, r22
+ d46:	11 f0       	breq	.+4      	; 0xd4c <__mulqi3_exit>
+ d48:	86 95       	lsr	r24
+ d4a:	d1 f7       	brne	.-12     	; 0xd40 <__mulqi3_loop>
+
+00000d4c <__mulqi3_exit>:
+ d4c:	80 2d       	mov	r24, r0
+ d4e:	08 95       	ret
+
+00000d50 <__mulhi3>:
+ d50:	00 24       	eor	r0, r0
+ d52:	55 27       	eor	r21, r21
+ d54:	04 c0       	rjmp	.+8      	; 0xd5e <__mulhi3+0xe>
+ d56:	08 0e       	add	r0, r24
+ d58:	59 1f       	adc	r21, r25
+ d5a:	88 0f       	add	r24, r24
+ d5c:	99 1f       	adc	r25, r25
+ d5e:	00 97       	sbiw	r24, 0x00	; 0
+ d60:	29 f0       	breq	.+10     	; 0xd6c <__mulhi3+0x1c>
+ d62:	76 95       	lsr	r23
+ d64:	67 95       	ror	r22
+ d66:	b8 f3       	brcs	.-18     	; 0xd56 <__mulhi3+0x6>
+ d68:	71 05       	cpc	r23, r1
+ d6a:	b9 f7       	brne	.-18     	; 0xd5a <__mulhi3+0xa>
+ d6c:	80 2d       	mov	r24, r0
+ d6e:	95 2f       	mov	r25, r21
+ d70:	08 95       	ret
+
+00000d72 <__udivmodqi4>:
+ d72:	99 1b       	sub	r25, r25
+ d74:	79 e0       	ldi	r23, 0x09	; 9
+ d76:	04 c0       	rjmp	.+8      	; 0xd80 <__udivmodqi4_ep>
+
+00000d78 <__udivmodqi4_loop>:
+ d78:	99 1f       	adc	r25, r25
+ d7a:	96 17       	cp	r25, r22
+ d7c:	08 f0       	brcs	.+2      	; 0xd80 <__udivmodqi4_ep>
+ d7e:	96 1b       	sub	r25, r22
+
+00000d80 <__udivmodqi4_ep>:
+ d80:	88 1f       	adc	r24, r24
+ d82:	7a 95       	dec	r23
+ d84:	c9 f7       	brne	.-14     	; 0xd78 <__udivmodqi4_loop>
+ d86:	80 95       	com	r24
+ d88:	08 95       	ret
+
+00000d8a <__divmodhi4>:
+ d8a:	97 fb       	bst	r25, 7
+ d8c:	07 2e       	mov	r0, r23
+ d8e:	16 f4       	brtc	.+4      	; 0xd94 <__divmodhi4+0xa>
+ d90:	00 94       	com	r0
+ d92:	06 d0       	rcall	.+12     	; 0xda0 <__divmodhi4_neg1>
+ d94:	77 fd       	sbrc	r23, 7
+ d96:	08 d0       	rcall	.+16     	; 0xda8 <__divmodhi4_neg2>
+ d98:	0b d0       	rcall	.+22     	; 0xdb0 <__udivmodhi4>
+ d9a:	07 fc       	sbrc	r0, 7
+ d9c:	05 d0       	rcall	.+10     	; 0xda8 <__divmodhi4_neg2>
+ d9e:	3e f4       	brtc	.+14     	; 0xdae <__divmodhi4_exit>
+
+00000da0 <__divmodhi4_neg1>:
+ da0:	90 95       	com	r25
+ da2:	81 95       	neg	r24
+ da4:	9f 4f       	sbci	r25, 0xFF	; 255
+ da6:	08 95       	ret
+
+00000da8 <__divmodhi4_neg2>:
+ da8:	70 95       	com	r23
+ daa:	61 95       	neg	r22
+ dac:	7f 4f       	sbci	r23, 0xFF	; 255
+
+00000dae <__divmodhi4_exit>:
+ dae:	08 95       	ret
+
+00000db0 <__udivmodhi4>:
+ db0:	aa 1b       	sub	r26, r26
+ db2:	bb 1b       	sub	r27, r27
+ db4:	51 e1       	ldi	r21, 0x11	; 17
+ db6:	07 c0       	rjmp	.+14     	; 0xdc6 <__udivmodhi4_ep>
+
+00000db8 <__udivmodhi4_loop>:
+ db8:	aa 1f       	adc	r26, r26
+ dba:	bb 1f       	adc	r27, r27
+ dbc:	a6 17       	cp	r26, r22
+ dbe:	b7 07       	cpc	r27, r23
+ dc0:	10 f0       	brcs	.+4      	; 0xdc6 <__udivmodhi4_ep>
+ dc2:	a6 1b       	sub	r26, r22
+ dc4:	b7 0b       	sbc	r27, r23
+
+00000dc6 <__udivmodhi4_ep>:
+ dc6:	88 1f       	adc	r24, r24
+ dc8:	99 1f       	adc	r25, r25
+ dca:	5a 95       	dec	r21
+ dcc:	a9 f7       	brne	.-22     	; 0xdb8 <__udivmodhi4_loop>
+ dce:	80 95       	com	r24
+ dd0:	90 95       	com	r25
+ dd2:	bc 01       	movw	r22, r24
+ dd4:	cd 01       	movw	r24, r26
+ dd6:	08 95       	ret
+
+00000dd8 <_exit>:
+ dd8:	f8 94       	cli
+
+00000dda <__stop_program>:
+ dda:	ff cf       	rjmp	.-2      	; 0xdda <__stop_program>

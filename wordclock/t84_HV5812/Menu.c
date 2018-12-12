@@ -172,6 +172,9 @@ uint8_t getMode(void){
     }else if(mode==1){
         mode=2;
     }
+    if(colorMode>63 && colorMode<128){
+        colorMode=((colorMode-64+1)%7)+64;
+    }
     return mode;
 }
 void MsetColorMode(uint8_t i){
@@ -192,7 +195,7 @@ uint8_t getColor(void){
         colorMode++;
         return colorArray[colorMode-129];
     }else if(colorMode>63){//cycle all
-        return RED;
+        return colorArray[(colorMode-64)%7];
     }else{//fixed
         return colorMode;
     }
