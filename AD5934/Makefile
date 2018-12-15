@@ -41,7 +41,7 @@
 
 
 # MCU name
-MCU = attiny84
+MCU = atmega328p
 
 
 # Processor frequency.
@@ -80,7 +80,7 @@ OBJDIR = .
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = $(TARGET).c Led.c RTC.c Menu.c
+SRC = $(TARGET).c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
@@ -273,7 +273,7 @@ LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 # Type: avrdude -c ?
 # to get a full listing.
 #
-AVRDUDE_PROGRAMMER = usbtiny
+AVRDUDE_PROGRAMMER = usbasp
 
 # com1 = serial port. Use lpt1 to connect to parallel port.
 AVRDUDE_PORT = usb

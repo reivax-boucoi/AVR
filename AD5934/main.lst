@@ -1,0 +1,46 @@
+   1               		.file	"main.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               		.section	.text.startup,"ax",@progbits
+  11               	.global	main
+  13               	main:
+  14               	.LFB6:
+  15               		.file 1 "main.c"
+   1:main.c        **** #define F_CPU 16000000UL
+   2:main.c        **** #include <avr/io.h>
+   3:main.c        **** #include <avr/interrupt.h>
+   4:main.c        **** #include <util/delay.h>
+   5:main.c        **** 
+   6:main.c        **** int main(void){    
+  16               		.loc 1 6 15
+  17               		.cfi_startproc
+  18               	/* prologue: function */
+  19               	/* frame size = 0 */
+  20               	/* stack size = 0 */
+  21               	.L__stack_usage = 0
+  22               	.L2:
+   7:main.c        ****     while(1){
+  23               		.loc 1 7 5 discriminator 1
+   8:main.c        ****     }
+  24               		.loc 1 8 5 discriminator 1
+  25 0000 00C0      		rjmp .L2
+  26               		.cfi_endproc
+  27               	.LFE6:
+  29               		.text
+  30               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\User\AppData\Local\Temp\ccR9kumv.s:2      *ABS*:0000003e __SP_H__
+C:\Users\User\AppData\Local\Temp\ccR9kumv.s:3      *ABS*:0000003d __SP_L__
+C:\Users\User\AppData\Local\Temp\ccR9kumv.s:4      *ABS*:0000003f __SREG__
+C:\Users\User\AppData\Local\Temp\ccR9kumv.s:5      *ABS*:00000000 __tmp_reg__
+C:\Users\User\AppData\Local\Temp\ccR9kumv.s:6      *ABS*:00000001 __zero_reg__
+C:\Users\User\AppData\Local\Temp\ccR9kumv.s:13     .text.startup:00000000 main
+
+NO UNDEFINED SYMBOLS
