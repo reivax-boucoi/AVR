@@ -13,39 +13,64 @@
   14               	.LFB6:
   15               		.file 1 "main.c"
    1:main.c        **** #define F_CPU 16000000UL
-   2:main.c        **** #include <avr/io.h>
-   3:main.c        **** #include <avr/interrupt.h>
-   4:main.c        **** #include <util/delay.h>
-   5:main.c        **** 
-   6:main.c        **** int main(void){    
-  16               		.loc 1 6 15
+   2:main.c        **** #include "periph.h"
+   3:main.c        **** #include <avr/io.h>
+   4:main.c        **** #include <avr/interrupt.h>
+   5:main.c        **** #include <util/delay.h>
+   6:main.c        **** 
+   7:main.c        **** uint8_t data;
+   8:main.c        **** int main(void){    
+  16               		.loc 1 8 15
   17               		.cfi_startproc
   18               	/* prologue: function */
   19               	/* frame size = 0 */
   20               	/* stack size = 0 */
   21               	.L__stack_usage = 0
-   7:main.c        **** 	DDRB|=(1<<PB0);
-  22               		.loc 1 7 2
-  23               		.loc 1 7 6 is_stmt 0
+   9:main.c        **** 	DDRB|=(1<<PB0);
+  22               		.loc 1 9 2
+  23               		.loc 1 9 6 is_stmt 0
   24 0000 209A      		sbi 0x4,0
-   8:main.c        **** 	PORTB|=(1<<PB0);
-  25               		.loc 1 8 2 is_stmt 1
-  26               		.loc 1 8 7 is_stmt 0
+  10:main.c        **** 	PORTB|=(1<<PB0);
+  25               		.loc 1 10 2 is_stmt 1
+  26               		.loc 1 10 7 is_stmt 0
   27 0002 289A      		sbi 0x5,0
-   9:main.c        ****     while(1){
-  10:main.c        **** 		_delay_ms(500);
-  11:main.c        **** 		PORTB^=(1<<PB0);
-  28               		.loc 1 11 8
-  29 0004 91E0      		ldi r25,lo8(1)
-  30               	.L2:
-   9:main.c        ****     while(1){
-  31               		.loc 1 9 5 is_stmt 1 discriminator 1
-  10:main.c        **** 		PORTB^=(1<<PB0);
-  32               		.loc 1 10 3 discriminator 1
-  33               	.LVL0:
-  34               	.LBB4:
-  35               	.LBB5:
-  36               		.file 2 "c:\\winavr-20100110\\avr\\include\\util\\delay.h"
+  11:main.c        ****   uart_init();
+  28               		.loc 1 11 3 is_stmt 1
+  29 0004 0E94 0000 		call uart_init
+  30               	.LVL0:
+  12:main.c        ****   TIMSK0|=1<<TOIE0;
+  31               		.loc 1 12 3
+  32               		.loc 1 12 9 is_stmt 0
+  33 0008 8091 6E00 		lds r24,110
+  34 000c 8160      		ori r24,lo8(1)
+  35 000e 8093 6E00 		sts 110,r24
+  13:main.c        ****   sei();
+  36               		.loc 1 13 3 is_stmt 1
+  37               	/* #APP */
+  38               	 ;  13 "main.c" 1
+  39 0012 7894      		sei
+  40               	 ;  0 "" 2
+  14:main.c        ****   TCCR0B |=(1<<CS02) |(1<<CS00);
+  41               		.loc 1 14 3
+  42               		.loc 1 14 10 is_stmt 0
+  43               	/* #NOAPP */
+  44 0014 85B5      		in r24,0x25
+  45 0016 8560      		ori r24,lo8(5)
+  46 0018 85BD      		out 0x25,r24
+  15:main.c        ****     while(1){
+  16:main.c        **** 		_delay_ms(500);
+  17:main.c        **** 		PORTB^=(1<<PB0);
+  47               		.loc 1 17 8
+  48 001a 91E0      		ldi r25,lo8(1)
+  49               	.L2:
+  15:main.c        ****     while(1){
+  50               		.loc 1 15 5 is_stmt 1 discriminator 1
+  16:main.c        **** 		PORTB^=(1<<PB0);
+  51               		.loc 1 16 3 discriminator 1
+  52               	.LVL1:
+  53               	.LBB4:
+  54               	.LBB5:
+  55               		.file 2 "c:\\winavr-20100110\\avr\\include\\util\\delay.h"
    1:c:\winavr-20100110\avr\include\util\delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
    2:c:\winavr-20100110\avr\include\util\delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
    3:c:\winavr-20100110\avr\include\util\delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
@@ -214,16 +239,16 @@
  166:c:\winavr-20100110\avr\include\util\delay.h **** _delay_ms(double __ms)
  167:c:\winavr-20100110\avr\include\util\delay.h **** {
  168:c:\winavr-20100110\avr\include\util\delay.h **** 	double __tmp ;
-  37               		.loc 2 168 2 discriminator 1
+  56               		.loc 2 168 2 discriminator 1
  169:c:\winavr-20100110\avr\include\util\delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
  170:c:\winavr-20100110\avr\include\util\delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
  171:c:\winavr-20100110\avr\include\util\delay.h ****   __STDC_HOSTED__
  172:c:\winavr-20100110\avr\include\util\delay.h **** 	uint32_t __ticks_dc;
-  38               		.loc 2 172 2 discriminator 1
+  57               		.loc 2 172 2 discriminator 1
  173:c:\winavr-20100110\avr\include\util\delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
-  39               		.loc 2 173 2 discriminator 1
+  58               		.loc 2 173 2 discriminator 1
  174:c:\winavr-20100110\avr\include\util\delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
-  40               		.loc 2 174 2 discriminator 1
+  59               		.loc 2 174 2 discriminator 1
  175:c:\winavr-20100110\avr\include\util\delay.h **** 
  176:c:\winavr-20100110\avr\include\util\delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
  177:c:\winavr-20100110\avr\include\util\delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
@@ -234,41 +259,156 @@
  182:c:\winavr-20100110\avr\include\util\delay.h **** 	#else
  183:c:\winavr-20100110\avr\include\util\delay.h **** 		//round up by default
  184:c:\winavr-20100110\avr\include\util\delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-  41               		.loc 2 184 3 discriminator 1
+  60               		.loc 2 184 3 discriminator 1
  185:c:\winavr-20100110\avr\include\util\delay.h **** 	#endif
  186:c:\winavr-20100110\avr\include\util\delay.h **** 
  187:c:\winavr-20100110\avr\include\util\delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
-  42               		.loc 2 187 2 discriminator 1
-  43 0006 2FEF      		ldi r18,lo8(1599999)
-  44 0008 39E6      		ldi r19,hi8(1599999)
-  45 000a 88E1      		ldi r24,hlo8(1599999)
-  46 000c 2150      	1:	subi r18,1
-  47 000e 3040      		sbci r19,0
-  48 0010 8040      		sbci r24,0
-  49 0012 01F4      		brne 1b
-  50 0014 00C0      		rjmp .
-  51 0016 0000      		nop
-  52               	.LVL1:
-  53               	.LBE5:
-  54               	.LBE4:
-  55               		.loc 1 11 3 discriminator 1
-  56               		.loc 1 11 8 is_stmt 0 discriminator 1
-  57 0018 85B1      		in r24,0x5
-  58 001a 8927      		eor r24,r25
-  59 001c 85B9      		out 0x5,r24
-  60 001e 00C0      		rjmp .L2
-  61               		.cfi_endproc
-  62               	.LFE6:
-  64               		.text
-  65               	.Letext0:
-  66               		.file 3 "c:\\winavr-20100110\\avr\\include\\stdint.h"
+  61               		.loc 2 187 2 discriminator 1
+  62 001c 2FEF      		ldi r18,lo8(1599999)
+  63 001e 39E6      		ldi r19,hi8(1599999)
+  64 0020 88E1      		ldi r24,hlo8(1599999)
+  65 0022 2150      	1:	subi r18,1
+  66 0024 3040      		sbci r19,0
+  67 0026 8040      		sbci r24,0
+  68 0028 01F4      		brne 1b
+  69 002a 00C0      		rjmp .
+  70 002c 0000      		nop
+  71               	.LVL2:
+  72               	.LBE5:
+  73               	.LBE4:
+  74               		.loc 1 17 3 discriminator 1
+  75               		.loc 1 17 8 is_stmt 0 discriminator 1
+  76 002e 85B1      		in r24,0x5
+  77 0030 8927      		eor r24,r25
+  78 0032 85B9      		out 0x5,r24
+  79 0034 00C0      		rjmp .L2
+  80               		.cfi_endproc
+  81               	.LFE6:
+  83               		.section	.rodata.str1.1,"aMS",@progbits,1
+  84               	.LC0:
+  85 0000 4865 6C6C 		.string	"Hello world\r\n"
+  85      6F20 776F 
+  85      726C 640D 
+  85      0A00 
+  86               		.text
+  87               	.global	__vector_16
+  89               	__vector_16:
+  90               	.LFB7:
+  18:main.c        ****     }
+  19:main.c        ****     return(0);
+  20:main.c        ****     
+  21:main.c        **** }
+  22:main.c        **** ISR(TIMER0_OVF_vect){
+  91               		.loc 1 22 21 is_stmt 1
+  92               		.cfi_startproc
+  93 0000 1F92      		push r1
+  94               	.LCFI0:
+  95               		.cfi_def_cfa_offset 3
+  96               		.cfi_offset 1, -2
+  97 0002 0F92      		push r0
+  98               	.LCFI1:
+  99               		.cfi_def_cfa_offset 4
+ 100               		.cfi_offset 0, -3
+ 101 0004 0FB6      		in r0,__SREG__
+ 102 0006 0F92      		push r0
+ 103 0008 1124      		clr __zero_reg__
+ 104 000a 2F93      		push r18
+ 105               	.LCFI2:
+ 106               		.cfi_def_cfa_offset 5
+ 107               		.cfi_offset 18, -4
+ 108 000c 3F93      		push r19
+ 109               	.LCFI3:
+ 110               		.cfi_def_cfa_offset 6
+ 111               		.cfi_offset 19, -5
+ 112 000e 4F93      		push r20
+ 113               	.LCFI4:
+ 114               		.cfi_def_cfa_offset 7
+ 115               		.cfi_offset 20, -6
+ 116 0010 5F93      		push r21
+ 117               	.LCFI5:
+ 118               		.cfi_def_cfa_offset 8
+ 119               		.cfi_offset 21, -7
+ 120 0012 6F93      		push r22
+ 121               	.LCFI6:
+ 122               		.cfi_def_cfa_offset 9
+ 123               		.cfi_offset 22, -8
+ 124 0014 7F93      		push r23
+ 125               	.LCFI7:
+ 126               		.cfi_def_cfa_offset 10
+ 127               		.cfi_offset 23, -9
+ 128 0016 8F93      		push r24
+ 129               	.LCFI8:
+ 130               		.cfi_def_cfa_offset 11
+ 131               		.cfi_offset 24, -10
+ 132 0018 9F93      		push r25
+ 133               	.LCFI9:
+ 134               		.cfi_def_cfa_offset 12
+ 135               		.cfi_offset 25, -11
+ 136 001a AF93      		push r26
+ 137               	.LCFI10:
+ 138               		.cfi_def_cfa_offset 13
+ 139               		.cfi_offset 26, -12
+ 140 001c BF93      		push r27
+ 141               	.LCFI11:
+ 142               		.cfi_def_cfa_offset 14
+ 143               		.cfi_offset 27, -13
+ 144 001e EF93      		push r30
+ 145               	.LCFI12:
+ 146               		.cfi_def_cfa_offset 15
+ 147               		.cfi_offset 30, -14
+ 148 0020 FF93      		push r31
+ 149               	.LCFI13:
+ 150               		.cfi_def_cfa_offset 16
+ 151               		.cfi_offset 31, -15
+ 152               	/* prologue: Signal */
+ 153               	/* frame size = 0 */
+ 154               	/* stack size = 15 */
+ 155               	.L__stack_usage = 15
+  23:main.c        **** 	uart_transmit("Hello world\r\n");
+ 156               		.loc 1 23 2
+ 157 0022 80E0      		ldi r24,lo8(.LC0)
+ 158 0024 90E0      		ldi r25,hi8(.LC0)
+ 159 0026 0E94 0000 		call uart_transmit
+ 160               	.LVL3:
+ 161               	/* epilogue start */
+  24:main.c        **** }...
+ 162               		.loc 1 24 1 is_stmt 0
+ 163 002a FF91      		pop r31
+ 164 002c EF91      		pop r30
+ 165 002e BF91      		pop r27
+ 166 0030 AF91      		pop r26
+ 167 0032 9F91      		pop r25
+ 168 0034 8F91      		pop r24
+ 169 0036 7F91      		pop r23
+ 170 0038 6F91      		pop r22
+ 171 003a 5F91      		pop r21
+ 172 003c 4F91      		pop r20
+ 173 003e 3F91      		pop r19
+ 174 0040 2F91      		pop r18
+ 175 0042 0F90      		pop r0
+ 176 0044 0FBE      		out __SREG__,r0
+ 177 0046 0F90      		pop r0
+ 178 0048 1F90      		pop r1
+ 179 004a 1895      		reti
+ 180               		.cfi_endproc
+ 181               	.LFE7:
+ 183               		.comm	data,1,1
+ 184               	.Letext0:
+ 185               		.file 3 "c:\\winavr-20100110\\avr\\include\\stdint.h"
+ 186               		.file 4 "periph.h"
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\User\AppData\Local\Temp\ccHzaRHd.s:2      *ABS*:0000003e __SP_H__
-C:\Users\User\AppData\Local\Temp\ccHzaRHd.s:3      *ABS*:0000003d __SP_L__
-C:\Users\User\AppData\Local\Temp\ccHzaRHd.s:4      *ABS*:0000003f __SREG__
-C:\Users\User\AppData\Local\Temp\ccHzaRHd.s:5      *ABS*:00000000 __tmp_reg__
-C:\Users\User\AppData\Local\Temp\ccHzaRHd.s:6      *ABS*:00000001 __zero_reg__
-C:\Users\User\AppData\Local\Temp\ccHzaRHd.s:13     .text.startup:00000000 main
+C:\Users\User\AppData\Local\Temp\ccYterj6.s:2      *ABS*:0000003e __SP_H__
+C:\Users\User\AppData\Local\Temp\ccYterj6.s:3      *ABS*:0000003d __SP_L__
+C:\Users\User\AppData\Local\Temp\ccYterj6.s:4      *ABS*:0000003f __SREG__
+C:\Users\User\AppData\Local\Temp\ccYterj6.s:5      *ABS*:00000000 __tmp_reg__
+C:\Users\User\AppData\Local\Temp\ccYterj6.s:6      *ABS*:00000001 __zero_reg__
+C:\Users\User\AppData\Local\Temp\ccYterj6.s:13     .text.startup:00000000 main
+C:\Users\User\AppData\Local\Temp\ccYterj6.s:89     .text:00000000 __vector_16
+                            *COM*:00000001 data
 
-NO UNDEFINED SYMBOLS
+UNDEFINED SYMBOLS
+uart_init
+uart_transmit
+__do_copy_data
+__do_clear_bss
