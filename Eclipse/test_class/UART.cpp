@@ -1,5 +1,10 @@
 #include "UART.h"
 
-namespace UART {
+
+int UART::receive(void){
+	return 3;
+}
+
+void UART::transmit(const char* data){
 
 }

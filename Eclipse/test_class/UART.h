@@ -1,13 +1,15 @@
 #ifndef UART_H_
 #define UART_H_
-
-namespace UART {
+#include <avr/io.h>
+#define BAUD 115200
+#define BAUDRATE ((F_CPU)/(BAUD*16UL)-1)
 
 class UART {
+
 public:
-	int myfunction(void){return 3;};
+	int receive(void);
+	void transmit(const char* data);
 };
 
-} /* namespace UART */
 
 #endif /* UART_H_ */
