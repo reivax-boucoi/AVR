@@ -24,7 +24,7 @@ uint8_t isPrime(uint32_t i){
 }
 int main(void){
 	DDRB|=(1<<PB0);
-	uint32_t i = 4;
+	uint32_t i = 5;
 	while(1){
 		_delay_ms(500);
 		if(isPrime(i))PORTB^=(1<<PB0);
