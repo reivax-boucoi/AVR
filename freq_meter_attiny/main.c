@@ -34,7 +34,7 @@
 
 void sendByte (uint8_t databyte);
 void writeData(uint8_t reg, uint8_t data);
-void clearDisplay();
+void clearDisplay(void);
 void displayNumber(volatile long number);
 void setRange(uint8_t range);
 void initDisplay(void);
@@ -43,13 +43,13 @@ volatile unsigned long i = 0;
 int main(void) {
 	_delay_ms(1000);
 	initDisplay();
-	setRange(1);
-	DDRB &=~(1<<PINB3)|(1<<PINB4);
+	setRange(0);
+	DDRB &=~(1<<PB3)|(1<<PB4);
 	TCCR0A|=(0<<WGM02)|(0<<WGM01)|(0<<WGM00);
 	TIMSK|=1<<TOIE0;
-	GIMSK|=1<<PCIE;
+	//GIMSK|=1<<PCIE;
 	//PCMSK|=1<<PCINT3; //PINB3,2
-	PCMSK|=1<<PCINT4; // PINB4,4096
+	//PCMSK|=1<<PCINT4; // PINB4,4096
 	sei();
 	TCCR0B|=(1<<CS02)|(0<<CS01)|(1<<CS00);
 	displayNumber(i);
@@ -60,13 +60,13 @@ int main(void) {
 }
 
 ISR(TIMER0_OVF_vect){
-	displayNumber(i);//*0.805);
-	i=0;
+	displayNumber(i++);//*0.805);
+	//i=0;
 }
-
+/*
 ISR(PCINT0_vect){
 	i++;
-}
+}*/
 
 void initDisplay(void) {
   DDRB |= (1 << CLK) | (1 << DATA) | (1 << LATCH);
