@@ -22,7 +22,7 @@ int main(void) {
 	setRange(1);
 	displayNumber(-1);
 	_delay_ms(250);
-	DDRB &=~(1<<PINB2);//T0=/4096
+	DDRB &=~(1<<PINB2);//INT0=/4096
 	TCCR1B |=gate_ps;//(1<<CS12);//|(1<<CS10);//gate timer
 	TIMSK0|=(1<<TOIE0);
 	TCCR0B |=(1<<CS02)|(1<<CS01)|(1<<CS00); //T0 counter
