@@ -39,7 +39,7 @@ ISR(TIM0_OVF_vect){ // input overflow
 ISR(TIM1_OVF_vect){
 
 	//uint16_t div = 0.524288;//F_CPU/(1024*256*1)UL; // F_CPU / (prescaler*T/C res°*UpdateSlowDown)
-	uint64_t total=(TCNT0+(counts<<8))<<12;
+	uint64_t total=(TCNT0+(counts<<8));
 	uint8_t dp=3;
 	total*=calFt[gate_ps-1];//total in mHz
 	if(total>999999999){
