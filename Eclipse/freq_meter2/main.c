@@ -25,9 +25,8 @@ int main(void) {
 
 ISR(TIM1_OVF_vect){
 	counts++;
-	uint64_t total=(TCNT0+(counts<<8))<<12;
-	uint8_t dp=3;
-	total*=calFt[gate_ps-1];//total in mHz
+	uint64_t total=(TCNT0+(counts<<8));
+	/*uint8_t dp=3;
 	if(total>999999999){
 		setRange(2);
 		if(total>99999999999){
@@ -54,9 +53,8 @@ ISR(TIM1_OVF_vect){
 		}
 	}else{
 		setRange(0);
-	}
+	}*/
 	displayNumberDP(total,dp);
 	TCNT1=0x0000;
-	TCNT0=0x00;
 	counts=0;
 }
