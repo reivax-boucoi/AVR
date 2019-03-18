@@ -4,6 +4,7 @@
 #include <util/delay.h>
 #include "Display.h"
 
+#define CALF 1000000
 volatile uint16_t i = 0;
 volatile uint32_t counts = 0;
 //T0=/4096
@@ -14,19 +15,19 @@ int main(void) {
 	displayNumber(-1);
 	_delay_ms(250);
 	DDRB &=~(1<<PINB2);
-	TCCR1B |=1;//
+	MCUCR|=(1<<ISC01)|(1<<ISC00);
+	GIMSK|=(1<<INT0);
+	TCCR1B |=(1<<CS12)|(1<<CS10);//
 	TIMSK1 |=(1<<TOIE1);
 	sei();
 	while (1)  {
 
 	}
 }
-
-
-ISR(TIM1_OVF_vect){
-	counts++;
-	uint64_t total=(TCNT0+(counts<<8));
-	/*uint8_t dp=3;
+ISR(INT0_vect){
+	uint64_t total=CALF;
+	total/=(TCNT1+(counts<<16));
+	uint8_t dp=3;
 	if(total>999999999){
 		setRange(2);
 		if(total>99999999999){
@@ -53,8 +54,12 @@ ISR(TIM1_OVF_vect){
 		}
 	}else{
 		setRange(0);
-	}*/
+	}
 	displayNumberDP(total,dp);
 	TCNT1=0x0000;
 	counts=0;
+}
+
+ISR(TIM1_OVF_vect){
+	counts++;
 }

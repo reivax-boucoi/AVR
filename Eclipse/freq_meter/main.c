@@ -4,7 +4,7 @@
 #include <util/delay.h>
 #include "Display.h"
 
-#define CALF 953.975
+#define CALF .953975
 static const float calFt[4]={256.0*CALF,32.0*CALF,4.0*CALF,CALF};
 volatile uint16_t i = 0;
 volatile uint32_t counts = 0;
@@ -25,7 +25,7 @@ int main(void) {
 	DDRB &=~(1<<PINB2);//INT0=/4096
 	TCCR1B |=gate_ps;//(1<<CS12);//|(1<<CS10);//gate timer
 	TIMSK0|=(1<<TOIE0);
-	TCCR0B |=(1<<CS02)|(1<<CS01)|(1<<CS00); //T0 counter
+	TCCR0B |=(1<<CS02)|(1<<CS01)|(1<<CS00); //T0 counter : /2
 	TIMSK1 |=(1<<TOIE1);
 	sei();
 	while (1)  {
@@ -39,23 +39,11 @@ ISR(TIM0_OVF_vect){ // input overflow
 ISR(TIM1_OVF_vect){
 
 	//uint16_t div = 0.524288;//F_CPU/(1024*256*1)UL; // F_CPU / (prescaler*T/C res°*UpdateSlowDown)
-	uint64_t total=(TCNT0+(counts<<8));
+	uint64_t total=(TCNT0+(counts<<8))<<1;
 	uint8_t dp=3;
-	total*=calFt[gate_ps-1];//total in mHz
-	if(total>999999999){
+	total*=calFt[gate_ps-1];//total in Hz
+	if(total>999999){
 		setRange(2);
-		if(total>99999999999){
-			total/=1000000;
-			dp=3;
-		}else if(total>9999999999){
-			total/=100000;
-			dp=2;
-		}else{
-			total/=10000;
-			dp=1;
-		}
-	}else if(total>999999){
-		setRange(1);
 		if(total>99999999){
 			total/=1000;
 			dp=3;
@@ -66,8 +54,11 @@ ISR(TIM1_OVF_vect){
 			total/=10;
 			dp=1;
 		}
+	}else if(total>999){
+		setRange(1);
 	}else{
 		setRange(0);
+		dp=7;
 	}
 	displayNumberDP(total,dp);
 	TCNT1=0x0000;
