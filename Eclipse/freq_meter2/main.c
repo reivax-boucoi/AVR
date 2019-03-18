@@ -1,10 +1,11 @@
+//reciprocal method attempt
 #define F_CPU 16000000UL
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include "Display.h"
 
-#define CALF 1000000
+#define CALF 64000000000UL
 volatile uint16_t i = 0;
 volatile uint32_t counts = 0;
 //T0=/4096
