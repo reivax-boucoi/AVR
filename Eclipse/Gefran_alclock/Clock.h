@@ -53,11 +53,11 @@ public:
 	Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t min, uint8_t sec);
 	Display display;
 	void setTime(Time_T t);
-	void setAlarm(uint8_t h,uint8_t m,bool set);;
-	void setAlarm(Alarm_T a);
+	void setAlarm(uint8_t h,uint8_t m,bool set,bool al);;
+	void setAlarm(Alarm_T a, bool al);
 	void setDisplayMode(uint8_t mode);
 	Time_T getTime(void);
-	Alarm_T getAlarm(void);
+	Alarm_T getAlarm(bool al);
 	Buzzer buzz;
 	Menu* root;
 	Menu* cMenu;
@@ -74,10 +74,11 @@ public:
 private :
 	Time_T TimeVal;
 	Alarm_T AlarmVal;
+	Alarm_T Alarm1Val;
 	Button_T b[4];
 	uint8_t displayMode;
 	void updateDisplay();
-	void alarm();
+	void alarm(bool al);
 	void incrementTimeSec(void);
 	void keyPressed(uint8_t key, int8_t state);
 

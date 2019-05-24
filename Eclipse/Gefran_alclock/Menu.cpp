@@ -55,27 +55,52 @@ uint16_t MTimeYear(int8_t a) {
 }
 
 uint16_t MAlarmHour(int8_t a) {
-	Alarm_T t=clock.getAlarm();
+	Alarm_T t=clock.getAlarm(0);
 	t.hour+=a;
 	if(t.hour>23)t.hour=0;
 	if(t.hour<0)t.hour=0;
-	clock.setAlarm(t);
+	clock.setAlarm(t,0);
 	return t.hour;
 }
 
 uint16_t MAlarmMin(int8_t a) {
-	Alarm_T t=clock.getAlarm();
+	Alarm_T t=clock.getAlarm(0);
 	t.min+=a;
 	if(t.min>59)t.min=0;
 	if(t.min<0)t.min=59;
-	clock.setAlarm(t);
+	clock.setAlarm(t,0);
 	return t.min;
 }
 
 uint16_t MAlarmActivate(int8_t a) {
-	Alarm_T t=clock.getAlarm();
+	Alarm_T t=clock.getAlarm(0);
 	if(a!=0)t.isSet=!t.isSet;
-	clock.setAlarm(t);
+	clock.setAlarm(t,0);
+	return t.isSet;
+
+}
+uint16_t MAlarmHour1(int8_t a) {
+	Alarm_T t=clock.getAlarm(1);
+	t.hour+=a;
+	if(t.hour>23)t.hour=0;
+	if(t.hour<0)t.hour=0;
+	clock.setAlarm(t,1);
+	return t.hour;
+}
+
+uint16_t MAlarmMin1(int8_t a) {
+	Alarm_T t=clock.getAlarm(1);
+	t.min+=a;
+	if(t.min>59)t.min=0;
+	if(t.min<0)t.min=59;
+	clock.setAlarm(t,1);
+	return t.min;
+}
+
+uint16_t MAlarmActivate1(int8_t a) {
+	Alarm_T t=clock.getAlarm(1);
+	if(a!=0)t.isSet=!t.isSet;
+	clock.setAlarm(t,1);
 	return t.isSet;
 
 }

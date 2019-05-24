@@ -47,9 +47,9 @@ Clock::Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t m
 
 	}
 	strcpy(subs[0]->name,"Temp");
-	strcpy(subs[1]->name,"alar");
-	strcpy(subs[2]->name,"conf");
-	strcpy(subs[3]->name,"Rst");
+	strcpy(subs[1]->name,"al 1");
+	strcpy(subs[2]->name,"al 2");
+	strcpy(subs[3]->name,"conf");
 
 
 	for(int j=0;j<4;j++){
@@ -79,6 +79,13 @@ Clock::Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t m
 	strcpy(l[1][2]->name,"Acti");
 	l[1][2]->fptr=&MAlarmActivate;
 
+	strcpy(l[2][0]->name,"Heur");
+	l[2][0]->fptr=&MAlarmHour1;
+	strcpy(l[2][1]->name,"Min ");
+	l[2][1]->fptr=&MAlarmMin1;
+	strcpy(l[2][2]->name,"Acti");
+	l[2][2]->fptr=&MAlarmActivate1;
+
 	cMenu=root;
 	currentsub=0;
 
@@ -91,20 +98,30 @@ Clock::~Clock(){
 void Clock::setTime(Time_T t){
 	TimeVal=t;
 }
-void Clock::setAlarm(Alarm_T a) {
-	AlarmVal=a;
+void Clock::setAlarm(Alarm_T a, bool al) {
+	if(al){
+		Alarm1Val=a;
+	}else{
+		AlarmVal=a;
+	}
 }
-void Clock::setAlarm(uint8_t h,uint8_t m, bool set){
-	AlarmVal.hour=h;
-	AlarmVal.min=m;
-	AlarmVal.isSet=set;
+void Clock::setAlarm(uint8_t h,uint8_t m, bool set, bool al){
+	Alarm_T a;
+	a.hour=h;
+	a.min=m;
+	a.isSet=set;
+	if(al){
+		Alarm1Val=a;
+	}else{
+		AlarmVal=a;
+	}
 }
 
 Time_T Clock::getTime(void){
 	return TimeVal;
 }
-Alarm_T Clock::getAlarm(void){
-	return AlarmVal;
+Alarm_T Clock::getAlarm(bool al){
+	return al?Alarm1Val:AlarmVal;
 }
 
 void Clock::setDisplayMode(uint8_t mode){
@@ -164,7 +181,10 @@ void Clock::addTimeSec(void){
 	incrementTimeSec();
 	updateDisplay();
 	if(TimeVal.sec==0 && TimeVal.min==AlarmVal.min && TimeVal.hour==AlarmVal.hour && AlarmVal.isSet){
-		alarm();
+		alarm(0);
+	}
+	if(TimeVal.sec==0 && TimeVal.min==Alarm1Val.min && TimeVal.hour==Alarm1Val.hour && Alarm1Val.isSet){
+		alarm(1);
 	}
 
 }
@@ -176,7 +196,8 @@ void Clock::updateDisplay(void) {
 		display.clearLeds();
 		return;
 	}
-	display.setLed(4,AlarmVal.isSet);
+	display.setLed(0,AlarmVal.isSet);
+	display.setLed(1,Alarm1Val.isSet);
 	if(displayMode==MTIME){
 		display.setNum(TimeVal.hour,0,0);
 		display.setNum(TimeVal.min,0,1);
@@ -200,10 +221,14 @@ void Clock::updateDisplay(void) {
 }
 
 
-void Clock::alarm() {
+void Clock::alarm(bool al) {
 	sleepFlag=0;
-	display.setLed(6,1);
-	AlarmVal.isActive=true;
+	display.setLed(4+al,1);
+	if(al){
+		Alarm1Val.isActive=true;
+	}else{
+		AlarmVal.isActive=true;
+	}
 	buzz.start();
 }
 
@@ -237,10 +262,16 @@ void Clock::checkKeys(void){
 
 void Clock::keyPressed(uint8_t key, int8_t state){
 	if(AlarmVal.isActive){//alarm clear
-		display.setLed(6,0);
+		display.setLed(4,0);
 		buzz.stop();
 		AlarmVal.isActive=0;
 		//if(!(KEYPIN & PWRCHECK))sleepFlag=1;//put back to sleep after alarm
+
+	}if(Alarm1Val.isActive){//alarm clear
+		display.setLed(5,0);
+		buzz.stop();
+		Alarm1Val.isActive=0;
+		if(!(KEYPIN & PWRCHECK))sleepFlag=1;//put back to sleep after alarm
 
 	}else if(key==FKEY && displayMode==MTIME){//enter menu mode
 		displayMode=MMENU;

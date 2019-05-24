@@ -8,7 +8,8 @@
 
 int main(void){
 	sei();
-	clock.setAlarm(0,35,1);
+	clock.setAlarm(6,55,0,0);
+	clock.setAlarm(7,07,1,1);
 	while(1){
 		if(clock.sleepFlag){
 			clock.gotoSleep();
