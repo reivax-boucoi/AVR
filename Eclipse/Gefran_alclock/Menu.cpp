@@ -1,7 +1,6 @@
 #include "Menu.h"
 
 
-
 uint16_t test(int8_t a){
 	return 0;
 }

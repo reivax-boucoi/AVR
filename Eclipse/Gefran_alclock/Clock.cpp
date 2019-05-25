@@ -56,8 +56,6 @@ Clock::Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t m
 		for(int i=0;i<5;i++){
 			l[j][i]=(Menu*)malloc(sizeof(Menu));
 			strcpy(l[j][i]->name,"----");
-			l[j][i]->name[0]=j+'1';
-			l[j][i]->name[3]=i+'1';
 			l[j][i]->parent=subs[j];
 			l[j][i]->nbSubs=0;
 			l[j][i]->fptr=&test;
@@ -283,4 +281,3 @@ void Clock::keyPressed(uint8_t key, int8_t state){
 	}
 	updateDisplay();
 }
-
