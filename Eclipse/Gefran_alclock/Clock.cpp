@@ -10,7 +10,6 @@ Clock::Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t m
 	TIMSK2|=(1<<TOIE2);
 
 	displayMode=MTIME;
-	display.setLed(0,1);
 	b[0].pin=UPKEY;
 	b[1].pin=DOWNKEY;
 	b[2].pin=FKEY;
@@ -179,12 +178,12 @@ void Clock::updateDisplay(void) {
 		display.clearLeds();
 		return;
 	}
+	display.setLed(4,AlarmVal.isSet);
 	if(displayMode==MTIME){
 		display.setNum(TimeVal.hour,0,0);
 		display.setNum(TimeVal.min,0,1);
 		display.setDP(1,1);
 		display.setDP(5,1);
-		display.setLed(4,AlarmVal.isSet);
 		display.setNum(TimeVal.date,1,0);
 		display.setNum(TimeVal.month,1,1);
 	}else{
@@ -232,12 +231,13 @@ void Clock::checkKeys(void){
 		}
 		if(b[i].state == 1 && b[i].conf>BUTTON_DEB2){
 			b[i].state=2;
+			//b[i].conf=400;
 			keyPressed(b[i].pin,2);
 		}
 	}
 }
 
-void Clock::keyPressed(uint8_t key, uint8_t state){
+void Clock::keyPressed(uint8_t key, int8_t state){
 	if(AlarmVal.isActive){//alarm clear
 		display.setLed(6,0);
 		buzz.stop();
@@ -246,6 +246,10 @@ void Clock::keyPressed(uint8_t key, uint8_t state){
 
 	}else if(key==FKEY && displayMode==MTIME){//enter menu mode
 		displayMode=MMENU;
+	}else if(key==PWRKEY && displayMode==MTIME){
+		displayMode=MOFF;
+	}else if(key==PWRKEY && displayMode==MOFF){
+		displayMode=MTIME;
 	}else if(key==PWRKEY && displayMode==MMENU){//back in menu
 		if(cMenu==root){
 			currentsub=0;
@@ -264,14 +268,14 @@ void Clock::keyPressed(uint8_t key, uint8_t state){
 		}
 	}else if(key==DOWNKEY && displayMode==MMENU){//next menu
 		if(cMenu->nbSubs<=0){
-			cMenu->fptr(-1);
+			cMenu->fptr(-state);
 		}else{
 			currentsub++;
 			if(currentsub>=cMenu->nbSubs)currentsub=0;
 		}
 	}else if(key==UPKEY && displayMode==MMENU){//previous menu
 		if(cMenu->nbSubs<=0){
-			cMenu->fptr(1);
+			cMenu->fptr(state);
 		}else{
 			currentsub--;
 			if(currentsub<0)currentsub=cMenu->nbSubs-1;

@@ -79,7 +79,7 @@ private :
 	void updateDisplay();
 	void alarm();
 	void incrementTimeSec(void);
-	void keyPressed(uint8_t key, uint8_t state);
+	void keyPressed(uint8_t key, int8_t state);
 
 };
 

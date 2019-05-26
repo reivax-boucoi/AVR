@@ -26,9 +26,9 @@ uint16_t MTimeMin(int8_t a) {
 uint16_t MTimeDate(int8_t a) {
 	Time_T t=clock.getTime();
 	t.date+=a;
-	if(t.date==31){
+	if(t.date>=31){
 		t.date=1;
-	}else if(t.date==0){
+	}else if(t.date<=0){
 		t.date=31;
 	}
 	clock.setTime(t);
@@ -37,9 +37,9 @@ uint16_t MTimeDate(int8_t a) {
 uint16_t MTimeMonth(int8_t a) {
 	Time_T t=clock.getTime();
 	t.month+=a;
-	if(t.month==13){
+	if(t.month>=13){
 		t.month=1;
-	}else if(t.month==0){
+	}else if(t.month<=0){
 		t.month=12;
 	}
 	clock.setTime(t);
