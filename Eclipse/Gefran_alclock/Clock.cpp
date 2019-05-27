@@ -56,7 +56,7 @@ Clock::Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t m
 	for(int j=0;j<4;j++){
 		for(int i=0;i<5;i++){
 			l[j][i]=(Menu*)malloc(sizeof(Menu));
-			strcpy(l[j][i]->name,"aaaa");
+			strcpy(l[j][i]->name,"----");
 			l[j][i]->name[0]=j+'1';
 			l[j][i]->name[3]=i+'1';
 			l[j][i]->parent=subs[j];
@@ -75,6 +75,12 @@ Clock::Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t m
 	strcpy(l[0][4]->name,"Anne");
 	l[0][4]->fptr=&MTimeYear;
 
+	strcpy(l[1][0]->name,"Heur");
+	l[1][0]->fptr=&MAlarmHour;
+	strcpy(l[1][1]->name,"Min ");
+	l[1][1]->fptr=&MAlarmMin;
+	strcpy(l[1][2]->name,"Acti");
+	l[1][2]->fptr=&MAlarmActivate;
 
 	cMenu=root;
 	currentsub=0;
@@ -87,6 +93,9 @@ Clock::~Clock(){
 
 void Clock::setTime(Time_T t){
 	TimeVal=t;
+}
+void Clock::setAlarm(Alarm_T a) {
+	AlarmVal=a;
 }
 void Clock::setAlarm(uint8_t h,uint8_t m, bool set){
 	AlarmVal.hour=h;
@@ -177,7 +186,7 @@ void Clock::updateDisplay(void) {
 		display.setDP(5,1);
 		display.setLed(4,AlarmVal.isSet);
 		display.setNum(TimeVal.date,1,0);
-		display.setNum(TimeVal.sec,1,1);
+		display.setNum(TimeVal.month,1,1);
 	}else{
 		display.setDP(1,0);
 		display.setDP(5,0);
@@ -270,3 +279,4 @@ void Clock::keyPressed(uint8_t key, uint8_t state){
 	}
 	updateDisplay();
 }
+

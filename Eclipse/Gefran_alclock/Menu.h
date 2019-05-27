@@ -12,6 +12,10 @@ uint16_t MTimeDate(int8_t a);
 uint16_t MTimeMonth(int8_t a);
 uint16_t MTimeYear(int8_t a);
 
+uint16_t MAlarmHour(int8_t a);
+uint16_t MAlarmMin(int8_t a);
+uint16_t MAlarmActivate(int8_t a);
+
 
 class Menu{
 public:

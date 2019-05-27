@@ -3,7 +3,7 @@
 
 
 uint16_t test(int8_t a){
-	return a+1;
+	return 0;
 }
 
 uint16_t MTimeHour(int8_t a) {
@@ -55,3 +55,28 @@ uint16_t MTimeYear(int8_t a) {
 	return t.year;
 }
 
+uint16_t MAlarmHour(int8_t a) {
+	Alarm_T t=clock.getAlarm();
+	t.hour+=a;
+	if(t.hour>23)t.hour=0;
+	if(t.hour<0)t.hour=0;
+	clock.setAlarm(t);
+	return t.hour;
+}
+
+uint16_t MAlarmMin(int8_t a) {
+	Alarm_T t=clock.getAlarm();
+	t.min+=a;
+	if(t.min>59)t.min=0;
+	if(t.min<0)t.min=59;
+	clock.setAlarm(t);
+	return t.min;
+}
+
+uint16_t MAlarmActivate(int8_t a) {
+	Alarm_T t=clock.getAlarm();
+	if(a!=0)t.isSet=!t.isSet;
+	clock.setAlarm(t);
+	return t.isSet;
+
+}

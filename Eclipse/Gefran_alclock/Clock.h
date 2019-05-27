@@ -53,7 +53,8 @@ public:
 	Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t min, uint8_t sec);
 	Display display;
 	void setTime(Time_T t);
-	void setAlarm(uint8_t h,uint8_t m,bool set);
+	void setAlarm(uint8_t h,uint8_t m,bool set);;
+	void setAlarm(Alarm_T a);
 	void setDisplayMode(uint8_t mode);
 	Time_T getTime(void);
 	Alarm_T getAlarm(void);
