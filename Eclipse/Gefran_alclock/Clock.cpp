@@ -34,6 +34,51 @@ Clock::Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t m
 	TimeVal.min=min;
 	TimeVal.sec=sec;
 
+	root=(Menu*)malloc(sizeof(Menu));
+	strcpy(root->name,"Menu");
+	root->subs=subs;
+	root->nbSubs=4;
+
+	for(int i=0;i<4;i++){
+		subs[i]=(Menu*)malloc(sizeof(Menu));
+		subs[i]->parent=root;
+		subs[i]->nbSubs=0;
+		subs[i]->subs=l[i];
+		subs[i]->nbSubs=5;
+
+	}
+	strcpy(subs[0]->name,"Temp");
+	strcpy(subs[1]->name,"alar");
+	strcpy(subs[2]->name,"conf");
+	strcpy(subs[3]->name,"Rst");
+
+
+	for(int j=0;j<4;j++){
+		for(int i=0;i<5;i++){
+			l[j][i]=(Menu*)malloc(sizeof(Menu));
+			strcpy(l[j][i]->name,"aaaa");
+			l[j][i]->name[0]=j+'1';
+			l[j][i]->name[3]=i+'1';
+			l[j][i]->parent=subs[j];
+			l[j][i]->nbSubs=0;
+			l[j][i]->fptr=&test;
+		}
+	}
+	strcpy(l[0][0]->name,"Heur");
+	l[0][0]->fptr=&MTimeHour;
+	strcpy(l[0][1]->name,"Min ");
+	l[0][1]->fptr=&MTimeMin;
+	strcpy(l[0][2]->name,"Date");
+	l[0][2]->fptr=&MTimeDate;
+	strcpy(l[0][3]->name,"Mois");
+	l[0][3]->fptr=&MTimeMonth;
+	strcpy(l[0][4]->name,"Anne");
+	l[0][4]->fptr=&MTimeYear;
+
+
+	cMenu=root;
+	currentsub=0;
+
 }
 Clock::~Clock(){
 

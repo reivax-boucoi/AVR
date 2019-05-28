@@ -4,7 +4,6 @@
 #include "Clock.h"
 #include "Buzzer.h"
 
-//Clock clock=Clock(2019,06,03,0,34,50);
 
 
 int main(void){
