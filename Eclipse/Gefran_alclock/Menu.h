@@ -1,10 +1,19 @@
 #ifndef MENU_H_
 #define MENU_H_
 #include <avr/io.h>
+#include <stdlib.h>
+#include <string.h>
 #include "Clock.h"
 
 uint16_t test(int8_t a);
+
+void initMenus();
+
 uint16_t MTimeHour(int8_t a);
+uint16_t MTimeMin(int8_t a);
+uint16_t MTimeDate(int8_t a);
+uint16_t MTimeMonth(int8_t a);
+uint16_t MTimeYear(int8_t a);
 
 
 class Menu{

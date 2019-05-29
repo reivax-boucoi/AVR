@@ -6,8 +6,6 @@
 #include "Menu.h"
 #include <avr/io.h>
 #include <avr/sleep.h>
-#include <stdlib.h>
-#include <string.h>
 
 #define KEYPIN PINC
 #define KEYPORT PORTC
