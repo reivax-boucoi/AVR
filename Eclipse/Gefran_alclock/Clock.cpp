@@ -241,7 +241,11 @@ void Clock::keyPressed(uint8_t key, uint8_t state){
 			cMenu=cMenu->parent;
 		}
 	}else if(key==FKEY && displayMode==MMENU){//enter/execute menu
-		if(cMenu->fptr !=nullptr || cMenu->nbSubs>0){
+		if(cMenu->fptr !=nullptr ){
+			currentsub=0;
+			displayMode=MTIME;
+			cMenu=root;
+		}else if(cMenu->nbSubs>0){
 			cMenu=cMenu->subs[currentsub];
 			currentsub=0;
 		}
