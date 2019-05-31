@@ -2,13 +2,15 @@
 
 
 
-uint16_t test(uint8_t a){
+uint16_t test(int8_t a){
 	return a+1;
 }
 
-uint16_t MTimeHour(uint8_t a) {
-	//Time_T t=clock.getTime();
-	//t.hour+=a;
-	//clock.setTime(t);
-	return 1123;//;t.hour;
+uint16_t MTimeHour(int8_t a) {
+	Time_T t=clock.getTime();
+	t.hour+=a;
+	if(t.hour>59)t.hour=0;
+	if(t.hour<0)t.hour=59;
+	clock.setTime(t);
+	return t.hour;
 }

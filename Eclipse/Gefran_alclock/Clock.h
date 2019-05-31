@@ -25,6 +25,8 @@
 #define MTIME 1
 #define MMENU 2
 
+class Menu;//defined in "Menu.h"
+
 struct Time_T{
     uint16_t year;
     uint8_t month;
