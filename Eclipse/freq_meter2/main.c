@@ -5,62 +5,54 @@
 #include <util/delay.h>
 #include "Display.h"
 
-#define CALF 64000000000UL
-volatile uint16_t i = 0;
-volatile uint32_t counts = 0;
+static volatile uint32_t tim0_ovf_cnt = 0;
+static volatile uint32_t int0_cnt = 0;
+
+static uint32_t nb_events=1000000UL;
+static uint32_t i=0;
+
 //T0=/4096
+
+static uint32_t getElapsedTicks(void){
+    uint8_t t;
+    uint32_t m;
+    m = tim0_ovf_cnt;
+    t = TCNT0;
+    if ((TIFR0&(1<<TOV0)) && t < 255) {
+    	m++;
+    }
+    return (m << 8) | t;
+}
+
 int main(void) {
 	_delay_ms(200);
 	initDisplay();
 	setRange(1);
 	displayNumber(-1);
 	_delay_ms(250);
+
 	DDRB &=~(1<<PINB2);
+	TCCR0B|=(1<<CS01)|(1<<CS00);//64
+	TIMSK0 |=(1<<TOIE0);
+
 	MCUCR|=(1<<ISC01)|(1<<ISC00);
 	GIMSK|=(1<<INT0);
-	TCCR1B |=(1<<CS12)|(1<<CS10);//
-	TIMSK1 |=(1<<TOIE1);
-	sei();
-	while (1)  {
 
+
+	while (1)  {
+		_delay_ms(500);
+		if(int0_cnt>nb_events){
+
+		}else{
+
+		}
+		displayNumberDP(i++,i%6);
 	}
 }
 ISR(INT0_vect){
-	uint64_t total=CALF;
-	total/=(TCNT1+(counts<<16));
-	uint8_t dp=3;
-	if(total>999999999){
-		setRange(2);
-		if(total>99999999999){
-			total/=1000000;
-			dp=3;
-		}else if(total>9999999999){
-			total/=100000;
-			dp=2;
-		}else{
-			total/=10000;
-			dp=1;
-		}
-	}else if(total>999999){
-		setRange(1);
-		if(total>99999999){
-			total/=1000;
-			dp=3;
-		}else if(total>9999999){
-			total/=100;
-			dp=2;
-		}else{
-			total/=10;
-			dp=1;
-		}
-	}else{
-		setRange(0);
-	}
-	displayNumberDP(total,dp);
-	TCNT1=0x0000;
-	counts=0;
+	int0_cnt++;
 }
 
-ISR(TIM1_OVF_vect){
-	counts++;
+ISR(TIM0_OVF_vect){
+	tim0_ovf_cnt++;
 }

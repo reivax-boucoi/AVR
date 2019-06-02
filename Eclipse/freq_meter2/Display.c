@@ -46,12 +46,18 @@ void displayNumberDP(uint32_t number, uint8_t dp_digit) {
   if (number == 0) {
     writeData(D0, 0);
     return;
-  } else if (number > 999999 || number < 0) {
+  } else if (number < 0) {
     writeData(D3, LH);
     writeData(D2, LE);
     writeData(D1, LL);
     writeData(D0, LP);
     return;
+  }else if(number > 999999){
+	    writeData(D3, DASH);
+	    writeData(D2, DASH);
+	    writeData(D1, DASH);
+	    writeData(D0,DASH);
+	    return;
   }
   uint8_t i = NBDIGITS;
   do {
