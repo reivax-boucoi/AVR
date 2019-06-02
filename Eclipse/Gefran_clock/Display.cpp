@@ -1,56 +1,90 @@
 #include "Display.h"
 
 Display::Display() {
-	COMREG = 0xFF;
-	COMREG1 = 0xFF;
+
+	TCNT0=0;
+	OCR0A=0x48;
+	TCCR0A|=(1<<WGM01);
+	TCCR0B |=(1<<CS02);
+	TIMSK0|=(1<<OCIE0A);
+
+	COMREG = 0x1F;
+	COMREG1 = 0x3C;
 	SEGREG = 0xFF;
-	COMPORT=0x00;
-	COMPORT1=0x00;
+	COMPORT=0x1F;
+	COMPORT1=0x3C;
 	SEGPORT=0x00;
 	comcnt=0;
 }
 
-void Display::setNum1(uint16_t nb) {
-
+void Display::setNum(uint16_t nb, bool display, bool right) {
+	setDigit((right<<1)+(display<<2)+1,nb%10+'0');
+	setDigit((right<<1)+(display<<2),(nb/10)%10+'0');
 }
 
-void Display::setDigit(uint8_t digit, uint8_t nb){
-	if(nb>=0 && nb<10 && digit<8 && digit>=0){
-		//uint8_t value=NbMap[nb];
-		//displayData[regMap[digit]]=segMap[NbMap[nb]];
+void Display::setDP(uint8_t digit, bool state){
+	displayData[digit+1]=state<<7 | (displayData[digit+1] & 0x7F);
+}
+
+void Display::setDigit(uint8_t digit, uint8_t c){
+	if(digit<8 && digit>=0){
+		if(c>='0' && c<='9'){
+			c=NbMap[c-'0'];
+		}else if(c>='a' && c<='z'){
+			c=LetterMap[c-'a'];
+		}else if(c>='A' && c<='Z'){
+			c=LetterMap[c-'A'];
+		}
+		displayData[digit+1]=c|(displayData[digit+1] & 1<<7);
 	}
 }
 
 void Display::setLed(uint8_t led, bool state){
 	if(led>=0 && led<7){
 		if(state){
-		displayData[regMap[MAXCOMCNT-1]] |=(1<<LedMap[led]);
+			displayData[0] |=LedMap[led];
 		}else{
-		displayData[regMap[MAXCOMCNT-1]] &=~(1<<LedMap[led]);
+			displayData[0] &=~LedMap[led];
+		}
+	}
+}
+
+void Display::clearDigit(uint8_t digit){
+	displayData[digit+1]=0x00;;
+}
+void Display::clearLeds(void){
+	displayData[0]=0x00;
+}
+
+void Display::setText(char* s, uint8_t len, uint8_t display){
+	if(len<=8){
+		uint8_t offs=0;
+		if(len<=4){
+			offs=(display<<2);
+		}
+		for(uint8_t i=len;i>=0;i--){
+			setDigit(i+offs,s[i]);
 		}
 	}
 }
 
 void Display::muxISR(void){
-	
-	if(comcnt>7){
-		COMPORT1 &=~(1<<comcnt);
+	//SEGPORT=0x00;
+	if(comcnt<3 || comcnt == 4){
+		COMPORT1 =regMap[comcnt];
+		COMPORT |=0x1F;
 	}else{
-		COMPORT &=~(1<<comcnt);
+		COMPORT =regMap[comcnt];
+		COMPORT1 |=0x3C;
 	}
-	
+	SEGPORT=displayData[comcnt];
+
 	comcnt++;
 	if(comcnt>=MAXCOMCNT)comcnt=0;
-	
-	SEGREG=displayData[comcnt];
-	
-	if(comcnt>7){
-		COMPORT1 |=(1<<comcnt);		
-	}else{
-		COMPORT |=(1<<comcnt);		
-	}
+
+
 }
 Display::~Display() {
-	
+
 }
 
