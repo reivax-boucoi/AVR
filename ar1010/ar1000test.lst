@@ -1,0 +1,3658 @@
+   1               		.file	"ar1000test.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__RAMPZ__ = 0x3b
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.text
+   9               	.Ltext0:
+  10               		.cfi_sections	.debug_frame
+  12               	uart_putchar:
+  13               	.LFB16:
+  14               		.file 1 "ar1000test.c"
+   1:ar1000test.c  **** /*
+   2:ar1000test.c  ****     9-27-09
+   3:ar1000test.c  ****     Copyright Spark Fun Electronics© 2009
+   4:ar1000test.c  ****     Nathan Seidle
+   5:ar1000test.c  ****     spark at sparkfun.com
+   6:ar1000test.c  **** 
+   7:ar1000test.c  ****     Example Interface to AR1000
+   8:ar1000test.c  **** 	Using ATmega168 at 8MHz
+   9:ar1000test.c  **** */ 
+  10:ar1000test.c  **** 
+  11:ar1000test.c  **** #include <stdio.h>
+  12:ar1000test.c  **** #include <avr/io.h>
+  13:ar1000test.c  **** #include "i2c.h"
+  14:ar1000test.c  **** 
+  15:ar1000test.c  **** #define FOSC 8000000
+  16:ar1000test.c  **** #define BAUD 9600
+  17:ar1000test.c  **** #define MYUBRR 103
+  18:ar1000test.c  **** 
+  19:ar1000test.c  **** #define sbi(port, bit_mask)   ((port) |= (uint8_t)(1 << bit_mask))
+  20:ar1000test.c  **** #define cbi(port, bit_mask)   ((port) &= (uint8_t)~(1 << bit_mask))
+  21:ar1000test.c  **** 
+  22:ar1000test.c  **** #define STATUS_LED 5
+  23:ar1000test.c  **** 
+  24:ar1000test.c  **** #define AR1000_W 0x20 //Write address of AR1000
+  25:ar1000test.c  **** #define AR1000_R 0x21//read address
+  26:ar1000test.c  **** 
+  27:ar1000test.c  **** #define ADDR_STATUS	0x13 // the address of status register
+  28:ar1000test.c  **** #define MASK_STC (1<<5) //0x0020  // Seek/Tune/PowerOn complete  D5 in  adress 13H 
+  29:ar1000test.c  **** #define MASK_SF	 (1<<4) //0x0010  //  Seek Fail D4 in address 13H
+  30:ar1000test.c  **** #define MASK_ST	 (1<<3) //0x0008  //  Stereo  D3 in address 13H
+  31:ar1000test.c  **** #define MASK_READCHAN 0xFF80 // D7~D15 in address 13H
+  32:ar1000test.c  **** #define SHIFT_READCHAN 7
+  33:ar1000test.c  **** 
+  34:ar1000test.c  **** #define AR1000_MUTE_ON  { uint16_t temp = ar1000_read(1); ar1000_write(1, temp | (1<<1)); } //Reg_D
+  35:ar1000test.c  **** #define AR1000_MUTE_OFF { uint16_t temp = ar1000_read(1); ar1000_write(1, temp & ~(1<<1)); } //Reg_
+  36:ar1000test.c  **** 
+  37:ar1000test.c  **** #define AR1000_TUNE_ON 	{ uint16_t temp = ar1000_read(2); ar1000_write(2, temp | (1<<9)); } // Reg_
+  38:ar1000test.c  **** #define AR1000_TUNE_OFF { uint16_t temp = ar1000_read(2); ar1000_write(2, temp & ~(1<<9)); } //Reg_
+  39:ar1000test.c  **** 
+  40:ar1000test.c  **** #define AR1000_SEEK_ON 	{ uint16_t temp = ar1000_read(3); ar1000_write(3, temp | (1<<14)); } //Reg_
+  41:ar1000test.c  **** #define AR1000_SEEK_OFF { uint16_t temp = ar1000_read(3); ar1000_write(3, temp & ~(1<<14)); } //Reg
+  42:ar1000test.c  **** 
+  43:ar1000test.c  **** //I2CDEBUG will turn on '!' serial characters and TWI status debugging
+  44:ar1000test.c  **** //Comment out the define to turn off debug characters
+  45:ar1000test.c  **** //#define I2CDEBUG 
+  46:ar1000test.c  **** 
+  47:ar1000test.c  **** //Define functions
+  48:ar1000test.c  **** //======================
+  49:ar1000test.c  **** void i2c_SendStart(void);
+  50:ar1000test.c  **** void i2c_SendStop(void);
+  51:ar1000test.c  **** void i2c_WaitForComplete(void);
+  52:ar1000test.c  **** unsigned char i2c_SendByte(unsigned char data);
+  53:ar1000test.c  **** unsigned char i2c_ReceiveByte(unsigned char ackFlag);
+  54:ar1000test.c  **** 
+  55:ar1000test.c  **** void ioinit(void);
+  56:ar1000test.c  **** static int uart_putchar(char c, FILE *stream);
+  57:ar1000test.c  **** uint8_t uart_getchar(void);
+  58:ar1000test.c  **** int uart_gethex(uint8_t length_to_read);
+  59:ar1000test.c  **** 
+  60:ar1000test.c  **** static FILE mystdout = FDEV_SETUP_STREAM(uart_putchar, NULL, _FDEV_SETUP_WRITE);
+  61:ar1000test.c  **** 
+  62:ar1000test.c  **** void delay_ms(uint16_t x); 
+  63:ar1000test.c  **** void delay_us(uint16_t x);
+  64:ar1000test.c  **** 
+  65:ar1000test.c  **** uint16_t ar1000_read(uint8_t address);
+  66:ar1000test.c  **** void ar1000_write(char reg_address, uint16_t reg_value);
+  67:ar1000test.c  **** void ar1000_readall(void);
+  68:ar1000test.c  **** void ar1000_write_array(void);
+  69:ar1000test.c  **** void ar1000_init(void);
+  70:ar1000test.c  **** void ar1000_setvolume(uint8_t volume_level);
+  71:ar1000test.c  **** void ar1000_status(void);
+  72:ar1000test.c  **** void ar1000_tuneto(uint16_t freq_kHz);
+  73:ar1000test.c  **** void ar1000_tune_hilo(uint16_t freq_kHz);
+  74:ar1000test.c  **** void ar1000_seek(void);
+  75:ar1000test.c  **** uint16_t ar1000_rssi(void);
+  76:ar1000test.c  **** 
+  77:ar1000test.c  **** void print_array(void);
+  78:ar1000test.c  **** void set_array_value(void);
+  79:ar1000test.c  **** 
+  80:ar1000test.c  **** //RSSI 49-54 is pretty good. 34-41 is complete static
+  81:ar1000test.c  **** 
+  82:ar1000test.c  **** //Register conaining default values for the AR1000, these are the default values from the programmi
+  83:ar1000test.c  **** uint16_t register_values[18] = 
+  84:ar1000test.c  **** {	
+  85:ar1000test.c  **** 	
+  86:ar1000test.c  **** 	0xFFFF, //R0
+  87:ar1000test.c  **** 	0x5B15, //R1
+  88:ar1000test.c  **** 	0xF4B9, //R2 Tune/Channel
+  89:ar1000test.c  **** 	0x8012, //R3 seekTHD = 18
+  90:ar1000test.c  **** 	0x0400, //R4
+  91:ar1000test.c  **** 	0x28AA, //R5
+  92:ar1000test.c  **** 	0x4400, //R6
+  93:ar1000test.c  **** 	0x1EE7,	// R7
+  94:ar1000test.c  **** 	0x7141,	// R8
+  95:ar1000test.c  **** 	0x007D,	// R9
+  96:ar1000test.c  **** 	0x82C6,	// R10  disable wrap
+  97:ar1000test.c  **** 	0x4F55,	// R11. <--- (disable xo_output)
+  98:ar1000test.c  **** 	0x970C,	// R12.
+  99:ar1000test.c  **** 	0xB845,	// R13
+ 100:ar1000test.c  **** 	0xFC2D,	// R14 : Volume control 2
+ 101:ar1000test.c  **** 	0x8097,	// R15
+ 102:ar1000test.c  **** 	0x04A1,	// R16
+ 103:ar1000test.c  **** 	0xDF6A	// R17
+ 104:ar1000test.c  **** 	
+ 105:ar1000test.c  **** 	//Bad values from the Airoha example code - they don't work for me
+ 106:ar1000test.c  **** 	/*0xFF7B,	// R0 -- the first writable register .  (disable xo_en)
+ 107:ar1000test.c  **** 	0x5B15,		// R1
+ 108:ar1000test.c  **** 	0xD0B9,		// R2 
+ 109:ar1000test.c  **** 	0xA010,		// R3  seekTHD = 16
+ 110:ar1000test.c  **** 	0x0780,		// R4
+ 111:ar1000test.c  **** 	0x28AB,		// R5
+ 112:ar1000test.c  **** 	0x6400,		// R6
+ 113:ar1000test.c  **** 	0x1EE7,		// R7
+ 114:ar1000test.c  **** 	0x7141,		// R8
+ 115:ar1000test.c  **** 	0x007D,		// R9
+ 116:ar1000test.c  **** 	0x82C6,		// R10  disable wrap
+ 117:ar1000test.c  **** 	0x4F55,		// R11. <--- (disable xo_output)
+ 118:ar1000test.c  **** 	0x970C,		// R12.
+ 119:ar1000test.c  **** 	0xB845,		// R13
+ 120:ar1000test.c  **** 	0xFC2D,		// R14 : Volume control 2
+ 121:ar1000test.c  **** 	0x8097,		// R15
+ 122:ar1000test.c  **** 	0x04A1,		// R16
+ 123:ar1000test.c  **** 	0xDF6A	*/  // R17
+ 124:ar1000test.c  **** };
+ 125:ar1000test.c  **** 
+ 126:ar1000test.c  **** // volume control (increasing)
+ 127:ar1000test.c  **** unsigned char AR1000vol[22] =
+ 128:ar1000test.c  **** { 
+ 129:ar1000test.c  **** 	0x0F,	// step 0
+ 130:ar1000test.c  **** 	0xCF,	// 1
+ 131:ar1000test.c  **** 	0xDF,	// 2
+ 132:ar1000test.c  **** 	0xEF,	// 3
+ 133:ar1000test.c  **** 	0xFF,	// 4
+ 134:ar1000test.c  **** 	0xEE,	// 5
+ 135:ar1000test.c  **** 	0xFE,	// 6
+ 136:ar1000test.c  **** 	0xED,	// 7
+ 137:ar1000test.c  **** 	0xFD,	// 8
+ 138:ar1000test.c  **** 	0xFB,	// 9
+ 139:ar1000test.c  **** 	0xFA,	// 10
+ 140:ar1000test.c  **** 	0xF9,	// 11
+ 141:ar1000test.c  **** 	0xF7,	// 12
+ 142:ar1000test.c  **** 	0xE6,	// 13
+ 143:ar1000test.c  **** 	0xF6,	// 14
+ 144:ar1000test.c  **** 	0xE5,	// 15
+ 145:ar1000test.c  **** 	0xF5,	// 16
+ 146:ar1000test.c  **** 	0xE3,	// 17
+ 147:ar1000test.c  **** 	0xF3,	// 18
+ 148:ar1000test.c  **** 	0xF2,	// 19
+ 149:ar1000test.c  **** 	0xF1,	// 20
+ 150:ar1000test.c  **** 	0xF0	// 21 <------ default setting
+ 151:ar1000test.c  **** };
+ 152:ar1000test.c  **** 
+ 153:ar1000test.c  **** //======================
+ 154:ar1000test.c  **** 
+ 155:ar1000test.c  **** int main (void)
+ 156:ar1000test.c  **** {
+ 157:ar1000test.c  **** 	ioinit(); //Setup IO pins and defaults
+ 158:ar1000test.c  **** 	
+ 159:ar1000test.c  **** 	char option;
+ 160:ar1000test.c  **** 	char vol = 21;
+ 161:ar1000test.c  **** 	
+ 162:ar1000test.c  **** 	while(1)
+ 163:ar1000test.c  **** 	{
+ 164:ar1000test.c  **** 		printf("\n\n----AR1000 Configuration----");
+ 165:ar1000test.c  **** 		printf("\n1) Send array values");
+ 166:ar1000test.c  **** 		printf("\n2) Read array values");
+ 167:ar1000test.c  **** 		printf("\n3) Set array value");	
+ 168:ar1000test.c  **** 		printf("\n4) Read All Register values");
+ 169:ar1000test.c  **** 		printf("\n5) Begin Seek");		
+ 170:ar1000test.c  **** 		printf("\n6) Tune to 97.3");		
+ 171:ar1000test.c  **** 		printf("\n7) Check Status");		
+ 172:ar1000test.c  **** 		printf("\n8) Raise volume");		
+ 173:ar1000test.c  **** 		printf("\n9) Lower volume");		
+ 174:ar1000test.c  **** 		printf("\na) Check RSSI");		
+ 175:ar1000test.c  **** 		printf("\nb) Special tune hi/low to 97.3");		
+ 176:ar1000test.c  **** 
+ 177:ar1000test.c  **** 		option = uart_getchar();
+ 178:ar1000test.c  **** 		
+ 179:ar1000test.c  **** 		if(option == '1')
+ 180:ar1000test.c  **** 		{
+ 181:ar1000test.c  **** 			printf("\n\n\tSending Array Values\n");
+ 182:ar1000test.c  **** 			ar1000_write_array();
+ 183:ar1000test.c  **** 			printf("\n\t\tDone\n");
+ 184:ar1000test.c  **** 		}
+ 185:ar1000test.c  **** 		
+ 186:ar1000test.c  **** 		else if(option == '2')
+ 187:ar1000test.c  **** 		{
+ 188:ar1000test.c  **** 			print_array();
+ 189:ar1000test.c  **** 		}
+ 190:ar1000test.c  **** 		
+ 191:ar1000test.c  **** 		else if(option == '3')	
+ 192:ar1000test.c  **** 		{
+ 193:ar1000test.c  **** 			set_array_value();
+ 194:ar1000test.c  **** 		}
+ 195:ar1000test.c  **** 		
+ 196:ar1000test.c  **** 		else if(option == '4')
+ 197:ar1000test.c  **** 		{
+ 198:ar1000test.c  **** 			printf("\n\n\tRead All\n");
+ 199:ar1000test.c  **** 			ar1000_readall();
+ 200:ar1000test.c  **** 		}
+ 201:ar1000test.c  **** 		
+ 202:ar1000test.c  **** 		else if(option == '5')
+ 203:ar1000test.c  **** 		{
+ 204:ar1000test.c  **** 			ar1000_seek();
+ 205:ar1000test.c  **** 		}
+ 206:ar1000test.c  **** 		
+ 207:ar1000test.c  **** 		else if(option == '6')
+ 208:ar1000test.c  **** 		{
+ 209:ar1000test.c  **** 			printf("\n\t Tune to 97.3\n");
+ 210:ar1000test.c  **** 			ar1000_tuneto(973);
+ 211:ar1000test.c  **** 		}
+ 212:ar1000test.c  **** 
+ 213:ar1000test.c  **** 		else if(option == '7')
+ 214:ar1000test.c  **** 		{
+ 215:ar1000test.c  **** 			ar1000_status();
+ 216:ar1000test.c  **** 		}
+ 217:ar1000test.c  **** 
+ 218:ar1000test.c  **** 		else if(option == '8')
+ 219:ar1000test.c  **** 		{
+ 220:ar1000test.c  **** 			if(vol < 21) ar1000_setvolume(vol++);
+ 221:ar1000test.c  **** 			printf("\nVolume = %02d", vol);
+ 222:ar1000test.c  **** 		}
+ 223:ar1000test.c  **** 		else if(option == '9')
+ 224:ar1000test.c  **** 		{
+ 225:ar1000test.c  **** 			if(vol > 0) ar1000_setvolume(vol--);
+ 226:ar1000test.c  **** 			printf("\nVolume = %02d", vol);
+ 227:ar1000test.c  **** 		}
+ 228:ar1000test.c  **** 		else if(option == 'a')
+ 229:ar1000test.c  **** 		{
+ 230:ar1000test.c  **** 			option = ar1000_rssi();
+ 231:ar1000test.c  **** 			printf("\nRSSI = %d", option);
+ 232:ar1000test.c  **** 		}
+ 233:ar1000test.c  **** 		else if(option == 'b')
+ 234:ar1000test.c  **** 		{
+ 235:ar1000test.c  **** 			ar1000_tune_hilo(973);
+ 236:ar1000test.c  **** 		}
+ 237:ar1000test.c  **** 
+ 238:ar1000test.c  **** 		else
+ 239:ar1000test.c  **** 			printf("\n\nChoice = %c", option);
+ 240:ar1000test.c  **** 	}
+ 241:ar1000test.c  **** 	
+ 242:ar1000test.c  ****     return(0);
+ 243:ar1000test.c  **** }
+ 244:ar1000test.c  **** 
+ 245:ar1000test.c  **** uint16_t ar1000_rssi(void)
+ 246:ar1000test.c  **** {
+ 247:ar1000test.c  **** #define ADDR_RSSI	0x12 
+ 248:ar1000test.c  **** #define MASK_RSSI 	0xFE00
+ 249:ar1000test.c  **** #define SHIFT_RSSI  9
+ 250:ar1000test.c  **** 
+ 251:ar1000test.c  **** 	uint16_t rssi;
+ 252:ar1000test.c  **** 	
+ 253:ar1000test.c  **** 	rssi = ar1000_read(ADDR_RSSI);
+ 254:ar1000test.c  **** 	rssi &= MASK_RSSI;
+ 255:ar1000test.c  **** 	rssi >>= 9;
+ 256:ar1000test.c  **** 
+ 257:ar1000test.c  **** 	return(rssi);
+ 258:ar1000test.c  **** }
+ 259:ar1000test.c  **** 
+ 260:ar1000test.c  **** // Volume Control
+ 261:ar1000test.c  **** // There are two different fields about volume control in AR1000F
+ 262:ar1000test.c  **** //  Volume : D7~D10 in register R3
+ 263:ar1000test.c  **** //  Volume2 : D12~D15 in register R14
+ 264:ar1000test.c  **** //  22 combinations of (volume2 + volume) are recommended.
+ 265:ar1000test.c  **** void ar1000_setvolume(uint8_t volume_level)
+ 266:ar1000test.c  **** {
+ 267:ar1000test.c  **** 	uint16_t reg3, reg14;
+ 268:ar1000test.c  **** 	
+ 269:ar1000test.c  **** 	reg3 = ar1000_read(3) & 0xF87F; //Zero out bits D7-D10
+ 270:ar1000test.c  **** 	reg3 |= ( (AR1000vol[volume_level] & 0x0F) << 7); //Mask in D7-D10
+ 271:ar1000test.c  **** 	
+ 272:ar1000test.c  **** 	reg14 = ar1000_read(14) & 0x0FFF; //Zero out bits D12-D15
+ 273:ar1000test.c  **** 	reg14 |= ((AR1000vol[volume_level] & 0xF0) << 8); //Mask in D12-D15
+ 274:ar1000test.c  **** 	
+ 275:ar1000test.c  **** 	ar1000_write(3, reg3);
+ 276:ar1000test.c  **** 	ar1000_write(14, reg14);
+ 277:ar1000test.c  **** }
+ 278:ar1000test.c  **** 
+ 279:ar1000test.c  **** //Tunes the AR1000 to a given station.
+ 280:ar1000test.c  **** //Calculate AR1000 CHAN id  :  Freq (MHz) = 69 + 0.1*CHAN
+ 281:ar1000test.c  **** //Example, sending 973 will tune to 97.3MHz
+ 282:ar1000test.c  **** void ar1000_tuneto(uint16_t freq_kHz)
+ 283:ar1000test.c  **** {
+ 284:ar1000test.c  **** 	uint16_t channel, temp;
+ 285:ar1000test.c  **** 
+ 286:ar1000test.c  **** 	/*
+ 287:ar1000test.c  **** 	1) Set hmute Bit 
+ 288:ar1000test.c  **** 	2) Clear TUNE Bit 
+ 289:ar1000test.c  **** 	3) Clear SEEK Bit
+ 290:ar1000test.c  **** 	4) Set BAND/SPACE/CHAN Bits
+ 291:ar1000test.c  **** 	5) Enable TUNE Bit 
+ 292:ar1000test.c  **** 	6) Wait STC flag (Seek/Tune Comlete, in Status Register
+ 293:ar1000test.c  **** 	7) Clear hmute Bit 
+ 294:ar1000test.c  **** 	8) Update Functions (optional) 
+ 295:ar1000test.c  **** 	*/
+ 296:ar1000test.c  **** 
+ 297:ar1000test.c  **** 	//Clear tune bit
+ 298:ar1000test.c  **** 	AR1000_TUNE_OFF;
+ 299:ar1000test.c  **** 
+ 300:ar1000test.c  **** 	//Set Channel
+ 301:ar1000test.c  **** 	channel = freq_kHz - 690;
+ 302:ar1000test.c  **** 	temp = ar1000_read(2); //Read 
+ 303:ar1000test.c  **** 	temp &= 0xFE00; //Mask
+ 304:ar1000test.c  **** 	temp |= channel;
+ 305:ar1000test.c  **** 	ar1000_write(2, temp); //Write
+ 306:ar1000test.c  **** 	
+ 307:ar1000test.c  **** 	//Enable tune bit
+ 308:ar1000test.c  **** 	AR1000_TUNE_ON;
+ 309:ar1000test.c  **** 	
+ 310:ar1000test.c  **** 	//Wait for tune to stabilize (STC flag)
+ 311:ar1000test.c  **** 	temp = 0;
+ 312:ar1000test.c  **** 	while(temp == 0)
+ 313:ar1000test.c  **** 	{
+ 314:ar1000test.c  **** 		temp = ar1000_read(ADDR_STATUS) & MASK_STC;
+ 315:ar1000test.c  **** 		printf("!");
+ 316:ar1000test.c  **** 	}
+ 317:ar1000test.c  **** 	
+ 318:ar1000test.c  **** }
+ 319:ar1000test.c  **** 
+ 320:ar1000test.c  **** //This is some weird function in AR1000 example code provided by Airoha
+ 321:ar1000test.c  **** //Looks like it takes the RSSI into account and then fine tunes the station
+ 322:ar1000test.c  **** //I can't hear much of a difference, but it looks fancy.
+ 323:ar1000test.c  **** void ar1000_tune_hilo(uint16_t freq_kHz)
+ 324:ar1000test.c  **** {
+ 325:ar1000test.c  **** 	uint16_t temp;
+ 326:ar1000test.c  **** 
+ 327:ar1000test.c  **** 	AR1000_MUTE_ON; //Set mute ON before TUNE
+ 328:ar1000test.c  **** 	AR1000_SEEK_OFF; //Clear seek
+ 329:ar1000test.c  **** 
+ 330:ar1000test.c  **** 	//Read Low-Side LO Injection
+ 331:ar1000test.c  **** 	//R11 --> clear  D15,  clear D0/D2,  D3 is the same as default
+ 332:ar1000test.c  **** 	temp = ar1000_read(11) & 0x7FFA;
+ 333:ar1000test.c  **** 	ar1000_write(11, temp);
+ 334:ar1000test.c  **** 
+ 335:ar1000test.c  **** 	//TUNE to FreqKHz with current setting
+ 336:ar1000test.c  **** 	ar1000_tuneto(freq_kHz); //This function turns on TUNE and waits for STC flag
+ 337:ar1000test.c  **** 	//Low-side TUNE Ends 
+ 338:ar1000test.c  **** 
+ 339:ar1000test.c  **** 	printf("\nLow complete");
+ 340:ar1000test.c  **** 
+ 341:ar1000test.c  **** 	uint16_t status = ar1000_read(ADDR_RSSI);
+ 342:ar1000test.c  **** 	uint16_t rssi = (status & MASK_RSSI);
+ 343:ar1000test.c  **** 
+ 344:ar1000test.c  **** 	printf("\nRSSI 1 = %d", rssi >> SHIFT_RSSI);
+ 345:ar1000test.c  **** 
+ 346:ar1000test.c  **** 	//Read Hi-Side LO Injection
+ 347:ar1000test.c  **** 	// R11-->set D15, set D0/D2,  D3 is the same as default
+ 348:ar1000test.c  **** 	temp = ar1000_read(11) | 0x8005;
+ 349:ar1000test.c  **** 	ar1000_write(11, temp);
+ 350:ar1000test.c  **** 	
+ 351:ar1000test.c  **** 	//TUNE to FreqKHz with current setting
+ 352:ar1000test.c  **** 	ar1000_tuneto(freq_kHz); //This function turns on TUNE and waits for STC flag
+ 353:ar1000test.c  **** 	//High-side TUNE Ends 
+ 354:ar1000test.c  **** 
+ 355:ar1000test.c  **** 	printf("\nHigh complete");
+ 356:ar1000test.c  **** 	
+ 357:ar1000test.c  **** 
+ 358:ar1000test.c  **** 	status = ar1000_read(ADDR_RSSI);
+ 359:ar1000test.c  **** 	printf("\nRSSI 2 = %d", (status & MASK_RSSI) >> SHIFT_RSSI);
+ 360:ar1000test.c  **** 	rssi = rssi - (status & MASK_RSSI);	
+ 361:ar1000test.c  **** 	if (rssi < 0) //errata in 0.82
+ 362:ar1000test.c  **** 	{ 	
+ 363:ar1000test.c  **** 		// LO
+ 364:ar1000test.c  **** 		// R11--> clear D15, set D0/D2, D3 is the same as default
+ 365:ar1000test.c  **** 		temp = (ar1000_read(11) & 0x7FFF) | 0x0005;
+ 366:ar1000test.c  **** 		ar1000_write(11, temp);
+ 367:ar1000test.c  **** 	}
+ 368:ar1000test.c  **** 	else
+ 369:ar1000test.c  **** 	{ 
+ 370:ar1000test.c  **** 		//HI
+ 371:ar1000test.c  **** 		//R11-->  set D15, clear D0/D2, D3 is the same as default
+ 372:ar1000test.c  **** 		temp = (ar1000_read(11) | 0x8000) & 0xFFFA;
+ 373:ar1000test.c  **** 		ar1000_write(11, temp);
+ 374:ar1000test.c  **** 	}
+ 375:ar1000test.c  **** 
+ 376:ar1000test.c  **** 	//Fine-tune!!
+ 377:ar1000test.c  **** 	//TUNE to FreqKHz with current setting
+ 378:ar1000test.c  **** 	ar1000_tuneto(freq_kHz); //This function turns on TUNE and waits for STC flag
+ 379:ar1000test.c  **** 
+ 380:ar1000test.c  **** 	AR1000_MUTE_OFF;
+ 381:ar1000test.c  **** 
+ 382:ar1000test.c  **** 	printf("\nLow/Hi tuning complete");
+ 383:ar1000test.c  **** 
+ 384:ar1000test.c  **** }
+ 385:ar1000test.c  **** 
+ 386:ar1000test.c  **** //Starts scanning the stations for a minimum set threshold. I found the bit to enable
+ 387:ar1000test.c  **** //wrapping so the every time the function is called, it searches up, and wrap back to 88MHz
+ 388:ar1000test.c  **** //if it doesn't find a good station.
+ 389:ar1000test.c  **** void ar1000_seek(void)
+ 390:ar1000test.c  **** {
+ 391:ar1000test.c  **** 	#define ADDR_SEEK_SETTING	0x11
+ 392:ar1000test.c  **** 	#define SEEK_SETTING	0x2000
+ 393:ar1000test.c  **** 	#define SEEK_MASK		0xC3FF
+ 394:ar1000test.c  **** 	#define SEEK_TH_MASK	0xFF80
+ 395:ar1000test.c  **** 	#define SEEK_TH			5 //A higher threshold causes stronger stations to be found
+ 396:ar1000test.c  **** 	
+ 397:ar1000test.c  **** 	uint16_t temp;
+ 398:ar1000test.c  **** 	
+ 399:ar1000test.c  **** 	char space = 1; //0.1MHz scanning
+ 400:ar1000test.c  **** 	char updown = 1; //Seek up
+ 401:ar1000test.c  **** 	char band = 0; //US/Europe radio band
+ 402:ar1000test.c  **** 	
+ 403:ar1000test.c  **** 	AR1000_MUTE_ON;
+ 404:ar1000test.c  **** 	AR1000_TUNE_OFF;
+ 405:ar1000test.c  **** 	AR1000_SEEK_OFF;
+ 406:ar1000test.c  **** 	
+ 407:ar1000test.c  **** 	//Enable wrap during seek - I found bit D3 enables wrap, by trial and error. Seems to work
+ 408:ar1000test.c  **** 	temp = ar1000_read(10) | (1<<3); //0x82C6 = 1000 0010 1100 0110
+ 409:ar1000test.c  **** 	ar1000_write(10, temp);
+ 410:ar1000test.c  **** 	
+ 411:ar1000test.c  **** 	//Setting before seek
+ 412:ar1000test.c  **** 	temp = (ar1000_read(17) & SEEK_MASK) | SEEK_SETTING;
+ 413:ar1000test.c  **** 	ar1000_write(17, temp);
+ 414:ar1000test.c  **** 
+ 415:ar1000test.c  **** 	printf("\n\nBegin searching:");
+ 416:ar1000test.c  **** 
+ 417:ar1000test.c  **** 	AR1000_SEEK_ON;
+ 418:ar1000test.c  **** 	temp = ar1000_read(3);
+ 419:ar1000test.c  **** 	if(space == 1)	temp |= (1<<13); //Set space
+ 420:ar1000test.c  **** 	if(updown == 1)	temp |= (1<<15); //Set seek up or down
+ 421:ar1000test.c  **** 	temp = (temp & 0xE7FF) | band; //Set Band
+ 422:ar1000test.c  **** 	temp &= SEEK_TH_MASK; //Clear out the seek threshold
+ 423:ar1000test.c  **** 	temp |= SEEK_TH; //Set threshold
+ 424:ar1000test.c  **** 	ar1000_write(3, temp);
+ 425:ar1000test.c  **** 	
+ 426:ar1000test.c  **** 	//Wait for tune to stabilize (STC flag)
+ 427:ar1000test.c  **** 	temp = 0;
+ 428:ar1000test.c  **** 	while(temp == 0)
+ 429:ar1000test.c  **** 	{
+ 430:ar1000test.c  **** 		temp = ar1000_read(ADDR_STATUS) & MASK_STC;
+ 431:ar1000test.c  **** 		printf(".");
+ 432:ar1000test.c  **** 	}
+ 433:ar1000test.c  **** 
+ 434:ar1000test.c  **** 	temp = ar1000_read(ADDR_STATUS) & MASK_SF;
+ 435:ar1000test.c  **** 	if(temp != 0)
+ 436:ar1000test.c  **** 	{
+ 437:ar1000test.c  **** 		printf("\nSeek failed!");
+ 438:ar1000test.c  **** 		return;
+ 439:ar1000test.c  **** 	}
+ 440:ar1000test.c  **** 	printf("\nSeek success!");
+ 441:ar1000test.c  **** 	
+ 442:ar1000test.c  **** 	temp = ar1000_read(ADDR_STATUS) & MASK_READCHAN;
+ 443:ar1000test.c  **** 	uint16_t freq_kHz = 690 + (temp >> SHIFT_READCHAN); //Determine what channel we found
+ 444:ar1000test.c  **** 	
+ 445:ar1000test.c  **** 	printf("\nNow on channel %d.%dMHz", freq_kHz / 10, freq_kHz % 10);
+ 446:ar1000test.c  **** 
+ 447:ar1000test.c  **** 	//Restore setting after seek
+ 448:ar1000test.c  **** 	ar1000_write(17, register_values[17]);
+ 449:ar1000test.c  **** 
+ 450:ar1000test.c  **** 	//Fine-tune with auto hilo rejection
+ 451:ar1000test.c  **** 	ar1000_tune_hilo(freq_kHz);
+ 452:ar1000test.c  **** 
+ 453:ar1000test.c  **** 	AR1000_MUTE_OFF;     
+ 454:ar1000test.c  **** }
+ 455:ar1000test.c  **** 
+ 456:ar1000test.c  **** //This function reads in an address and array value, and stores the value into the array address
+ 457:ar1000test.c  **** //it does not change the values in the ar1000, you will need to use the "send array valus"
+ 458:ar1000test.c  **** //function in order to send the new values to the ar1000	
+ 459:ar1000test.c  **** void set_array_value(void)
+ 460:ar1000test.c  **** {
+ 461:ar1000test.c  **** 	uint8_t array_address;
+ 462:ar1000test.c  **** 	uint16_t array_value;
+ 463:ar1000test.c  **** 	
+ 464:ar1000test.c  **** 	printf("\n\nArray Address (2 digit hex value): ");
+ 465:ar1000test.c  **** 	array_address = uart_gethex(2);
+ 466:ar1000test.c  **** 	printf("\nArray Address is: %x", array_address);
+ 467:ar1000test.c  ****     
+ 468:ar1000test.c  ****    	printf("\n\nArray value (4 digit hex value): ");
+ 469:ar1000test.c  **** 	array_value = uart_gethex(4);
+ 470:ar1000test.c  ****     printf("\nArray value is: %x", array_value);
+ 471:ar1000test.c  ****     
+ 472:ar1000test.c  ****     register_values[array_address] = array_value;
+ 473:ar1000test.c  **** }
+ 474:ar1000test.c  **** 
+ 475:ar1000test.c  **** void print_array(void)
+ 476:ar1000test.c  **** {
+ 477:ar1000test.c  **** 	//prints the values of the array that is used to control the radio
+ 478:ar1000test.c  **** 	
+ 479:ar1000test.c  **** 	printf("\n\nArray position: value\n");
+ 480:ar1000test.c  **** 
+ 481:ar1000test.c  **** 	for(int i = 0 ; i < 18 ; i++)
+ 482:ar1000test.c  **** 		printf("0x%.2X: 0x%.4X\n", i, register_values[i]);
+ 483:ar1000test.c  **** }
+ 484:ar1000test.c  **** 
+ 485:ar1000test.c  **** //Reads a memory register from the AR1000
+ 486:ar1000test.c  **** uint16_t ar1000_read(uint8_t address_to_read)
+ 487:ar1000test.c  **** {
+ 488:ar1000test.c  **** 	char byte1 = 0, byte2 = 0;
+ 489:ar1000test.c  **** 	char ack;
+ 490:ar1000test.c  **** 	
+ 491:ar1000test.c  **** AGAIN:
+ 492:ar1000test.c  **** 	i2c_SendStart(); //Send start condition 
+ 493:ar1000test.c  **** 	ack = i2c_SendByte(AR1000_W);	 //Send slave device address with write
+ 494:ar1000test.c  **** 	ack &= i2c_SendByte(address_to_read);	//Send address to read
+ 495:ar1000test.c  **** 	if(ack == 0)
+ 496:ar1000test.c  **** 	{
+ 497:ar1000test.c  **** 		#ifdef I2CDEBUG
+ 498:ar1000test.c  **** 			printf("!"); //No ACK!
+ 499:ar1000test.c  **** 		#endif
+ 500:ar1000test.c  **** 		goto AGAIN;
+ 501:ar1000test.c  **** 	}
+ 502:ar1000test.c  **** 	
+ 503:ar1000test.c  **** 	
+ 504:ar1000test.c  **** 	i2c_SendStart(); //Send start condition 
+ 505:ar1000test.c  **** 	i2c_SendByte(AR1000_R);	 //Ask device to read the value at the requested address
+ 506:ar1000test.c  **** 	
+ 507:ar1000test.c  **** 	if(inb(TWSR) == TW_MR_SLA_ACK)
+ 508:ar1000test.c  **** 	{
+ 509:ar1000test.c  **** 		byte1 = i2c_ReceiveByte(TRUE);
+ 510:ar1000test.c  **** 		byte2 = i2c_ReceiveByte(TRUE);
+ 511:ar1000test.c  **** 	}
+ 512:ar1000test.c  **** 	else
+ 513:ar1000test.c  **** 	{
+ 514:ar1000test.c  **** 		// device did not ACK it's address,
+ 515:ar1000test.c  **** 		// data will not be transferred
+ 516:ar1000test.c  **** 		// return error
+ 517:ar1000test.c  **** 		//retval = I2C_ERROR_NODEV;
+ 518:ar1000test.c  **** 		printf("\n\tAck failed!");
+ 519:ar1000test.c  **** 	}
+ 520:ar1000test.c  **** 
+ 521:ar1000test.c  **** 	i2c_SendStop();
+ 522:ar1000test.c  **** 	
+ 523:ar1000test.c  **** 	//Combine two bytes into one 16-bit word
+ 524:ar1000test.c  **** 	int16_t temp = byte1 << 8;	
+ 525:ar1000test.c  **** 	temp |= byte2;
+ 526:ar1000test.c  **** 	
+ 527:ar1000test.c  **** 	return(temp);
+ 528:ar1000test.c  **** }
+ 529:ar1000test.c  **** 
+ 530:ar1000test.c  **** void ar1000_write(char reg_address, uint16_t reg_value)
+ 531:ar1000test.c  **** {
+ 532:ar1000test.c  **** 	char ack;
+ 533:ar1000test.c  **** 	uint8_t value1 = (reg_value & 0xFF00) >> 8;
+ 534:ar1000test.c  **** 	uint8_t value2 = (reg_value & 0x00FF);
+ 535:ar1000test.c  **** 
+ 536:ar1000test.c  **** AGAIN:
+ 537:ar1000test.c  **** 	i2c_SendStart(); //Send start condition 
+ 538:ar1000test.c  **** 	ack = i2c_SendByte(AR1000_W);	
+ 539:ar1000test.c  **** 	ack &= i2c_SendByte(reg_address); //Send address to write to
+ 540:ar1000test.c  **** 	ack &= i2c_SendByte(value1); //Send the two data bytes to be stored
+ 541:ar1000test.c  **** 	ack &= i2c_SendByte(value2);
+ 542:ar1000test.c  **** 	i2c_SendStop();
+ 543:ar1000test.c  **** 
+ 544:ar1000test.c  **** 	if(ack == 0)
+ 545:ar1000test.c  **** 	{
+ 546:ar1000test.c  **** 		#ifdef I2CDEBUG
+ 547:ar1000test.c  **** 			printf("!"); //No ACK!
+ 548:ar1000test.c  **** 		#endif
+ 549:ar1000test.c  **** 		goto AGAIN;
+ 550:ar1000test.c  **** 	}
+ 551:ar1000test.c  **** }
+ 552:ar1000test.c  **** 
+ 553:ar1000test.c  **** void ar1000_write_array(void)
+ 554:ar1000test.c  **** {
+ 555:ar1000test.c  **** 	// This code writes the array values to the ar1000, it is used to calibrate the ar1000
+ 556:ar1000test.c  **** 	// on power up and it can send the modified array values needed for the seeking tuning etc
+ 557:ar1000test.c  **** 	
+ 558:ar1000test.c  **** 	//The example AR1000 code disables the analog and digital blocks
+ 559:ar1000test.c  **** 	// then write to the 0x01 to 0x11 registers
+ 560:ar1000test.c  **** 	// then enables the analog and digital blocks - so that's what we will do as well
+ 561:ar1000test.c  **** 
+ 562:ar1000test.c  **** 	//Write the first register
+ 563:ar1000test.c  **** 	ar1000_write(0, register_values[0] & 0xFFFE); //<--- Notice we force the enable bit to zero
+ 564:ar1000test.c  **** 
+ 565:ar1000test.c  **** 	for(int i = 1 ; i < 18 ; i++)
+ 566:ar1000test.c  **** 		ar1000_write(i, register_values[i]); //Write registers 1 to 17 to AR1000
+ 567:ar1000test.c  **** 	
+ 568:ar1000test.c  **** 	ar1000_write(0, register_values[0]); //Re-write the first register, this will set the enable bit
+ 569:ar1000test.c  **** }
+ 570:ar1000test.c  **** 
+ 571:ar1000test.c  **** //Reads and prints all 16 registers (16-bits wide) of the AR1000
+ 572:ar1000test.c  **** void ar1000_readall(void)
+ 573:ar1000test.c  **** {
+ 574:ar1000test.c  **** 	uint16_t x, register_value;
+ 575:ar1000test.c  **** 	for(x = 0 ; x < 0x1D ; x++)
+ 576:ar1000test.c  **** 	{
+ 577:ar1000test.c  **** 		register_value = ar1000_read(x);
+ 578:ar1000test.c  **** 		printf("0x%.2X: 0x%.4X\n", x, register_value);
+ 579:ar1000test.c  **** 	}
+ 580:ar1000test.c  **** }
+ 581:ar1000test.c  **** 
+ 582:ar1000test.c  **** void ar1000_init(void)
+ 583:ar1000test.c  **** {
+ 584:ar1000test.c  **** 	delay_ms(100); //Wait for power to stabilize
+ 585:ar1000test.c  **** 	
+ 586:ar1000test.c  **** 	ar1000_write_array(); //Init the AR1000 by writing the initial recommended values
+ 587:ar1000test.c  **** 
+ 588:ar1000test.c  **** 	uint16_t status = 0;
+ 589:ar1000test.c  **** 	while(status == 0)
+ 590:ar1000test.c  **** 	{
+ 591:ar1000test.c  **** 		status = ar1000_read(ADDR_STATUS);
+ 592:ar1000test.c  **** 	
+ 593:ar1000test.c  **** 		printf("\nAR1000 status : 0x%04X", status);
+ 594:ar1000test.c  **** 
+ 595:ar1000test.c  **** 		status = status & MASK_STC;
+ 596:ar1000test.c  **** 		delay_ms(10);
+ 597:ar1000test.c  **** 	}
+ 598:ar1000test.c  **** }
+ 599:ar1000test.c  **** 
+ 600:ar1000test.c  **** //Read the status register (0x13) of the AR1000
+ 601:ar1000test.c  **** void ar1000_status(void)
+ 602:ar1000test.c  **** {
+ 603:ar1000test.c  **** 	uint16_t status;
+ 604:ar1000test.c  **** 	
+ 605:ar1000test.c  **** 	status = ar1000_read(ADDR_STATUS);
+ 606:ar1000test.c  **** 	
+ 607:ar1000test.c  **** 	printf("\n\nAR1000 status : 0x%04X", status);
+ 608:ar1000test.c  **** 	
+ 609:ar1000test.c  **** 	uint16_t channel = status & MASK_READCHAN;
+ 610:ar1000test.c  **** 	channel >>= SHIFT_READCHAN;
+ 611:ar1000test.c  **** 	channel += 690;
+ 612:ar1000test.c  **** 	printf("\nChannel : %02d.%01dMHz", channel / 10, channel % 10);
+ 613:ar1000test.c  **** 	
+ 614:ar1000test.c  **** 	if(status & MASK_STC) 
+ 615:ar1000test.c  **** 		printf(" (Seek/Tune Complete)");
+ 616:ar1000test.c  **** 	else
+ 617:ar1000test.c  **** 		printf(" (Seek/Tune Incomplete)");
+ 618:ar1000test.c  **** 	
+ 619:ar1000test.c  **** 	if(status & MASK_SF) 
+ 620:ar1000test.c  **** 		printf(" (Seek Fail)");
+ 621:ar1000test.c  **** 	else
+ 622:ar1000test.c  **** 		printf(" (Seek Successful)");
+ 623:ar1000test.c  **** 		
+ 624:ar1000test.c  **** 	if(status & MASK_ST) 
+ 625:ar1000test.c  **** 		printf(" (Stereo)");
+ 626:ar1000test.c  **** 	else
+ 627:ar1000test.c  **** 		printf(" (Mono)");
+ 628:ar1000test.c  **** }
+ 629:ar1000test.c  **** 
+ 630:ar1000test.c  **** //Setup for UART and IO pins
+ 631:ar1000test.c  **** void ioinit (void)
+ 632:ar1000test.c  **** {
+ 633:ar1000test.c  **** 	
+ 634:ar1000test.c  **** 	//1 = output, 0 = input
+ 635:ar1000test.c  ****     DDRB = 0b11111111; //All outputs
+ 636:ar1000test.c  ****     DDRC = 0b11111111; //All outputs
+ 637:ar1000test.c  ****     //DDRD = 0b11111110; //PORTD (RX on PD0)
+ 638:ar1000test.c  **** 	stdout = &mystdout; //Required for printf init
+ 639:ar1000test.c  **** 
+ 640:ar1000test.c  **** 	UBRR0H = (MYUBRR) >> 8;
+ 641:ar1000test.c  **** 	UBRR0L = MYUBRR;
+ 642:ar1000test.c  **** 
+ 643:ar1000test.c  **** 	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
+ 644:ar1000test.c  **** 	UCSR0C = (3<<UCSZ00);
+ 645:ar1000test.c  **** 	UCSR0A = (1<<U2X0);
+ 646:ar1000test.c  **** 
+ 647:ar1000test.c  **** 	//Init timer 0 for delay_us timing
+ 648:ar1000test.c  **** 	//8,000,000 / 8 = 1,000,000
+ 649:ar1000test.c  ****     TCCR0B = (1<<CS01); //Set Prescaler to 8. CS01=1
+ 650:ar1000test.c  **** 	
+ 651:ar1000test.c  **** 	//initialize I2C hardware
+ 652:ar1000test.c  **** 	TWCR = 0x00;
+ 653:ar1000test.c  **** 	TWBR = 64;
+ 654:ar1000test.c  **** 	//TWSR = (1 << TWPS1);
+ 655:ar1000test.c  **** 	cbi(TWCR, TWEA);
+ 656:ar1000test.c  **** 	sbi(TWCR, TWEN);
+ 657:ar1000test.c  **** 	
+ 658:ar1000test.c  **** 	ar1000_init(); //Initialize AR1000
+ 659:ar1000test.c  **** }
+ 660:ar1000test.c  **** 
+ 661:ar1000test.c  **** static int uart_putchar(char c, FILE *stream)
+ 662:ar1000test.c  **** {
+  15               		.loc 1 662 0
+  16               		.cfi_startproc
+  17               	.LVL0:
+  18 0000 CF93      		push r28
+  19               	.LCFI0:
+  20               		.cfi_def_cfa_offset 3
+  21               		.cfi_offset 28, -2
+  22               	/* prologue: function */
+  23               	/* frame size = 0 */
+  24               	/* stack size = 1 */
+  25               	.L__stack_usage = 1
+  26 0002 C82F      		mov r28,r24
+ 663:ar1000test.c  ****     if (c == '\n') uart_putchar('\r', stream);
+  27               		.loc 1 663 0
+  28 0004 8A30      		cpi r24,lo8(10)
+  29 0006 01F4      		brne .L3
+  30               		.loc 1 663 0 is_stmt 0 discriminator 1
+  31 0008 8DE0      		ldi r24,lo8(13)
+  32               	.LVL1:
+  33 000a 0E94 0000 		call uart_putchar
+  34               	.LVL2:
+  35               	.L3:
+ 664:ar1000test.c  ****   
+ 665:ar1000test.c  ****     loop_until_bit_is_set(UCSR0A, UDRE0);
+  36               		.loc 1 665 0 is_stmt 1 discriminator 1
+  37 000e 8091 C000 		lds r24,192
+  38 0012 85FF      		sbrs r24,5
+  39 0014 00C0      		rjmp .L3
+ 666:ar1000test.c  ****     UDR0 = c;
+  40               		.loc 1 666 0
+  41 0016 C093 C600 		sts 198,r28
+ 667:ar1000test.c  ****     
+ 668:ar1000test.c  ****     return 0;
+ 669:ar1000test.c  **** }
+  42               		.loc 1 669 0
+  43 001a 80E0      		ldi r24,0
+  44 001c 90E0      		ldi r25,0
+  45               	/* epilogue start */
+  46 001e CF91      		pop r28
+  47               	.LVL3:
+  48 0020 0895      		ret
+  49               		.cfi_endproc
+  50               	.LFE16:
+  52               		.section	.rodata.str1.1,"aMS",@progbits,1
+  53               	.LC0:
+  54 0000 0A0A 4172 		.string	"\n\nArray position: value"
+  54      7261 7920 
+  54      706F 7369 
+  54      7469 6F6E 
+  54      3A20 7661 
+  55               	.LC1:
+  56 0018 3078 252E 		.string	"0x%.2X: 0x%.4X\n"
+  56      3258 3A20 
+  56      3078 252E 
+  56      3458 0A00 
+  57               		.text
+  58               	.global	print_array
+  60               	print_array:
+  61               	.LFB8:
+ 476:ar1000test.c  **** 	//prints the values of the array that is used to control the radio
+  62               		.loc 1 476 0
+  63               		.cfi_startproc
+  64 0022 EF92      		push r14
+  65               	.LCFI1:
+  66               		.cfi_def_cfa_offset 3
+  67               		.cfi_offset 14, -2
+  68 0024 FF92      		push r15
+  69               	.LCFI2:
+  70               		.cfi_def_cfa_offset 4
+  71               		.cfi_offset 15, -3
+  72 0026 0F93      		push r16
+  73               	.LCFI3:
+  74               		.cfi_def_cfa_offset 5
+  75               		.cfi_offset 16, -4
+  76 0028 1F93      		push r17
+  77               	.LCFI4:
+  78               		.cfi_def_cfa_offset 6
+  79               		.cfi_offset 17, -5
+  80 002a CF93      		push r28
+  81               	.LCFI5:
+  82               		.cfi_def_cfa_offset 7
+  83               		.cfi_offset 28, -6
+  84 002c DF93      		push r29
+  85               	.LCFI6:
+  86               		.cfi_def_cfa_offset 8
+  87               		.cfi_offset 29, -7
+  88               	/* prologue: function */
+  89               	/* frame size = 0 */
+  90               	/* stack size = 6 */
+  91               	.L__stack_usage = 6
+ 479:ar1000test.c  **** 
+  92               		.loc 1 479 0
+  93 002e 80E0      		ldi r24,lo8(.LC0)
+  94 0030 90E0      		ldi r25,hi8(.LC0)
+  95 0032 0E94 0000 		call puts
+  96               	.LVL4:
+  97 0036 00E0      		ldi r16,lo8(register_values)
+  98 0038 10E0      		ldi r17,hi8(register_values)
+  99               	.LBB6:
+ 481:ar1000test.c  **** 		printf("0x%.2X: 0x%.4X\n", i, register_values[i]);
+ 100               		.loc 1 481 0
+ 101 003a C0E0      		ldi r28,0
+ 102 003c D0E0      		ldi r29,0
+ 482:ar1000test.c  **** }
+ 103               		.loc 1 482 0
+ 104 003e 80E0      		ldi r24,lo8(.LC1)
+ 105 0040 E82E      		mov r14,r24
+ 106 0042 80E0      		ldi r24,hi8(.LC1)
+ 107 0044 F82E      		mov r15,r24
+ 108               	.LVL5:
+ 109               	.L8:
+ 482:ar1000test.c  **** }
+ 110               		.loc 1 482 0 is_stmt 0 discriminator 3
+ 111 0046 F801      		movw r30,r16
+ 112 0048 8081      		ld r24,Z
+ 113 004a 9181      		ldd r25,Z+1
+ 114 004c 0E5F      		subi r16,-2
+ 115 004e 1F4F      		sbci r17,-1
+ 116 0050 9F93      		push r25
+ 117               	.LCFI7:
+ 118               		.cfi_def_cfa_offset 9
+ 119 0052 8F93      		push r24
+ 120               	.LCFI8:
+ 121               		.cfi_def_cfa_offset 10
+ 122 0054 DF93      		push r29
+ 123               	.LCFI9:
+ 124               		.cfi_def_cfa_offset 11
+ 125 0056 CF93      		push r28
+ 126               	.LCFI10:
+ 127               		.cfi_def_cfa_offset 12
+ 128 0058 FF92      		push r15
+ 129               	.LCFI11:
+ 130               		.cfi_def_cfa_offset 13
+ 131 005a EF92      		push r14
+ 132               	.LCFI12:
+ 133               		.cfi_def_cfa_offset 14
+ 134 005c 0E94 0000 		call printf
+ 135               	.LVL6:
+ 481:ar1000test.c  **** 		printf("0x%.2X: 0x%.4X\n", i, register_values[i]);
+ 136               		.loc 1 481 0 is_stmt 1 discriminator 3
+ 137 0060 2196      		adiw r28,1
+ 138               	.LVL7:
+ 139 0062 0F90      		pop __tmp_reg__
+ 140 0064 0F90      		pop __tmp_reg__
+ 141 0066 0F90      		pop __tmp_reg__
+ 142 0068 0F90      		pop __tmp_reg__
+ 143 006a 0F90      		pop __tmp_reg__
+ 144 006c 0F90      		pop __tmp_reg__
+ 145               	.LCFI13:
+ 146               		.cfi_def_cfa_offset 8
+ 147 006e C231      		cpi r28,18
+ 148 0070 D105      		cpc r29,__zero_reg__
+ 149 0072 01F4      		brne .L8
+ 150               	/* epilogue start */
+ 151               	.LBE6:
+ 483:ar1000test.c  **** 
+ 152               		.loc 1 483 0
+ 153 0074 DF91      		pop r29
+ 154 0076 CF91      		pop r28
+ 155               	.LVL8:
+ 156 0078 1F91      		pop r17
+ 157 007a 0F91      		pop r16
+ 158 007c FF90      		pop r15
+ 159 007e EF90      		pop r14
+ 160 0080 0895      		ret
+ 161               		.cfi_endproc
+ 162               	.LFE8:
+ 164               	.global	uart_getchar
+ 166               	uart_getchar:
+ 167               	.LFB17:
+ 670:ar1000test.c  **** 
+ 671:ar1000test.c  **** uint8_t uart_getchar(void)
+ 672:ar1000test.c  **** {
+ 168               		.loc 1 672 0
+ 169               		.cfi_startproc
+ 170               	/* prologue: function */
+ 171               	/* frame size = 0 */
+ 172               	/* stack size = 0 */
+ 173               	.L__stack_usage = 0
+ 174               	.L11:
+ 673:ar1000test.c  ****     while( !(UCSR0A & (1<<RXC0)) );
+ 175               		.loc 1 673 0 discriminator 1
+ 176 0082 8091 C000 		lds r24,192
+ 177 0086 87FF      		sbrs r24,7
+ 178 0088 00C0      		rjmp .L11
+ 674:ar1000test.c  ****     return(UDR0);
+ 179               		.loc 1 674 0
+ 180 008a 8091 C600 		lds r24,198
+ 675:ar1000test.c  **** }
+ 181               		.loc 1 675 0
+ 182 008e 0895      		ret
+ 183               		.cfi_endproc
+ 184               	.LFE17:
+ 186               	.global	uart_gethex
+ 188               	uart_gethex:
+ 189               	.LFB18:
+ 676:ar1000test.c  **** 
+ 677:ar1000test.c  **** //Reads in ASCII characters, converts to decimal and returns decimal variable
+ 678:ar1000test.c  **** //length_to_read is how many characters we want to read, "A33C" would be four characters long
+ 679:ar1000test.c  **** int uart_gethex(uint8_t length_to_read)
+ 680:ar1000test.c  **** {
+ 190               		.loc 1 680 0
+ 191               		.cfi_startproc
+ 192               	.LVL9:
+ 193 0090 DF92      		push r13
+ 194               	.LCFI14:
+ 195               		.cfi_def_cfa_offset 3
+ 196               		.cfi_offset 13, -2
+ 197 0092 EF92      		push r14
+ 198               	.LCFI15:
+ 199               		.cfi_def_cfa_offset 4
+ 200               		.cfi_offset 14, -3
+ 201 0094 FF92      		push r15
+ 202               	.LCFI16:
+ 203               		.cfi_def_cfa_offset 5
+ 204               		.cfi_offset 15, -4
+ 205 0096 0F93      		push r16
+ 206               	.LCFI17:
+ 207               		.cfi_def_cfa_offset 6
+ 208               		.cfi_offset 16, -5
+ 209 0098 1F93      		push r17
+ 210               	.LCFI18:
+ 211               		.cfi_def_cfa_offset 7
+ 212               		.cfi_offset 17, -6
+ 213 009a CF93      		push r28
+ 214               	.LCFI19:
+ 215               		.cfi_def_cfa_offset 8
+ 216               		.cfi_offset 28, -7
+ 217 009c DF93      		push r29
+ 218               	.LCFI20:
+ 219               		.cfi_def_cfa_offset 9
+ 220               		.cfi_offset 29, -8
+ 221               	/* prologue: function */
+ 222               	/* frame size = 0 */
+ 223               	/* stack size = 7 */
+ 224               	.L__stack_usage = 7
+ 225 009e D82E      		mov r13,r24
+ 226               	.LVL10:
+ 227               	.LBB7:
+ 681:ar1000test.c  **** 	int decimal_value = 0;
+ 682:ar1000test.c  **** 	unsigned char input_character;
+ 683:ar1000test.c  **** 
+ 684:ar1000test.c  **** 	for(uint8_t x = 0 ; x < length_to_read ; x++)
+ 228               		.loc 1 684 0
+ 229 00a0 E12C      		mov r14,__zero_reg__
+ 230               	.LBE7:
+ 681:ar1000test.c  **** 	int decimal_value = 0;
+ 231               		.loc 1 681 0
+ 232 00a2 20E0      		ldi r18,0
+ 233 00a4 30E0      		ldi r19,0
+ 234               	.LVL11:
+ 235               	.L14:
+ 236               	.LBB8:
+ 237               		.loc 1 684 0 discriminator 1
+ 238 00a6 ED14      		cp r14,r13
+ 239 00a8 01F0      		breq .L21
+ 685:ar1000test.c  **** 	{
+ 686:ar1000test.c  **** 		decimal_value <<= 4; //Every time we loop, make room for another 4-bit hex value to be masked int
+ 240               		.loc 1 686 0
+ 241 00aa E901      		movw r28,r18
+ 242 00ac 84E0      		ldi r24,4
+ 243               		1:
+ 244 00ae CC0F      		lsl r28
+ 245 00b0 DD1F      		rol r29
+ 246 00b2 8A95      		dec r24
+ 247 00b4 01F4      		brne 1b
+ 248               	.LVL12:
+ 687:ar1000test.c  **** 		
+ 688:ar1000test.c  **** 		input_character = uart_getchar();
+ 249               		.loc 1 688 0
+ 250 00b6 0E94 0000 		call uart_getchar
+ 251               	.LVL13:
+ 252 00ba F82E      		mov r15,r24
+ 253               	.LVL14:
+ 689:ar1000test.c  **** 		printf("%c", input_character);	
+ 254               		.loc 1 689 0
+ 255 00bc 082F      		mov r16,r24
+ 256 00be 10E0      		ldi r17,0
+ 257 00c0 C801      		movw r24,r16
+ 258 00c2 0E94 0000 		call putchar
+ 259               	.LVL15:
+ 690:ar1000test.c  **** 
+ 691:ar1000test.c  **** 		//Check the character for validity
+ 692:ar1000test.c  **** 		if( (input_character >= '0') && (input_character <= '9') ) 
+ 260               		.loc 1 692 0
+ 261 00c6 80ED      		ldi r24,lo8(-48)
+ 262 00c8 8F0D      		add r24,r15
+ 263 00ca 8A30      		cpi r24,lo8(10)
+ 264 00cc 00F4      		brsh .L15
+ 693:ar1000test.c  **** 			decimal_value |= (input_character - '0');
+ 265               		.loc 1 693 0
+ 266 00ce 9801      		movw r18,r16
+ 267 00d0 2053      		subi r18,48
+ 268 00d2 3109      		sbc r19,__zero_reg__
+ 269 00d4 00C0      		rjmp .L20
+ 270               	.L15:
+ 694:ar1000test.c  **** 		
+ 695:ar1000test.c  **** 		else if( (input_character >= 'a') && (input_character <= 'f') )
+ 271               		.loc 1 695 0
+ 272 00d6 8FE9      		ldi r24,lo8(-97)
+ 273 00d8 8F0D      		add r24,r15
+ 274 00da 8630      		cpi r24,lo8(6)
+ 275 00dc 00F4      		brsh .L19
+ 696:ar1000test.c  **** 			decimal_value |= (input_character - 'a');
+ 276               		.loc 1 696 0
+ 277 00de 9801      		movw r18,r16
+ 278 00e0 2156      		subi r18,97
+ 279 00e2 3109      		sbc r19,__zero_reg__
+ 280               	.L20:
+ 281 00e4 2C2B      		or r18,r28
+ 282 00e6 3D2B      		or r19,r29
+ 283               	.LVL16:
+ 684:ar1000test.c  **** 	{
+ 284               		.loc 1 684 0
+ 285 00e8 E394      		inc r14
+ 286               	.LVL17:
+ 287 00ea 00C0      		rjmp .L14
+ 288               	.LVL18:
+ 289               	.L21:
+ 290 00ec C901      		movw r24,r18
+ 291 00ee 00C0      		rjmp .L17
+ 292               	.LVL19:
+ 293               	.L19:
+ 697:ar1000test.c  **** 		
+ 698:ar1000test.c  **** 		else
+ 699:ar1000test.c  **** 		{
+ 700:ar1000test.c  **** 			//We have a non-legal character. Handle the exception however you want
+ 701:ar1000test.c  **** 			return(0);
+ 294               		.loc 1 701 0
+ 295 00f0 80E0      		ldi r24,0
+ 296 00f2 90E0      		ldi r25,0
+ 297               	.LVL20:
+ 298               	.L17:
+ 299               	/* epilogue start */
+ 300               	.LBE8:
+ 702:ar1000test.c  **** 		}
+ 703:ar1000test.c  **** 	}
+ 704:ar1000test.c  **** 
+ 705:ar1000test.c  **** 	return(decimal_value);
+ 706:ar1000test.c  **** }
+ 301               		.loc 1 706 0
+ 302 00f4 DF91      		pop r29
+ 303 00f6 CF91      		pop r28
+ 304 00f8 1F91      		pop r17
+ 305 00fa 0F91      		pop r16
+ 306 00fc FF90      		pop r15
+ 307 00fe EF90      		pop r14
+ 308               	.LVL21:
+ 309 0100 DF90      		pop r13
+ 310               	.LVL22:
+ 311 0102 0895      		ret
+ 312               		.cfi_endproc
+ 313               	.LFE18:
+ 315               		.section	.rodata.str1.1
+ 316               	.LC2:
+ 317 0028 0A0A 4172 		.string	"\n\nArray Address (2 digit hex value): "
+ 317      7261 7920 
+ 317      4164 6472 
+ 317      6573 7320 
+ 317      2832 2064 
+ 318               	.LC3:
+ 319 004e 0A41 7272 		.string	"\nArray Address is: %x"
+ 319      6179 2041 
+ 319      6464 7265 
+ 319      7373 2069 
+ 319      733A 2025 
+ 320               	.LC4:
+ 321 0064 0A0A 4172 		.string	"\n\nArray value (4 digit hex value): "
+ 321      7261 7920 
+ 321      7661 6C75 
+ 321      6520 2834 
+ 321      2064 6967 
+ 322               	.LC5:
+ 323 0088 0A41 7272 		.string	"\nArray value is: %x"
+ 323      6179 2076 
+ 323      616C 7565 
+ 323      2069 733A 
+ 323      2025 7800 
+ 324               		.text
+ 325               	.global	set_array_value
+ 327               	set_array_value:
+ 328               	.LFB7:
+ 460:ar1000test.c  **** 	uint8_t array_address;
+ 329               		.loc 1 460 0
+ 330               		.cfi_startproc
+ 331 0104 0F93      		push r16
+ 332               	.LCFI21:
+ 333               		.cfi_def_cfa_offset 3
+ 334               		.cfi_offset 16, -2
+ 335 0106 1F93      		push r17
+ 336               	.LCFI22:
+ 337               		.cfi_def_cfa_offset 4
+ 338               		.cfi_offset 17, -3
+ 339 0108 CF93      		push r28
+ 340               	.LCFI23:
+ 341               		.cfi_def_cfa_offset 5
+ 342               		.cfi_offset 28, -4
+ 343 010a DF93      		push r29
+ 344               	.LCFI24:
+ 345               		.cfi_def_cfa_offset 6
+ 346               		.cfi_offset 29, -5
+ 347               	/* prologue: function */
+ 348               	/* frame size = 0 */
+ 349               	/* stack size = 4 */
+ 350               	.L__stack_usage = 4
+ 464:ar1000test.c  **** 	array_address = uart_gethex(2);
+ 351               		.loc 1 464 0
+ 352 010c 80E0      		ldi r24,lo8(.LC2)
+ 353 010e 90E0      		ldi r25,hi8(.LC2)
+ 354 0110 9F93      		push r25
+ 355               	.LCFI25:
+ 356               		.cfi_def_cfa_offset 7
+ 357 0112 8F93      		push r24
+ 358               	.LCFI26:
+ 359               		.cfi_def_cfa_offset 8
+ 360 0114 0E94 0000 		call printf
+ 361               	.LVL23:
+ 465:ar1000test.c  **** 	printf("\nArray Address is: %x", array_address);
+ 362               		.loc 1 465 0
+ 363 0118 82E0      		ldi r24,lo8(2)
+ 364 011a 0E94 0000 		call uart_gethex
+ 365               	.LVL24:
+ 366 011e EC01      		movw r28,r24
+ 367 0120 DD27      		clr r29
+ 466:ar1000test.c  ****     
+ 368               		.loc 1 466 0
+ 369 0122 DF93      		push r29
+ 370               	.LCFI27:
+ 371               		.cfi_def_cfa_offset 9
+ 372 0124 CF93      		push r28
+ 373               	.LCFI28:
+ 374               		.cfi_def_cfa_offset 10
+ 375 0126 80E0      		ldi r24,lo8(.LC3)
+ 376 0128 90E0      		ldi r25,hi8(.LC3)
+ 377               	.LVL25:
+ 378 012a 9F93      		push r25
+ 379               	.LCFI29:
+ 380               		.cfi_def_cfa_offset 11
+ 381 012c 8F93      		push r24
+ 382               	.LCFI30:
+ 383               		.cfi_def_cfa_offset 12
+ 384 012e 0E94 0000 		call printf
+ 385               	.LVL26:
+ 468:ar1000test.c  **** 	array_value = uart_gethex(4);
+ 386               		.loc 1 468 0
+ 387 0132 80E0      		ldi r24,lo8(.LC4)
+ 388 0134 90E0      		ldi r25,hi8(.LC4)
+ 389 0136 9F93      		push r25
+ 390               	.LCFI31:
+ 391               		.cfi_def_cfa_offset 13
+ 392 0138 8F93      		push r24
+ 393               	.LCFI32:
+ 394               		.cfi_def_cfa_offset 14
+ 395 013a 0E94 0000 		call printf
+ 396               	.LVL27:
+ 469:ar1000test.c  ****     printf("\nArray value is: %x", array_value);
+ 397               		.loc 1 469 0
+ 398 013e 84E0      		ldi r24,lo8(4)
+ 399 0140 0E94 0000 		call uart_gethex
+ 400               	.LVL28:
+ 401 0144 8C01      		movw r16,r24
+ 402               	.LVL29:
+ 470:ar1000test.c  ****     
+ 403               		.loc 1 470 0
+ 404 0146 1F93      		push r17
+ 405               	.LCFI33:
+ 406               		.cfi_def_cfa_offset 15
+ 407 0148 8F93      		push r24
+ 408               	.LCFI34:
+ 409               		.cfi_def_cfa_offset 16
+ 410 014a 80E0      		ldi r24,lo8(.LC5)
+ 411 014c 90E0      		ldi r25,hi8(.LC5)
+ 412               	.LVL30:
+ 413 014e 9F93      		push r25
+ 414               	.LCFI35:
+ 415               		.cfi_def_cfa_offset 17
+ 416 0150 8F93      		push r24
+ 417               	.LCFI36:
+ 418               		.cfi_def_cfa_offset 18
+ 419 0152 0E94 0000 		call printf
+ 420               	.LVL31:
+ 472:ar1000test.c  **** }
+ 421               		.loc 1 472 0
+ 422 0156 CC0F      		lsl r28
+ 423 0158 DD1F      		rol r29
+ 424 015a C050      		subi r28,lo8(-(register_values))
+ 425 015c D040      		sbci r29,hi8(-(register_values))
+ 426 015e 0883      		st Y,r16
+ 427 0160 1983      		std Y+1,r17
+ 473:ar1000test.c  **** 
+ 428               		.loc 1 473 0
+ 429 0162 8DB7      		in r24,__SP_L__
+ 430 0164 9EB7      		in r25,__SP_H__
+ 431 0166 0C96      		adiw r24,12
+ 432 0168 0FB6      		in __tmp_reg__,__SREG__
+ 433 016a F894      		cli
+ 434 016c 9EBF      		out __SP_H__,r25
+ 435 016e 0FBE      		out __SREG__,__tmp_reg__
+ 436 0170 8DBF      		out __SP_L__,r24
+ 437               	.LCFI37:
+ 438               		.cfi_def_cfa_offset 6
+ 439               	/* epilogue start */
+ 440 0172 DF91      		pop r29
+ 441 0174 CF91      		pop r28
+ 442 0176 1F91      		pop r17
+ 443 0178 0F91      		pop r16
+ 444 017a 0895      		ret
+ 445               		.cfi_endproc
+ 446               	.LFE7:
+ 448               	.global	delay_us
+ 450               	delay_us:
+ 451               	.LFB19:
+ 707:ar1000test.c  **** 
+ 708:ar1000test.c  **** //General short delays
+ 709:ar1000test.c  **** //general short delays
+ 710:ar1000test.c  **** //Uses internal timer do a fairly accurate 1us
+ 711:ar1000test.c  **** //Because we are using 16MHz and a prescalar of 8 on Timer0, we have to double x
+ 712:ar1000test.c  **** void delay_us(uint16_t x)
+ 713:ar1000test.c  **** {
+ 452               		.loc 1 713 0
+ 453               		.cfi_startproc
+ 454               	.LVL32:
+ 455               	/* prologue: function */
+ 456               	/* frame size = 0 */
+ 457               	/* stack size = 0 */
+ 458               	.L__stack_usage = 0
+ 714:ar1000test.c  **** 	while(x > 256)
+ 715:ar1000test.c  **** 	{
+ 716:ar1000test.c  **** 		TIFR0 = (1<<TOV0); //Clear any interrupt flags on Timer0
+ 459               		.loc 1 716 0
+ 460 017c 21E0      		ldi r18,lo8(1)
+ 461               	.L24:
+ 714:ar1000test.c  **** 	while(x > 256)
+ 462               		.loc 1 714 0
+ 463 017e 8130      		cpi r24,1
+ 464 0180 31E0      		ldi r19,1
+ 465 0182 9307      		cpc r25,r19
+ 466 0184 00F0      		brlo .L32
+ 467               		.loc 1 716 0
+ 468 0186 25BB      		out 0x15,r18
+ 717:ar1000test.c  **** 		TCNT0 = 0; //Preload Timer0 for 256 clicks. Should be 1us per click
+ 469               		.loc 1 717 0
+ 470 0188 16BC      		out 0x26,__zero_reg__
+ 471               	.L25:
+ 718:ar1000test.c  **** 		while( (TIFR0 & (1<<TOV0)) == 0);
+ 472               		.loc 1 718 0 discriminator 1
+ 473 018a A89B      		sbis 0x15,0
+ 474 018c 00C0      		rjmp .L25
+ 719:ar1000test.c  **** 		
+ 720:ar1000test.c  **** 		x -= 256;
+ 475               		.loc 1 720 0
+ 476 018e 9A95      		dec r25
+ 477               	.LVL33:
+ 478 0190 00C0      		rjmp .L24
+ 479               	.L32:
+ 721:ar1000test.c  **** 	}
+ 722:ar1000test.c  **** 
+ 723:ar1000test.c  **** 	TIFR0 = (1<<TOV0); //Clear any interrupt flags on Timer0
+ 480               		.loc 1 723 0
+ 481 0192 91E0      		ldi r25,lo8(1)
+ 482 0194 95BB      		out 0x15,r25
+ 724:ar1000test.c  **** 	TCNT0 = 256 - x; //256 - 125 = 131 : Preload Timer0 for x clicks. Should be 1us per click
+ 483               		.loc 1 724 0
+ 484 0196 8195      		neg r24
+ 485               	.LVL34:
+ 486 0198 86BD      		out 0x26,r24
+ 487               	.L27:
+ 725:ar1000test.c  **** 	while( (TIFR0 & (1<<TOV0)) == 0);
+ 488               		.loc 1 725 0 discriminator 1
+ 489 019a A89B      		sbis 0x15,0
+ 490 019c 00C0      		rjmp .L27
+ 491               	/* epilogue start */
+ 726:ar1000test.c  **** }
+ 492               		.loc 1 726 0
+ 493 019e 0895      		ret
+ 494               		.cfi_endproc
+ 495               	.LFE19:
+ 497               	.global	delay_ms
+ 499               	delay_ms:
+ 500               	.LFB20:
+ 727:ar1000test.c  **** 
+ 728:ar1000test.c  **** //General short delays
+ 729:ar1000test.c  **** void delay_ms(uint16_t x)
+ 730:ar1000test.c  **** {
+ 501               		.loc 1 730 0
+ 502               		.cfi_startproc
+ 503               	.LVL35:
+ 504 01a0 CF93      		push r28
+ 505               	.LCFI38:
+ 506               		.cfi_def_cfa_offset 3
+ 507               		.cfi_offset 28, -2
+ 508 01a2 DF93      		push r29
+ 509               	.LCFI39:
+ 510               		.cfi_def_cfa_offset 4
+ 511               		.cfi_offset 29, -3
+ 512               	/* prologue: function */
+ 513               	/* frame size = 0 */
+ 514               	/* stack size = 2 */
+ 515               	.L__stack_usage = 2
+ 516 01a4 EC01      		movw r28,r24
+ 517               	.LVL36:
+ 518               	.L34:
+ 731:ar1000test.c  **** 	for ( ; x > 0 ; x--)
+ 519               		.loc 1 731 0 discriminator 1
+ 520 01a6 2097      		sbiw r28,0
+ 521 01a8 01F0      		breq .L36
+ 732:ar1000test.c  **** 		delay_us(1000);
+ 522               		.loc 1 732 0 discriminator 2
+ 523 01aa 88EE      		ldi r24,lo8(-24)
+ 524 01ac 93E0      		ldi r25,lo8(3)
+ 525 01ae 0E94 0000 		call delay_us
+ 526               	.LVL37:
+ 731:ar1000test.c  **** 	for ( ; x > 0 ; x--)
+ 527               		.loc 1 731 0 discriminator 2
+ 528 01b2 2197      		sbiw r28,1
+ 529               	.LVL38:
+ 530 01b4 00C0      		rjmp .L34
+ 531               	.L36:
+ 532               	/* epilogue start */
+ 733:ar1000test.c  **** }
+ 533               		.loc 1 733 0
+ 534 01b6 DF91      		pop r29
+ 535 01b8 CF91      		pop r28
+ 536               	.LVL39:
+ 537 01ba 0895      		ret
+ 538               		.cfi_endproc
+ 539               	.LFE20:
+ 541               	.global	i2c_SendStop
+ 543               	i2c_SendStop:
+ 544               	.LFB22:
+ 734:ar1000test.c  **** 
+ 735:ar1000test.c  **** //==========================
+ 736:ar1000test.c  **** //
+ 737:ar1000test.c  **** //I2C functions
+ 738:ar1000test.c  **** //
+ 739:ar1000test.c  **** //==========================
+ 740:ar1000test.c  **** 
+ 741:ar1000test.c  **** void i2c_SendStart(void)
+ 742:ar1000test.c  **** {
+ 743:ar1000test.c  **** 	// send start condition
+ 744:ar1000test.c  **** 	TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
+ 745:ar1000test.c  **** 
+ 746:ar1000test.c  **** 	i2c_WaitForComplete();
+ 747:ar1000test.c  **** }
+ 748:ar1000test.c  **** 
+ 749:ar1000test.c  **** void i2c_SendStop(void)
+ 750:ar1000test.c  **** {
+ 545               		.loc 1 750 0
+ 546               		.cfi_startproc
+ 547               	/* prologue: function */
+ 548               	/* frame size = 0 */
+ 549               	/* stack size = 0 */
+ 550               	.L__stack_usage = 0
+ 751:ar1000test.c  **** 	// transmit stop condition
+ 752:ar1000test.c  **** 	TWCR = (1<<TWSTO);
+ 551               		.loc 1 752 0
+ 552 01bc 80E1      		ldi r24,lo8(16)
+ 553 01be 8093 BC00 		sts 188,r24
+ 554 01c2 0895      		ret
+ 555               		.cfi_endproc
+ 556               	.LFE22:
+ 558               	.global	i2c_WaitForComplete
+ 560               	i2c_WaitForComplete:
+ 561               	.LFB23:
+ 753:ar1000test.c  **** }
+ 754:ar1000test.c  **** 
+ 755:ar1000test.c  **** void i2c_WaitForComplete(void)
+ 756:ar1000test.c  **** {
+ 562               		.loc 1 756 0
+ 563               		.cfi_startproc
+ 564               	/* prologue: function */
+ 565               	/* frame size = 0 */
+ 566               	/* stack size = 0 */
+ 567               	.L__stack_usage = 0
+ 568               	.L39:
+ 757:ar1000test.c  **** 	// wait for any previous i2c stuff to complete before sending new data
+ 758:ar1000test.c  **** 	while (!(TWCR & (1<<TWINT)));
+ 569               		.loc 1 758 0 discriminator 1
+ 570 01c4 8091 BC00 		lds r24,188
+ 571 01c8 87FF      		sbrs r24,7
+ 572 01ca 00C0      		rjmp .L39
+ 573               	/* epilogue start */
+ 759:ar1000test.c  **** }
+ 574               		.loc 1 759 0
+ 575 01cc 0895      		ret
+ 576               		.cfi_endproc
+ 577               	.LFE23:
+ 579               	.global	i2c_SendStart
+ 581               	i2c_SendStart:
+ 582               	.LFB21:
+ 742:ar1000test.c  **** 	// send start condition
+ 583               		.loc 1 742 0
+ 584               		.cfi_startproc
+ 585               	/* prologue: function */
+ 586               	/* frame size = 0 */
+ 587               	/* stack size = 0 */
+ 588               	.L__stack_usage = 0
+ 744:ar1000test.c  **** 
+ 589               		.loc 1 744 0
+ 590 01ce 84EA      		ldi r24,lo8(-92)
+ 591 01d0 8093 BC00 		sts 188,r24
+ 746:ar1000test.c  **** }
+ 592               		.loc 1 746 0
+ 593 01d4 0C94 0000 		jmp i2c_WaitForComplete
+ 594               	.LVL40:
+ 595               		.cfi_endproc
+ 596               	.LFE21:
+ 598               	.global	i2c_SendByte
+ 600               	i2c_SendByte:
+ 601               	.LFB24:
+ 760:ar1000test.c  **** 
+ 761:ar1000test.c  **** unsigned char i2c_SendByte(unsigned char data)
+ 762:ar1000test.c  **** {
+ 602               		.loc 1 762 0
+ 603               		.cfi_startproc
+ 604               	.LVL41:
+ 605               	/* prologue: function */
+ 606               	/* frame size = 0 */
+ 607               	/* stack size = 0 */
+ 608               	.L__stack_usage = 0
+ 763:ar1000test.c  **** 	// save data to the TWDR
+ 764:ar1000test.c  **** 	TWDR = data;
+ 609               		.loc 1 764 0
+ 610 01d8 8093 BB00 		sts 187,r24
+ 765:ar1000test.c  **** 	// begin send
+ 766:ar1000test.c  **** 	TWCR = (1<<TWINT)|(1<<TWEN);
+ 611               		.loc 1 766 0
+ 612 01dc 84E8      		ldi r24,lo8(-124)
+ 613               	.LVL42:
+ 614 01de 8093 BC00 		sts 188,r24
+ 615               	.LVL43:
+ 616               	.L43:
+ 767:ar1000test.c  **** 
+ 768:ar1000test.c  **** 	// wait until transmission completed
+ 769:ar1000test.c  **** 	while(!(TWCR & (1<<TWINT)));
+ 617               		.loc 1 769 0 discriminator 1
+ 618 01e2 8091 BC00 		lds r24,188
+ 619 01e6 87FF      		sbrs r24,7
+ 620 01e8 00C0      		rjmp .L43
+ 770:ar1000test.c  **** 
+ 771:ar1000test.c  **** 	// check value of TWI Status Register. Mask prescaler bits
+ 772:ar1000test.c  **** 	uint8_t twst = TWSR & 0xF8;
+ 621               		.loc 1 772 0
+ 622 01ea 9091 B900 		lds r25,185
+ 623 01ee 987F      		andi r25,lo8(-8)
+ 624               	.LVL44:
+ 773:ar1000test.c  **** 	
+ 774:ar1000test.c  **** 	#ifdef I2CDEBUG
+ 775:ar1000test.c  **** 		printf("twst: 0x%02X\n\n", twst);
+ 776:ar1000test.c  **** 	#endif
+ 777:ar1000test.c  **** 	
+ 778:ar1000test.c  **** 	if( twst == 0x18) return 1; //SKA+W was tranmitted, ACK received
+ 625               		.loc 1 778 0
+ 626 01f0 81E0      		ldi r24,lo8(1)
+ 627 01f2 9831      		cpi r25,lo8(24)
+ 628 01f4 01F0      		breq .L44
+ 629 01f6 9832      		cpi r25,lo8(40)
+ 630 01f8 01F0      		breq .L44
+ 631 01fa 80E0      		ldi r24,0
+ 632 01fc 0895      		ret
+ 633               	.L44:
+ 779:ar1000test.c  **** 	if( twst == 0x28) return 1; //Data was tranmitted, ACK received
+ 780:ar1000test.c  **** 	return 0;
+ 781:ar1000test.c  **** }
+ 634               		.loc 1 781 0
+ 635 01fe 0895      		ret
+ 636               		.cfi_endproc
+ 637               	.LFE24:
+ 639               	.global	ar1000_write
+ 641               	ar1000_write:
+ 642               	.LFB10:
+ 531:ar1000test.c  **** 	char ack;
+ 643               		.loc 1 531 0
+ 644               		.cfi_startproc
+ 645               	.LVL45:
+ 646 0200 FF92      		push r15
+ 647               	.LCFI40:
+ 648               		.cfi_def_cfa_offset 3
+ 649               		.cfi_offset 15, -2
+ 650 0202 0F93      		push r16
+ 651               	.LCFI41:
+ 652               		.cfi_def_cfa_offset 4
+ 653               		.cfi_offset 16, -3
+ 654 0204 1F93      		push r17
+ 655               	.LCFI42:
+ 656               		.cfi_def_cfa_offset 5
+ 657               		.cfi_offset 17, -4
+ 658 0206 CF93      		push r28
+ 659               	.LCFI43:
+ 660               		.cfi_def_cfa_offset 6
+ 661               		.cfi_offset 28, -5
+ 662 0208 DF93      		push r29
+ 663               	.LCFI44:
+ 664               		.cfi_def_cfa_offset 7
+ 665               		.cfi_offset 29, -6
+ 666               	/* prologue: function */
+ 667               	/* frame size = 0 */
+ 668               	/* stack size = 5 */
+ 669               	.L__stack_usage = 5
+ 670 020a F82E      		mov r15,r24
+ 671 020c 162F      		mov r17,r22
+ 672 020e 072F      		mov r16,r23
+ 673               	.LVL46:
+ 674               	.LBB9:
+ 675               	.LBB10:
+ 752:ar1000test.c  **** }
+ 676               		.loc 1 752 0
+ 677 0210 D0E1      		ldi r29,lo8(16)
+ 678               	.LVL47:
+ 679               	.L52:
+ 680               	.LBE10:
+ 681               	.LBE9:
+ 537:ar1000test.c  **** 	ack = i2c_SendByte(AR1000_W);	
+ 682               		.loc 1 537 0 discriminator 1
+ 683 0212 0E94 0000 		call i2c_SendStart
+ 684               	.LVL48:
+ 538:ar1000test.c  **** 	ack &= i2c_SendByte(reg_address); //Send address to write to
+ 685               		.loc 1 538 0 discriminator 1
+ 686 0216 80E2      		ldi r24,lo8(32)
+ 687 0218 0E94 0000 		call i2c_SendByte
+ 688               	.LVL49:
+ 689 021c C82F      		mov r28,r24
+ 690               	.LVL50:
+ 539:ar1000test.c  **** 	ack &= i2c_SendByte(value1); //Send the two data bytes to be stored
+ 691               		.loc 1 539 0 discriminator 1
+ 692 021e 8F2D      		mov r24,r15
+ 693               	.LVL51:
+ 694 0220 0E94 0000 		call i2c_SendByte
+ 695               	.LVL52:
+ 696 0224 C823      		and r28,r24
+ 697               	.LVL53:
+ 540:ar1000test.c  **** 	ack &= i2c_SendByte(value2);
+ 698               		.loc 1 540 0 discriminator 1
+ 699 0226 802F      		mov r24,r16
+ 700 0228 0E94 0000 		call i2c_SendByte
+ 701               	.LVL54:
+ 702 022c C823      		and r28,r24
+ 703               	.LVL55:
+ 541:ar1000test.c  **** 	i2c_SendStop();
+ 704               		.loc 1 541 0 discriminator 1
+ 705 022e 812F      		mov r24,r17
+ 706 0230 0E94 0000 		call i2c_SendByte
+ 707               	.LVL56:
+ 708               	.LBB12:
+ 709               	.LBB11:
+ 752:ar1000test.c  **** }
+ 710               		.loc 1 752 0 discriminator 1
+ 711 0234 D093 BC00 		sts 188,r29
+ 712               	.LBE11:
+ 713               	.LBE12:
+ 544:ar1000test.c  **** 	{
+ 714               		.loc 1 544 0 discriminator 1
+ 715 0238 8C23      		and r24,r28
+ 716               	.LVL57:
+ 717 023a 01F0      		breq .L52
+ 718               	/* epilogue start */
+ 551:ar1000test.c  **** 
+ 719               		.loc 1 551 0
+ 720 023c DF91      		pop r29
+ 721 023e CF91      		pop r28
+ 722 0240 1F91      		pop r17
+ 723               	.LVL58:
+ 724 0242 0F91      		pop r16
+ 725               	.LVL59:
+ 726 0244 FF90      		pop r15
+ 727               	.LVL60:
+ 728 0246 0895      		ret
+ 729               		.cfi_endproc
+ 730               	.LFE10:
+ 732               	.global	ar1000_write_array
+ 734               	ar1000_write_array:
+ 735               	.LFB11:
+ 554:ar1000test.c  **** 	// This code writes the array values to the ar1000, it is used to calibrate the ar1000
+ 736               		.loc 1 554 0
+ 737               		.cfi_startproc
+ 738 0248 0F93      		push r16
+ 739               	.LCFI45:
+ 740               		.cfi_def_cfa_offset 3
+ 741               		.cfi_offset 16, -2
+ 742 024a 1F93      		push r17
+ 743               	.LCFI46:
+ 744               		.cfi_def_cfa_offset 4
+ 745               		.cfi_offset 17, -3
+ 746 024c CF93      		push r28
+ 747               	.LCFI47:
+ 748               		.cfi_def_cfa_offset 5
+ 749               		.cfi_offset 28, -4
+ 750               	/* prologue: function */
+ 751               	/* frame size = 0 */
+ 752               	/* stack size = 3 */
+ 753               	.L__stack_usage = 3
+ 563:ar1000test.c  **** 
+ 754               		.loc 1 563 0
+ 755 024e 6091 0000 		lds r22,register_values
+ 756 0252 7091 0000 		lds r23,register_values+1
+ 757 0256 6E7F      		andi r22,254
+ 758 0258 80E0      		ldi r24,0
+ 759 025a 0E94 0000 		call ar1000_write
+ 760               	.LVL61:
+ 761 025e 00E0      		ldi r16,lo8(register_values+2)
+ 762 0260 10E0      		ldi r17,hi8(register_values+2)
+ 763 0262 C1E0      		ldi r28,lo8(1)
+ 764               	.LVL62:
+ 765               	.L56:
+ 766               	.LBB13:
+ 566:ar1000test.c  **** 	
+ 767               		.loc 1 566 0 discriminator 3
+ 768 0264 F801      		movw r30,r16
+ 769 0266 6191      		ld r22,Z+
+ 770 0268 7191      		ld r23,Z+
+ 771 026a 8F01      		movw r16,r30
+ 772 026c 8C2F      		mov r24,r28
+ 773 026e 0E94 0000 		call ar1000_write
+ 774               	.LVL63:
+ 775 0272 CF5F      		subi r28,lo8(-(1))
+ 565:ar1000test.c  **** 		ar1000_write(i, register_values[i]); //Write registers 1 to 17 to AR1000
+ 776               		.loc 1 565 0 discriminator 3
+ 777 0274 C231      		cpi r28,lo8(18)
+ 778 0276 01F4      		brne .L56
+ 779               	.LBE13:
+ 568:ar1000test.c  **** }
+ 780               		.loc 1 568 0
+ 781 0278 6091 0000 		lds r22,register_values
+ 782 027c 7091 0000 		lds r23,register_values+1
+ 783 0280 80E0      		ldi r24,0
+ 784               	/* epilogue start */
+ 569:ar1000test.c  **** 
+ 785               		.loc 1 569 0
+ 786 0282 CF91      		pop r28
+ 787 0284 1F91      		pop r17
+ 788 0286 0F91      		pop r16
+ 568:ar1000test.c  **** }
+ 789               		.loc 1 568 0
+ 790 0288 0C94 0000 		jmp ar1000_write
+ 791               	.LVL64:
+ 792               		.cfi_endproc
+ 793               	.LFE11:
+ 795               	.global	i2c_ReceiveByte
+ 797               	i2c_ReceiveByte:
+ 798               	.LFB25:
+ 782:ar1000test.c  **** 
+ 783:ar1000test.c  **** unsigned char i2c_ReceiveByte(unsigned char ackFlag)
+ 784:ar1000test.c  **** {
+ 799               		.loc 1 784 0
+ 800               		.cfi_startproc
+ 801               	.LVL65:
+ 802               	/* prologue: function */
+ 803               	/* frame size = 0 */
+ 804               	/* stack size = 0 */
+ 805               	.L__stack_usage = 0
+ 785:ar1000test.c  **** 	// begin receive over i2c
+ 786:ar1000test.c  **** 	if( ackFlag )
+ 806               		.loc 1 786 0
+ 807 028c 8823      		tst r24
+ 808 028e 01F0      		breq .L59
+ 787:ar1000test.c  **** 	{
+ 788:ar1000test.c  **** 		// ackFlag = TRUE: ACK the recevied data
+ 789:ar1000test.c  **** 		outb(TWCR, (inb(TWCR)&TWCR_CMD_MASK)|BV(TWINT)|BV(TWEA));
+ 809               		.loc 1 789 0
+ 810 0290 8091 BC00 		lds r24,188
+ 811               	.LVL66:
+ 812 0294 8F70      		andi r24,lo8(15)
+ 813 0296 806C      		ori r24,lo8(-64)
+ 814 0298 00C0      		rjmp .L61
+ 815               	.LVL67:
+ 816               	.L59:
+ 790:ar1000test.c  **** 	}
+ 791:ar1000test.c  **** 	else
+ 792:ar1000test.c  **** 	{
+ 793:ar1000test.c  **** 		// ackFlag = FALSE: NACK the recevied data
+ 794:ar1000test.c  **** 		outb(TWCR, (inb(TWCR)&TWCR_CMD_MASK)|BV(TWINT));
+ 817               		.loc 1 794 0
+ 818 029a 8091 BC00 		lds r24,188
+ 819               	.LVL68:
+ 820 029e 8F70      		andi r24,lo8(15)
+ 821 02a0 8068      		ori r24,lo8(-128)
+ 822               	.L61:
+ 823 02a2 8093 BC00 		sts 188,r24
+ 795:ar1000test.c  **** 	}
+ 796:ar1000test.c  **** 
+ 797:ar1000test.c  **** 	i2c_WaitForComplete();
+ 824               		.loc 1 797 0
+ 825 02a6 0E94 0000 		call i2c_WaitForComplete
+ 826               	.LVL69:
+ 798:ar1000test.c  **** 
+ 799:ar1000test.c  **** 	// retieve received data byte from i2c TWDR
+ 800:ar1000test.c  **** 	return( inb(TWDR) );
+ 827               		.loc 1 800 0
+ 828 02aa 8091 BB00 		lds r24,187
+ 801:ar1000test.c  **** }
+ 829               		.loc 1 801 0
+ 830 02ae 0895      		ret
+ 831               		.cfi_endproc
+ 832               	.LFE25:
+ 834               		.section	.rodata.str1.1
+ 835               	.LC6:
+ 836 009c 0A09 4163 		.string	"\n\tAck failed!"
+ 836      6B20 6661 
+ 836      696C 6564 
+ 836      2100 
+ 837               		.text
+ 838               	.global	ar1000_read
+ 840               	ar1000_read:
+ 841               	.LFB9:
+ 487:ar1000test.c  **** 	char byte1 = 0, byte2 = 0;
+ 842               		.loc 1 487 0
+ 843               		.cfi_startproc
+ 844               	.LVL70:
+ 845 02b0 CF93      		push r28
+ 846               	.LCFI48:
+ 847               		.cfi_def_cfa_offset 3
+ 848               		.cfi_offset 28, -2
+ 849 02b2 DF93      		push r29
+ 850               	.LCFI49:
+ 851               		.cfi_def_cfa_offset 4
+ 852               		.cfi_offset 29, -3
+ 853               	/* prologue: function */
+ 854               	/* frame size = 0 */
+ 855               	/* stack size = 2 */
+ 856               	.L__stack_usage = 2
+ 857 02b4 D82F      		mov r29,r24
+ 858               	.LVL71:
+ 859               	.L63:
+ 492:ar1000test.c  **** 	ack = i2c_SendByte(AR1000_W);	 //Send slave device address with write
+ 860               		.loc 1 492 0 discriminator 1
+ 861 02b6 0E94 0000 		call i2c_SendStart
+ 862               	.LVL72:
+ 493:ar1000test.c  **** 	ack &= i2c_SendByte(address_to_read);	//Send address to read
+ 863               		.loc 1 493 0 discriminator 1
+ 864 02ba 80E2      		ldi r24,lo8(32)
+ 865 02bc 0E94 0000 		call i2c_SendByte
+ 866               	.LVL73:
+ 867 02c0 C82F      		mov r28,r24
+ 868               	.LVL74:
+ 494:ar1000test.c  **** 	if(ack == 0)
+ 869               		.loc 1 494 0 discriminator 1
+ 870 02c2 8D2F      		mov r24,r29
+ 871               	.LVL75:
+ 872 02c4 0E94 0000 		call i2c_SendByte
+ 873               	.LVL76:
+ 495:ar1000test.c  **** 	{
+ 874               		.loc 1 495 0 discriminator 1
+ 875 02c8 8C23      		and r24,r28
+ 876               	.LVL77:
+ 877 02ca 01F0      		breq .L63
+ 504:ar1000test.c  **** 	i2c_SendByte(AR1000_R);	 //Ask device to read the value at the requested address
+ 878               		.loc 1 504 0
+ 879 02cc 0E94 0000 		call i2c_SendStart
+ 880               	.LVL78:
+ 505:ar1000test.c  **** 	
+ 881               		.loc 1 505 0
+ 882 02d0 81E2      		ldi r24,lo8(33)
+ 883 02d2 0E94 0000 		call i2c_SendByte
+ 884               	.LVL79:
+ 507:ar1000test.c  **** 	{
+ 885               		.loc 1 507 0
+ 886 02d6 8091 B900 		lds r24,185
+ 887 02da 8034      		cpi r24,lo8(64)
+ 888 02dc 01F4      		brne .L64
+ 509:ar1000test.c  **** 		byte2 = i2c_ReceiveByte(TRUE);
+ 889               		.loc 1 509 0
+ 890 02de 8FEF      		ldi r24,lo8(-1)
+ 891 02e0 0E94 0000 		call i2c_ReceiveByte
+ 892               	.LVL80:
+ 893 02e4 C82F      		mov r28,r24
+ 894               	.LVL81:
+ 510:ar1000test.c  **** 	}
+ 895               		.loc 1 510 0
+ 896 02e6 8FEF      		ldi r24,lo8(-1)
+ 897               	.LVL82:
+ 898 02e8 0E94 0000 		call i2c_ReceiveByte
+ 899               	.LVL83:
+ 900 02ec 00C0      		rjmp .L65
+ 901               	.LVL84:
+ 902               	.L64:
+ 518:ar1000test.c  **** 	}
+ 903               		.loc 1 518 0
+ 904 02ee 80E0      		ldi r24,lo8(.LC6)
+ 905 02f0 90E0      		ldi r25,hi8(.LC6)
+ 906 02f2 9F93      		push r25
+ 907               	.LCFI50:
+ 908               		.cfi_def_cfa_offset 5
+ 909 02f4 8F93      		push r24
+ 910               	.LCFI51:
+ 911               		.cfi_def_cfa_offset 6
+ 912 02f6 0E94 0000 		call printf
+ 913               	.LVL85:
+ 914 02fa 0F90      		pop __tmp_reg__
+ 915 02fc 0F90      		pop __tmp_reg__
+ 916               	.LCFI52:
+ 917               		.cfi_def_cfa_offset 4
+ 488:ar1000test.c  **** 	char ack;
+ 918               		.loc 1 488 0
+ 919 02fe 80E0      		ldi r24,0
+ 920 0300 C0E0      		ldi r28,0
+ 921               	.LVL86:
+ 922               	.L65:
+ 923               	.LBB14:
+ 924               	.LBB15:
+ 752:ar1000test.c  **** }
+ 925               		.loc 1 752 0
+ 926 0302 90E1      		ldi r25,lo8(16)
+ 927 0304 9093 BC00 		sts 188,r25
+ 928               	.LBE15:
+ 929               	.LBE14:
+ 524:ar1000test.c  **** 	temp |= byte2;
+ 930               		.loc 1 524 0
+ 931 0308 90E0      		ldi r25,0
+ 932               	.LVL87:
+ 528:ar1000test.c  **** 
+ 933               		.loc 1 528 0
+ 934 030a 9C2B      		or r25,r28
+ 935               	/* epilogue start */
+ 936 030c DF91      		pop r29
+ 937               	.LVL88:
+ 938 030e CF91      		pop r28
+ 939               	.LVL89:
+ 940 0310 0895      		ret
+ 941               		.cfi_endproc
+ 942               	.LFE9:
+ 944               	.global	ar1000_rssi
+ 946               	ar1000_rssi:
+ 947               	.LFB2:
+ 246:ar1000test.c  **** #define ADDR_RSSI	0x12 
+ 948               		.loc 1 246 0
+ 949               		.cfi_startproc
+ 950               	/* prologue: function */
+ 951               	/* frame size = 0 */
+ 952               	/* stack size = 0 */
+ 953               	.L__stack_usage = 0
+ 253:ar1000test.c  **** 	rssi &= MASK_RSSI;
+ 954               		.loc 1 253 0
+ 955 0312 82E1      		ldi r24,lo8(18)
+ 956 0314 0E94 0000 		call ar1000_read
+ 957               	.LVL90:
+ 254:ar1000test.c  **** 	rssi >>= 9;
+ 958               		.loc 1 254 0
+ 959 0318 8827      		clr r24
+ 960 031a 9E7F      		andi r25,254
+ 961               	.LVL91:
+ 258:ar1000test.c  **** 
+ 962               		.loc 1 258 0
+ 963 031c 892F      		mov r24,r25
+ 964 031e 8695      		lsr r24
+ 965 0320 90E0      		ldi r25,0
+ 966 0322 0895      		ret
+ 967               		.cfi_endproc
+ 968               	.LFE2:
+ 970               	.global	ar1000_setvolume
+ 972               	ar1000_setvolume:
+ 973               	.LFB3:
+ 266:ar1000test.c  **** 	uint16_t reg3, reg14;
+ 974               		.loc 1 266 0
+ 975               		.cfi_startproc
+ 976               	.LVL92:
+ 977 0324 0F93      		push r16
+ 978               	.LCFI53:
+ 979               		.cfi_def_cfa_offset 3
+ 980               		.cfi_offset 16, -2
+ 981 0326 1F93      		push r17
+ 982               	.LCFI54:
+ 983               		.cfi_def_cfa_offset 4
+ 984               		.cfi_offset 17, -3
+ 985 0328 CF93      		push r28
+ 986               	.LCFI55:
+ 987               		.cfi_def_cfa_offset 5
+ 988               		.cfi_offset 28, -4
+ 989 032a DF93      		push r29
+ 990               	.LCFI56:
+ 991               		.cfi_def_cfa_offset 6
+ 992               		.cfi_offset 29, -5
+ 993               	/* prologue: function */
+ 994               	/* frame size = 0 */
+ 995               	/* stack size = 4 */
+ 996               	.L__stack_usage = 4
+ 997 032c C82F      		mov r28,r24
+ 269:ar1000test.c  **** 	reg3 |= ( (AR1000vol[volume_level] & 0x0F) << 7); //Mask in D7-D10
+ 998               		.loc 1 269 0
+ 999 032e 83E0      		ldi r24,lo8(3)
+ 1000               	.LVL93:
+ 1001 0330 0E94 0000 		call ar1000_read
+ 1002               	.LVL94:
+ 1003 0334 8C01      		movw r16,r24
+ 1004 0336 0F77      		andi r16,127
+ 1005 0338 187F      		andi r17,248
+ 1006               	.LVL95:
+ 270:ar1000test.c  **** 	
+ 1007               		.loc 1 270 0
+ 1008 033a D0E0      		ldi r29,0
+ 1009 033c C050      		subi r28,lo8(-(AR1000vol))
+ 1010 033e D040      		sbci r29,hi8(-(AR1000vol))
+ 1011               	.LVL96:
+ 1012 0340 9881      		ld r25,Y
+ 1013 0342 9F70      		andi r25,lo8(15)
+ 1014 0344 80E8      		ldi r24,lo8(-128)
+ 1015 0346 989F      		mul r25,r24
+ 1016 0348 9001      		movw r18,r0
+ 1017 034a 1124      		clr __zero_reg__
+ 1018 034c 022B      		or r16,r18
+ 1019 034e 132B      		or r17,r19
+ 1020               	.LVL97:
+ 272:ar1000test.c  **** 	reg14 |= ((AR1000vol[volume_level] & 0xF0) << 8); //Mask in D12-D15
+ 1021               		.loc 1 272 0
+ 1022 0350 8EE0      		ldi r24,lo8(14)
+ 1023 0352 0E94 0000 		call ar1000_read
+ 1024               	.LVL98:
+ 1025 0356 9F70      		andi r25,15
+ 1026               	.LVL99:
+ 273:ar1000test.c  **** 	
+ 1027               		.loc 1 273 0
+ 1028 0358 2881      		ld r18,Y
+ 1029 035a 207F      		andi r18,lo8(-16)
+ 1030 035c EC01      		movw r28,r24
+ 1031 035e D22B      		or r29,r18
+ 275:ar1000test.c  **** 	ar1000_write(14, reg14);
+ 1032               		.loc 1 275 0
+ 1033 0360 B801      		movw r22,r16
+ 1034 0362 83E0      		ldi r24,lo8(3)
+ 1035               	.LVL100:
+ 1036 0364 0E94 0000 		call ar1000_write
+ 1037               	.LVL101:
+ 276:ar1000test.c  **** }
+ 1038               		.loc 1 276 0
+ 1039 0368 BE01      		movw r22,r28
+ 1040 036a 8EE0      		ldi r24,lo8(14)
+ 1041               	/* epilogue start */
+ 277:ar1000test.c  **** 
+ 1042               		.loc 1 277 0
+ 1043 036c DF91      		pop r29
+ 1044 036e CF91      		pop r28
+ 1045               	.LVL102:
+ 1046 0370 1F91      		pop r17
+ 1047 0372 0F91      		pop r16
+ 1048               	.LVL103:
+ 276:ar1000test.c  **** }
+ 1049               		.loc 1 276 0
+ 1050 0374 0C94 0000 		jmp ar1000_write
+ 1051               	.LVL104:
+ 1052               		.cfi_endproc
+ 1053               	.LFE3:
+ 1055               	.global	ar1000_tuneto
+ 1057               	ar1000_tuneto:
+ 1058               	.LFB4:
+ 283:ar1000test.c  **** 	uint16_t channel, temp;
+ 1059               		.loc 1 283 0
+ 1060               		.cfi_startproc
+ 1061               	.LVL105:
+ 1062 0378 CF93      		push r28
+ 1063               	.LCFI57:
+ 1064               		.cfi_def_cfa_offset 3
+ 1065               		.cfi_offset 28, -2
+ 1066 037a DF93      		push r29
+ 1067               	.LCFI58:
+ 1068               		.cfi_def_cfa_offset 4
+ 1069               		.cfi_offset 29, -3
+ 1070               	/* prologue: function */
+ 1071               	/* frame size = 0 */
+ 1072               	/* stack size = 2 */
+ 1073               	.L__stack_usage = 2
+ 1074 037c EC01      		movw r28,r24
+ 1075               	.LBB16:
+ 298:ar1000test.c  **** 
+ 1076               		.loc 1 298 0
+ 1077 037e 82E0      		ldi r24,lo8(2)
+ 1078               	.LVL106:
+ 1079 0380 0E94 0000 		call ar1000_read
+ 1080               	.LVL107:
+ 1081 0384 BC01      		movw r22,r24
+ 1082 0386 7D7F      		andi r23,253
+ 1083 0388 82E0      		ldi r24,lo8(2)
+ 1084               	.LVL108:
+ 1085 038a 0E94 0000 		call ar1000_write
+ 1086               	.LVL109:
+ 1087               	.LBE16:
+ 302:ar1000test.c  **** 	temp &= 0xFE00; //Mask
+ 1088               		.loc 1 302 0
+ 1089 038e 82E0      		ldi r24,lo8(2)
+ 1090 0390 0E94 0000 		call ar1000_read
+ 1091               	.LVL110:
+ 303:ar1000test.c  **** 	temp |= channel;
+ 1092               		.loc 1 303 0
+ 1093 0394 8827      		clr r24
+ 1094 0396 9E7F      		andi r25,254
+ 1095               	.LVL111:
+ 305:ar1000test.c  **** 	
+ 1096               		.loc 1 305 0
+ 1097 0398 BE01      		movw r22,r28
+ 1098 039a 625B      		subi r22,-78
+ 1099 039c 7240      		sbci r23,2
+ 1100               	.LVL112:
+ 1101 039e 682B      		or r22,r24
+ 1102 03a0 792B      		or r23,r25
+ 1103               	.LVL113:
+ 1104 03a2 82E0      		ldi r24,lo8(2)
+ 1105 03a4 0E94 0000 		call ar1000_write
+ 1106               	.LVL114:
+ 1107               	.LBB17:
+ 308:ar1000test.c  **** 	
+ 1108               		.loc 1 308 0
+ 1109 03a8 82E0      		ldi r24,lo8(2)
+ 1110 03aa 0E94 0000 		call ar1000_read
+ 1111               	.LVL115:
+ 1112 03ae BC01      		movw r22,r24
+ 1113 03b0 7260      		ori r23,2
+ 1114 03b2 82E0      		ldi r24,lo8(2)
+ 1115               	.LVL116:
+ 1116 03b4 0E94 0000 		call ar1000_write
+ 1117               	.LVL117:
+ 1118               	.L71:
+ 1119               	.LBE17:
+ 314:ar1000test.c  **** 		printf("!");
+ 1120               		.loc 1 314 0
+ 1121 03b8 83E1      		ldi r24,lo8(19)
+ 1122 03ba 0E94 0000 		call ar1000_read
+ 1123               	.LVL118:
+ 1124 03be C82F      		mov r28,r24
+ 1125               	.LVL119:
+ 315:ar1000test.c  **** 	}
+ 1126               		.loc 1 315 0
+ 1127 03c0 81E2      		ldi r24,lo8(33)
+ 1128 03c2 90E0      		ldi r25,0
+ 1129               	.LVL120:
+ 1130 03c4 0E94 0000 		call putchar
+ 1131               	.LVL121:
+ 312:ar1000test.c  **** 	{
+ 1132               		.loc 1 312 0
+ 1133 03c8 C5FF      		sbrs r28,5
+ 1134 03ca 00C0      		rjmp .L71
+ 1135               	/* epilogue start */
+ 318:ar1000test.c  **** 
+ 1136               		.loc 1 318 0
+ 1137 03cc DF91      		pop r29
+ 1138 03ce CF91      		pop r28
+ 1139 03d0 0895      		ret
+ 1140               		.cfi_endproc
+ 1141               	.LFE4:
+ 1143               		.section	.rodata.str1.1
+ 1144               	.LC7:
+ 1145 00aa 0A4C 6F77 		.string	"\nLow complete"
+ 1145      2063 6F6D 
+ 1145      706C 6574 
+ 1145      6500 
+ 1146               	.LC8:
+ 1147 00b8 0A52 5353 		.string	"\nRSSI 1 = %d"
+ 1147      4920 3120 
+ 1147      3D20 2564 
+ 1147      00
+ 1148               	.LC9:
+ 1149 00c5 0A48 6967 		.string	"\nHigh complete"
+ 1149      6820 636F 
+ 1149      6D70 6C65 
+ 1149      7465 00
+ 1150               	.LC10:
+ 1151 00d4 0A52 5353 		.string	"\nRSSI 2 = %d"
+ 1151      4920 3220 
+ 1151      3D20 2564 
+ 1151      00
+ 1152               	.LC11:
+ 1153 00e1 0A4C 6F77 		.string	"\nLow/Hi tuning complete"
+ 1153      2F48 6920 
+ 1153      7475 6E69 
+ 1153      6E67 2063 
+ 1153      6F6D 706C 
+ 1154               		.text
+ 1155               	.global	ar1000_tune_hilo
+ 1157               	ar1000_tune_hilo:
+ 1158               	.LFB5:
+ 324:ar1000test.c  **** 	uint16_t temp;
+ 1159               		.loc 1 324 0
+ 1160               		.cfi_startproc
+ 1161               	.LVL122:
+ 1162 03d2 CF93      		push r28
+ 1163               	.LCFI59:
+ 1164               		.cfi_def_cfa_offset 3
+ 1165               		.cfi_offset 28, -2
+ 1166 03d4 DF93      		push r29
+ 1167               	.LCFI60:
+ 1168               		.cfi_def_cfa_offset 4
+ 1169               		.cfi_offset 29, -3
+ 1170               	/* prologue: function */
+ 1171               	/* frame size = 0 */
+ 1172               	/* stack size = 2 */
+ 1173               	.L__stack_usage = 2
+ 1174 03d6 EC01      		movw r28,r24
+ 1175               	.LBB18:
+ 327:ar1000test.c  **** 	AR1000_SEEK_OFF; //Clear seek
+ 1176               		.loc 1 327 0
+ 1177 03d8 81E0      		ldi r24,lo8(1)
+ 1178               	.LVL123:
+ 1179 03da 0E94 0000 		call ar1000_read
+ 1180               	.LVL124:
+ 1181 03de BC01      		movw r22,r24
+ 1182 03e0 6260      		ori r22,2
+ 1183 03e2 81E0      		ldi r24,lo8(1)
+ 1184               	.LVL125:
+ 1185 03e4 0E94 0000 		call ar1000_write
+ 1186               	.LVL126:
+ 1187               	.LBE18:
+ 1188               	.LBB19:
+ 328:ar1000test.c  **** 
+ 1189               		.loc 1 328 0
+ 1190 03e8 83E0      		ldi r24,lo8(3)
+ 1191 03ea 0E94 0000 		call ar1000_read
+ 1192               	.LVL127:
+ 1193 03ee BC01      		movw r22,r24
+ 1194 03f0 7F7B      		andi r23,191
+ 1195 03f2 83E0      		ldi r24,lo8(3)
+ 1196               	.LVL128:
+ 1197 03f4 0E94 0000 		call ar1000_write
+ 1198               	.LVL129:
+ 1199               	.LBE19:
+ 332:ar1000test.c  **** 	ar1000_write(11, temp);
+ 1200               		.loc 1 332 0
+ 1201 03f8 8BE0      		ldi r24,lo8(11)
+ 1202 03fa 0E94 0000 		call ar1000_read
+ 1203               	.LVL130:
+ 333:ar1000test.c  **** 
+ 1204               		.loc 1 333 0
+ 1205 03fe BC01      		movw r22,r24
+ 1206 0400 6A7F      		andi r22,250
+ 1207 0402 7F77      		andi r23,127
+ 1208               	.LVL131:
+ 1209 0404 8BE0      		ldi r24,lo8(11)
+ 1210 0406 0E94 0000 		call ar1000_write
+ 1211               	.LVL132:
+ 336:ar1000test.c  **** 	//Low-side TUNE Ends 
+ 1212               		.loc 1 336 0
+ 1213 040a CE01      		movw r24,r28
+ 1214 040c 0E94 0000 		call ar1000_tuneto
+ 1215               	.LVL133:
+ 339:ar1000test.c  **** 
+ 1216               		.loc 1 339 0
+ 1217 0410 80E0      		ldi r24,lo8(.LC7)
+ 1218 0412 90E0      		ldi r25,hi8(.LC7)
+ 1219 0414 9F93      		push r25
+ 1220               	.LCFI61:
+ 1221               		.cfi_def_cfa_offset 5
+ 1222 0416 8F93      		push r24
+ 1223               	.LCFI62:
+ 1224               		.cfi_def_cfa_offset 6
+ 1225 0418 0E94 0000 		call printf
+ 1226               	.LVL134:
+ 341:ar1000test.c  **** 	uint16_t rssi = (status & MASK_RSSI);
+ 1227               		.loc 1 341 0
+ 1228 041c 82E1      		ldi r24,lo8(18)
+ 1229 041e 0E94 0000 		call ar1000_read
+ 1230               	.LVL135:
+ 344:ar1000test.c  **** 
+ 1231               		.loc 1 344 0
+ 1232 0422 8827      		clr r24
+ 1233 0424 9E7F      		andi r25,254
+ 1234               	.LVL136:
+ 1235 0426 892F      		mov r24,r25
+ 1236               	.LVL137:
+ 1237 0428 8695      		lsr r24
+ 1238 042a 1F92      		push __zero_reg__
+ 1239               	.LCFI63:
+ 1240               		.cfi_def_cfa_offset 7
+ 1241 042c 8F93      		push r24
+ 1242               	.LCFI64:
+ 1243               		.cfi_def_cfa_offset 8
+ 1244 042e 80E0      		ldi r24,lo8(.LC8)
+ 1245 0430 90E0      		ldi r25,hi8(.LC8)
+ 1246 0432 9F93      		push r25
+ 1247               	.LCFI65:
+ 1248               		.cfi_def_cfa_offset 9
+ 1249 0434 8F93      		push r24
+ 1250               	.LCFI66:
+ 1251               		.cfi_def_cfa_offset 10
+ 1252 0436 0E94 0000 		call printf
+ 1253               	.LVL138:
+ 348:ar1000test.c  **** 	ar1000_write(11, temp);
+ 1254               		.loc 1 348 0
+ 1255 043a 8BE0      		ldi r24,lo8(11)
+ 1256 043c 0E94 0000 		call ar1000_read
+ 1257               	.LVL139:
+ 349:ar1000test.c  **** 	
+ 1258               		.loc 1 349 0
+ 1259 0440 BC01      		movw r22,r24
+ 1260 0442 6560      		ori r22,5
+ 1261 0444 7068      		ori r23,128
+ 1262               	.LVL140:
+ 1263 0446 8BE0      		ldi r24,lo8(11)
+ 1264 0448 0E94 0000 		call ar1000_write
+ 1265               	.LVL141:
+ 352:ar1000test.c  **** 	//High-side TUNE Ends 
+ 1266               		.loc 1 352 0
+ 1267 044c CE01      		movw r24,r28
+ 1268 044e 0E94 0000 		call ar1000_tuneto
+ 1269               	.LVL142:
+ 355:ar1000test.c  **** 	
+ 1270               		.loc 1 355 0
+ 1271 0452 80E0      		ldi r24,lo8(.LC9)
+ 1272 0454 90E0      		ldi r25,hi8(.LC9)
+ 1273 0456 9F93      		push r25
+ 1274               	.LCFI67:
+ 1275               		.cfi_def_cfa_offset 11
+ 1276 0458 8F93      		push r24
+ 1277               	.LCFI68:
+ 1278               		.cfi_def_cfa_offset 12
+ 1279 045a 0E94 0000 		call printf
+ 1280               	.LVL143:
+ 358:ar1000test.c  **** 	printf("\nRSSI 2 = %d", (status & MASK_RSSI) >> SHIFT_RSSI);
+ 1281               		.loc 1 358 0
+ 1282 045e 82E1      		ldi r24,lo8(18)
+ 1283 0460 0E94 0000 		call ar1000_read
+ 1284               	.LVL144:
+ 359:ar1000test.c  **** 	rssi = rssi - (status & MASK_RSSI);	
+ 1285               		.loc 1 359 0
+ 1286 0464 9695      		lsr r25
+ 1287               	.LVL145:
+ 1288 0466 1F92      		push __zero_reg__
+ 1289               	.LCFI69:
+ 1290               		.cfi_def_cfa_offset 13
+ 1291 0468 9F93      		push r25
+ 1292               	.LCFI70:
+ 1293               		.cfi_def_cfa_offset 14
+ 1294 046a 80E0      		ldi r24,lo8(.LC10)
+ 1295 046c 90E0      		ldi r25,hi8(.LC10)
+ 1296 046e 9F93      		push r25
+ 1297               	.LCFI71:
+ 1298               		.cfi_def_cfa_offset 15
+ 1299 0470 8F93      		push r24
+ 1300               	.LCFI72:
+ 1301               		.cfi_def_cfa_offset 16
+ 1302 0472 0E94 0000 		call printf
+ 1303               	.LVL146:
+ 372:ar1000test.c  **** 		ar1000_write(11, temp);
+ 1304               		.loc 1 372 0
+ 1305 0476 8BE0      		ldi r24,lo8(11)
+ 1306 0478 0E94 0000 		call ar1000_read
+ 1307               	.LVL147:
+ 373:ar1000test.c  **** 	}
+ 1308               		.loc 1 373 0
+ 1309 047c 8A7F      		andi r24,250
+ 1310 047e 9F77      		andi r25,127
+ 1311               	.LVL148:
+ 1312 0480 BC01      		movw r22,r24
+ 1313 0482 7068      		ori r23,128
+ 1314               	.LVL149:
+ 1315 0484 8BE0      		ldi r24,lo8(11)
+ 1316 0486 0E94 0000 		call ar1000_write
+ 1317               	.LVL150:
+ 378:ar1000test.c  **** 
+ 1318               		.loc 1 378 0
+ 1319 048a CE01      		movw r24,r28
+ 1320 048c 0E94 0000 		call ar1000_tuneto
+ 1321               	.LVL151:
+ 1322               	.LBB20:
+ 380:ar1000test.c  **** 
+ 1323               		.loc 1 380 0
+ 1324 0490 81E0      		ldi r24,lo8(1)
+ 1325 0492 0E94 0000 		call ar1000_read
+ 1326               	.LVL152:
+ 1327 0496 BC01      		movw r22,r24
+ 1328 0498 6D7F      		andi r22,253
+ 1329 049a 81E0      		ldi r24,lo8(1)
+ 1330               	.LVL153:
+ 1331 049c 0E94 0000 		call ar1000_write
+ 1332               	.LVL154:
+ 1333               	.LBE20:
+ 382:ar1000test.c  **** 
+ 1334               		.loc 1 382 0
+ 1335 04a0 80E0      		ldi r24,lo8(.LC11)
+ 1336 04a2 90E0      		ldi r25,hi8(.LC11)
+ 1337 04a4 9F93      		push r25
+ 1338               	.LCFI73:
+ 1339               		.cfi_def_cfa_offset 17
+ 1340 04a6 8F93      		push r24
+ 1341               	.LCFI74:
+ 1342               		.cfi_def_cfa_offset 18
+ 1343 04a8 0E94 0000 		call printf
+ 1344               	.LVL155:
+ 384:ar1000test.c  **** 
+ 1345               		.loc 1 384 0
+ 1346 04ac 8DB7      		in r24,__SP_L__
+ 1347 04ae 9EB7      		in r25,__SP_H__
+ 1348 04b0 0E96      		adiw r24,14
+ 1349 04b2 0FB6      		in __tmp_reg__,__SREG__
+ 1350 04b4 F894      		cli
+ 1351 04b6 9EBF      		out __SP_H__,r25
+ 1352 04b8 0FBE      		out __SREG__,__tmp_reg__
+ 1353 04ba 8DBF      		out __SP_L__,r24
+ 1354               	.LCFI75:
+ 1355               		.cfi_def_cfa_offset 4
+ 1356               	/* epilogue start */
+ 1357 04bc DF91      		pop r29
+ 1358 04be CF91      		pop r28
+ 1359               	.LVL156:
+ 1360 04c0 0895      		ret
+ 1361               		.cfi_endproc
+ 1362               	.LFE5:
+ 1364               		.section	.rodata.str1.1
+ 1365               	.LC12:
+ 1366 00f9 0A0A 4265 		.string	"\n\nBegin searching:"
+ 1366      6769 6E20 
+ 1366      7365 6172 
+ 1366      6368 696E 
+ 1366      673A 00
+ 1367               	.LC13:
+ 1368 010c 0A53 6565 		.string	"\nSeek failed!"
+ 1368      6B20 6661 
+ 1368      696C 6564 
+ 1368      2100 
+ 1369               	.LC14:
+ 1370 011a 0A53 6565 		.string	"\nSeek success!"
+ 1370      6B20 7375 
+ 1370      6363 6573 
+ 1370      7321 00
+ 1371               	.LC15:
+ 1372 0129 0A4E 6F77 		.string	"\nNow on channel %d.%dMHz"
+ 1372      206F 6E20 
+ 1372      6368 616E 
+ 1372      6E65 6C20 
+ 1372      2564 2E25 
+ 1373               		.text
+ 1374               	.global	ar1000_seek
+ 1376               	ar1000_seek:
+ 1377               	.LFB6:
+ 390:ar1000test.c  **** 	#define ADDR_SEEK_SETTING	0x11
+ 1378               		.loc 1 390 0
+ 1379               		.cfi_startproc
+ 1380 04c2 CF93      		push r28
+ 1381               	.LCFI76:
+ 1382               		.cfi_def_cfa_offset 3
+ 1383               		.cfi_offset 28, -2
+ 1384 04c4 DF93      		push r29
+ 1385               	.LCFI77:
+ 1386               		.cfi_def_cfa_offset 4
+ 1387               		.cfi_offset 29, -3
+ 1388               	/* prologue: function */
+ 1389               	/* frame size = 0 */
+ 1390               	/* stack size = 2 */
+ 1391               	.L__stack_usage = 2
+ 1392               	.LVL157:
+ 1393               	.LBB21:
+ 403:ar1000test.c  **** 	AR1000_TUNE_OFF;
+ 1394               		.loc 1 403 0
+ 1395 04c6 81E0      		ldi r24,lo8(1)
+ 1396 04c8 0E94 0000 		call ar1000_read
+ 1397               	.LVL158:
+ 1398 04cc BC01      		movw r22,r24
+ 1399 04ce 6260      		ori r22,2
+ 1400 04d0 81E0      		ldi r24,lo8(1)
+ 1401               	.LVL159:
+ 1402 04d2 0E94 0000 		call ar1000_write
+ 1403               	.LVL160:
+ 1404               	.LBE21:
+ 1405               	.LBB22:
+ 404:ar1000test.c  **** 	AR1000_SEEK_OFF;
+ 1406               		.loc 1 404 0
+ 1407 04d6 82E0      		ldi r24,lo8(2)
+ 1408 04d8 0E94 0000 		call ar1000_read
+ 1409               	.LVL161:
+ 1410 04dc BC01      		movw r22,r24
+ 1411 04de 7D7F      		andi r23,253
+ 1412 04e0 82E0      		ldi r24,lo8(2)
+ 1413               	.LVL162:
+ 1414 04e2 0E94 0000 		call ar1000_write
+ 1415               	.LVL163:
+ 1416               	.LBE22:
+ 1417               	.LBB23:
+ 405:ar1000test.c  **** 	
+ 1418               		.loc 1 405 0
+ 1419 04e6 83E0      		ldi r24,lo8(3)
+ 1420 04e8 0E94 0000 		call ar1000_read
+ 1421               	.LVL164:
+ 1422 04ec BC01      		movw r22,r24
+ 1423 04ee 7F7B      		andi r23,191
+ 1424 04f0 83E0      		ldi r24,lo8(3)
+ 1425               	.LVL165:
+ 1426 04f2 0E94 0000 		call ar1000_write
+ 1427               	.LVL166:
+ 1428               	.LBE23:
+ 408:ar1000test.c  **** 	ar1000_write(10, temp);
+ 1429               		.loc 1 408 0
+ 1430 04f6 8AE0      		ldi r24,lo8(10)
+ 1431 04f8 0E94 0000 		call ar1000_read
+ 1432               	.LVL167:
+ 409:ar1000test.c  **** 	
+ 1433               		.loc 1 409 0
+ 1434 04fc BC01      		movw r22,r24
+ 1435 04fe 6860      		ori r22,8
+ 1436               	.LVL168:
+ 1437 0500 8AE0      		ldi r24,lo8(10)
+ 1438 0502 0E94 0000 		call ar1000_write
+ 1439               	.LVL169:
+ 412:ar1000test.c  **** 	ar1000_write(17, temp);
+ 1440               		.loc 1 412 0
+ 1441 0506 81E1      		ldi r24,lo8(17)
+ 1442 0508 0E94 0000 		call ar1000_read
+ 1443               	.LVL170:
+ 413:ar1000test.c  **** 
+ 1444               		.loc 1 413 0
+ 1445 050c 937C      		andi r25,195
+ 1446               	.LVL171:
+ 1447 050e BC01      		movw r22,r24
+ 1448 0510 7062      		ori r23,32
+ 1449               	.LVL172:
+ 1450 0512 81E1      		ldi r24,lo8(17)
+ 1451 0514 0E94 0000 		call ar1000_write
+ 1452               	.LVL173:
+ 415:ar1000test.c  **** 
+ 1453               		.loc 1 415 0
+ 1454 0518 80E0      		ldi r24,lo8(.LC12)
+ 1455 051a 90E0      		ldi r25,hi8(.LC12)
+ 1456 051c 9F93      		push r25
+ 1457               	.LCFI78:
+ 1458               		.cfi_def_cfa_offset 5
+ 1459 051e 8F93      		push r24
+ 1460               	.LCFI79:
+ 1461               		.cfi_def_cfa_offset 6
+ 1462 0520 0E94 0000 		call printf
+ 1463               	.LVL174:
+ 1464               	.LBB24:
+ 417:ar1000test.c  **** 	temp = ar1000_read(3);
+ 1465               		.loc 1 417 0
+ 1466 0524 83E0      		ldi r24,lo8(3)
+ 1467 0526 0E94 0000 		call ar1000_read
+ 1468               	.LVL175:
+ 1469 052a BC01      		movw r22,r24
+ 1470 052c 7064      		ori r23,64
+ 1471 052e 83E0      		ldi r24,lo8(3)
+ 1472               	.LVL176:
+ 1473 0530 0E94 0000 		call ar1000_write
+ 1474               	.LVL177:
+ 1475               	.LBE24:
+ 418:ar1000test.c  **** 	if(space == 1)	temp |= (1<<13); //Set space
+ 1476               		.loc 1 418 0
+ 1477 0534 83E0      		ldi r24,lo8(3)
+ 1478 0536 0E94 0000 		call ar1000_read
+ 1479               	.LVL178:
+ 1480 053a 8078      		andi r24,128
+ 1481 053c 977E      		andi r25,231
+ 1482               	.LVL179:
+ 424:ar1000test.c  **** 	
+ 1483               		.loc 1 424 0
+ 1484 053e BC01      		movw r22,r24
+ 1485 0540 6560      		ori r22,5
+ 1486 0542 706A      		ori r23,160
+ 1487               	.LVL180:
+ 1488 0544 83E0      		ldi r24,lo8(3)
+ 1489 0546 0E94 0000 		call ar1000_write
+ 1490               	.LVL181:
+ 1491 054a 0F90      		pop __tmp_reg__
+ 1492 054c 0F90      		pop __tmp_reg__
+ 1493               	.LCFI80:
+ 1494               		.cfi_def_cfa_offset 4
+ 1495               	.LVL182:
+ 1496               	.L76:
+ 430:ar1000test.c  **** 		printf(".");
+ 1497               		.loc 1 430 0
+ 1498 054e 83E1      		ldi r24,lo8(19)
+ 1499 0550 0E94 0000 		call ar1000_read
+ 1500               	.LVL183:
+ 1501 0554 C82F      		mov r28,r24
+ 1502               	.LVL184:
+ 431:ar1000test.c  **** 	}
+ 1503               		.loc 1 431 0
+ 1504 0556 8EE2      		ldi r24,lo8(46)
+ 1505 0558 90E0      		ldi r25,0
+ 1506               	.LVL185:
+ 1507 055a 0E94 0000 		call putchar
+ 1508               	.LVL186:
+ 428:ar1000test.c  **** 	{
+ 1509               		.loc 1 428 0
+ 1510 055e C5FF      		sbrs r28,5
+ 1511 0560 00C0      		rjmp .L76
+ 434:ar1000test.c  **** 	if(temp != 0)
+ 1512               		.loc 1 434 0
+ 1513 0562 83E1      		ldi r24,lo8(19)
+ 1514 0564 0E94 0000 		call ar1000_read
+ 1515               	.LVL187:
+ 435:ar1000test.c  **** 	{
+ 1516               		.loc 1 435 0
+ 1517 0568 84FF      		sbrs r24,4
+ 1518 056a 00C0      		rjmp .L77
+ 437:ar1000test.c  **** 		return;
+ 1519               		.loc 1 437 0
+ 1520 056c 80E0      		ldi r24,lo8(.LC13)
+ 1521 056e 90E0      		ldi r25,hi8(.LC13)
+ 1522 0570 9F93      		push r25
+ 1523               	.LCFI81:
+ 1524               		.cfi_def_cfa_offset 5
+ 1525 0572 8F93      		push r24
+ 1526               	.LCFI82:
+ 1527               		.cfi_def_cfa_offset 6
+ 1528 0574 0E94 0000 		call printf
+ 1529               	.LVL188:
+ 438:ar1000test.c  **** 	}
+ 1530               		.loc 1 438 0
+ 1531 0578 0F90      		pop __tmp_reg__
+ 1532 057a 0F90      		pop __tmp_reg__
+ 1533               	.LCFI83:
+ 1534               		.cfi_def_cfa_offset 4
+ 1535               	/* epilogue start */
+ 454:ar1000test.c  **** 
+ 1536               		.loc 1 454 0
+ 1537 057c DF91      		pop r29
+ 1538 057e CF91      		pop r28
+ 1539 0580 0895      		ret
+ 1540               	.L77:
+ 440:ar1000test.c  **** 	
+ 1541               		.loc 1 440 0
+ 1542 0582 80E0      		ldi r24,lo8(.LC14)
+ 1543 0584 90E0      		ldi r25,hi8(.LC14)
+ 1544 0586 9F93      		push r25
+ 1545               	.LCFI84:
+ 1546               		.cfi_def_cfa_offset 5
+ 1547 0588 8F93      		push r24
+ 1548               	.LCFI85:
+ 1549               		.cfi_def_cfa_offset 6
+ 1550 058a 0E94 0000 		call printf
+ 1551               	.LVL189:
+ 442:ar1000test.c  **** 	uint16_t freq_kHz = 690 + (temp >> SHIFT_READCHAN); //Determine what channel we found
+ 1552               		.loc 1 442 0
+ 1553 058e 83E1      		ldi r24,lo8(19)
+ 1554 0590 0E94 0000 		call ar1000_read
+ 1555               	.LVL190:
+ 443:ar1000test.c  **** 	
+ 1556               		.loc 1 443 0
+ 1557 0594 880F      		lsl r24
+ 1558 0596 892F      		mov r24,r25
+ 1559 0598 881F      		rol r24
+ 1560 059a 990B      		sbc r25,r25
+ 1561 059c 9195      		neg r25
+ 1562               	.LVL191:
+ 1563 059e EC01      		movw r28,r24
+ 1564 05a0 CE54      		subi r28,78
+ 1565 05a2 DD4F      		sbci r29,-3
+ 1566               	.LVL192:
+ 445:ar1000test.c  **** 
+ 1567               		.loc 1 445 0
+ 1568 05a4 CE01      		movw r24,r28
+ 1569 05a6 6AE0      		ldi r22,lo8(10)
+ 1570 05a8 70E0      		ldi r23,0
+ 1571 05aa 0E94 0000 		call __udivmodhi4
+ 1572 05ae 9F93      		push r25
+ 1573               	.LCFI86:
+ 1574               		.cfi_def_cfa_offset 7
+ 1575 05b0 8F93      		push r24
+ 1576               	.LCFI87:
+ 1577               		.cfi_def_cfa_offset 8
+ 1578 05b2 7F93      		push r23
+ 1579               	.LCFI88:
+ 1580               		.cfi_def_cfa_offset 9
+ 1581 05b4 6F93      		push r22
+ 1582               	.LCFI89:
+ 1583               		.cfi_def_cfa_offset 10
+ 1584 05b6 80E0      		ldi r24,lo8(.LC15)
+ 1585 05b8 90E0      		ldi r25,hi8(.LC15)
+ 1586 05ba 9F93      		push r25
+ 1587               	.LCFI90:
+ 1588               		.cfi_def_cfa_offset 11
+ 1589 05bc 8F93      		push r24
+ 1590               	.LCFI91:
+ 1591               		.cfi_def_cfa_offset 12
+ 1592 05be 0E94 0000 		call printf
+ 1593               	.LVL193:
+ 448:ar1000test.c  **** 
+ 1594               		.loc 1 448 0
+ 1595 05c2 6091 0000 		lds r22,register_values+34
+ 1596 05c6 7091 0000 		lds r23,register_values+34+1
+ 1597 05ca 81E1      		ldi r24,lo8(17)
+ 1598 05cc 0E94 0000 		call ar1000_write
+ 1599               	.LVL194:
+ 451:ar1000test.c  **** 
+ 1600               		.loc 1 451 0
+ 1601 05d0 CE01      		movw r24,r28
+ 1602 05d2 0E94 0000 		call ar1000_tune_hilo
+ 1603               	.LVL195:
+ 1604               	.LBB25:
+ 453:ar1000test.c  **** }
+ 1605               		.loc 1 453 0
+ 1606 05d6 81E0      		ldi r24,lo8(1)
+ 1607 05d8 0E94 0000 		call ar1000_read
+ 1608               	.LVL196:
+ 1609 05dc 2DB7      		in r18,__SP_L__
+ 1610 05de 3EB7      		in r19,__SP_H__
+ 1611 05e0 285F      		subi r18,-8
+ 1612 05e2 3F4F      		sbci r19,-1
+ 1613 05e4 0FB6      		in __tmp_reg__,__SREG__
+ 1614 05e6 F894      		cli
+ 1615 05e8 3EBF      		out __SP_H__,r19
+ 1616 05ea 0FBE      		out __SREG__,__tmp_reg__
+ 1617 05ec 2DBF      		out __SP_L__,r18
+ 1618               	.LCFI92:
+ 1619               		.cfi_def_cfa_offset 4
+ 1620 05ee BC01      		movw r22,r24
+ 1621 05f0 6D7F      		andi r22,253
+ 1622 05f2 81E0      		ldi r24,lo8(1)
+ 1623               	.LVL197:
+ 1624               	/* epilogue start */
+ 1625               	.LBE25:
+ 454:ar1000test.c  **** 
+ 1626               		.loc 1 454 0
+ 1627 05f4 DF91      		pop r29
+ 1628 05f6 CF91      		pop r28
+ 1629               	.LVL198:
+ 1630               	.LBB26:
+ 453:ar1000test.c  **** }
+ 1631               		.loc 1 453 0
+ 1632 05f8 0C94 0000 		jmp ar1000_write
+ 1633               	.LVL199:
+ 1634               	.LBE26:
+ 1635               		.cfi_endproc
+ 1636               	.LFE6:
+ 1638               	.global	ar1000_readall
+ 1640               	ar1000_readall:
+ 1641               	.LFB12:
+ 573:ar1000test.c  **** 	uint16_t x, register_value;
+ 1642               		.loc 1 573 0
+ 1643               		.cfi_startproc
+ 1644 05fc 0F93      		push r16
+ 1645               	.LCFI93:
+ 1646               		.cfi_def_cfa_offset 3
+ 1647               		.cfi_offset 16, -2
+ 1648 05fe 1F93      		push r17
+ 1649               	.LCFI94:
+ 1650               		.cfi_def_cfa_offset 4
+ 1651               		.cfi_offset 17, -3
+ 1652 0600 CF93      		push r28
+ 1653               	.LCFI95:
+ 1654               		.cfi_def_cfa_offset 5
+ 1655               		.cfi_offset 28, -4
+ 1656 0602 DF93      		push r29
+ 1657               	.LCFI96:
+ 1658               		.cfi_def_cfa_offset 6
+ 1659               		.cfi_offset 29, -5
+ 1660               	/* prologue: function */
+ 1661               	/* frame size = 0 */
+ 1662               	/* stack size = 4 */
+ 1663               	.L__stack_usage = 4
+ 1664               	.LVL200:
+ 575:ar1000test.c  **** 	{
+ 1665               		.loc 1 575 0
+ 1666 0604 C0E0      		ldi r28,0
+ 1667 0606 D0E0      		ldi r29,0
+ 578:ar1000test.c  **** 	}
+ 1668               		.loc 1 578 0
+ 1669 0608 00E0      		ldi r16,lo8(.LC1)
+ 1670 060a 10E0      		ldi r17,hi8(.LC1)
+ 1671               	.LVL201:
+ 1672               	.L83:
+ 577:ar1000test.c  **** 		printf("0x%.2X: 0x%.4X\n", x, register_value);
+ 1673               		.loc 1 577 0 discriminator 3
+ 1674 060c 8C2F      		mov r24,r28
+ 1675 060e 0E94 0000 		call ar1000_read
+ 1676               	.LVL202:
+ 578:ar1000test.c  **** 	}
+ 1677               		.loc 1 578 0 discriminator 3
+ 1678 0612 9F93      		push r25
+ 1679               	.LCFI97:
+ 1680               		.cfi_def_cfa_offset 7
+ 1681 0614 8F93      		push r24
+ 1682               	.LCFI98:
+ 1683               		.cfi_def_cfa_offset 8
+ 1684 0616 DF93      		push r29
+ 1685               	.LCFI99:
+ 1686               		.cfi_def_cfa_offset 9
+ 1687 0618 CF93      		push r28
+ 1688               	.LCFI100:
+ 1689               		.cfi_def_cfa_offset 10
+ 1690 061a 1F93      		push r17
+ 1691               	.LCFI101:
+ 1692               		.cfi_def_cfa_offset 11
+ 1693 061c 0F93      		push r16
+ 1694               	.LCFI102:
+ 1695               		.cfi_def_cfa_offset 12
+ 1696 061e 0E94 0000 		call printf
+ 1697               	.LVL203:
+ 575:ar1000test.c  **** 	{
+ 1698               		.loc 1 575 0 discriminator 3
+ 1699 0622 2196      		adiw r28,1
+ 1700               	.LVL204:
+ 1701 0624 0F90      		pop __tmp_reg__
+ 1702 0626 0F90      		pop __tmp_reg__
+ 1703 0628 0F90      		pop __tmp_reg__
+ 1704 062a 0F90      		pop __tmp_reg__
+ 1705 062c 0F90      		pop __tmp_reg__
+ 1706 062e 0F90      		pop __tmp_reg__
+ 1707               	.LCFI103:
+ 1708               		.cfi_def_cfa_offset 6
+ 1709 0630 CD31      		cpi r28,29
+ 1710 0632 D105      		cpc r29,__zero_reg__
+ 1711 0634 01F4      		brne .L83
+ 1712               	/* epilogue start */
+ 580:ar1000test.c  **** 
+ 1713               		.loc 1 580 0
+ 1714 0636 DF91      		pop r29
+ 1715 0638 CF91      		pop r28
+ 1716               	.LVL205:
+ 1717 063a 1F91      		pop r17
+ 1718 063c 0F91      		pop r16
+ 1719 063e 0895      		ret
+ 1720               		.cfi_endproc
+ 1721               	.LFE12:
+ 1723               		.section	.rodata.str1.1
+ 1724               	.LC16:
+ 1725 0142 0A41 5231 		.string	"\nAR1000 status : 0x%04X"
+ 1725      3030 3020 
+ 1725      7374 6174 
+ 1725      7573 203A 
+ 1725      2030 7825 
+ 1726               		.text
+ 1727               	.global	ar1000_init
+ 1729               	ar1000_init:
+ 1730               	.LFB13:
+ 583:ar1000test.c  **** 	delay_ms(100); //Wait for power to stabilize
+ 1731               		.loc 1 583 0
+ 1732               		.cfi_startproc
+ 1733 0640 0F93      		push r16
+ 1734               	.LCFI104:
+ 1735               		.cfi_def_cfa_offset 3
+ 1736               		.cfi_offset 16, -2
+ 1737 0642 1F93      		push r17
+ 1738               	.LCFI105:
+ 1739               		.cfi_def_cfa_offset 4
+ 1740               		.cfi_offset 17, -3
+ 1741 0644 CF93      		push r28
+ 1742               	.LCFI106:
+ 1743               		.cfi_def_cfa_offset 5
+ 1744               		.cfi_offset 28, -4
+ 1745               	/* prologue: function */
+ 1746               	/* frame size = 0 */
+ 1747               	/* stack size = 3 */
+ 1748               	.L__stack_usage = 3
+ 584:ar1000test.c  **** 	
+ 1749               		.loc 1 584 0
+ 1750 0646 84E6      		ldi r24,lo8(100)
+ 1751 0648 90E0      		ldi r25,0
+ 1752 064a 0E94 0000 		call delay_ms
+ 1753               	.LVL206:
+ 586:ar1000test.c  **** 
+ 1754               		.loc 1 586 0
+ 1755 064e 0E94 0000 		call ar1000_write_array
+ 1756               	.LVL207:
+ 593:ar1000test.c  **** 
+ 1757               		.loc 1 593 0
+ 1758 0652 00E0      		ldi r16,lo8(.LC16)
+ 1759 0654 10E0      		ldi r17,hi8(.LC16)
+ 1760               	.LVL208:
+ 1761               	.L86:
+ 591:ar1000test.c  **** 	
+ 1762               		.loc 1 591 0
+ 1763 0656 83E1      		ldi r24,lo8(19)
+ 1764 0658 0E94 0000 		call ar1000_read
+ 1765               	.LVL209:
+ 1766 065c C82F      		mov r28,r24
+ 1767               	.LVL210:
+ 593:ar1000test.c  **** 
+ 1768               		.loc 1 593 0
+ 1769 065e 9F93      		push r25
+ 1770               	.LCFI107:
+ 1771               		.cfi_def_cfa_offset 6
+ 1772 0660 8F93      		push r24
+ 1773               	.LCFI108:
+ 1774               		.cfi_def_cfa_offset 7
+ 1775 0662 1F93      		push r17
+ 1776               	.LCFI109:
+ 1777               		.cfi_def_cfa_offset 8
+ 1778 0664 0F93      		push r16
+ 1779               	.LCFI110:
+ 1780               		.cfi_def_cfa_offset 9
+ 1781 0666 0E94 0000 		call printf
+ 1782               	.LVL211:
+ 596:ar1000test.c  **** 	}
+ 1783               		.loc 1 596 0
+ 1784 066a 8AE0      		ldi r24,lo8(10)
+ 1785 066c 90E0      		ldi r25,0
+ 1786 066e 0E94 0000 		call delay_ms
+ 1787               	.LVL212:
+ 589:ar1000test.c  **** 	{
+ 1788               		.loc 1 589 0
+ 1789 0672 0F90      		pop __tmp_reg__
+ 1790 0674 0F90      		pop __tmp_reg__
+ 1791 0676 0F90      		pop __tmp_reg__
+ 1792 0678 0F90      		pop __tmp_reg__
+ 1793               	.LCFI111:
+ 1794               		.cfi_def_cfa_offset 5
+ 1795 067a C5FF      		sbrs r28,5
+ 1796 067c 00C0      		rjmp .L86
+ 1797               	/* epilogue start */
+ 598:ar1000test.c  **** 
+ 1798               		.loc 1 598 0
+ 1799 067e CF91      		pop r28
+ 1800 0680 1F91      		pop r17
+ 1801 0682 0F91      		pop r16
+ 1802 0684 0895      		ret
+ 1803               		.cfi_endproc
+ 1804               	.LFE13:
+ 1806               	.global	ioinit
+ 1808               	ioinit:
+ 1809               	.LFB15:
+ 632:ar1000test.c  **** 	
+ 1810               		.loc 1 632 0
+ 1811               		.cfi_startproc
+ 1812               	/* prologue: function */
+ 1813               	/* frame size = 0 */
+ 1814               	/* stack size = 0 */
+ 1815               	.L__stack_usage = 0
+ 635:ar1000test.c  ****     DDRC = 0b11111111; //All outputs
+ 1816               		.loc 1 635 0
+ 1817 0686 8FEF      		ldi r24,lo8(-1)
+ 1818 0688 84B9      		out 0x4,r24
+ 636:ar1000test.c  ****     //DDRD = 0b11111110; //PORTD (RX on PD0)
+ 1819               		.loc 1 636 0
+ 1820 068a 87B9      		out 0x7,r24
+ 638:ar1000test.c  **** 
+ 1821               		.loc 1 638 0
+ 1822 068c 80E0      		ldi r24,lo8(mystdout)
+ 1823 068e 90E0      		ldi r25,hi8(mystdout)
+ 1824 0690 9093 0000 		sts __iob+2+1,r25
+ 1825 0694 8093 0000 		sts __iob+2,r24
+ 640:ar1000test.c  **** 	UBRR0L = MYUBRR;
+ 1826               		.loc 1 640 0
+ 1827 0698 1092 C500 		sts 197,__zero_reg__
+ 641:ar1000test.c  **** 
+ 1828               		.loc 1 641 0
+ 1829 069c 87E6      		ldi r24,lo8(103)
+ 1830 069e 8093 C400 		sts 196,r24
+ 643:ar1000test.c  **** 	UCSR0C = (3<<UCSZ00);
+ 1831               		.loc 1 643 0
+ 1832 06a2 88E1      		ldi r24,lo8(24)
+ 1833 06a4 8093 C100 		sts 193,r24
+ 644:ar1000test.c  **** 	UCSR0A = (1<<U2X0);
+ 1834               		.loc 1 644 0
+ 1835 06a8 86E0      		ldi r24,lo8(6)
+ 1836 06aa 8093 C200 		sts 194,r24
+ 645:ar1000test.c  **** 
+ 1837               		.loc 1 645 0
+ 1838 06ae 82E0      		ldi r24,lo8(2)
+ 1839 06b0 8093 C000 		sts 192,r24
+ 649:ar1000test.c  **** 	
+ 1840               		.loc 1 649 0
+ 1841 06b4 85BD      		out 0x25,r24
+ 652:ar1000test.c  **** 	TWBR = 64;
+ 1842               		.loc 1 652 0
+ 1843 06b6 ECEB      		ldi r30,lo8(-68)
+ 1844 06b8 F0E0      		ldi r31,0
+ 1845 06ba 1082      		st Z,__zero_reg__
+ 653:ar1000test.c  **** 	//TWSR = (1 << TWPS1);
+ 1846               		.loc 1 653 0
+ 1847 06bc 80E4      		ldi r24,lo8(64)
+ 1848 06be 8093 B800 		sts 184,r24
+ 655:ar1000test.c  **** 	sbi(TWCR, TWEN);
+ 1849               		.loc 1 655 0
+ 1850 06c2 8081      		ld r24,Z
+ 1851 06c4 8F7B      		andi r24,lo8(-65)
+ 1852 06c6 8083      		st Z,r24
+ 656:ar1000test.c  **** 	
+ 1853               		.loc 1 656 0
+ 1854 06c8 8081      		ld r24,Z
+ 1855 06ca 8460      		ori r24,lo8(4)
+ 1856 06cc 8083      		st Z,r24
+ 658:ar1000test.c  **** }
+ 1857               		.loc 1 658 0
+ 1858 06ce 0C94 0000 		jmp ar1000_init
+ 1859               	.LVL213:
+ 1860               		.cfi_endproc
+ 1861               	.LFE15:
+ 1863               		.section	.rodata.str1.1
+ 1864               	.LC17:
+ 1865 015a 0A0A 4152 		.string	"\n\nAR1000 status : 0x%04X"
+ 1865      3130 3030 
+ 1865      2073 7461 
+ 1865      7475 7320 
+ 1865      3A20 3078 
+ 1866               	.LC18:
+ 1867 0173 0A43 6861 		.string	"\nChannel : %02d.%01dMHz"
+ 1867      6E6E 656C 
+ 1867      203A 2025 
+ 1867      3032 642E 
+ 1867      2530 3164 
+ 1868               	.LC19:
+ 1869 018b 2028 5365 		.string	" (Seek/Tune Complete)"
+ 1869      656B 2F54 
+ 1869      756E 6520 
+ 1869      436F 6D70 
+ 1869      6C65 7465 
+ 1870               	.LC20:
+ 1871 01a1 2028 5365 		.string	" (Seek/Tune Incomplete)"
+ 1871      656B 2F54 
+ 1871      756E 6520 
+ 1871      496E 636F 
+ 1871      6D70 6C65 
+ 1872               	.LC21:
+ 1873 01b9 2028 5365 		.string	" (Seek Fail)"
+ 1873      656B 2046 
+ 1873      6169 6C29 
+ 1873      00
+ 1874               	.LC22:
+ 1875 01c6 2028 5365 		.string	" (Seek Successful)"
+ 1875      656B 2053 
+ 1875      7563 6365 
+ 1875      7373 6675 
+ 1875      6C29 00
+ 1876               	.LC23:
+ 1877 01d9 2028 5374 		.string	" (Stereo)"
+ 1877      6572 656F 
+ 1877      2900 
+ 1878               	.LC24:
+ 1879 01e3 2028 4D6F 		.string	" (Mono)"
+ 1879      6E6F 2900 
+ 1880               		.text
+ 1881               	.global	ar1000_status
+ 1883               	ar1000_status:
+ 1884               	.LFB14:
+ 602:ar1000test.c  **** 	uint16_t status;
+ 1885               		.loc 1 602 0
+ 1886               		.cfi_startproc
+ 1887 06d2 CF93      		push r28
+ 1888               	.LCFI112:
+ 1889               		.cfi_def_cfa_offset 3
+ 1890               		.cfi_offset 28, -2
+ 1891 06d4 DF93      		push r29
+ 1892               	.LCFI113:
+ 1893               		.cfi_def_cfa_offset 4
+ 1894               		.cfi_offset 29, -3
+ 1895               	/* prologue: function */
+ 1896               	/* frame size = 0 */
+ 1897               	/* stack size = 2 */
+ 1898               	.L__stack_usage = 2
+ 605:ar1000test.c  **** 	
+ 1899               		.loc 1 605 0
+ 1900 06d6 83E1      		ldi r24,lo8(19)
+ 1901 06d8 0E94 0000 		call ar1000_read
+ 1902               	.LVL214:
+ 1903 06dc EC01      		movw r28,r24
+ 1904               	.LVL215:
+ 607:ar1000test.c  **** 	
+ 1905               		.loc 1 607 0
+ 1906 06de DF93      		push r29
+ 1907               	.LCFI114:
+ 1908               		.cfi_def_cfa_offset 5
+ 1909 06e0 CF93      		push r28
+ 1910               	.LCFI115:
+ 1911               		.cfi_def_cfa_offset 6
+ 1912 06e2 80E0      		ldi r24,lo8(.LC17)
+ 1913 06e4 90E0      		ldi r25,hi8(.LC17)
+ 1914               	.LVL216:
+ 1915 06e6 9F93      		push r25
+ 1916               	.LCFI116:
+ 1917               		.cfi_def_cfa_offset 7
+ 1918 06e8 8F93      		push r24
+ 1919               	.LCFI117:
+ 1920               		.cfi_def_cfa_offset 8
+ 1921 06ea 0E94 0000 		call printf
+ 1922               	.LVL217:
+ 610:ar1000test.c  **** 	channel += 690;
+ 1923               		.loc 1 610 0
+ 1924 06ee CE01      		movw r24,r28
+ 1925 06f0 880F      		lsl r24
+ 1926 06f2 892F      		mov r24,r25
+ 1927 06f4 881F      		rol r24
+ 1928 06f6 990B      		sbc r25,r25
+ 1929 06f8 9195      		neg r25
+ 1930               	.LVL218:
+ 611:ar1000test.c  **** 	printf("\nChannel : %02d.%01dMHz", channel / 10, channel % 10);
+ 1931               		.loc 1 611 0
+ 1932 06fa 8E54      		subi r24,78
+ 1933 06fc 9D4F      		sbci r25,-3
+ 1934               	.LVL219:
+ 612:ar1000test.c  **** 	
+ 1935               		.loc 1 612 0
+ 1936 06fe 6AE0      		ldi r22,lo8(10)
+ 1937 0700 70E0      		ldi r23,0
+ 1938 0702 0E94 0000 		call __udivmodhi4
+ 1939               	.LVL220:
+ 1940 0706 9F93      		push r25
+ 1941               	.LCFI118:
+ 1942               		.cfi_def_cfa_offset 9
+ 1943 0708 8F93      		push r24
+ 1944               	.LCFI119:
+ 1945               		.cfi_def_cfa_offset 10
+ 1946 070a 7F93      		push r23
+ 1947               	.LCFI120:
+ 1948               		.cfi_def_cfa_offset 11
+ 1949 070c 6F93      		push r22
+ 1950               	.LCFI121:
+ 1951               		.cfi_def_cfa_offset 12
+ 1952 070e 80E0      		ldi r24,lo8(.LC18)
+ 1953 0710 90E0      		ldi r25,hi8(.LC18)
+ 1954 0712 9F93      		push r25
+ 1955               	.LCFI122:
+ 1956               		.cfi_def_cfa_offset 13
+ 1957 0714 8F93      		push r24
+ 1958               	.LCFI123:
+ 1959               		.cfi_def_cfa_offset 14
+ 1960 0716 0E94 0000 		call printf
+ 1961               	.LVL221:
+ 614:ar1000test.c  **** 		printf(" (Seek/Tune Complete)");
+ 1962               		.loc 1 614 0
+ 1963 071a 8DB7      		in r24,__SP_L__
+ 1964 071c 9EB7      		in r25,__SP_H__
+ 1965 071e 0A96      		adiw r24,10
+ 1966 0720 0FB6      		in __tmp_reg__,__SREG__
+ 1967 0722 F894      		cli
+ 1968 0724 9EBF      		out __SP_H__,r25
+ 1969 0726 0FBE      		out __SREG__,__tmp_reg__
+ 1970 0728 8DBF      		out __SP_L__,r24
+ 1971               	.LCFI124:
+ 1972               		.cfi_def_cfa_offset 4
+ 1973 072a C5FF      		sbrs r28,5
+ 1974 072c 00C0      		rjmp .L91
+ 615:ar1000test.c  **** 	else
+ 1975               		.loc 1 615 0
+ 1976 072e 80E0      		ldi r24,lo8(.LC19)
+ 1977 0730 90E0      		ldi r25,hi8(.LC19)
+ 1978 0732 00C0      		rjmp .L97
+ 1979               	.L91:
+ 617:ar1000test.c  **** 	
+ 1980               		.loc 1 617 0
+ 1981 0734 80E0      		ldi r24,lo8(.LC20)
+ 1982 0736 90E0      		ldi r25,hi8(.LC20)
+ 1983               	.L97:
+ 1984 0738 9F93      		push r25
+ 1985               	.LCFI125:
+ 1986               		.cfi_def_cfa_offset 5
+ 1987 073a 8F93      		push r24
+ 1988               	.LCFI126:
+ 1989               		.cfi_def_cfa_offset 6
+ 1990 073c 0E94 0000 		call printf
+ 1991               	.LVL222:
+ 1992 0740 0F90      		pop __tmp_reg__
+ 1993 0742 0F90      		pop __tmp_reg__
+ 1994               	.LCFI127:
+ 1995               		.cfi_def_cfa_offset 4
+ 619:ar1000test.c  **** 		printf(" (Seek Fail)");
+ 1996               		.loc 1 619 0
+ 1997 0744 C4FF      		sbrs r28,4
+ 1998 0746 00C0      		rjmp .L93
+ 620:ar1000test.c  **** 	else
+ 1999               		.loc 1 620 0
+ 2000 0748 80E0      		ldi r24,lo8(.LC21)
+ 2001 074a 90E0      		ldi r25,hi8(.LC21)
+ 2002 074c 00C0      		rjmp .L98
+ 2003               	.L93:
+ 622:ar1000test.c  **** 		
+ 2004               		.loc 1 622 0
+ 2005 074e 80E0      		ldi r24,lo8(.LC22)
+ 2006 0750 90E0      		ldi r25,hi8(.LC22)
+ 2007               	.L98:
+ 2008 0752 9F93      		push r25
+ 2009               	.LCFI128:
+ 2010               		.cfi_def_cfa_offset 5
+ 2011 0754 8F93      		push r24
+ 2012               	.LCFI129:
+ 2013               		.cfi_def_cfa_offset 6
+ 2014 0756 0E94 0000 		call printf
+ 2015               	.LVL223:
+ 2016 075a 0F90      		pop __tmp_reg__
+ 2017 075c 0F90      		pop __tmp_reg__
+ 2018               	.LCFI130:
+ 2019               		.cfi_def_cfa_offset 4
+ 624:ar1000test.c  **** 		printf(" (Stereo)");
+ 2020               		.loc 1 624 0
+ 2021 075e C3FF      		sbrs r28,3
+ 2022 0760 00C0      		rjmp .L95
+ 625:ar1000test.c  **** 	else
+ 2023               		.loc 1 625 0
+ 2024 0762 80E0      		ldi r24,lo8(.LC23)
+ 2025 0764 90E0      		ldi r25,hi8(.LC23)
+ 2026 0766 00C0      		rjmp .L99
+ 2027               	.L95:
+ 627:ar1000test.c  **** }
+ 2028               		.loc 1 627 0
+ 2029 0768 80E0      		ldi r24,lo8(.LC24)
+ 2030 076a 90E0      		ldi r25,hi8(.LC24)
+ 2031               	.L99:
+ 2032 076c 9F93      		push r25
+ 2033               	.LCFI131:
+ 2034               		.cfi_def_cfa_offset 5
+ 2035 076e 8F93      		push r24
+ 2036               	.LCFI132:
+ 2037               		.cfi_def_cfa_offset 6
+ 2038 0770 0E94 0000 		call printf
+ 2039               	.LVL224:
+ 2040 0774 0F90      		pop __tmp_reg__
+ 2041 0776 0F90      		pop __tmp_reg__
+ 2042               	.LCFI133:
+ 2043               		.cfi_def_cfa_offset 4
+ 2044               	/* epilogue start */
+ 628:ar1000test.c  **** 
+ 2045               		.loc 1 628 0
+ 2046 0778 DF91      		pop r29
+ 2047 077a CF91      		pop r28
+ 2048               	.LVL225:
+ 2049 077c 0895      		ret
+ 2050               		.cfi_endproc
+ 2051               	.LFE14:
+ 2053               		.section	.rodata.str1.1
+ 2054               	.LC25:
+ 2055 01eb 0A0A 2D2D 		.string	"\n\n----AR1000 Configuration----"
+ 2055      2D2D 4152 
+ 2055      3130 3030 
+ 2055      2043 6F6E 
+ 2055      6669 6775 
+ 2056               	.LC26:
+ 2057 020a 0A31 2920 		.string	"\n1) Send array values"
+ 2057      5365 6E64 
+ 2057      2061 7272 
+ 2057      6179 2076 
+ 2057      616C 7565 
+ 2058               	.LC27:
+ 2059 0220 0A32 2920 		.string	"\n2) Read array values"
+ 2059      5265 6164 
+ 2059      2061 7272 
+ 2059      6179 2076 
+ 2059      616C 7565 
+ 2060               	.LC28:
+ 2061 0236 0A33 2920 		.string	"\n3) Set array value"
+ 2061      5365 7420 
+ 2061      6172 7261 
+ 2061      7920 7661 
+ 2061      6C75 6500 
+ 2062               	.LC29:
+ 2063 024a 0A34 2920 		.string	"\n4) Read All Register values"
+ 2063      5265 6164 
+ 2063      2041 6C6C 
+ 2063      2052 6567 
+ 2063      6973 7465 
+ 2064               	.LC30:
+ 2065 0267 0A35 2920 		.string	"\n5) Begin Seek"
+ 2065      4265 6769 
+ 2065      6E20 5365 
+ 2065      656B 00
+ 2066               	.LC31:
+ 2067 0276 0A36 2920 		.string	"\n6) Tune to 97.3"
+ 2067      5475 6E65 
+ 2067      2074 6F20 
+ 2067      3937 2E33 
+ 2067      00
+ 2068               	.LC32:
+ 2069 0287 0A37 2920 		.string	"\n7) Check Status"
+ 2069      4368 6563 
+ 2069      6B20 5374 
+ 2069      6174 7573 
+ 2069      00
+ 2070               	.LC33:
+ 2071 0298 0A38 2920 		.string	"\n8) Raise volume"
+ 2071      5261 6973 
+ 2071      6520 766F 
+ 2071      6C75 6D65 
+ 2071      00
+ 2072               	.LC34:
+ 2073 02a9 0A39 2920 		.string	"\n9) Lower volume"
+ 2073      4C6F 7765 
+ 2073      7220 766F 
+ 2073      6C75 6D65 
+ 2073      00
+ 2074               	.LC35:
+ 2075 02ba 0A61 2920 		.string	"\na) Check RSSI"
+ 2075      4368 6563 
+ 2075      6B20 5253 
+ 2075      5349 00
+ 2076               	.LC36:
+ 2077 02c9 0A62 2920 		.string	"\nb) Special tune hi/low to 97.3"
+ 2077      5370 6563 
+ 2077      6961 6C20 
+ 2077      7475 6E65 
+ 2077      2068 692F 
+ 2078               	.LC37:
+ 2079 02e9 0A0A 0953 		.string	"\n\n\tSending Array Values"
+ 2079      656E 6469 
+ 2079      6E67 2041 
+ 2079      7272 6179 
+ 2079      2056 616C 
+ 2080               	.LC38:
+ 2081 0301 0A09 0944 		.string	"\n\t\tDone"
+ 2081      6F6E 6500 
+ 2082               	.LC39:
+ 2083 0309 0A0A 0952 		.string	"\n\n\tRead All"
+ 2083      6561 6420 
+ 2083      416C 6C00 
+ 2084               	.LC40:
+ 2085 0315 0A09 2054 		.string	"\n\t Tune to 97.3"
+ 2085      756E 6520 
+ 2085      746F 2039 
+ 2085      372E 3300 
+ 2086               	.LC41:
+ 2087 0325 0A56 6F6C 		.string	"\nVolume = %02d"
+ 2087      756D 6520 
+ 2087      3D20 2530 
+ 2087      3264 00
+ 2088               	.LC42:
+ 2089 0334 0A52 5353 		.string	"\nRSSI = %d"
+ 2089      4920 3D20 
+ 2089      2564 00
+ 2090               	.LC43:
+ 2091 033f 0A0A 4368 		.string	"\n\nChoice = %c"
+ 2091      6F69 6365 
+ 2091      203D 2025 
+ 2091      6300 
+ 2092               		.section	.text.startup,"ax",@progbits
+ 2093               	.global	main
+ 2095               	main:
+ 2096               	.LFB1:
+ 156:ar1000test.c  **** 	ioinit(); //Setup IO pins and defaults
+ 2097               		.loc 1 156 0
+ 2098               		.cfi_startproc
+ 2099               	/* prologue: function */
+ 2100               	/* frame size = 0 */
+ 2101               	/* stack size = 0 */
+ 2102               	.L__stack_usage = 0
+ 157:ar1000test.c  **** 	
+ 2103               		.loc 1 157 0
+ 2104 0000 0E94 0000 		call ioinit
+ 160:ar1000test.c  **** 	
+ 2105               		.loc 1 160 0
+ 2106 0004 C5E1      		ldi r28,lo8(21)
+ 167:ar1000test.c  **** 		printf("\n4) Read All Register values");
+ 2107               		.loc 1 167 0
+ 2108 0006 80E0      		ldi r24,lo8(.LC28)
+ 2109 0008 282E      		mov r2,r24
+ 2110 000a 80E0      		ldi r24,hi8(.LC28)
+ 2111 000c 382E      		mov r3,r24
+ 168:ar1000test.c  **** 		printf("\n5) Begin Seek");		
+ 2112               		.loc 1 168 0
+ 2113 000e 90E0      		ldi r25,lo8(.LC29)
+ 2114 0010 492E      		mov r4,r25
+ 2115 0012 90E0      		ldi r25,hi8(.LC29)
+ 2116 0014 592E      		mov r5,r25
+ 169:ar1000test.c  **** 		printf("\n6) Tune to 97.3");		
+ 2117               		.loc 1 169 0
+ 2118 0016 20E0      		ldi r18,lo8(.LC30)
+ 2119 0018 622E      		mov r6,r18
+ 2120 001a 20E0      		ldi r18,hi8(.LC30)
+ 2121 001c 722E      		mov r7,r18
+ 170:ar1000test.c  **** 		printf("\n7) Check Status");		
+ 2122               		.loc 1 170 0
+ 2123 001e 30E0      		ldi r19,lo8(.LC31)
+ 2124 0020 832E      		mov r8,r19
+ 2125 0022 30E0      		ldi r19,hi8(.LC31)
+ 2126 0024 932E      		mov r9,r19
+ 172:ar1000test.c  **** 		printf("\n9) Lower volume");		
+ 2127               		.loc 1 172 0
+ 2128 0026 00E0      		ldi r16,lo8(.LC33)
+ 2129 0028 10E0      		ldi r17,hi8(.LC33)
+ 173:ar1000test.c  **** 		printf("\na) Check RSSI");		
+ 2130               		.loc 1 173 0
+ 2131 002a 40E0      		ldi r20,lo8(.LC34)
+ 2132 002c E42E      		mov r14,r20
+ 2133 002e 40E0      		ldi r20,hi8(.LC34)
+ 2134 0030 F42E      		mov r15,r20
+ 174:ar1000test.c  **** 		printf("\nb) Special tune hi/low to 97.3");		
+ 2135               		.loc 1 174 0
+ 2136 0032 50E0      		ldi r21,lo8(.LC35)
+ 2137 0034 C52E      		mov r12,r21
+ 2138 0036 50E0      		ldi r21,hi8(.LC35)
+ 2139 0038 D52E      		mov r13,r21
+ 175:ar1000test.c  **** 
+ 2140               		.loc 1 175 0
+ 2141 003a 60E0      		ldi r22,lo8(.LC36)
+ 2142 003c A62E      		mov r10,r22
+ 2143 003e 60E0      		ldi r22,hi8(.LC36)
+ 2144 0040 B62E      		mov r11,r22
+ 2145               	.L101:
+ 164:ar1000test.c  **** 		printf("\n1) Send array values");
+ 2146               		.loc 1 164 0
+ 2147 0042 20E0      		ldi r18,lo8(.LC25)
+ 2148 0044 30E0      		ldi r19,hi8(.LC25)
+ 2149 0046 3F93      		push r19
+ 2150               	.LCFI134:
+ 2151               		.cfi_def_cfa_offset 3
+ 2152 0048 2F93      		push r18
+ 2153               	.LCFI135:
+ 2154               		.cfi_def_cfa_offset 4
+ 2155 004a 0E94 0000 		call printf
+ 165:ar1000test.c  **** 		printf("\n2) Read array values");
+ 2156               		.loc 1 165 0
+ 2157 004e 20E0      		ldi r18,lo8(.LC26)
+ 2158 0050 30E0      		ldi r19,hi8(.LC26)
+ 2159 0052 3F93      		push r19
+ 2160               	.LCFI136:
+ 2161               		.cfi_def_cfa_offset 5
+ 2162 0054 2F93      		push r18
+ 2163               	.LCFI137:
+ 2164               		.cfi_def_cfa_offset 6
+ 2165 0056 0E94 0000 		call printf
+ 166:ar1000test.c  **** 		printf("\n3) Set array value");	
+ 2166               		.loc 1 166 0
+ 2167 005a 20E0      		ldi r18,lo8(.LC27)
+ 2168 005c 30E0      		ldi r19,hi8(.LC27)
+ 2169 005e 3F93      		push r19
+ 2170               	.LCFI138:
+ 2171               		.cfi_def_cfa_offset 7
+ 2172 0060 2F93      		push r18
+ 2173               	.LCFI139:
+ 2174               		.cfi_def_cfa_offset 8
+ 2175 0062 0E94 0000 		call printf
+ 167:ar1000test.c  **** 		printf("\n4) Read All Register values");
+ 2176               		.loc 1 167 0
+ 2177 0066 3F92      		push r3
+ 2178               	.LCFI140:
+ 2179               		.cfi_def_cfa_offset 9
+ 2180 0068 2F92      		push r2
+ 2181               	.LCFI141:
+ 2182               		.cfi_def_cfa_offset 10
+ 2183 006a 0E94 0000 		call printf
+ 168:ar1000test.c  **** 		printf("\n5) Begin Seek");		
+ 2184               		.loc 1 168 0
+ 2185 006e 5F92      		push r5
+ 2186               	.LCFI142:
+ 2187               		.cfi_def_cfa_offset 11
+ 2188 0070 4F92      		push r4
+ 2189               	.LCFI143:
+ 2190               		.cfi_def_cfa_offset 12
+ 2191 0072 0E94 0000 		call printf
+ 169:ar1000test.c  **** 		printf("\n6) Tune to 97.3");		
+ 2192               		.loc 1 169 0
+ 2193 0076 7F92      		push r7
+ 2194               	.LCFI144:
+ 2195               		.cfi_def_cfa_offset 13
+ 2196 0078 6F92      		push r6
+ 2197               	.LCFI145:
+ 2198               		.cfi_def_cfa_offset 14
+ 2199 007a 0E94 0000 		call printf
+ 170:ar1000test.c  **** 		printf("\n7) Check Status");		
+ 2200               		.loc 1 170 0
+ 2201 007e 9F92      		push r9
+ 2202               	.LCFI146:
+ 2203               		.cfi_def_cfa_offset 15
+ 2204 0080 8F92      		push r8
+ 2205               	.LCFI147:
+ 2206               		.cfi_def_cfa_offset 16
+ 2207 0082 0E94 0000 		call printf
+ 171:ar1000test.c  **** 		printf("\n8) Raise volume");		
+ 2208               		.loc 1 171 0
+ 2209 0086 20E0      		ldi r18,lo8(.LC32)
+ 2210 0088 30E0      		ldi r19,hi8(.LC32)
+ 2211 008a 3F93      		push r19
+ 2212               	.LCFI148:
+ 2213               		.cfi_def_cfa_offset 17
+ 2214 008c 2F93      		push r18
+ 2215               	.LCFI149:
+ 2216               		.cfi_def_cfa_offset 18
+ 2217 008e 0E94 0000 		call printf
+ 172:ar1000test.c  **** 		printf("\n9) Lower volume");		
+ 2218               		.loc 1 172 0
+ 2219 0092 1F93      		push r17
+ 2220               	.LCFI150:
+ 2221               		.cfi_def_cfa_offset 19
+ 2222 0094 0F93      		push r16
+ 2223               	.LCFI151:
+ 2224               		.cfi_def_cfa_offset 20
+ 2225 0096 0E94 0000 		call printf
+ 173:ar1000test.c  **** 		printf("\na) Check RSSI");		
+ 2226               		.loc 1 173 0
+ 2227 009a FF92      		push r15
+ 2228               	.LCFI152:
+ 2229               		.cfi_def_cfa_offset 21
+ 2230 009c EF92      		push r14
+ 2231               	.LCFI153:
+ 2232               		.cfi_def_cfa_offset 22
+ 2233 009e 0E94 0000 		call printf
+ 174:ar1000test.c  **** 		printf("\nb) Special tune hi/low to 97.3");		
+ 2234               		.loc 1 174 0
+ 2235 00a2 DF92      		push r13
+ 2236               	.LCFI154:
+ 2237               		.cfi_def_cfa_offset 23
+ 2238 00a4 CF92      		push r12
+ 2239               	.LCFI155:
+ 2240               		.cfi_def_cfa_offset 24
+ 2241 00a6 0E94 0000 		call printf
+ 175:ar1000test.c  **** 
+ 2242               		.loc 1 175 0
+ 2243 00aa BF92      		push r11
+ 2244               	.LCFI156:
+ 2245               		.cfi_def_cfa_offset 25
+ 2246 00ac AF92      		push r10
+ 2247               	.LCFI157:
+ 2248               		.cfi_def_cfa_offset 26
+ 2249 00ae 0E94 0000 		call printf
+ 177:ar1000test.c  **** 		
+ 2250               		.loc 1 177 0
+ 2251 00b2 0E94 0000 		call uart_getchar
+ 179:ar1000test.c  **** 		{
+ 2252               		.loc 1 179 0
+ 2253 00b6 2DB7      		in r18,__SP_L__
+ 2254 00b8 3EB7      		in r19,__SP_H__
+ 2255 00ba 285E      		subi r18,-24
+ 2256 00bc 3F4F      		sbci r19,-1
+ 2257 00be 0FB6      		in __tmp_reg__,__SREG__
+ 2258 00c0 F894      		cli
+ 2259 00c2 3EBF      		out __SP_H__,r19
+ 2260 00c4 0FBE      		out __SREG__,__tmp_reg__
+ 2261 00c6 2DBF      		out __SP_L__,r18
+ 2262               	.LCFI158:
+ 2263               		.cfi_def_cfa_offset 2
+ 2264 00c8 8133      		cpi r24,lo8(49)
+ 2265 00ca 01F4      		brne .L102
+ 181:ar1000test.c  **** 			ar1000_write_array();
+ 2266               		.loc 1 181 0
+ 2267 00cc 80E0      		ldi r24,lo8(.LC37)
+ 2268 00ce 90E0      		ldi r25,hi8(.LC37)
+ 2269 00d0 0E94 0000 		call puts
+ 182:ar1000test.c  **** 			printf("\n\t\tDone\n");
+ 2270               		.loc 1 182 0
+ 2271 00d4 0E94 0000 		call ar1000_write_array
+ 183:ar1000test.c  **** 		}
+ 2272               		.loc 1 183 0
+ 2273 00d8 80E0      		ldi r24,lo8(.LC38)
+ 2274 00da 90E0      		ldi r25,hi8(.LC38)
+ 2275 00dc 0E94 0000 		call puts
+ 2276 00e0 00C0      		rjmp .L101
+ 2277               	.L102:
+ 186:ar1000test.c  **** 		{
+ 2278               		.loc 1 186 0
+ 2279 00e2 8233      		cpi r24,lo8(50)
+ 2280 00e4 01F4      		brne .L104
+ 188:ar1000test.c  **** 		}
+ 2281               		.loc 1 188 0
+ 2282 00e6 0E94 0000 		call print_array
+ 2283 00ea 00C0      		rjmp .L101
+ 2284               	.L104:
+ 191:ar1000test.c  **** 		{
+ 2285               		.loc 1 191 0
+ 2286 00ec 8333      		cpi r24,lo8(51)
+ 2287 00ee 01F4      		brne .L105
+ 193:ar1000test.c  **** 		}
+ 2288               		.loc 1 193 0
+ 2289 00f0 0E94 0000 		call set_array_value
+ 2290 00f4 00C0      		rjmp .L101
+ 2291               	.L105:
+ 196:ar1000test.c  **** 		{
+ 2292               		.loc 1 196 0
+ 2293 00f6 8433      		cpi r24,lo8(52)
+ 2294 00f8 01F4      		brne .L106
+ 198:ar1000test.c  **** 			ar1000_readall();
+ 2295               		.loc 1 198 0
+ 2296 00fa 80E0      		ldi r24,lo8(.LC39)
+ 2297 00fc 90E0      		ldi r25,hi8(.LC39)
+ 2298 00fe 0E94 0000 		call puts
+ 199:ar1000test.c  **** 		}
+ 2299               		.loc 1 199 0
+ 2300 0102 0E94 0000 		call ar1000_readall
+ 2301 0106 00C0      		rjmp .L101
+ 2302               	.L106:
+ 202:ar1000test.c  **** 		{
+ 2303               		.loc 1 202 0
+ 2304 0108 8533      		cpi r24,lo8(53)
+ 2305 010a 01F4      		brne .L107
+ 204:ar1000test.c  **** 		}
+ 2306               		.loc 1 204 0
+ 2307 010c 0E94 0000 		call ar1000_seek
+ 2308 0110 00C0      		rjmp .L101
+ 2309               	.L107:
+ 207:ar1000test.c  **** 		{
+ 2310               		.loc 1 207 0
+ 2311 0112 8633      		cpi r24,lo8(54)
+ 2312 0114 01F4      		brne .L108
+ 209:ar1000test.c  **** 			ar1000_tuneto(973);
+ 2313               		.loc 1 209 0
+ 2314 0116 80E0      		ldi r24,lo8(.LC40)
+ 2315 0118 90E0      		ldi r25,hi8(.LC40)
+ 2316 011a 0E94 0000 		call puts
+ 210:ar1000test.c  **** 		}
+ 2317               		.loc 1 210 0
+ 2318 011e 8DEC      		ldi r24,lo8(-51)
+ 2319 0120 93E0      		ldi r25,lo8(3)
+ 2320 0122 0E94 0000 		call ar1000_tuneto
+ 2321 0126 00C0      		rjmp .L101
+ 2322               	.L108:
+ 213:ar1000test.c  **** 		{
+ 2323               		.loc 1 213 0
+ 2324 0128 8733      		cpi r24,lo8(55)
+ 2325 012a 01F4      		brne .L109
+ 215:ar1000test.c  **** 		}
+ 2326               		.loc 1 215 0
+ 2327 012c 0E94 0000 		call ar1000_status
+ 2328 0130 00C0      		rjmp .L101
+ 2329               	.L109:
+ 218:ar1000test.c  **** 		{
+ 2330               		.loc 1 218 0
+ 2331 0132 8833      		cpi r24,lo8(56)
+ 2332 0134 01F4      		brne .L110
+ 220:ar1000test.c  **** 			printf("\nVolume = %02d", vol);
+ 2333               		.loc 1 220 0
+ 2334 0136 C531      		cpi r28,lo8(21)
+ 2335 0138 01F0      		breq .L113
+ 220:ar1000test.c  **** 			printf("\nVolume = %02d", vol);
+ 2336               		.loc 1 220 0 is_stmt 0 discriminator 1
+ 2337 013a D1E0      		ldi r29,lo8(1)
+ 2338 013c 00C0      		rjmp .L124
+ 2339               	.L110:
+ 223:ar1000test.c  **** 		{
+ 2340               		.loc 1 223 0 is_stmt 1
+ 2341 013e 8933      		cpi r24,lo8(57)
+ 2342 0140 01F4      		brne .L112
+ 225:ar1000test.c  **** 			printf("\nVolume = %02d", vol);
+ 2343               		.loc 1 225 0
+ 2344 0142 CC23      		tst r28
+ 2345 0144 01F0      		breq .L113
+ 225:ar1000test.c  **** 			printf("\nVolume = %02d", vol);
+ 2346               		.loc 1 225 0 is_stmt 0 discriminator 1
+ 2347 0146 DFEF      		ldi r29,lo8(-1)
+ 2348               	.L124:
+ 2349 0148 DC0F      		add r29,r28
+ 2350 014a 8C2F      		mov r24,r28
+ 2351 014c 0E94 0000 		call ar1000_setvolume
+ 2352 0150 CD2F      		mov r28,r29
+ 2353               	.L113:
+ 226:ar1000test.c  **** 		}
+ 2354               		.loc 1 226 0 is_stmt 1
+ 2355 0152 1F92      		push __zero_reg__
+ 2356               	.LCFI159:
+ 2357               		.cfi_remember_state
+ 2358               		.cfi_def_cfa_offset 3
+ 2359 0154 CF93      		push r28
+ 2360               	.LCFI160:
+ 2361               		.cfi_def_cfa_offset 4
+ 2362 0156 80E0      		ldi r24,lo8(.LC41)
+ 2363 0158 90E0      		ldi r25,hi8(.LC41)
+ 2364 015a 00C0      		rjmp .L123
+ 2365               	.L112:
+ 2366               	.LCFI161:
+ 2367               		.cfi_restore_state
+ 228:ar1000test.c  **** 		{
+ 2368               		.loc 1 228 0
+ 2369 015c 8136      		cpi r24,lo8(97)
+ 2370 015e 01F4      		brne .L114
+ 230:ar1000test.c  **** 			printf("\nRSSI = %d", option);
+ 2371               		.loc 1 230 0
+ 2372 0160 0E94 0000 		call ar1000_rssi
+ 231:ar1000test.c  **** 		}
+ 2373               		.loc 1 231 0
+ 2374 0164 9927      		clr r25
+ 2375 0166 9F93      		push r25
+ 2376               	.LCFI162:
+ 2377               		.cfi_def_cfa_offset 3
+ 2378 0168 8F93      		push r24
+ 2379               	.LCFI163:
+ 2380               		.cfi_def_cfa_offset 4
+ 2381 016a 80E0      		ldi r24,lo8(.LC42)
+ 2382 016c 90E0      		ldi r25,hi8(.LC42)
+ 2383               	.L123:
+ 2384 016e 9F93      		push r25
+ 2385               	.LCFI164:
+ 2386               		.cfi_def_cfa_offset 5
+ 2387 0170 00C0      		rjmp .L122
+ 2388               	.L114:
+ 2389               	.LCFI165:
+ 2390               		.cfi_def_cfa_offset 2
+ 233:ar1000test.c  **** 		{
+ 2391               		.loc 1 233 0
+ 2392 0172 8236      		cpi r24,lo8(98)
+ 2393 0174 01F4      		brne .L115
+ 235:ar1000test.c  **** 		}
+ 2394               		.loc 1 235 0
+ 2395 0176 8DEC      		ldi r24,lo8(-51)
+ 2396 0178 93E0      		ldi r25,lo8(3)
+ 2397 017a 0E94 0000 		call ar1000_tune_hilo
+ 2398 017e 00C0      		rjmp .L101
+ 2399               	.L115:
+ 239:ar1000test.c  **** 	}
+ 2400               		.loc 1 239 0
+ 2401 0180 1F92      		push __zero_reg__
+ 2402               	.LCFI166:
+ 2403               		.cfi_def_cfa_offset 3
+ 2404 0182 8F93      		push r24
+ 2405               	.LCFI167:
+ 2406               		.cfi_def_cfa_offset 4
+ 2407 0184 80E0      		ldi r24,lo8(.LC43)
+ 2408 0186 90E0      		ldi r25,hi8(.LC43)
+ 2409 0188 9F93      		push r25
+ 2410               	.LCFI168:
+ 2411               		.cfi_def_cfa_offset 5
+ 2412               	.L122:
+ 2413 018a 8F93      		push r24
+ 2414               	.LCFI169:
+ 2415               		.cfi_def_cfa_offset 6
+ 2416 018c 0E94 0000 		call printf
+ 2417 0190 0F90      		pop __tmp_reg__
+ 2418 0192 0F90      		pop __tmp_reg__
+ 2419 0194 0F90      		pop __tmp_reg__
+ 2420 0196 0F90      		pop __tmp_reg__
+ 2421               	.LCFI170:
+ 2422               		.cfi_def_cfa_offset 2
+ 2423 0198 00C0      		rjmp .L101
+ 2424               		.cfi_endproc
+ 2425               	.LFE1:
+ 2427               	.global	AR1000vol
+ 2428               		.data
+ 2431               	AR1000vol:
+ 2432 0000 0F        		.byte	15
+ 2433 0001 CF        		.byte	-49
+ 2434 0002 DF        		.byte	-33
+ 2435 0003 EF        		.byte	-17
+ 2436 0004 FF        		.byte	-1
+ 2437 0005 EE        		.byte	-18
+ 2438 0006 FE        		.byte	-2
+ 2439 0007 ED        		.byte	-19
+ 2440 0008 FD        		.byte	-3
+ 2441 0009 FB        		.byte	-5
+ 2442 000a FA        		.byte	-6
+ 2443 000b F9        		.byte	-7
+ 2444 000c F7        		.byte	-9
+ 2445 000d E6        		.byte	-26
+ 2446 000e F6        		.byte	-10
+ 2447 000f E5        		.byte	-27
+ 2448 0010 F5        		.byte	-11
+ 2449 0011 E3        		.byte	-29
+ 2450 0012 F3        		.byte	-13
+ 2451 0013 F2        		.byte	-14
+ 2452 0014 F1        		.byte	-15
+ 2453 0015 F0        		.byte	-16
+ 2454               	.global	register_values
+ 2457               	register_values:
+ 2458 0016 FFFF      		.word	-1
+ 2459 0018 155B      		.word	23317
+ 2460 001a B9F4      		.word	-2887
+ 2461 001c 1280      		.word	-32750
+ 2462 001e 0004      		.word	1024
+ 2463 0020 AA28      		.word	10410
+ 2464 0022 0044      		.word	17408
+ 2465 0024 E71E      		.word	7911
+ 2466 0026 4171      		.word	28993
+ 2467 0028 7D00      		.word	125
+ 2468 002a C682      		.word	-32058
+ 2469 002c 554F      		.word	20309
+ 2470 002e 0C97      		.word	-26868
+ 2471 0030 45B8      		.word	-18363
+ 2472 0032 2DFC      		.word	-979
+ 2473 0034 9780      		.word	-32617
+ 2474 0036 A104      		.word	1185
+ 2475 0038 6ADF      		.word	-8342
+ 2478               	mystdout:
+ 2479 003a 0000 00   		.zero	3
+ 2480 003d 02        		.byte	2
+ 2481 003e 0000 0000 		.zero	4
+ 2482 0042 0000      		.word	gs(uart_putchar)
+ 2483 0044 0000      		.word	0
+ 2484 0046 0000      		.word	0
+ 2485               		.text
+ 2486               	.Letext0:
+ 2487               		.file 2 "/usr/lib/avr/include/stdint.h"
+ 2488               		.file 3 "/usr/lib/avr/include/stdio.h"
+ 2489               		.file 4 "<built-in>"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ar1000test.c
+     /tmp/ccx9f51x.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccx9f51x.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccx9f51x.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccx9f51x.s:5      *ABS*:000000000000003b __RAMPZ__
+     /tmp/ccx9f51x.s:6      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccx9f51x.s:7      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccx9f51x.s:12     .text:0000000000000000 uart_putchar
+     /tmp/ccx9f51x.s:60     .text:0000000000000022 print_array
+     /tmp/ccx9f51x.s:2457   .data:0000000000000016 register_values
+     /tmp/ccx9f51x.s:166    .text:0000000000000082 uart_getchar
+     /tmp/ccx9f51x.s:188    .text:0000000000000090 uart_gethex
+     /tmp/ccx9f51x.s:327    .text:0000000000000104 set_array_value
+     /tmp/ccx9f51x.s:450    .text:000000000000017c delay_us
+     /tmp/ccx9f51x.s:499    .text:00000000000001a0 delay_ms
+     /tmp/ccx9f51x.s:543    .text:00000000000001bc i2c_SendStop
+     /tmp/ccx9f51x.s:560    .text:00000000000001c4 i2c_WaitForComplete
+     /tmp/ccx9f51x.s:581    .text:00000000000001ce i2c_SendStart
+     /tmp/ccx9f51x.s:600    .text:00000000000001d8 i2c_SendByte
+     /tmp/ccx9f51x.s:641    .text:0000000000000200 ar1000_write
+     /tmp/ccx9f51x.s:734    .text:0000000000000248 ar1000_write_array
+     /tmp/ccx9f51x.s:797    .text:000000000000028c i2c_ReceiveByte
+     /tmp/ccx9f51x.s:840    .text:00000000000002b0 ar1000_read
+     /tmp/ccx9f51x.s:946    .text:0000000000000312 ar1000_rssi
+     /tmp/ccx9f51x.s:972    .text:0000000000000324 ar1000_setvolume
+     /tmp/ccx9f51x.s:2431   .data:0000000000000000 AR1000vol
+     /tmp/ccx9f51x.s:1057   .text:0000000000000378 ar1000_tuneto
+     /tmp/ccx9f51x.s:1157   .text:00000000000003d2 ar1000_tune_hilo
+     /tmp/ccx9f51x.s:1376   .text:00000000000004c2 ar1000_seek
+     /tmp/ccx9f51x.s:1640   .text:00000000000005fc ar1000_readall
+     /tmp/ccx9f51x.s:1729   .text:0000000000000640 ar1000_init
+     /tmp/ccx9f51x.s:1808   .text:0000000000000686 ioinit
+     /tmp/ccx9f51x.s:2478   .data:000000000000003a mystdout
+     /tmp/ccx9f51x.s:1883   .text:00000000000006d2 ar1000_status
+     /tmp/ccx9f51x.s:2095   .text.startup:0000000000000000 main
+
+UNDEFINED SYMBOLS
+puts
+printf
+putchar
+__udivmodhi4
+__iob
+__do_copy_data
