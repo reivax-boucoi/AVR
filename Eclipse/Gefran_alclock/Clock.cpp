@@ -1,6 +1,6 @@
 #include "Clock.h"
 
-Clock clock(2019,06,03,0,34,50);
+Clock clock(2019,06,06,06,54,50);
 
 Clock::Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t min, uint8_t sec){
 
@@ -43,13 +43,16 @@ Clock::Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t m
 		subs[i]->parent=root;
 		subs[i]->nbSubs=0;
 		subs[i]->subs=l[i];
-		subs[i]->nbSubs=5;
 
 	}
 	strcpy(subs[0]->name,"Temp");
+	subs[0]->nbSubs=5;
 	strcpy(subs[1]->name,"al 1");
+	subs[1]->nbSubs=3;
 	strcpy(subs[2]->name,"al 2");
+	subs[2]->nbSubs=3;
 	strcpy(subs[3]->name,"conf");
+	subs[3]->nbSubs=2;
 
 
 	for(int j=0;j<4;j++){
@@ -86,6 +89,11 @@ Clock::Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t m
 	strcpy(l[2][2]->name,"Acti");
 	l[2][2]->fptr=&MAlarmActivate1;
 
+
+	strcpy(l[3][0]->name,"Vers");
+	l[3][0]->fptr=&MConfVers;
+	strcpy(l[3][1]->name,"Rst ");
+	l[3][1]->fptr=&MConfRst;
 	cMenu=root;
 	currentsub=0;
 
@@ -188,7 +196,9 @@ void Clock::addTimeSec(void){
 	}
 
 }
-
+bool Clock::alarmisRunning(void){
+	return Alarm1Val.isActive || AlarmVal.isActive;
+}
 void Clock::updateDisplay(void) {
 	if(displayMode==MOFF){
 		for(uint8_t i=0;i<8;i++)
@@ -198,6 +208,7 @@ void Clock::updateDisplay(void) {
 	}
 	display.setLed(0,AlarmVal.isSet);
 	display.setLed(1,Alarm1Val.isSet);
+
 	if(displayMode==MTIME){
 		display.setNum(TimeVal.hour,0,0);
 		display.setNum(TimeVal.min,0,1);
@@ -209,6 +220,7 @@ void Clock::updateDisplay(void) {
 		display.setDP(1,0);
 		display.setDP(5,0);
 		display.setText(cMenu->name,4,0);
+
 		if(cMenu->nbSubs>0){
 			display.setText(cMenu->subs[currentsub]->name,4,1);
 		}else{
@@ -269,21 +281,21 @@ void Clock::keyPressed(uint8_t key, int8_t state){
 
 	}if(Alarm1Val.isActive){//alarm clear
 		display.setLed(5,0);
-		buzz.stop();
 		Alarm1Val.isActive=0;
+		buzz.stop();
 		if(!(KEYPIN & PWRCHECK))sleepFlag=1;//put back to sleep after alarm
 
 	}else if(key==FKEY && displayMode==MTIME){//enter menu mode
 		displayMode=MMENU;
-	}else if(key==PWRKEY && displayMode==MTIME){
+	}else if(key==PWRKEY && displayMode==MTIME && state==2){//display off
 		displayMode=MOFF;
-	}else if(key==PWRKEY && displayMode==MOFF){
+	}else if(key==PWRKEY && displayMode==MOFF){//display on
 		displayMode=MTIME;
 	}else if(key==PWRKEY && displayMode==MMENU){//back in menu
-		if(cMenu==root){
+		if(cMenu==root){//exit menu
 			currentsub=0;
 			displayMode=MTIME;
-		}else{
+		}else{//backtrack
 			cMenu=cMenu->parent;
 		}
 	}else if(key==FKEY && displayMode==MMENU){//enter/execute menu

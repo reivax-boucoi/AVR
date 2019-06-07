@@ -8,7 +8,7 @@
 
 int main(void){
 	sei();
-	clock.setAlarm(6,55,0,0);
+	clock.setAlarm(6,55,1,0);
 	clock.setAlarm(7,07,1,1);
 	while(1){
 		if(clock.sleepFlag){
@@ -19,6 +19,9 @@ int main(void){
 }
 ISR(TIMER2_OVF_vect){
 	clock.addTimeSec();
+	if(clock.alarmisRunning()){
+		clock.buzz.toggle();
+	}
 }
 ISR(TIMER0_COMPA_vect){
 	clock.display.muxISR();

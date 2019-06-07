@@ -25,6 +25,8 @@
 #define MTIME 1
 #define MMENU 2
 
+#define VERSION 104
+
 class Menu;//defined in "Menu.h"
 
 struct Time_T{
@@ -68,6 +70,7 @@ public:
 	bool not_leap(void);
 	void checkKeys(void);
 	void gotoSleep(void);
+	bool alarmisRunning(void);
 	volatile bool sleepFlag;
 	~Clock();
 

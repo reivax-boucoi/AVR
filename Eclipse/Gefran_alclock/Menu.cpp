@@ -104,3 +104,11 @@ uint16_t MAlarmActivate1(int8_t a) {
 	return t.isSet;
 
 }
+
+uint16_t MConfVers(int8_t a) {
+	return VERSION;
+}
+
+uint16_t MConfRst(int8_t a) {
+	return 0;
+}

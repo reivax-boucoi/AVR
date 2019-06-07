@@ -18,8 +18,8 @@ uint16_t MAlarmActivate(int8_t a);
 uint16_t MAlarmHour1(int8_t a);
 uint16_t MAlarmMin1(int8_t a);
 uint16_t MAlarmActivate1(int8_t a);
-
-
+uint16_t MConfVers(int8_t a);
+uint16_t MConfRst(int8_t a);
 class Menu{
 public:
 	char name[5];

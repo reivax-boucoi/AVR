@@ -12,9 +12,11 @@ public:
 	Buzzer();
 	void start(void);
 	void stop(void);
+	void toggle(void);
 	void buzz_ISR(void);
 	~Buzzer();
 private :
+	bool started;
 };
 
 #endif /* BUZZER_H_ */
