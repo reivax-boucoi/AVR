@@ -1,12 +1,12 @@
 #include "Clock.h"
 
-Clock clock(2019,06,06,06,54,50);
+Clock clock(2019,06,06,9,9,50);
 
 Clock::Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t min, uint8_t sec){
 
 	ASSR|=1<<AS2;
 	TCNT2 =0;
-	TCCR2B =(1<<CS20)|(1<<CS22);
+	TCCR2B =(1<<CS20)|(1<<CS22);//1Hz
 	TIMSK2|=(1<<TOIE2);
 
 	displayMode=MTIME;
@@ -20,6 +20,7 @@ Clock::Clock(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t m
 	}
 	KEYREG&=~(b[0].pin | b[1].pin | b[2].pin | b[3].pin | PWRCHECK);
 	KEYPORT|=(b[0].pin | b[1].pin | b[2].pin | b[3].pin);
+	KEYPORT&=~ PWRCHECK;
 
 	PCICR |=(1<<PCIE2);
 	PCMSK2 |=(1<<PCINT16);//PWRCHECK interrupt
@@ -273,15 +274,14 @@ void Clock::checkKeys(void){
 }
 
 void Clock::keyPressed(uint8_t key, int8_t state){
-	if(AlarmVal.isActive){//alarm clear
-		display.setLed(4,0);
-		buzz.stop();
-		AlarmVal.isActive=0;
-		//if(!(KEYPIN & PWRCHECK))sleepFlag=1;//put back to sleep after alarm
-
-	}if(Alarm1Val.isActive){//alarm clear
-		display.setLed(5,0);
-		Alarm1Val.isActive=0;
+	if(alarmisRunning()){//alarm clear
+		if(Alarm1Val.isActive){
+			display.setLed(5,0);
+			Alarm1Val.isActive=0;
+		}else{
+			display.setLed(4,0);
+			AlarmVal.isActive=0;
+		}
 		buzz.stop();
 		if(!(KEYPIN & PWRCHECK))sleepFlag=1;//put back to sleep after alarm
 

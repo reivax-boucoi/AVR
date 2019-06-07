@@ -16,7 +16,6 @@ public:
 	void buzz_ISR(void);
 	~Buzzer();
 private :
-	bool started;
 };
 
 #endif /* BUZZER_H_ */

@@ -5,11 +5,14 @@
 #include "Buzzer.h"
 
 
-
 int main(void){
 	sei();
-	clock.setAlarm(6,55,1,0);
-	clock.setAlarm(7,07,1,1);
+	clock.setAlarm(9,10,1,0);
+	clock.setAlarm(9,12,1,1);
+
+	_delay_ms(250);
+	if(!(KEYPIN & PWRCHECK))clock.sleepFlag=1;
+
 	while(1){
 		if(clock.sleepFlag){
 			clock.gotoSleep();
@@ -29,7 +32,7 @@ ISR(TIMER0_COMPA_vect){
 }
 ISR(PCINT2_vect){
 	clock.sleepFlag=0;
-	//if(!(KEYPIN & PWRCHECK))clock.sleepFlag=1;
+	if((!(KEYPIN & PWRCHECK))&& (KEYPIN & PWRKEY))clock.sleepFlag=1;
 }
 ISR(TIMER1_COMPA_vect){
 	clock.buzz.buzz_ISR();
