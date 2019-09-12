@@ -24,9 +24,17 @@ void loop(){
 
   if (error == 0) {
     Serial.println("Comm started !");
+    if(pm.dataReady()){
+      pm.readInputPower();
+      Serial.print("Input : ");
+      pm.displayPower(pm.input);
+      Serial.print("\r\n");
+    }else{
+      Serial.println("Data not ready");
+    }
   }else{
     Serial.println("Couldn't talk to LTC2992 !");
   }
-  delay(500);
+  delay(1000);
   
 }
