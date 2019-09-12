@@ -26,6 +26,7 @@ void loop(){
     Serial.println("Comm started !");
     if(pm.dataReady()){
       pm.readInputPower();
+      pm.readOutputPower();
       Serial.print("Input : ");
       pm.displayPower(pm.input);
       Serial.print("\r\n");
