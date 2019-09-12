@@ -24,15 +24,20 @@ int PM::read(int address) {
 void PM::init(void) {
   write(REG_CTRLA, 0b00001110); //calibrate on demand, continuous scan, sense only
   write(REG_NADC, 0x80); //12 bit mode
-  Serial.println("PM init done !");
+  
+  long abc = read(REG_NADC);
+  Serial.print("REG_NADC : 0b");
+  Serial.print(abc,BIN);
+  
+  Serial.println("  PM init done !");
 
 }
 
 bool PM::dataReady(void) {
-  int status = read(REG_ADC_STATUS);
+  int abc = read(REG_ADC_STATUS);
   Serial.print("STATUS : 0b");
-  Serial.println(status,BIN);
-  return (status && 0x83);
+  Serial.print(abc,BIN);
+  return (abc && 0x83);
 }
 
 void PM::readInputPower(void) {
@@ -40,7 +45,12 @@ void PM::readInputPower(void) {
   input.p =p* 0.031875;
   long i = read(REG_I1 + 1) + (read(REG_I1) << 4);
   input.i =i* 1.25;
-  long v = read(REG_S1 + 1) + (read(REG_S1) << 4);
+  int low=read(REG_S1 + 1);
+  int high=read(REG_S1);
+  Serial.println("");
+  Serial.print(high,BIN);
+  Serial.print(low,BIN);
+  long v = low + (high << 4);
   input.v *=v* 0.0255;
 }
 

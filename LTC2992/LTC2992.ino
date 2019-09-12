@@ -9,7 +9,7 @@
 PM pm;
 void setup(){
   Serial.begin(115200);
-  Serial.println("Starting PM");
+  Serial.println("\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nStarting PM");
   Wire.begin();
   pm.init();
   
@@ -23,11 +23,10 @@ void loop(){
   error = Wire.endTransmission();
 
   if (error == 0) {
-    Serial.println("Comm started !");
     if(pm.dataReady()){
       pm.readInputPower();
       pm.readOutputPower();
-      Serial.print("Input : ");
+      Serial.print("\tInput : ");
       pm.displayPower(pm.input);
       Serial.print("\r\n");
     }else{
@@ -36,6 +35,6 @@ void loop(){
   }else{
     Serial.println("Couldn't talk to LTC2992 !");
   }
-  delay(1000);
+  delay(2000);
   
 }
