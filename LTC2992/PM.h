@@ -59,10 +59,10 @@
 #define REG_MAX_PSUM 0x85
 #define REG_MIN_PSUM 0x88
 
-//#include "Arduino.h"
+
 #include <avr/io.h>
-#include <util/twi.h>
 #include <util/delay.h>
+
 
 
 class PM {
