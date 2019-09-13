@@ -59,26 +59,27 @@
 #define REG_MAX_PSUM 0x85
 #define REG_MIN_PSUM 0x88
 
-
-#include <Arduino.h>
-#include <Wire.h>
+//#include "Arduino.h"
+#include <avr/io.h>
+#include <util/twi.h>
+#include <util/delay.h>
 
 
 class PM {
-  struct Power_T{
-    float v;
-    float i;
-    float p;
-  };
+    struct Power_T {
+      float v;
+      float i;
+      float p;
+    };
   public :
-  Power_T input,output;
+    Power_T input, output;
     void init(void);
     bool dataReady(void);
     void readInputPower(void);
     void readOutputPower(void);
     void displayPower(Power_T pt);
-private :
-      void write(int address, int data);
-      int read(int address);
+  private :
+    int write(int address, int data);
+    long read(int address, int l);
     };
 #endif
