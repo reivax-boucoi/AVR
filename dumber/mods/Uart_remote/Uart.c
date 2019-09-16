@@ -66,7 +66,7 @@ void INIT_USART(void)
 			
 		USART_Cmd(USART1, ENABLE);
 		GPIO_PinRemapConfig(GPIO_Remap_USART1,ENABLE);
-		USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+		//USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
 }
 
 
@@ -86,6 +86,10 @@ void USART1_IRQHandler(void){
 	if(USART_GetITStatus(USART1,USART_IT_TC) !=RESET){
 		
 	USART_ClearFlag(USART1, USART_FLAG_TC);
+	}
+	if(USART_GetITStatus(USART1,USART_IT_TXE) !=RESET){
+		
+		USART_ClearFlag(USART1, USART_FLAG_TXE);
 	}
 }
 

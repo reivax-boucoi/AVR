@@ -25,7 +25,7 @@ int main(void){
 	
 	MAP_UsartPin();
 	INIT_USART();
-	INIT_IT_UsartReceive();
+	//INIT_IT_UsartReceive();
 	
 	//regulationMoteur(FORWARD,FORWARD,1000,500,255,128);
 	
