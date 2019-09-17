@@ -45,6 +45,14 @@ void INIT_IT_UsartReceive(void)
 
 void INIT_USART(void)
 {
+		USART_ClockInitTypeDef uart_clock;
+	uart_clock.USART_Clock=USART_Clock_Enable;
+	uart_clock.USART_CPHA=USART_CPHA_1Edge;
+	uart_clock.USART_CPOL=USART_CPOL_Low;
+	uart_clock.USART_LastBit=USART_LastBit_Disable;
+	
+	USART_ClockInit(USART1,&uart_clock);
+	
 		USART_InitTypeDef USART_InitStructure;
 	
 		USART_InitStructure.USART_BaudRate = 9600;
@@ -72,9 +80,13 @@ void USART1_IRQHandler(void){
 			LEDred();
 		}
 		USART_SendData(USART1,c);
+	USART_ClearFlag(USART1, USART_FLAG_RXNE);
 	}
 	
-	USART_ClearFlag(USART1, USART_FLAG_RXNE);
+	if(USART_GetITStatus(USART1,USART_IT_TC) !=RESET){
+		
+	USART_ClearFlag(USART1, USART_FLAG_TC);
+	}
 }
 
 
