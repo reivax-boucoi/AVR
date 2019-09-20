@@ -116,7 +116,7 @@ void PM::calculateEff(void) {
 }
 void PM::displayEff(bool all) {
   if (eff > 0.0) {
-    Serial.print("Efficiency : ");
+    Serial.print("\tEfficiency : ");
     Serial.print(eff, 1);
     Serial.print("%\t");
     if (all) {
