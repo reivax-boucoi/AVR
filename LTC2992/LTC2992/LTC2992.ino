@@ -8,128 +8,162 @@
 #include <Wire.h>
 #include "PM.h"
 
-enum displayMode { IN,OUT,INOUT,FULL,EXTENDED};
-enum scanMode { OFF,CONTINUOUS};
+enum displayMode { 
+  IN,OUT,INOUT,FULL,EXTENDED};
+enum scanMode { 
+  OFF,CONTINUOUS};
 
 displayMode mode=FULL;
-scanMode=OFF;
-int delay=500;
+scanMode sm=OFF;
+int del=500;
+bool bstate=true;
 unsigned long timeStamp;
+PM pm;
 
 void displayHelp(void){
-    Serial.println("\nPower Monitor based on LTC2992\r\n");
-    Serial.println("Scanmode:");
-    Serial.println("\ts = single scan");
-    Serial.println("\tc = continuous scan (Press any key to quit)");
-    Serial.println("\tp = increase delay between samples");
-    Serial.println("\tm = decrease delay between samples");
-    Serial.println("Output data:"));
-    Serial.println("\ti = Display only input data");
-    Serial.println("\to = Display only output data");
-    Serial.println("\tt = Display basin in/out data");
-    Serial.println("\tf = Display full data");
-    Serial.println("\te = Display extended data");
-    Serial.println("\n\th = help - this page");
-    Serial.println();
+  Serial.println("\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nPower Monitor based on LTC2992\r\n");
+  Serial.println("Scanmode:");
+  Serial.println("\ts = single scan");
+  Serial.println("\tc = continuous scan (Press any key to quit)");
+  Serial.print("\t\tCurrent delay between samples : ");
+  Serial.print(del);
+  Serial.println("ms");
+  Serial.println("\tp = increase delay between samples");
+  Serial.println("\tm = decrease delay between samples");
+  Serial.println("Output data:");
+  Serial.println("\ti = Display only input data");
+  Serial.println("\to = Display only output data");
+  Serial.println("\tt = Display basic in/out data");
+  Serial.println("\tf = Display full data");
+  Serial.println("\te = Display extended data");
+  Serial.println("Output format:");
+  Serial.println("\tv = output to CSV");
+  Serial.println("\tb = output to human readable format");
+  Serial.println("\n\th = help - this page");
+  Serial.println();
 }
 void makeMeasurement(void){
-    if (pm.dataReady()) {
-        pm.readInputPower();
-        pm.readOutputPower();
-        if(mode !=OUT){
-            Serial.print("Input : ");
-            pm.displayPower(pm.input);
-            Serial.print("\t");
-        }
-        if(mode !=IN){
-            Serial.print("Output : ");
-            pm.displayPower(pm.output);
-        }
-        if(mode == FULL){
-            pm.calculateEff();
-            pm.displayEff(true);
-        }
-        Serial.print("\r\n");
-    }else {
-        Serial.println("Data not ready");
+  digitalWrite(BLUE_LED,HIGH);
+  if (pm.dataReady()) {
+    pm.readInputPower();
+    pm.readOutputPower();
+    if(mode !=OUT){
+      Serial.print("Input : ");
+      pm.displayPower(pm.input);
+      Serial.print("\t");
     }
+    if(mode !=IN){
+      Serial.print("Output : ");
+      pm.displayPower(pm.output);
+    }
+    if(mode == FULL){
+      pm.calculateEff();
+      pm.displayEff(true);
+    }
+    Serial.print("\r\n");
+  }
+  else {
+    Serial.println("Data not ready");
+  }
+  digitalWrite(BLUE_LED,LOW);
 }
 void incrementDelay(bool inc){
-    if(inc){
-        delay*=1.5;
-    }else{
-        delay/=1.5;
-    }
-    if(delay<100)delay=100;
-    if(delay>50000)delay=50000;
+  if(inc){
+    del*=1.5;
+  }
+  else{
+    del/=1.5;
+  }
+  if(del<100)del=100;
+  if(del>50000)del=50000;
+  Serial.print("Delay : ");
+  Serial.print(del);
+  Serial.println("ms");
 }
-PM pm;
+
 
 
 void setup() {
-    pinMode(BLUE_LED,OUTPUT);
-    pinMode(YELL_LED,OUTPUT);
-    pinMode(BUTTON,INPUT);
-    
-    Serial.begin(115200);
-    Serial.println("\r\n\r\n\r\nStarting PM\r\n\r\n");
-    Wire.begin();
-    pm.init();
-    
+  pinMode(BLUE_LED,OUTPUT);
+  pinMode(YELL_LED,OUTPUT);
+  pinMode(BUTTON,INPUT);
+
+  Serial.begin(115200);
+  Serial.println("\r\n\r\n\r\nStarting PM\r\n\r\n");
+  displayHelp();
+  Wire.begin();
+  pm.init();
+
 }
 
 
 void loop() {
-    if (Serial.available() > 0) {
-        byte data = Serial.read();
-        
-        if(scanMode=CONTINUOUS){
-            scanMode=OFF;
-        }
-        switch(data){
-            case 'h':
-                displayHelp();
-                break;
-            case 's':
-                makeMeasurement();
-                break;
-            case 'c':
-                scanMode=CONTINUOUS;
-                makeMeasurement();
-                timeStamp=millis();
-                break;
-            case 'i':
-                mode=IN;
-                break;
-            case 'o':
-                mode=OUT;
-                break;
-            case 't':
-                mode=INOUT;
-                break;
-            case 'f':
-                mode=FULL;
-                break;
-            case 'e':
-                mode=EXTENDED;
-                break;
-            case 'p':
-                incrementDelay(true);
-                break;
-            case 'm':
-                incrementDelay(false);
-                break;
-            default:
-                displayHelp();
-                
-                
-        }
+  if (Serial.available() > 0) {
+    byte data = Serial.read();
+
+    if(sm==CONTINUOUS){
+      sm=OFF;
+      digitalWrite(YELL_LED,LOW);
     }
-    if((timeStamp+delay)<millis()){
+    else{
+      switch(data){
+      case 'h':
+        displayHelp();
+        break;
+      case 's':
+        makeMeasurement();
+        break;
+      case 'c':
+        sm=CONTINUOUS;
+        digitalWrite(YELL_LED,HIGH);
+        Serial.println("Starting continuous acquisition");
         makeMeasurement();
         timeStamp=millis();
+        break;
+      case 'i':
+        mode=IN;
+        Serial.println("Set acquisition to IN");
+        break;
+      case 'o':
+        mode=OUT;
+        Serial.println("Set acquisition to OUT");
+        break;
+      case 't':
+        mode=INOUT;
+        Serial.println("Set acquisition to IN/OUT");
+        break;
+      case 'f':
+        mode=FULL;
+        Serial.println("Set acquisition to FULL");
+        break;
+      case 'e':
+        mode=EXTENDED;
+        Serial.println("Set acquisition to EXTENDED");
+        break;
+      case 'p':
+        incrementDelay(true);
+        break;
+      case 'm':
+        incrementDelay(false);
+        break;
+      default:
+        displayHelp();
+      }
     }
-    
+  }
+  if(digitalRead(BUTTON)!=bstate){
+    bstate=!-bstate;
+    if(bstate){
+      makeMeasurement();
+    } 
+  }
+  if(sm==CONTINUOUS && (timeStamp+del)<millis()){
+    makeMeasurement();
+    timeStamp=millis();
+  }
 }
+
+
+
 
 
