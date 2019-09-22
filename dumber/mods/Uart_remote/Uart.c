@@ -66,6 +66,11 @@ void USART1_IRQHandler(void){
 	
 	if(USART_GetITStatus(USART1,USART_IT_RXNE) !=RESET){
 		char c = USART_ReceiveData(USART1);
+		if(c>='0' && c<='9'){
+			LEDgreen();
+		}else{
+			LEDred();
+		}
 		USART_SendData(USART1,c);
 	}
 	

@@ -6,14 +6,16 @@
 
 int16_t tourG, tourD, AbsPosRight,AbsPosLeft;
 
-
-
+void delay(int d){
+	for(int i=0;i<d;i++){for(int j=0;j<1000;j++);}
+}
 int main(void){
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1 | RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE);
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2 , ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1 | RCC_APB2Periph_USART1 | RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE);
 	
 	INIT_LED();
-	LEDgreen();
+	LEDred();
+	
 	MAP_MotorPin();
 	INIT_TIM2();
 	INIT_OCMotorPwm();
@@ -25,12 +27,16 @@ int main(void){
 	INIT_USART();
 	INIT_IT_UsartReceive();
 	
-	regulationMoteur(FORWARD,FORWARD,1000,500,255,128);
+	//regulationMoteur(FORWARD,FORWARD,1000,500,255,128);
 	
-	LEDred();
+	LEDoff();
 	
 	
 	while(1){
-		
+		delay(500);
+		LEDorange();
+		delay(500);
+		LEDoff();
+		USART_SendData(USART1,'A');
 	}
 }
