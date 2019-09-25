@@ -3,7 +3,7 @@
  * Auto generated Run-Time-Environment Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'blink' 
+ * Project: 'Uart_remote' 
  * Target:  'Target 1' 
  */
 
