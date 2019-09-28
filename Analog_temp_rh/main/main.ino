@@ -45,7 +45,8 @@ float getHumidity() {
   return -1;
 }
 
-float temp,hum;
+float temp=20;
+float hum=55;
 unsigned long t = 0;
 bool state = false;
 void setup() {
