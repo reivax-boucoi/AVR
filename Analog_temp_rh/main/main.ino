@@ -1,16 +1,16 @@
 #include <TinyWireM.h>
 
 #define HPC_addr 0x40
-
-float AOhmScale(float x){//range 0->10
-  return 0.12*x*x*x-3.4183*x*x+47.51*x+1.4929;
+#define del 5000
+float AOhmScale(float x) { //range 0->10
+  return 0.12 * x * x * x - 3.4183 * x * x + 47.51 * x + 1.4929;
 }
-float BOhmScale(float x){//range 0->31
-  return 0.004*x*x*x-0.3545*x*x+15.262*x+0.3694;
+float BOhmScale(float x) { //range 0->31
+  return 0.004 * x * x * x - 0.3545 * x * x + 15.262 * x + 0.3694;
 }
-float sat(float x){
-  if(x<0.0)return 0.0;
-  if(x>255.0)return 255.0;
+float sat(float x) {
+  if (x < 0.0)return 0.0;
+  if (x > 255.0)return 255.0;
   return x;
 }
 
@@ -45,19 +45,29 @@ float getHumidity() {
   return -1;
 }
 
-
-float t=0;
+float temp,hum;
+unsigned long t = 0;
+bool state = false;
 void setup() {
-  DDRB |= (1 << PINB0)|(1<<PINB1)|(1<<PINB2) ;
-  TCCR0A|=(1<<COM0B1)|(1<<WGM01)|(1<<WGM00);
-  TCCR0B|=(1<<CS00);
-  OCR0B=0;
+  DDRB |= (1 << PINB0) | (1 << PINB1) | (1 << PINB2) ;
+  TCCR0A |= (1 << COM0B1) | (1 << WGM01) | (1 << WGM00);
+  TCCR0B |= (1 << CS00);
+  OCR0B = 0;
   TinyWireM.begin();
+  t = millis();
 }
 
 void loop() {
-  OCR0B=sat(AOhmScale(getHumidity()/10.0));
-  delay(5000);
-  OCR0B=sat(BOhmScale(getTemperature()));
-  delay(5000);
+  if (millis() > (t+del)) {
+    state = !state;
+    t = millis();
+  }
+  if (state) {
+    hum=0.95*hum+0.05*getHumidity();
+    OCR0B = sat(AOhmScale(hum/10.0));
+  } else {
+    temp=0.95*temp+0.05*getTemperature();
+    OCR0B = sat(BOhmScale(temp));
+  }
+  delay(75);
 }
