@@ -14,7 +14,6 @@ enum displayMode {
 enum scanMode {
   OFF, CONTINUOUS
 };
-enum outFormat {CSV, HRF};
 
 outFormat format = HRF;
 displayMode mode = FULL;
@@ -80,17 +79,20 @@ void makeMeasurement(void) {
     pm.readInputPower();
     pm.readOutputPower();
     if (mode != OUT) {
-      Serial.print("Input : ");
-      pm.displayPower(pm.input,format);
-      Serial.print("\t");
+      if (format == HRF)Serial.print("Input : ");
+      pm.displayPower(pm.input, format);
     }
     if (mode != IN) {
-      Serial.print("Output : ");
-      pm.displayPower(pm.output,format);
+      if (format == HRF) {
+        Serial.print("Output : ");
+      } else if(mode!=OUT){
+        Serial.write(',');
+      }
+      pm.displayPower(pm.output, format);
     }
-    if (mode == FULL) {
+    if (mode == FULL || mode == EXTENDED) {
       pm.calculateEff();
-      pm.displayEff(true,format);
+      pm.displayEff(mode == EXTENDED, format);
     }
     Serial.print("\r\n");
   }
@@ -121,7 +123,7 @@ void setup() {
   pinMode(BUTTON, INPUT);
 
   Serial.begin(115200);
-  Serial.println("\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nStarting PM\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n");
+  Serial.println("Starting PM");
   //displayHelp();
   Wire.begin();
   pm.init();
@@ -184,7 +186,7 @@ void loop() {
           break;
         case 'b':
           format = HRF;
-          Serial.println("Set output format to Hurman readable format");
+          Serial.println("Set output format to Human readable format");
           break;
         default:
           Serial.print("Unrecognized option \'");

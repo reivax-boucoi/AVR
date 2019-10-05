@@ -64,25 +64,32 @@ void PM::setRanges(Power_T *pt) {
   }
 
 }
-void PM::displayPower(Power_T pt) {
-  Serial.print(pt.v, 1);
-  Serial.print("V\t");
-
-  if (pt.amps) {
-    Serial.print(pt.i / 1000.0, 2);
-    Serial.print("A\t");
-  } else {
+void PM::displayPower(Power_T pt, outFormat f) {
+  if (f == CSV) {
+    Serial.print(pt.v, 1);
+    Serial.write(',');
     Serial.print(pt.i, 0);
-    Serial.print("mA\t");
-  }
-  if (pt.watts) {
-    Serial.print(pt.p / 1000.0, 2);
-    Serial.print("W\t");
-  } else {
+    Serial.write(',');
     Serial.print(pt.p, 0);
-    Serial.print("mW\t");
-  }
 
+  } else if (f == HRF) {
+    Serial.print(pt.v, 1);
+    Serial.print("V\t");
+    if (pt.amps) {
+      Serial.print(pt.i / 1000.0, 2);
+      Serial.print("A\t");
+    } else {
+      Serial.print(pt.i, 0);
+      Serial.print("mA\t");
+    }
+    if (pt.watts) {
+      Serial.print(pt.p / 1000.0, 2);
+      Serial.print("W\t\t");
+    } else {
+      Serial.print(pt.p, 0);
+      Serial.print("mW\t\t");
+    }
+  }
 }
 
 void PM::readOutputPower(void) {
@@ -114,19 +121,28 @@ void PM::calculateEff(void) {
     }
   }
 }
-void PM::displayEff(bool all) {
-  if (eff > 0.0) {
-    Serial.print("\tEfficiency : ");
+void PM::displayEff(bool all, outFormat f) {
+  if (f == CSV) {
+    Serial.write(',');
     Serial.print(eff, 1);
-    Serial.print("%\t");
     if (all) {
-      Serial.print("P_loss : ");
-      if (watts_ploss) {
-        Serial.print(ploss / 1000.0, 2);
-        Serial.print("W\t");
-      } else {
-        Serial.print(ploss, 0);
-        Serial.print("mW\t");
+      Serial.write(',');
+      Serial.print(ploss, 0);
+    }
+  } else if (f == HRF) {
+    if (eff > 0.0) {
+      Serial.print("\tEfficiency : ");
+      Serial.print(eff, 1);
+      Serial.print("%\t");
+      if (all) {
+        Serial.print("P_loss : ");
+        if (watts_ploss) {
+          Serial.print(ploss / 1000.0, 2);
+          Serial.print("W\t");
+        } else {
+          Serial.print(ploss, 0);
+          Serial.print("mW\t");
+        }
       }
     }
   }

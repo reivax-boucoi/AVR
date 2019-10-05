@@ -56,6 +56,9 @@
 #include <Wire.h>
 
 
+enum outFormat {CSV, HRF};
+
+
 class PM {
     struct Power_T {
       float v;
@@ -74,8 +77,8 @@ class PM {
     void readInputPower(void);
     void readOutputPower(void);
     void calculateEff(void);
-    void displayEff(bool all);
-    void displayPower(Power_T pt);
+    void displayEff(bool all,outFormat f);
+    void displayPower(Power_T pt, outFormat f);
   private :
     int write(int address, int data);
     long read(int address, int l) ;
