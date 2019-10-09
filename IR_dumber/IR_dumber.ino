@@ -20,6 +20,12 @@ IRCode cmds[] = {
   {0xFF40BF, 'b', "CH-"},
   {0xFFA05F, 't', "CH+"},
   {0xFF02FD, 'c', "FULL"},
+  {0xFF32CD, 'a', "Record"},
+  {0xFF30CF, 'f', "TimeShift"},
+  {0xFFB24D, 'p', "PWR"},
+  {0xFF2AD5, 's', "SRC"},
+  {0xFF6897, 'm', "Mute"},
+  {0xFF38C7, 'l', "Recall"}
 };
 #include <IRremote.h>
 
@@ -38,16 +44,17 @@ void setup()
 void loop() {
   if (irrecv.decode(&results)) {
     bool found = false;
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 21; i++) {
       if (results.value == cmds[i].code) {
-        Serial.println(cmds[i].buttonName);
+        Serial.print(cmds[i].c);
+//        Serial.println(cmds[i].buttonName);
         found=true;
       }
     }
-    if(!found && results.value !=0xFFFFFFFF){
+/*    if(!found && results.value !=0xFFFFFFFF){
       Serial.println(results.value,HEX);
-    }
+    }*/
     irrecv.resume(); // Receive the next value
   }
-  delay(100);
+  delay(10);
 }
