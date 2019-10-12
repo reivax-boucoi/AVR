@@ -2,6 +2,7 @@
 
 #define HPC_addr 0x40
 #define del 5000
+
 float AOhmScale(float x) { //range 0->10
   return 0.12 * x * x * x - 3.4183 * x * x + 47.51 * x + 1.4929;
 }
@@ -50,11 +51,11 @@ float hum=55;
 unsigned long t = 0;
 bool state = false;
 void setup() {
-  DDRB |= (1 << PINB0) | (1 << PINB1) | (1 << PINB2) ;
+  DDRB |= (1 << PINB0) | (1 << PINB1) | (1 << PINB2) | (1 << PINB3) ;
   TCCR0A |= (1 << COM0B1) | (1 << WGM01) | (1 << WGM00);
   TCCR0B |= (1 << CS00);
   OCR0B = 255;
-  delay(5000);
+  delay(10000);
   TinyWireM.begin();
   t = millis();
 }
@@ -62,6 +63,7 @@ void setup() {
 void loop() {
   if (millis() > (t+del)) {
     state = !state;
+    PORTB^=(1<<PINB3);
     t = millis();
   }
   if (state) {

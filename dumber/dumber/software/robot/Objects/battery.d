@@ -1,0 +1,12 @@
+.\objects\battery.o: Battery.c
+.\objects\battery.o: system_dumby.h
+.\objects\battery.o: C:\Users\User\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include\stm32f10x.h
+.\objects\battery.o: .\RTE\_Target_1\RTE_Components.h
+.\objects\battery.o: C:\Users\User\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm3.h
+.\objects\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\battery.o: C:\Users\User\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_version.h
+.\objects\battery.o: C:\Users\User\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h
+.\objects\battery.o: C:\Users\User\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h
+.\objects\battery.o: C:\Users\User\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include\system_stm32f10x.h
+.\objects\battery.o: Battery.h
+.\objects\battery.o: motor.h

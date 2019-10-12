@@ -1,0 +1,16 @@
+.\objects\system_dumby.o: system_dumby.c
+.\objects\system_dumby.o: system_dumby.h
+.\objects\system_dumby.o: C:\Users\User\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include\stm32f10x.h
+.\objects\system_dumby.o: .\RTE\_Target_1\RTE_Components.h
+.\objects\system_dumby.o: C:\Users\User\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm3.h
+.\objects\system_dumby.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\system_dumby.o: C:\Users\User\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_version.h
+.\objects\system_dumby.o: C:\Users\User\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h
+.\objects\system_dumby.o: C:\Users\User\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h
+.\objects\system_dumby.o: C:\Users\User\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.3.0\Device\Include\system_stm32f10x.h
+.\objects\system_dumby.o: Battery.h
+.\objects\system_dumby.o: led.h
+.\objects\system_dumby.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\system_dumby.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\system_dumby.o: motor.h
+.\objects\system_dumby.o: cmde_usart.h
