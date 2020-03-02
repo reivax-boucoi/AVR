@@ -1,6 +1,7 @@
 #ifndef PM_H
 #define PM_H
 
+
 #define LTC2992_addr 0x6F //0x66=mass response
 
 #define REG_CTRLA 0x00
@@ -54,6 +55,7 @@
 
 #include <Arduino.h>
 #include <Wire.h>
+#include "Utils.h"
 
 class PM {
   public :
@@ -64,7 +66,5 @@ class PM {
     float readTemp(void);
     float readBatt(void);
   private :
-    int write(int address, int data);
-    long read(int address, int l) ;
 };
 #endif

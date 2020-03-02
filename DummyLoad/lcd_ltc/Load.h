@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 #include <Wire.h>
+#include "Utils.h"
+
 
 
 #define DAC_ADDR   0x61
@@ -17,16 +19,23 @@
 #define NVPD_REG   0x19
 #define NVGAIN_REG 0x20
 
-#define DAC_CAL_COEFF 783.387978142 // Iout=2*Vref*DACVal/4096/.2*R1/(R1+R2), DACVal=Iout*.2*4096/2/Vref*(R1+R2)/R1
+#define DAC_CAL_COEFF 730.0 // Iout=2*Vref*DACVal/4096/.2*R1/(R1+R2), DACVal=Iout*.2*4096/2/Vref*(R1+R2)/R1
 #define LOAD_REG_THRESHOLD 0.001
+
+#define LEDR2_PIN A2
+#define LEDB2_PIN A3
+
+#define TEMP_MAX    40.0
+#define TEMP_HOT    35.0
 
 
 
 class Load {
   public:
     void init(void);
-    void regulate(float current);
+    void regulate(float current, float temp);
     void on(float current);
+    void set(float current);
     void off(void);
     bool onState;
 
@@ -37,6 +46,7 @@ class Load {
     void DAC_off(void);
     float setCurrent;
     int actualDACVal;
+    bool fault=false;
 };
 
 #endif

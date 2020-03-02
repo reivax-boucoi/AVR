@@ -16,17 +16,13 @@
 #define ENC_SW_PIN 11
 #define LEDR1_PIN 9
 #define LEDB1_PIN 10
-#define LEDR2_PIN A2
-#define LEDB2_PIN A3
 
 #define REFRESH_TIME 500
 #define VOLTAGE_MAX 99.0
 #define RSET_MAX 1000.0
 #define RSET_MIN 0.2
-#define CURRENT_MAX 5.0
+#define CURRENT_MAX 5.24
 #define POWER_MAX   500.0
-#define TEMP_MAX    70.0
-#define TEMP_HOT    40.0
 
 bool BTN1_state = true;
 bool BTN0_state = true;
@@ -47,6 +43,7 @@ Load load;
 
 void loadSet(void) {
   Serial.println("Callback called !");
+  iset_load
 }
 
 void settingsUpdate(void) {
@@ -122,12 +119,8 @@ void setup() {
   pinMode(BTN1_PIN, INPUT);
   pinMode(LEDR1_PIN, OUTPUT);
   pinMode(LEDB1_PIN, OUTPUT);
-  pinMode(LEDR2_PIN, OUTPUT);
-  pinMode(LEDB2_PIN, OUTPUT);
   digitalWrite(LEDR1_PIN, 0);
   digitalWrite(LEDB1_PIN, 0);
-  digitalWrite(LEDR2_PIN, 0);
-  digitalWrite(LEDB2_PIN, 0);
 
   lcd.begin(16, 2);
   lcd.print("Electronic Load");
@@ -157,19 +150,24 @@ void loop() {
   }
   if (time + setting1 * 1000 < millis()) {
     digitalWrite(LEDB1_PIN, HIGH);
-    if (pm.dataReady()) {
+    /*if (pm.dataReady()) {
       pm.readInputPower(&v_meas, &i_meas, &p_meas);
       pm.readOutputPower(&vdisp_load, &idisp_load, &pdisp_load);
       v_batt = pm.readBatt();
+      if (v_batt < 7.0) {
+        Serial.print("Battery Low : ");
+        Serial.print(v_batt);
+        Serial.println(" !");
+      }
       temp = pm.readTemp();
     } else {
       Serial.println("PM not ready !");
-    }
+    }*/
     mainMenu.refresh();
     digitalWrite(LEDB1_PIN, LOW);
     time = millis();
   }
-  //load.regulate(iset_load);
+  load.regulate(iset_load, temp);
 }
 
 
@@ -184,7 +182,6 @@ void BTN1_check(void) {
         load.on(iset_load);
         Serial.println("Load turned on");
       }
-      digitalWrite(LEDB2_PIN, load.onState);
     }
   }
 }
