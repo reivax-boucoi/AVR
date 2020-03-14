@@ -24,11 +24,12 @@
 
 #define LEDR2_PIN A2
 #define LEDB2_PIN A3
+#define FAN_PIN 2
 
 #define TEMP_MAX    40.0
-#define TEMP_HOT    35.0
+#define FAN_HYST    1.0
 
-
+extern float fan_temp;
 
 class Load {
   public:
@@ -47,6 +48,7 @@ class Load {
     float setCurrent;
     int actualDACVal;
     bool fault=false;
+    bool fan_on=false;
 };
 
 #endif

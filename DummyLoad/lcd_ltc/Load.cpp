@@ -5,6 +5,8 @@
 void Load::init(void) {
   pinMode(LEDR2_PIN, OUTPUT);
   pinMode(LEDB2_PIN, OUTPUT);
+  pinMode(FAN_PIN, OUTPUT);
+  digitalWrite(FAN_PIN, 0);
   digitalWrite(LEDR2_PIN, 0);
   digitalWrite(LEDB2_PIN, 0);
   onState = false;
@@ -23,6 +25,16 @@ void Load::regulate(float current, float temp) {
     Serial.println("Temp hot exceeded !");
     fault = true;
   }
+  
+  if (onState && !fan_on && temp >= fan_temp) {
+    digitalWrite(FAN_PIN, HIGH);
+    fan_on = true;
+  }
+  if (fan_on && temp < (fan_temp-FAN_HYST)) {
+    digitalWrite(FAN_PIN, LOW);
+    fan_on = false;
+  }
+  
   if (fault) {
     Serial.println("Fault detected, load shutting down");
     off();
@@ -45,7 +57,7 @@ void Load::on(float current) {
   digitalWrite(LEDB2_PIN, HIGH);
 }
 
-void set(float current) {
+void Load::set(float current) {
   setCurrent = current;
   actualDACVal = current * DAC_CAL_COEFF;
   DAC_set();

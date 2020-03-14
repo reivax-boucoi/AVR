@@ -3,7 +3,7 @@
 
 void PM::init(void) {
   //i2c_write(LTC2992_addr,REG_CTRLA, 0b00001110,1); //calibrate on demand, continuous scan, sense only
-    i2c_write(LTC2992_addr,REG_CTRLA, 0b00000110,1); //calibrate on demand, continuous scan, all voltages
+    if(i2c_write(LTC2992_addr,REG_CTRLA, 0b00000110,1)!=0)Serial.println("Error during PM init"); //calibrate on demand, continuous scan, all voltages
   //reading rate should be less than 10Hz (16.4ms*6)
 }
 

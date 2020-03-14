@@ -2,7 +2,7 @@
 #define PM_H
 
 
-#define LTC2992_addr 0x6F //0x66=mass response
+#define LTC2992_addr 0x6A //0x66=mass response was 0x6F
 
 #define REG_CTRLA 0x00
 #define REG_CTRLB 0x01

@@ -21,7 +21,7 @@
 #define VOLTAGE_MAX 99.0
 #define RSET_MAX 1000.0
 #define RSET_MIN 0.2
-#define CURRENT_MAX 5.24
+#define CURRENT_MAX 5.61
 #define POWER_MAX   500.0
 
 bool BTN1_state = true;
@@ -42,12 +42,16 @@ PM pm;
 Load load;
 
 void loadSet(void) {
-  Serial.println("Callback called !");
-  iset_load
+  Serial.println("loadset callback called !");
+  //  iset_load
 }
 
 void settingsUpdate(void) {
+  Serial.println("settings callback called !");
+}
 
+void battUpdate(void){
+  Serial.println("batt callback called !");
 }
 
 //meter values
@@ -67,9 +71,17 @@ float vdisp_load = 0;
 float idisp_load = 0;
 float pdisp_load = 0;
 
-float setting1 = .5;
+float setting1 = .5; //acquisition time
+float fan_temp = 25.0; //fan temp
+
+//battery values
+float iset_batt = 0.5;
+float vcutoff_batt = 3.0;
+float capAh_batt = 0.0;
+float capWh_batt = 0.0;
 
 long time = 0;
+
 
 Value i_measV(&i_meas, 10, 0, 4);
 Value v_measV(&v_meas, 2, 0, 4);
@@ -87,6 +99,13 @@ Value p_loadV(&pdisp_load, 10, 1, 4);
 Value i_loadV(&idisp_load, 10, 1, 4);
 
 Value setting1V(&setting1, 5, 1, 2, 0.05, 10, &settingsUpdate);
+Value setting2V(&fan_temp, 13, 1, 2, 20, 50, &settingsUpdate);
+
+
+Value vcutoff_battV(&vcutoff_batt, 11, 0, 3, 0.5, 50, &battUpdate);
+Value iset_battV(&iset_batt, 2, 0, 3, 0.0, CURRENT_MAX, &battUpdate);
+Value capAh_battV(&capAh_batt, 8, 1, 4);
+Value capWh_battV(&capWh_batt, 0, 1, 4);
 
 const String myStr = String("CR R      ") + String((char)244) + String(" T   ");
 
@@ -96,13 +115,16 @@ Screen CCloadScreen("CC I      A T   ", "V       P      W", &i_setV, &tempV,   &
 Screen CPloadScreen("CP P      W T   ", "V       I      A", &p_setV, &tempV,   &v_loadV, &i_loadV);
 Screen CRloadScreen(myStr.c_str(), "V       I      A", &r_setV, &tempV,   &v_loadV, &i_loadV);//Ω
 
-Screen settingsScreen("Batt     V      ", "Tacq    s       ", &v_battV, &setting1V, NULL, NULL);
+Screen settingsScreen("Batt     V      ", "Tacq    s Fan   ", &v_battV, &setting1V, &setting2V, NULL);
 
-MenuItem meterItem("Meter", 0, 0, &meterScreen);
-MenuItem loadItem("Load", 7, 0, &CCloadScreen, &CPloadScreen, &CRloadScreen, NULL);
+Screen battScreen("I     A Vc     V", "     Wh      Ah", &iset_battV, &vcutoff_battV, &capWh_battV, &capAh_battV);
+
+MenuItem meterItem("Meter", 0, 1, &meterScreen);
+MenuItem loadItem("Load", 0, 0, &CCloadScreen, &CPloadScreen, &CRloadScreen, NULL);
+MenuItem battItem("Battery", 7, 0, &battScreen);
 MenuItem settingsItem("Settings", 7, 1, &settingsScreen);
 
-Menu mainMenu(&meterItem, &loadItem, &settingsItem, NULL);
+Menu* mainMenu;
 
 
 
@@ -130,7 +152,11 @@ void setup() {
   Serial.println("Electronic Load Started !");
   delay(500);
 
-  mainMenu.show();
+
+
+
+  mainMenu = new Menu(&loadItem, &battItem, &meterItem, &settingsItem);
+  mainMenu->show();
 
   time = millis();
 }
@@ -141,16 +167,16 @@ void loop() {
   byte i;
   i = rotary.rotate();
   if (i == 1) {
-    mainMenu.next();
+    mainMenu->next();
   } else if (i == 2) {
-    mainMenu.prev();
+    mainMenu->prev();
   }
   if (rotary.push()) {
-    mainMenu.enter();
+    mainMenu->enter();
   }
   if (time + setting1 * 1000 < millis()) {
     digitalWrite(LEDB1_PIN, HIGH);
-    /*if (pm.dataReady()) {
+    if (pm.dataReady()) {
       pm.readInputPower(&v_meas, &i_meas, &p_meas);
       pm.readOutputPower(&vdisp_load, &idisp_load, &pdisp_load);
       v_batt = pm.readBatt();
@@ -162,8 +188,8 @@ void loop() {
       temp = pm.readTemp();
     } else {
       Serial.println("PM not ready !");
-    }*/
-    mainMenu.refresh();
+    }
+    mainMenu->refresh();
     digitalWrite(LEDB1_PIN, LOW);
     time = millis();
   }
@@ -189,7 +215,7 @@ void BTN0_check(void) {
   if (digitalRead(BTN_BACK_PIN) != BTN0_state) {
     BTN0_state = !BTN0_state;
     if (!BTN0_state) {
-      mainMenu.back();
+      mainMenu->back();
     }
   }
 }
