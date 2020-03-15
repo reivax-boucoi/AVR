@@ -14,7 +14,7 @@ void blink(int nb){
         _delay_ms(85);
     }
 }
-
+const unsigned int multiplier=3600;
 volatile unsigned int cnt=0;
 volatile unsigned long setTime;
 volatile unsigned long remainingTime;
@@ -42,7 +42,7 @@ int main(void){
     
     while(1){
         if(!(PIND&(1<<PIND6))){
-            setTime=(15-((PINB & 0x1E)>>1))*3600;
+            setTime=(15-((PINB & 0x1E)>>1))*multiplier;
             remainingTime=setTime;
             TCCR1B |=(1<<CS11)|(1<<WGM12); // /1024, CTC on OCR1A
             PORTD |=(1<<PIND5);
@@ -66,13 +66,13 @@ ISR(TIMER1_COMPA_vect){//occurs @100Hz
             TCCR1B=0;
         }
         showRemaining=1;
-        showValueLeft=remainingTime-3600;
+        showValueLeft=remainingTime-multiplier;
         cnt=0;
     }
     
     if(showRemaining && (cnt&0x10)){
         LED_TOGGLE;
-        showValueLeft-=225;
+        showValueLeft-=multiplier/16;
         if(showValueLeft<=0){
             showRemaining=0;
             LED_LOW;

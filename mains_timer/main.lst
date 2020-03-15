@@ -278,7 +278,7 @@
   76               	.global	main
   78               	main:
   79               	.LFB7:
-  17:main.c        **** 
+  17:main.c        **** const unsigned int multiplier=3600;
   18:main.c        **** volatile unsigned int cnt=0;
   19:main.c        **** volatile unsigned long setTime;
   20:main.c        **** volatile unsigned long remainingTime;
@@ -351,13 +351,13 @@
   42:main.c        ****     
   43:main.c        ****     while(1){
   44:main.c        ****         if(!(PIND&(1<<PIND6))){
-  45:main.c        ****             setTime=(15-((PINB & 0x1E)>>1))*3600;
+  45:main.c        ****             setTime=(15-((PINB & 0x1E)>>1))*multiplier;
  125               		.loc 1 45 0
  126               	/* #NOAPP */
  127 0030 2FE0      		ldi r18,lo8(15)
  128 0032 30E0      		ldi r19,0
  129               	.L7:
-  44:main.c        ****             setTime=(15-((PINB & 0x1E)>>1))*3600;
+  44:main.c        ****             setTime=(15-((PINB & 0x1E)>>1))*multiplier;
  130               		.loc 1 44 0
  131 0034 8699      		sbic 0x10,6
  132 0036 00C0      		rjmp .L7
@@ -374,39 +374,37 @@
  143 004a 60E1      		ldi r22,lo8(16)
  144 004c 7EE0      		ldi r23,lo8(14)
  145 004e 00D0      		rcall __mulhi3
- 146 0050 092E      		mov __tmp_reg__,r25
- 147 0052 000C      		lsl r0
- 148 0054 AA0B      		sbc r26,r26
- 149 0056 BB0B      		sbc r27,r27
- 150 0058 8093 0000 		sts setTime,r24
- 151 005c 9093 0000 		sts setTime+1,r25
- 152 0060 A093 0000 		sts setTime+2,r26
- 153 0064 B093 0000 		sts setTime+3,r27
+ 146 0050 A0E0      		ldi r26,0
+ 147 0052 B0E0      		ldi r27,0
+ 148 0054 8093 0000 		sts setTime,r24
+ 149 0058 9093 0000 		sts setTime+1,r25
+ 150 005c A093 0000 		sts setTime+2,r26
+ 151 0060 B093 0000 		sts setTime+3,r27
   46:main.c        ****             remainingTime=setTime;
- 154               		.loc 1 46 0
- 155 0068 8091 0000 		lds r24,setTime
- 156 006c 9091 0000 		lds r25,setTime+1
- 157 0070 A091 0000 		lds r26,setTime+2
- 158 0074 B091 0000 		lds r27,setTime+3
- 159 0078 8093 0000 		sts remainingTime,r24
- 160 007c 9093 0000 		sts remainingTime+1,r25
- 161 0080 A093 0000 		sts remainingTime+2,r26
- 162 0084 B093 0000 		sts remainingTime+3,r27
+ 152               		.loc 1 46 0
+ 153 0064 8091 0000 		lds r24,setTime
+ 154 0068 9091 0000 		lds r25,setTime+1
+ 155 006c A091 0000 		lds r26,setTime+2
+ 156 0070 B091 0000 		lds r27,setTime+3
+ 157 0074 8093 0000 		sts remainingTime,r24
+ 158 0078 9093 0000 		sts remainingTime+1,r25
+ 159 007c A093 0000 		sts remainingTime+2,r26
+ 160 0080 B093 0000 		sts remainingTime+3,r27
   47:main.c        ****             TCCR1B |=(1<<CS11)|(1<<WGM12); // /1024, CTC on OCR1A
- 163               		.loc 1 47 0
- 164 0088 8EB5      		in r24,0x2e
- 165 008a 8A60      		ori r24,lo8(10)
- 166 008c 8EBD      		out 0x2e,r24
+ 161               		.loc 1 47 0
+ 162 0084 8EB5      		in r24,0x2e
+ 163 0086 8A60      		ori r24,lo8(10)
+ 164 0088 8EBD      		out 0x2e,r24
   48:main.c        ****             PORTD |=(1<<PIND5);
- 167               		.loc 1 48 0
- 168 008e 959A      		sbi 0x12,5
- 169 0090 00C0      		rjmp .L7
- 170               		.cfi_endproc
- 171               	.LFE7:
- 173               		.text
- 174               	.global	__vector_5
- 176               	__vector_5:
- 177               	.LFB8:
+ 165               		.loc 1 48 0
+ 166 008a 959A      		sbi 0x12,5
+ 167 008c 00C0      		rjmp .L7
+ 168               		.cfi_endproc
+ 169               	.LFE7:
+ 171               		.text
+ 172               	.global	__vector_5
+ 174               	__vector_5:
+ 175               	.LFB8:
   49:main.c        ****         }
   50:main.c        ****         
   51:main.c        ****     }
@@ -415,244 +413,250 @@
   54:main.c        **** 
   55:main.c        **** 
   56:main.c        **** ISR (TIMER1_OVF_vect){
- 178               		.loc 1 56 0
- 179               		.cfi_startproc
- 180 002e 1F92      		push r1
- 181               	.LCFI0:
- 182               		.cfi_def_cfa_offset 3
- 183               		.cfi_offset 1, -2
- 184 0030 0F92      		push r0
- 185               	.LCFI1:
- 186               		.cfi_def_cfa_offset 4
- 187               		.cfi_offset 0, -3
- 188 0032 0FB6      		in r0,__SREG__
- 189 0034 0F92      		push r0
- 190 0036 1124      		clr __zero_reg__
- 191               	/* prologue: Signal */
- 192               	/* frame size = 0 */
- 193               	/* stack size = 3 */
- 194               	.L__stack_usage = 3
- 195               	/* epilogue start */
+ 176               		.loc 1 56 0
+ 177               		.cfi_startproc
+ 178 002e 1F92      		push r1
+ 179               	.LCFI0:
+ 180               		.cfi_def_cfa_offset 3
+ 181               		.cfi_offset 1, -2
+ 182 0030 0F92      		push r0
+ 183               	.LCFI1:
+ 184               		.cfi_def_cfa_offset 4
+ 185               		.cfi_offset 0, -3
+ 186 0032 0FB6      		in r0,__SREG__
+ 187 0034 0F92      		push r0
+ 188 0036 1124      		clr __zero_reg__
+ 189               	/* prologue: Signal */
+ 190               	/* frame size = 0 */
+ 191               	/* stack size = 3 */
+ 192               	.L__stack_usage = 3
+ 193               	/* epilogue start */
   57:main.c        **** }
- 196               		.loc 1 57 0
- 197 0038 0F90      		pop r0
- 198 003a 0FBE      		out __SREG__,r0
- 199 003c 0F90      		pop r0
- 200 003e 1F90      		pop r1
- 201 0040 1895      		reti
- 202               		.cfi_endproc
- 203               	.LFE8:
- 205               	.global	__vector_4
- 207               	__vector_4:
- 208               	.LFB9:
+ 194               		.loc 1 57 0
+ 195 0038 0F90      		pop r0
+ 196 003a 0FBE      		out __SREG__,r0
+ 197 003c 0F90      		pop r0
+ 198 003e 1F90      		pop r1
+ 199 0040 1895      		reti
+ 200               		.cfi_endproc
+ 201               	.LFE8:
+ 203               	.global	__vector_4
+ 205               	__vector_4:
+ 206               	.LFB9:
   58:main.c        **** 
   59:main.c        **** ISR(TIMER1_COMPA_vect){//occurs @100Hz
- 209               		.loc 1 59 0
- 210               		.cfi_startproc
- 211 0042 1F92      		push r1
- 212               	.LCFI2:
- 213               		.cfi_def_cfa_offset 3
- 214               		.cfi_offset 1, -2
- 215 0044 0F92      		push r0
- 216               	.LCFI3:
- 217               		.cfi_def_cfa_offset 4
- 218               		.cfi_offset 0, -3
- 219 0046 0FB6      		in r0,__SREG__
- 220 0048 0F92      		push r0
- 221 004a 1124      		clr __zero_reg__
- 222 004c 2F93      		push r18
- 223               	.LCFI4:
- 224               		.cfi_def_cfa_offset 5
- 225               		.cfi_offset 18, -4
- 226 004e 8F93      		push r24
- 227               	.LCFI5:
- 228               		.cfi_def_cfa_offset 6
- 229               		.cfi_offset 24, -5
- 230 0050 9F93      		push r25
- 231               	.LCFI6:
- 232               		.cfi_def_cfa_offset 7
- 233               		.cfi_offset 25, -6
- 234 0052 AF93      		push r26
- 235               	.LCFI7:
- 236               		.cfi_def_cfa_offset 8
- 237               		.cfi_offset 26, -7
- 238 0054 BF93      		push r27
- 239               	.LCFI8:
- 240               		.cfi_def_cfa_offset 9
- 241               		.cfi_offset 27, -8
- 242               	/* prologue: Signal */
- 243               	/* frame size = 0 */
- 244               	/* stack size = 8 */
- 245               	.L__stack_usage = 8
+ 207               		.loc 1 59 0
+ 208               		.cfi_startproc
+ 209 0042 1F92      		push r1
+ 210               	.LCFI2:
+ 211               		.cfi_def_cfa_offset 3
+ 212               		.cfi_offset 1, -2
+ 213 0044 0F92      		push r0
+ 214               	.LCFI3:
+ 215               		.cfi_def_cfa_offset 4
+ 216               		.cfi_offset 0, -3
+ 217 0046 0FB6      		in r0,__SREG__
+ 218 0048 0F92      		push r0
+ 219 004a 1124      		clr __zero_reg__
+ 220 004c 2F93      		push r18
+ 221               	.LCFI4:
+ 222               		.cfi_def_cfa_offset 5
+ 223               		.cfi_offset 18, -4
+ 224 004e 8F93      		push r24
+ 225               	.LCFI5:
+ 226               		.cfi_def_cfa_offset 6
+ 227               		.cfi_offset 24, -5
+ 228 0050 9F93      		push r25
+ 229               	.LCFI6:
+ 230               		.cfi_def_cfa_offset 7
+ 231               		.cfi_offset 25, -6
+ 232 0052 AF93      		push r26
+ 233               	.LCFI7:
+ 234               		.cfi_def_cfa_offset 8
+ 235               		.cfi_offset 26, -7
+ 236 0054 BF93      		push r27
+ 237               	.LCFI8:
+ 238               		.cfi_def_cfa_offset 9
+ 239               		.cfi_offset 27, -8
+ 240               	/* prologue: Signal */
+ 241               	/* frame size = 0 */
+ 242               	/* stack size = 8 */
+ 243               	.L__stack_usage = 8
   60:main.c        ****     cnt++;
- 246               		.loc 1 60 0
- 247 0056 8091 0000 		lds r24,cnt
- 248 005a 9091 0000 		lds r25,cnt+1
- 249 005e 0196      		adiw r24,1
- 250 0060 9093 0000 		sts cnt+1,r25
- 251 0064 8093 0000 		sts cnt,r24
+ 244               		.loc 1 60 0
+ 245 0056 8091 0000 		lds r24,cnt
+ 246 005a 9091 0000 		lds r25,cnt+1
+ 247 005e 0196      		adiw r24,1
+ 248 0060 9093 0000 		sts cnt+1,r25
+ 249 0064 8093 0000 		sts cnt,r24
   61:main.c        ****     if(cnt>=300){//occurs every 3s
- 252               		.loc 1 61 0
- 253 0068 8091 0000 		lds r24,cnt
- 254 006c 9091 0000 		lds r25,cnt+1
- 255 0070 8C32      		cpi r24,44
- 256 0072 9140      		sbci r25,1
- 257 0074 00F0      		brlo .L12
+ 250               		.loc 1 61 0
+ 251 0068 8091 0000 		lds r24,cnt
+ 252 006c 9091 0000 		lds r25,cnt+1
+ 253 0070 8C32      		cpi r24,44
+ 254 0072 9140      		sbci r25,1
+ 255 0074 00F0      		brlo .L12
   62:main.c        ****         remainingTime-=3;
- 258               		.loc 1 62 0
- 259 0076 8091 0000 		lds r24,remainingTime
- 260 007a 9091 0000 		lds r25,remainingTime+1
- 261 007e A091 0000 		lds r26,remainingTime+2
- 262 0082 B091 0000 		lds r27,remainingTime+3
- 263 0086 0397      		sbiw r24,3
- 264 0088 A109      		sbc r26,__zero_reg__
- 265 008a B109      		sbc r27,__zero_reg__
- 266 008c 8093 0000 		sts remainingTime,r24
- 267 0090 9093 0000 		sts remainingTime+1,r25
- 268 0094 A093 0000 		sts remainingTime+2,r26
- 269 0098 B093 0000 		sts remainingTime+3,r27
+ 256               		.loc 1 62 0
+ 257 0076 8091 0000 		lds r24,remainingTime
+ 258 007a 9091 0000 		lds r25,remainingTime+1
+ 259 007e A091 0000 		lds r26,remainingTime+2
+ 260 0082 B091 0000 		lds r27,remainingTime+3
+ 261 0086 0397      		sbiw r24,3
+ 262 0088 A109      		sbc r26,__zero_reg__
+ 263 008a B109      		sbc r27,__zero_reg__
+ 264 008c 8093 0000 		sts remainingTime,r24
+ 265 0090 9093 0000 		sts remainingTime+1,r25
+ 266 0094 A093 0000 		sts remainingTime+2,r26
+ 267 0098 B093 0000 		sts remainingTime+3,r27
   63:main.c        ****         if(remainingTime==0){//stop counter and de-energize relay
- 270               		.loc 1 63 0
- 271 009c 8091 0000 		lds r24,remainingTime
- 272 00a0 9091 0000 		lds r25,remainingTime+1
- 273 00a4 A091 0000 		lds r26,remainingTime+2
- 274 00a8 B091 0000 		lds r27,remainingTime+3
- 275 00ac 892B      		or r24,r25
- 276 00ae 8A2B      		or r24,r26
- 277 00b0 8B2B      		or r24,r27
- 278 00b2 01F4      		brne .L13
+ 268               		.loc 1 63 0
+ 269 009c 8091 0000 		lds r24,remainingTime
+ 270 00a0 9091 0000 		lds r25,remainingTime+1
+ 271 00a4 A091 0000 		lds r26,remainingTime+2
+ 272 00a8 B091 0000 		lds r27,remainingTime+3
+ 273 00ac 892B      		or r24,r25
+ 274 00ae 8A2B      		or r24,r26
+ 275 00b0 8B2B      		or r24,r27
+ 276 00b2 01F4      		brne .L13
   64:main.c        ****             LED_HIGH;
- 279               		.loc 1 64 0
- 280 00b4 C09A      		sbi 0x18,0
+ 277               		.loc 1 64 0
+ 278 00b4 C09A      		sbi 0x18,0
   65:main.c        ****             PORTD &=~(1<<PIND5);
- 281               		.loc 1 65 0
- 282 00b6 9598      		cbi 0x12,5
+ 279               		.loc 1 65 0
+ 280 00b6 9598      		cbi 0x12,5
   66:main.c        ****             TCCR1B=0;
- 283               		.loc 1 66 0
- 284 00b8 1EBC      		out 0x2e,__zero_reg__
- 285               	.L13:
+ 281               		.loc 1 66 0
+ 282 00b8 1EBC      		out 0x2e,__zero_reg__
+ 283               	.L13:
   67:main.c        ****         }
   68:main.c        ****         showRemaining=1;
- 286               		.loc 1 68 0
- 287 00ba 81E0      		ldi r24,lo8(1)
- 288 00bc 8093 0000 		sts showRemaining,r24
-  69:main.c        ****         showValueLeft=remainingTime-3600;
- 289               		.loc 1 69 0
- 290 00c0 8091 0000 		lds r24,remainingTime
- 291 00c4 9091 0000 		lds r25,remainingTime+1
- 292 00c8 A091 0000 		lds r26,remainingTime+2
- 293 00cc B091 0000 		lds r27,remainingTime+3
- 294 00d0 8051      		subi r24,16
- 295 00d2 9E40      		sbci r25,14
- 296 00d4 A109      		sbc r26,__zero_reg__
- 297 00d6 B109      		sbc r27,__zero_reg__
- 298 00d8 8093 0000 		sts showValueLeft,r24
- 299 00dc 9093 0000 		sts showValueLeft+1,r25
- 300 00e0 A093 0000 		sts showValueLeft+2,r26
- 301 00e4 B093 0000 		sts showValueLeft+3,r27
+ 284               		.loc 1 68 0
+ 285 00ba 81E0      		ldi r24,lo8(1)
+ 286 00bc 8093 0000 		sts showRemaining,r24
+  69:main.c        ****         showValueLeft=remainingTime-multiplier;
+ 287               		.loc 1 69 0
+ 288 00c0 8091 0000 		lds r24,remainingTime
+ 289 00c4 9091 0000 		lds r25,remainingTime+1
+ 290 00c8 A091 0000 		lds r26,remainingTime+2
+ 291 00cc B091 0000 		lds r27,remainingTime+3
+ 292 00d0 8051      		subi r24,16
+ 293 00d2 9E40      		sbci r25,14
+ 294 00d4 A109      		sbc r26,__zero_reg__
+ 295 00d6 B109      		sbc r27,__zero_reg__
+ 296 00d8 8093 0000 		sts showValueLeft,r24
+ 297 00dc 9093 0000 		sts showValueLeft+1,r25
+ 298 00e0 A093 0000 		sts showValueLeft+2,r26
+ 299 00e4 B093 0000 		sts showValueLeft+3,r27
   70:main.c        ****         cnt=0;
- 302               		.loc 1 70 0
- 303 00e8 1092 0000 		sts cnt+1,__zero_reg__
- 304 00ec 1092 0000 		sts cnt,__zero_reg__
- 305               	.L12:
+ 300               		.loc 1 70 0
+ 301 00e8 1092 0000 		sts cnt+1,__zero_reg__
+ 302 00ec 1092 0000 		sts cnt,__zero_reg__
+ 303               	.L12:
   71:main.c        ****     }
   72:main.c        ****     
   73:main.c        ****     if(showRemaining && (cnt&0x10)){
- 306               		.loc 1 73 0
- 307 00f0 8091 0000 		lds r24,showRemaining
- 308 00f4 8823      		tst r24
- 309 00f6 01F0      		breq .L11
- 310               		.loc 1 73 0 is_stmt 0 discriminator 1
- 311 00f8 8091 0000 		lds r24,cnt
- 312 00fc 9091 0000 		lds r25,cnt+1
- 313 0100 84FF      		sbrs r24,4
- 314 0102 00C0      		rjmp .L11
+ 304               		.loc 1 73 0
+ 305 00f0 8091 0000 		lds r24,showRemaining
+ 306 00f4 8823      		tst r24
+ 307 00f6 01F0      		breq .L11
+ 308               		.loc 1 73 0 is_stmt 0 discriminator 1
+ 309 00f8 8091 0000 		lds r24,cnt
+ 310 00fc 9091 0000 		lds r25,cnt+1
+ 311 0100 84FF      		sbrs r24,4
+ 312 0102 00C0      		rjmp .L11
   74:main.c        ****         LED_TOGGLE;
- 315               		.loc 1 74 0 is_stmt 1
- 316 0104 98B3      		in r25,0x18
- 317 0106 81E0      		ldi r24,lo8(1)
- 318 0108 8927      		eor r24,r25
- 319 010a 88BB      		out 0x18,r24
-  75:main.c        ****         showValueLeft-=225;
- 320               		.loc 1 75 0
- 321 010c 8091 0000 		lds r24,showValueLeft
- 322 0110 9091 0000 		lds r25,showValueLeft+1
- 323 0114 A091 0000 		lds r26,showValueLeft+2
- 324 0118 B091 0000 		lds r27,showValueLeft+3
- 325 011c 815E      		subi r24,-31
- 326 011e 9109      		sbc r25,__zero_reg__
- 327 0120 A109      		sbc r26,__zero_reg__
- 328 0122 B109      		sbc r27,__zero_reg__
- 329 0124 8093 0000 		sts showValueLeft,r24
- 330 0128 9093 0000 		sts showValueLeft+1,r25
- 331 012c A093 0000 		sts showValueLeft+2,r26
- 332 0130 B093 0000 		sts showValueLeft+3,r27
+ 313               		.loc 1 74 0 is_stmt 1
+ 314 0104 98B3      		in r25,0x18
+ 315 0106 81E0      		ldi r24,lo8(1)
+ 316 0108 8927      		eor r24,r25
+ 317 010a 88BB      		out 0x18,r24
+  75:main.c        ****         showValueLeft-=multiplier/16;
+ 318               		.loc 1 75 0
+ 319 010c 8091 0000 		lds r24,showValueLeft
+ 320 0110 9091 0000 		lds r25,showValueLeft+1
+ 321 0114 A091 0000 		lds r26,showValueLeft+2
+ 322 0118 B091 0000 		lds r27,showValueLeft+3
+ 323 011c 815E      		subi r24,-31
+ 324 011e 9109      		sbc r25,__zero_reg__
+ 325 0120 A109      		sbc r26,__zero_reg__
+ 326 0122 B109      		sbc r27,__zero_reg__
+ 327 0124 8093 0000 		sts showValueLeft,r24
+ 328 0128 9093 0000 		sts showValueLeft+1,r25
+ 329 012c A093 0000 		sts showValueLeft+2,r26
+ 330 0130 B093 0000 		sts showValueLeft+3,r27
   76:main.c        ****         if(showValueLeft<=0){
- 333               		.loc 1 76 0
- 334 0134 8091 0000 		lds r24,showValueLeft
- 335 0138 9091 0000 		lds r25,showValueLeft+1
- 336 013c A091 0000 		lds r26,showValueLeft+2
- 337 0140 B091 0000 		lds r27,showValueLeft+3
- 338 0144 1816      		cp __zero_reg__,r24
- 339 0146 1906      		cpc __zero_reg__,r25
- 340 0148 1A06      		cpc __zero_reg__,r26
- 341 014a 1B06      		cpc __zero_reg__,r27
- 342 014c 04F0      		brlt .L11
+ 331               		.loc 1 76 0
+ 332 0134 8091 0000 		lds r24,showValueLeft
+ 333 0138 9091 0000 		lds r25,showValueLeft+1
+ 334 013c A091 0000 		lds r26,showValueLeft+2
+ 335 0140 B091 0000 		lds r27,showValueLeft+3
+ 336 0144 1816      		cp __zero_reg__,r24
+ 337 0146 1906      		cpc __zero_reg__,r25
+ 338 0148 1A06      		cpc __zero_reg__,r26
+ 339 014a 1B06      		cpc __zero_reg__,r27
+ 340 014c 04F0      		brlt .L11
   77:main.c        ****             showRemaining=0;
- 343               		.loc 1 77 0
- 344 014e 1092 0000 		sts showRemaining,__zero_reg__
+ 341               		.loc 1 77 0
+ 342 014e 1092 0000 		sts showRemaining,__zero_reg__
   78:main.c        ****             LED_LOW;
- 345               		.loc 1 78 0
- 346 0152 C098      		cbi 0x18,0
- 347               	.L11:
- 348               	/* epilogue start */
+ 343               		.loc 1 78 0
+ 344 0152 C098      		cbi 0x18,0
+ 345               	.L11:
+ 346               	/* epilogue start */
   79:main.c        ****         }
   80:main.c        ****     }
   81:main.c        **** }
- 349               		.loc 1 81 0
- 350 0154 BF91      		pop r27
- 351 0156 AF91      		pop r26
- 352 0158 9F91      		pop r25
- 353 015a 8F91      		pop r24
- 354 015c 2F91      		pop r18
- 355 015e 0F90      		pop r0
- 356 0160 0FBE      		out __SREG__,r0
- 357 0162 0F90      		pop r0
- 358 0164 1F90      		pop r1
- 359 0166 1895      		reti
- 360               		.cfi_endproc
- 361               	.LFE9:
- 363               		.comm	showValueLeft,4,1
- 364               		.comm	nextShowTime,2,1
- 365               	.global	showRemaining
- 366               		.section .bss
- 369               	showRemaining:
- 370 0000 00        		.zero	1
- 371               		.comm	remainingTime,4,1
- 372               		.comm	setTime,4,1
- 373               	.global	cnt
- 376               	cnt:
- 377 0001 0000      		.zero	2
- 378               		.text
- 379               	.Letext0:
- 380               		.file 3 "/usr/lib/avr/include/stdint.h"
+ 347               		.loc 1 81 0
+ 348 0154 BF91      		pop r27
+ 349 0156 AF91      		pop r26
+ 350 0158 9F91      		pop r25
+ 351 015a 8F91      		pop r24
+ 352 015c 2F91      		pop r18
+ 353 015e 0F90      		pop r0
+ 354 0160 0FBE      		out __SREG__,r0
+ 355 0162 0F90      		pop r0
+ 356 0164 1F90      		pop r1
+ 357 0166 1895      		reti
+ 358               		.cfi_endproc
+ 359               	.LFE9:
+ 361               		.comm	showValueLeft,4,1
+ 362               		.comm	nextShowTime,2,1
+ 363               	.global	showRemaining
+ 364               		.section .bss
+ 367               	showRemaining:
+ 368 0000 00        		.zero	1
+ 369               		.comm	remainingTime,4,1
+ 370               		.comm	setTime,4,1
+ 371               	.global	cnt
+ 374               	cnt:
+ 375 0001 0000      		.zero	2
+ 376               	.global	multiplier
+ 377               		.section	.rodata
+ 380               	multiplier:
+ 381 0000 100E      		.word	3600
+ 382               		.text
+ 383               	.Letext0:
+ 384               		.file 3 "/usr/lib/avr/include/stdint.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 main.c
-     /tmp/cc7FILhK.s:2      *ABS*:000000000000003d __SP_L__
-     /tmp/cc7FILhK.s:3      *ABS*:000000000000003f __SREG__
-     /tmp/cc7FILhK.s:4      *ABS*:0000000000000000 __tmp_reg__
-     /tmp/cc7FILhK.s:5      *ABS*:0000000000000001 __zero_reg__
-     /tmp/cc7FILhK.s:11     .text:0000000000000000 blink
-     /tmp/cc7FILhK.s:78     .text.startup:0000000000000000 main
+     /tmp/cc7HVslu.s:2      *ABS*:000000000000003d __SP_L__
+     /tmp/cc7HVslu.s:3      *ABS*:000000000000003f __SREG__
+     /tmp/cc7HVslu.s:4      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc7HVslu.s:5      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc7HVslu.s:11     .text:0000000000000000 blink
+     /tmp/cc7HVslu.s:78     .text.startup:0000000000000000 main
                             *COM*:0000000000000004 setTime
                             *COM*:0000000000000004 remainingTime
-     /tmp/cc7FILhK.s:176    .text:000000000000002e __vector_5
-     /tmp/cc7FILhK.s:207    .text:0000000000000042 __vector_4
-     /tmp/cc7FILhK.s:376    .bss:0000000000000001 cnt
-     /tmp/cc7FILhK.s:369    .bss:0000000000000000 showRemaining
+     /tmp/cc7HVslu.s:174    .text:000000000000002e __vector_5
+     /tmp/cc7HVslu.s:205    .text:0000000000000042 __vector_4
+     /tmp/cc7HVslu.s:374    .bss:0000000000000001 cnt
+     /tmp/cc7HVslu.s:367    .bss:0000000000000000 showRemaining
                             *COM*:0000000000000004 showValueLeft
                             *COM*:0000000000000002 nextShowTime
+     /tmp/cc7HVslu.s:380    .rodata:0000000000000000 multiplier
 
 UNDEFINED SYMBOLS
 __mulhi3
+__do_copy_data
 __do_clear_bss
