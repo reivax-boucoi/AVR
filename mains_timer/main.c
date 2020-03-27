@@ -5,19 +5,14 @@
 #define LED_HIGH (PORTB |= 1<<PINB0)
 #define LED_LOW (PORTB &=~(1<<PINB0))
 #define LED_TOGGLE (PORTB ^=(1<<PINB0))
+#define RELAY_ON (PORTD &=~(1<<PIND5))//(PORTD |= 1<<PIND5)
+#define RELAY_OFF (PORTD &=~(1<<PIND5))
 
-void blink(int nb){
-    for(int i=0;i<nb;i++){
-        LED_HIGH;
-        _delay_ms(15);
-        LED_LOW;
-        _delay_ms(85);
-    }
-}
+
 const unsigned int multiplier=3600;
 volatile unsigned int cnt=0;
 volatile unsigned long setTime;
-volatile unsigned long remainingTime;
+volatile long remainingTime;
 volatile uint8_t showRemaining=0;
 volatile unsigned int nextShowTime;
 volatile long showValueLeft;
@@ -25,13 +20,17 @@ volatile long showValueLeft;
 int main(void){
     DDRB |= (1 << PINB0)|(1 << PIND5) ; //LED && relay init
     LED_LOW;
-    PORTD &=~(1<<PIND5);
-    
+    RELAY_OFF;
+    unsigned long i=0;
+    while(++i<250000){
+    LED_LOW;
+    }
+    LED_HIGH;
     DDRD &=~(1<<PIND6);//Button
     PORTD |=(1<<PIND6);
     
-    DDRB &=~(0x1E); //sw init
-    PORTB |=(0x1E);
+    DDRB &=~(0x3C); //sw init
+    PORTB |=(0x3C);
     
     TIMSK |=(1<<TOIE1)|(1<<OCIE1A);//timer init
 	TCCR1A = 0x00;
@@ -42,10 +41,11 @@ int main(void){
     
     while(1){
         if(!(PIND&(1<<PIND6))){
-            setTime=(15-((PINB & 0x1E)>>1))*multiplier;
+            setTime=(15-((PINB & 0x3C)>>2))*multiplier;
             remainingTime=setTime;
             TCCR1B |=(1<<CS11)|(1<<WGM12); // /1024, CTC on OCR1A
-            PORTD |=(1<<PIND5);
+            RELAY_ON;
+            LED_LOW;
         }
         
     }
@@ -60,9 +60,9 @@ ISR(TIMER1_COMPA_vect){//occurs @100Hz
     cnt++;
     if(cnt>=300){//occurs every 3s
         remainingTime-=3;
-        if(remainingTime==0){//stop counter and de-energize relay
+        if(remainingTime<=0){//stop counter and de-energize relay
             LED_HIGH;
-            PORTD &=~(1<<PIND5);
+            RELAY_OFF;
             TCCR1B=0;
         }
         showRemaining=1;
