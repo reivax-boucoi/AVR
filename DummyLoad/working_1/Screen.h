@@ -44,7 +44,7 @@ class Screen {
     bool valueEditing=false;
     
     private:
-    void getNextValue(int dir);
+    int getNextValue(int dir);
     const char* txt1;
     const char* txt2;
     int selectedValue=-1;

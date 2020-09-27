@@ -131,6 +131,7 @@ void Menu::back(void) {
   if (entered && menus[selectedMenuItem]->entered) {
     if(! menus[selectedMenuItem]->screens[menus[selectedMenuItem]->selectedScreen]->valueEditing)menus[selectedMenuItem]->entered = false;
       menus[selectedMenuItem]->back();
+      //Serial.println("Exiting menuItem->entered");
       show();
   } else {
     entered = false;

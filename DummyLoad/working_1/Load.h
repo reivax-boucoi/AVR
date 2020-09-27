@@ -27,7 +27,7 @@
 #define FAN_PIN 2
 
 #define TEMP_MAX    40.0
-#define FAN_HYST    2.0
+#define FAN_HYST    1.0
 
 extern float fan_temp;
 
@@ -39,14 +39,15 @@ class Load {
     void set(float current);
     void off(void);
     bool onState;
-    bool fault=false;
 
   private:
+    void DAC_set(int val);
     void DAC_set(void);
     void DAC_on(void);
     void DAC_off(void);
     float setCurrent;
     int actualDACVal;
+    bool fault=false;
     bool fan_on=false;
 };
 

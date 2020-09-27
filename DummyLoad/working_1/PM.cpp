@@ -23,7 +23,7 @@ void PM::readInputPower(float *v, float *i, float *p) {
   long vl = i2c_read(LTC2992_addr,REG_S1, 2) >> 4;
   (*v) = vl * 0.0255;
   
-  if(il>4094 || vl>4094)Serial.println(F("Input measurement saturated"));
+  if(il>4094 || vl>4094)Serial.println("Input measurement saturated");
 }
 
 void PM::readOutputPower(float *v, float *i, float *p) {
@@ -31,13 +31,12 @@ void PM::readOutputPower(float *v, float *i, float *p) {
   long pl = i2c_read(LTC2992_addr,REG_P2, 3);
   *p = pl * 0.000031875;
   long il = i2c_read(LTC2992_addr,REG_I2, 2) >> 4;
-  *i = il * 0.001150748; // should be 0.00125;
+  *i = il * 1.25;
   long vl = i2c_read(LTC2992_addr,REG_S2, 2) >> 4;
   *v = vl * 0.0255;
   
-  if(il>4094 || vl>4094)Serial.println(F("Output measurement saturated"));
+  if(il>4094 || vl>4094)Serial.println("Output measurement saturated");
 }
-
 
 #define T_A1 0.003354016
 #define T_B1 0.000256985

@@ -35,7 +35,6 @@ void Value::show(void) {
   } else {
     DPpos = 1;
   }
-  if(nbDigits==0)DPpos=0;   //special case : if nbDigits is set to 0, display only a 2 digit number with no comma every time
   lcd.setCursor(posX, posY);
   lcd.print(dispVal, DPpos);
 }
@@ -172,7 +171,7 @@ void Screen::back(void) {
   }
 }
 
-void Screen::getNextValue(int dir) {
+int Screen::getNextValue(int dir) {
   int oldValue = selectedValue;
   int i = 1;
   int trials = 0;

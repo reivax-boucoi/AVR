@@ -9,7 +9,7 @@ int i2c_write(byte deviceAddr, int address, long data, int l) {
   }
   byte error = Wire.endTransmission();
   if (error != 0) {
-    Serial.println(F("Error during write"));
+    Serial.println("Error during write");
     return -1;
   }
   delay(1);
