@@ -1,0 +1,3396 @@
+
+/tmp/arduino_build_596871/elevator_altimeter.ino.elf:     file format elf32-avr
+
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+__vectors():
+   0:	0c 94 53 00 	jmp	0xa6	; 0xa6 <__ctors_end>
+   4:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+   8:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+   c:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  10:	0c 94 ef 03 	jmp	0x7de	; 0x7de <__vector_4>
+  14:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  18:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  1c:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  20:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  24:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  28:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  2c:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  30:	0c 94 11 03 	jmp	0x622	; 0x622 <__vector_12>
+  34:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  38:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  3c:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  40:	0c 94 df 02 	jmp	0x5be	; 0x5be <__vector_16>
+  44:	0c 94 b9 02 	jmp	0x572	; 0x572 <__vector_17>
+  48:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  4c:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  50:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  54:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  58:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  5c:	0c 94 d6 03 	jmp	0x7ac	; 0x7ac <__vector_23>
+  60:	0c 94 5b 03 	jmp	0x6b6	; 0x6b6 <__vector_24>
+  64:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  68:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+  6c:	0c 94 7b 00 	jmp	0xf6	; 0xf6 <__bad_interrupt>
+
+00000070 <__trampolines_end>:
+__trampolines_start():
+  70:	00 2f       	mov	r16, r16
+  72:	2b 27       	eor	r18, r27
+
+00000074 <port_to_mode_PGM>:
+  74:	00 30 2c 28                                         .0,(
+
+00000078 <port_to_pullup_PGM>:
+  78:	00 32 2e 2a                                         .2.*
+
+0000007c <port_to_output_PGM>:
+  7c:	00 31 2d 29                                         .1-)
+
+00000080 <digital_pin_to_port_PGM>:
+  80:	02 01 01 01 01 01 01 01 01 03 03 03 03 03 02 02     ................
+  90:	02 03                                               ..
+
+00000092 <digital_pin_to_bit_mask_PGM>:
+  92:	01 80 40 20 10 08 04 02 01 20 10 04 02 01 08 04     ..@ ..... ......
+  a2:	02 08                                               ..
+
+000000a4 <__ctors_start>:
+__ctors_start():
+  a4:	a0 05       	cpc	r26, r0
+
+000000a6 <__ctors_end>:
+__dtors_end():
+  a6:	11 24       	eor	r1, r1
+  a8:	1f be       	out	0x3f, r1	; 63
+  aa:	cf ef       	ldi	r28, 0xFF	; 255
+  ac:	d4 e0       	ldi	r29, 0x04	; 4
+  ae:	de bf       	out	0x3e, r29	; 62
+  b0:	cd bf       	out	0x3d, r28	; 61
+
+000000b2 <__do_copy_data>:
+__do_copy_data():
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2409
+  b2:	11 e0       	ldi	r17, 0x01	; 1
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2410
+  b4:	a0 e0       	ldi	r26, 0x00	; 0
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2411
+  b6:	b1 e0       	ldi	r27, 0x01	; 1
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2412
+  b8:	e2 eb       	ldi	r30, 0xB2	; 178
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2413
+  ba:	ff e0       	ldi	r31, 0x0F	; 15
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2414
+  bc:	02 c0       	rjmp	.+4      	; 0xc2 <__do_copy_data+0x10>
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2417
+  be:	05 90       	lpm	r0, Z+
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2422
+  c0:	0d 92       	st	X+, r0
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2424
+  c2:	ae 32       	cpi	r26, 0x2E	; 46
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2425
+  c4:	b1 07       	cpc	r27, r17
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2426
+  c6:	d9 f7       	brne	.-10     	; 0xbe <__do_copy_data+0xc>
+
+000000c8 <__do_clear_bss>:
+__do_clear_bss():
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2441
+  c8:	21 e0       	ldi	r18, 0x01	; 1
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2442
+  ca:	ae e2       	ldi	r26, 0x2E	; 46
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2443
+  cc:	b1 e0       	ldi	r27, 0x01	; 1
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2444
+  ce:	01 c0       	rjmp	.+2      	; 0xd2 <.do_clear_bss_start>
+
+000000d0 <.do_clear_bss_loop>:
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2446
+  d0:	1d 92       	st	X+, r1
+
+000000d2 <.do_clear_bss_start>:
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2448
+  d2:	aa 3b       	cpi	r26, 0xBA	; 186
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2449
+  d4:	b2 07       	cpc	r27, r18
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2450
+  d6:	e1 f7       	brne	.-8      	; 0xd0 <.do_clear_bss_loop>
+
+000000d8 <__do_global_ctors>:
+__do_global_ctors():
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2466
+  d8:	10 e0       	ldi	r17, 0x00	; 0
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2467
+  da:	c3 e5       	ldi	r28, 0x53	; 83
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2468
+  dc:	d0 e0       	ldi	r29, 0x00	; 0
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2472
+  de:	04 c0       	rjmp	.+8      	; 0xe8 <__do_global_ctors+0x10>
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2474
+  e0:	21 97       	sbiw	r28, 0x01	; 1
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2480
+  e2:	fe 01       	movw	r30, r28
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2481
+  e4:	0e 94 d1 07 	call	0xfa2	; 0xfa2 <__tablejump2__>
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2483
+  e8:	c2 35       	cpi	r28, 0x52	; 82
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2484
+  ea:	d1 07       	cpc	r29, r17
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2489
+  ec:	c9 f7       	brne	.-14     	; 0xe0 <__do_global_ctors+0x8>
+  ee:	0e 94 25 04 	call	0x84a	; 0x84a <main>
+  f2:	0c 94 d7 07 	jmp	0xfae	; 0xfae <_exit>
+
+000000f6 <__bad_interrupt>:
+__vector_22():
+  f6:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000fa <Print::write(unsigned char const*, unsigned int)>:
+write():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:34
+
+// Public Methods //////////////////////////////////////////////////////////////
+
+/* default implementation: may be overridden */
+size_t Print::write(const uint8_t *buffer, size_t size)
+{
+  fa:	cf 92       	push	r12
+  fc:	df 92       	push	r13
+  fe:	ef 92       	push	r14
+ 100:	ff 92       	push	r15
+ 102:	0f 93       	push	r16
+ 104:	1f 93       	push	r17
+ 106:	cf 93       	push	r28
+ 108:	df 93       	push	r29
+ 10a:	6c 01       	movw	r12, r24
+ 10c:	eb 01       	movw	r28, r22
+ 10e:	7b 01       	movw	r14, r22
+ 110:	e4 0e       	add	r14, r20
+ 112:	f5 1e       	adc	r15, r21
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:35
+  size_t n = 0;
+ 114:	10 e0       	ldi	r17, 0x00	; 0
+ 116:	00 e0       	ldi	r16, 0x00	; 0
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:36
+  while (size--) {
+ 118:	ce 15       	cp	r28, r14
+ 11a:	df 05       	cpc	r29, r15
+ 11c:	61 f0       	breq	.+24     	; 0x136 <Print::write(unsigned char const*, unsigned int)+0x3c>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:37
+    n += write(*buffer++);
+ 11e:	69 91       	ld	r22, Y+
+ 120:	d6 01       	movw	r26, r12
+ 122:	ed 91       	ld	r30, X+
+ 124:	fc 91       	ld	r31, X
+ 126:	01 90       	ld	r0, Z+
+ 128:	f0 81       	ld	r31, Z
+ 12a:	e0 2d       	mov	r30, r0
+ 12c:	c6 01       	movw	r24, r12
+ 12e:	09 95       	icall
+ 130:	08 0f       	add	r16, r24
+ 132:	19 1f       	adc	r17, r25
+ 134:	f1 cf       	rjmp	.-30     	; 0x118 <Print::write(unsigned char const*, unsigned int)+0x1e>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:40
+  }
+  return n;
+}
+ 136:	c8 01       	movw	r24, r16
+ 138:	df 91       	pop	r29
+ 13a:	cf 91       	pop	r28
+ 13c:	1f 91       	pop	r17
+ 13e:	0f 91       	pop	r16
+ 140:	ff 90       	pop	r15
+ 142:	ef 90       	pop	r14
+ 144:	df 90       	pop	r13
+ 146:	cf 90       	pop	r12
+ 148:	08 95       	ret
+
+0000014a <HardwareSerial::availableForWrite()>:
+availableForWrite():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:198
+{
+  tx_buffer_index_t head;
+  tx_buffer_index_t tail;
+
+  TX_BUFFER_ATOMIC {
+    head = _tx_buffer_head;
+ 14a:	fc 01       	movw	r30, r24
+ 14c:	53 8d       	ldd	r21, Z+27	; 0x1b
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:199
+    tail = _tx_buffer_tail;
+ 14e:	44 8d       	ldd	r20, Z+28	; 0x1c
+ 150:	25 2f       	mov	r18, r21
+ 152:	30 e0       	ldi	r19, 0x00	; 0
+ 154:	84 2f       	mov	r24, r20
+ 156:	90 e0       	ldi	r25, 0x00	; 0
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:201
+  }
+  if (head >= tail) return SERIAL_TX_BUFFER_SIZE - 1 - head + tail;
+ 158:	82 1b       	sub	r24, r18
+ 15a:	93 0b       	sbc	r25, r19
+ 15c:	54 17       	cp	r21, r20
+ 15e:	10 f0       	brcs	.+4      	; 0x164 <HardwareSerial::availableForWrite()+0x1a>
+ 160:	4f 96       	adiw	r24, 0x1f	; 31
+ 162:	08 95       	ret
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:202
+  return tail - head - 1;
+ 164:	01 97       	sbiw	r24, 0x01	; 1
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:203
+}
+ 166:	08 95       	ret
+
+00000168 <HardwareSerial::read()>:
+read():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:181
+    return _rx_buffer[_rx_buffer_tail];
+  }
+}
+
+int HardwareSerial::read(void)
+{
+ 168:	fc 01       	movw	r30, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:183
+  // if the head isn't ahead of the tail, we don't have any characters
+  if (_rx_buffer_head == _rx_buffer_tail) {
+ 16a:	91 8d       	ldd	r25, Z+25	; 0x19
+ 16c:	82 8d       	ldd	r24, Z+26	; 0x1a
+ 16e:	98 17       	cp	r25, r24
+ 170:	61 f0       	breq	.+24     	; 0x18a <HardwareSerial::read()+0x22>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:186
+    return -1;
+  } else {
+    unsigned char c = _rx_buffer[_rx_buffer_tail];
+ 172:	a2 8d       	ldd	r26, Z+26	; 0x1a
+ 174:	ae 0f       	add	r26, r30
+ 176:	bf 2f       	mov	r27, r31
+ 178:	b1 1d       	adc	r27, r1
+ 17a:	5d 96       	adiw	r26, 0x1d	; 29
+ 17c:	8c 91       	ld	r24, X
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:187
+    _rx_buffer_tail = (rx_buffer_index_t)(_rx_buffer_tail + 1) % SERIAL_RX_BUFFER_SIZE;
+ 17e:	92 8d       	ldd	r25, Z+26	; 0x1a
+ 180:	9f 5f       	subi	r25, 0xFF	; 255
+ 182:	9f 71       	andi	r25, 0x1F	; 31
+ 184:	92 8f       	std	Z+26, r25	; 0x1a
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:188
+    return c;
+ 186:	90 e0       	ldi	r25, 0x00	; 0
+ 188:	08 95       	ret
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:184
+
+int HardwareSerial::read(void)
+{
+  // if the head isn't ahead of the tail, we don't have any characters
+  if (_rx_buffer_head == _rx_buffer_tail) {
+    return -1;
+ 18a:	8f ef       	ldi	r24, 0xFF	; 255
+ 18c:	9f ef       	ldi	r25, 0xFF	; 255
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:190
+  } else {
+    unsigned char c = _rx_buffer[_rx_buffer_tail];
+    _rx_buffer_tail = (rx_buffer_index_t)(_rx_buffer_tail + 1) % SERIAL_RX_BUFFER_SIZE;
+    return c;
+  }
+}
+ 18e:	08 95       	ret
+
+00000190 <HardwareSerial::peek()>:
+peek():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:172
+{
+  return ((unsigned int)(SERIAL_RX_BUFFER_SIZE + _rx_buffer_head - _rx_buffer_tail)) % SERIAL_RX_BUFFER_SIZE;
+}
+
+int HardwareSerial::peek(void)
+{
+ 190:	fc 01       	movw	r30, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:173
+  if (_rx_buffer_head == _rx_buffer_tail) {
+ 192:	91 8d       	ldd	r25, Z+25	; 0x19
+ 194:	82 8d       	ldd	r24, Z+26	; 0x1a
+ 196:	98 17       	cp	r25, r24
+ 198:	31 f0       	breq	.+12     	; 0x1a6 <HardwareSerial::peek()+0x16>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:176
+    return -1;
+  } else {
+    return _rx_buffer[_rx_buffer_tail];
+ 19a:	82 8d       	ldd	r24, Z+26	; 0x1a
+ 19c:	e8 0f       	add	r30, r24
+ 19e:	f1 1d       	adc	r31, r1
+ 1a0:	85 8d       	ldd	r24, Z+29	; 0x1d
+ 1a2:	90 e0       	ldi	r25, 0x00	; 0
+ 1a4:	08 95       	ret
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:174
+}
+
+int HardwareSerial::peek(void)
+{
+  if (_rx_buffer_head == _rx_buffer_tail) {
+    return -1;
+ 1a6:	8f ef       	ldi	r24, 0xFF	; 255
+ 1a8:	9f ef       	ldi	r25, 0xFF	; 255
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:178
+  } else {
+    return _rx_buffer[_rx_buffer_tail];
+  }
+}
+ 1aa:	08 95       	ret
+
+000001ac <HardwareSerial::available()>:
+available():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:167
+  // clear any received data
+  _rx_buffer_head = _rx_buffer_tail;
+}
+
+int HardwareSerial::available(void)
+{
+ 1ac:	fc 01       	movw	r30, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:168
+  return ((unsigned int)(SERIAL_RX_BUFFER_SIZE + _rx_buffer_head - _rx_buffer_tail)) % SERIAL_RX_BUFFER_SIZE;
+ 1ae:	91 8d       	ldd	r25, Z+25	; 0x19
+ 1b0:	22 8d       	ldd	r18, Z+26	; 0x1a
+ 1b2:	89 2f       	mov	r24, r25
+ 1b4:	90 e0       	ldi	r25, 0x00	; 0
+ 1b6:	80 96       	adiw	r24, 0x20	; 32
+ 1b8:	82 1b       	sub	r24, r18
+ 1ba:	91 09       	sbc	r25, r1
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:169
+}
+ 1bc:	8f 71       	andi	r24, 0x1F	; 31
+ 1be:	99 27       	eor	r25, r25
+ 1c0:	08 95       	ret
+
+000001c2 <HardwareSerial::_tx_udr_empty_irq()>:
+_tx_udr_empty_irq():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:90
+#endif
+
+// Actual interrupt handlers //////////////////////////////////////////////////////////////
+
+void HardwareSerial::_tx_udr_empty_irq(void)
+{
+ 1c2:	fc 01       	movw	r30, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:93
+  // If interrupts are enabled, there must be more data in the output
+  // buffer. Send the next byte
+  unsigned char c = _tx_buffer[_tx_buffer_tail];
+ 1c4:	a4 8d       	ldd	r26, Z+28	; 0x1c
+ 1c6:	a8 0f       	add	r26, r24
+ 1c8:	b9 2f       	mov	r27, r25
+ 1ca:	b1 1d       	adc	r27, r1
+ 1cc:	dd 96       	adiw	r26, 0x3d	; 61
+ 1ce:	2c 91       	ld	r18, X
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:94
+  _tx_buffer_tail = (_tx_buffer_tail + 1) % SERIAL_TX_BUFFER_SIZE;
+ 1d0:	84 8d       	ldd	r24, Z+28	; 0x1c
+ 1d2:	90 e0       	ldi	r25, 0x00	; 0
+ 1d4:	01 96       	adiw	r24, 0x01	; 1
+ 1d6:	8f 71       	andi	r24, 0x1F	; 31
+ 1d8:	99 27       	eor	r25, r25
+ 1da:	84 8f       	std	Z+28, r24	; 0x1c
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:96
+
+  *_udr = c;
+ 1dc:	a6 89       	ldd	r26, Z+22	; 0x16
+ 1de:	b7 89       	ldd	r27, Z+23	; 0x17
+ 1e0:	2c 93       	st	X, r18
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:104
+  // location". This makes sure flush() won't return until the bytes
+  // actually got written. Other r/w bits are preserved, and zeroes
+  // written to the rest.
+
+#ifdef MPCM0
+  *_ucsra = ((*_ucsra) & ((1 << U2X0) | (1 << MPCM0))) | (1 << TXC0);
+ 1e2:	a0 89       	ldd	r26, Z+16	; 0x10
+ 1e4:	b1 89       	ldd	r27, Z+17	; 0x11
+ 1e6:	8c 91       	ld	r24, X
+ 1e8:	83 70       	andi	r24, 0x03	; 3
+ 1ea:	80 64       	ori	r24, 0x40	; 64
+ 1ec:	8c 93       	st	X, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:109
+#else
+  *_ucsra = ((*_ucsra) & ((1 << U2X0) | (1 << TXC0)));
+#endif
+
+  if (_tx_buffer_head == _tx_buffer_tail) {
+ 1ee:	93 8d       	ldd	r25, Z+27	; 0x1b
+ 1f0:	84 8d       	ldd	r24, Z+28	; 0x1c
+ 1f2:	98 13       	cpse	r25, r24
+ 1f4:	06 c0       	rjmp	.+12     	; 0x202 <HardwareSerial::_tx_udr_empty_irq()+0x40>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:111
+    // Buffer empty, so disable interrupts
+    cbi(*_ucsrb, UDRIE0);
+ 1f6:	02 88       	ldd	r0, Z+18	; 0x12
+ 1f8:	f3 89       	ldd	r31, Z+19	; 0x13
+ 1fa:	e0 2d       	mov	r30, r0
+ 1fc:	80 81       	ld	r24, Z
+ 1fe:	8f 7d       	andi	r24, 0xDF	; 223
+ 200:	80 83       	st	Z, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:113
+  }
+}
+ 202:	08 95       	ret
+
+00000204 <HardwareSerial::write(unsigned char)>:
+write():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:226
+  // If we get here, nothing is queued anymore (DRIE is disabled) and
+  // the hardware finished transmission (TXC is set).
+}
+
+size_t HardwareSerial::write(uint8_t c)
+{
+ 204:	ef 92       	push	r14
+ 206:	ff 92       	push	r15
+ 208:	0f 93       	push	r16
+ 20a:	1f 93       	push	r17
+ 20c:	cf 93       	push	r28
+ 20e:	df 93       	push	r29
+ 210:	ec 01       	movw	r28, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:227
+  _written = true;
+ 212:	81 e0       	ldi	r24, 0x01	; 1
+ 214:	88 8f       	std	Y+24, r24	; 0x18
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:232
+  // If the buffer and the data register is empty, just write the byte
+  // to the data register and be done. This shortcut helps
+  // significantly improve the effective datarate at high (>
+  // 500kbit/s) bitrates, where interrupt overhead becomes a slowdown.
+  if (_tx_buffer_head == _tx_buffer_tail && bit_is_set(*_ucsra, UDRE0)) {
+ 216:	9b 8d       	ldd	r25, Y+27	; 0x1b
+ 218:	8c 8d       	ldd	r24, Y+28	; 0x1c
+ 21a:	98 13       	cpse	r25, r24
+ 21c:	1a c0       	rjmp	.+52     	; 0x252 <HardwareSerial::write(unsigned char)+0x4e>
+ 21e:	e8 89       	ldd	r30, Y+16	; 0x10
+ 220:	f9 89       	ldd	r31, Y+17	; 0x11
+ 222:	80 81       	ld	r24, Z
+ 224:	85 ff       	sbrs	r24, 5
+ 226:	15 c0       	rjmp	.+42     	; 0x252 <HardwareSerial::write(unsigned char)+0x4e>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:241
+    // So writing UDR must happen first.
+    // Writing UDR and clearing TC must be done atomically, otherwise
+    // interrupts might delay the TXC clear so the byte written to UDR
+    // is transmitted (setting TXC) before clearing TXC. Then TXC will
+    // be cleared when no bytes are left, causing flush() to hang
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+ 228:	9f b7       	in	r25, 0x3f	; 63
+__iCliRetVal():
+/home/user/.arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/avr/include/util/atomic.h:50
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 22a:	f8 94       	cli
+write():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:242
+      *_udr = c;
+ 22c:	ee 89       	ldd	r30, Y+22	; 0x16
+ 22e:	ff 89       	ldd	r31, Y+23	; 0x17
+ 230:	60 83       	st	Z, r22
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:244
+#ifdef MPCM0
+      *_ucsra = ((*_ucsra) & ((1 << U2X0) | (1 << MPCM0))) | (1 << TXC0);
+ 232:	e8 89       	ldd	r30, Y+16	; 0x10
+ 234:	f9 89       	ldd	r31, Y+17	; 0x11
+ 236:	80 81       	ld	r24, Z
+ 238:	83 70       	andi	r24, 0x03	; 3
+ 23a:	80 64       	ori	r24, 0x40	; 64
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:275
+  // make atomic to prevent execution of ISR between setting the
+  // head pointer and setting the interrupt flag resulting in buffer
+  // retransmission
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+    _tx_buffer_head = i;
+    sbi(*_ucsrb, UDRIE0);
+ 23c:	80 83       	st	Z, r24
+__iRestore():
+/home/user/.arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/avr/include/util/atomic.h:70
+    (void)__s;
+}
+
+static __inline__ void __iRestore(const  uint8_t *__s)
+{
+    SREG = *__s;
+ 23e:	9f bf       	out	0x3f, r25	; 63
+write():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:279
+  }
+
+  return 1;
+}
+ 240:	81 e0       	ldi	r24, 0x01	; 1
+ 242:	90 e0       	ldi	r25, 0x00	; 0
+ 244:	df 91       	pop	r29
+ 246:	cf 91       	pop	r28
+ 248:	1f 91       	pop	r17
+ 24a:	0f 91       	pop	r16
+ 24c:	ff 90       	pop	r15
+ 24e:	ef 90       	pop	r14
+ 250:	08 95       	ret
+ 252:	f6 2e       	mov	r15, r22
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:251
+      *_ucsra = ((*_ucsra) & ((1 << U2X0) | (1 << TXC0)));
+#endif
+    }
+    return 1;
+  }
+  tx_buffer_index_t i = (_tx_buffer_head + 1) % SERIAL_TX_BUFFER_SIZE;
+ 254:	0b 8d       	ldd	r16, Y+27	; 0x1b
+ 256:	10 e0       	ldi	r17, 0x00	; 0
+ 258:	0f 5f       	subi	r16, 0xFF	; 255
+ 25a:	1f 4f       	sbci	r17, 0xFF	; 255
+ 25c:	0f 71       	andi	r16, 0x1F	; 31
+ 25e:	11 27       	eor	r17, r17
+ 260:	e0 2e       	mov	r14, r16
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:255
+
+  // If the output buffer is full, there's nothing for it other than to
+  // wait for the interrupt handler to empty it a bit
+  while (i == _tx_buffer_tail) {
+ 262:	8c 8d       	ldd	r24, Y+28	; 0x1c
+ 264:	8e 11       	cpse	r24, r14
+ 266:	0c c0       	rjmp	.+24     	; 0x280 <HardwareSerial::write(unsigned char)+0x7c>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:256
+    if (bit_is_clear(SREG, SREG_I)) {
+ 268:	0f b6       	in	r0, 0x3f	; 63
+ 26a:	07 fc       	sbrc	r0, 7
+ 26c:	fa cf       	rjmp	.-12     	; 0x262 <HardwareSerial::write(unsigned char)+0x5e>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:261
+      // Interrupts are disabled, so we'll have to poll the data
+      // register empty flag ourselves. If it is set, pretend an
+      // interrupt has happened and call the handler to free up
+      // space for us.
+      if(bit_is_set(*_ucsra, UDRE0))
+ 26e:	e8 89       	ldd	r30, Y+16	; 0x10
+ 270:	f9 89       	ldd	r31, Y+17	; 0x11
+ 272:	80 81       	ld	r24, Z
+ 274:	85 ff       	sbrs	r24, 5
+ 276:	f5 cf       	rjmp	.-22     	; 0x262 <HardwareSerial::write(unsigned char)+0x5e>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:262
+  _tx_udr_empty_irq();
+ 278:	ce 01       	movw	r24, r28
+ 27a:	0e 94 e1 00 	call	0x1c2	; 0x1c2 <HardwareSerial::_tx_udr_empty_irq()>
+ 27e:	f1 cf       	rjmp	.-30     	; 0x262 <HardwareSerial::write(unsigned char)+0x5e>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:268
+    } else {
+      // nop, the interrupt handler will free up space for us
+    }
+  }
+
+  _tx_buffer[_tx_buffer_head] = c;
+ 280:	eb 8d       	ldd	r30, Y+27	; 0x1b
+ 282:	ec 0f       	add	r30, r28
+ 284:	fd 2f       	mov	r31, r29
+ 286:	f1 1d       	adc	r31, r1
+ 288:	f5 ae       	std	Z+61, r15	; 0x3d
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:273
+
+  // make atomic to prevent execution of ISR between setting the
+  // head pointer and setting the interrupt flag resulting in buffer
+  // retransmission
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+ 28a:	9f b7       	in	r25, 0x3f	; 63
+__iCliRetVal():
+/home/user/.arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/avr/include/util/atomic.h:50
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 28c:	f8 94       	cli
+write():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:274
+    _tx_buffer_head = i;
+ 28e:	0b 8f       	std	Y+27, r16	; 0x1b
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:275
+    sbi(*_ucsrb, UDRIE0);
+ 290:	ea 89       	ldd	r30, Y+18	; 0x12
+ 292:	fb 89       	ldd	r31, Y+19	; 0x13
+ 294:	80 81       	ld	r24, Z
+ 296:	80 62       	ori	r24, 0x20	; 32
+ 298:	d1 cf       	rjmp	.-94     	; 0x23c <HardwareSerial::write(unsigned char)+0x38>
+
+0000029a <Print::print(char) [clone .constprop.17]>:
+print():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:66
+  return write(str);
+}
+
+size_t Print::print(char c)
+{
+  return write(c);
+ 29a:	68 2f       	mov	r22, r24
+ 29c:	8d e5       	ldi	r24, 0x5D	; 93
+ 29e:	91 e0       	ldi	r25, 0x01	; 1
+ 2a0:	0c 94 02 01 	jmp	0x204	; 0x204 <HardwareSerial::write(unsigned char)>
+
+000002a4 <HardwareSerial::flush()>:
+flush():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:206
+  if (head >= tail) return SERIAL_TX_BUFFER_SIZE - 1 - head + tail;
+  return tail - head - 1;
+}
+
+void HardwareSerial::flush()
+{
+ 2a4:	cf 93       	push	r28
+ 2a6:	df 93       	push	r29
+ 2a8:	ec 01       	movw	r28, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:210
+  // If we have never written a byte, no need to flush. This special
+  // case is needed since there is no way to force the TXC (transmit
+  // complete) bit to 1 during initialization
+  if (!_written)
+ 2aa:	88 8d       	ldd	r24, Y+24	; 0x18
+ 2ac:	88 23       	and	r24, r24
+ 2ae:	b9 f0       	breq	.+46     	; 0x2de <HardwareSerial::flush()+0x3a>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:213
+    return;
+
+  while (bit_is_set(*_ucsrb, UDRIE0) || bit_is_clear(*_ucsra, TXC0)) {
+ 2b0:	aa 89       	ldd	r26, Y+18	; 0x12
+ 2b2:	bb 89       	ldd	r27, Y+19	; 0x13
+ 2b4:	e8 89       	ldd	r30, Y+16	; 0x10
+ 2b6:	f9 89       	ldd	r31, Y+17	; 0x11
+ 2b8:	8c 91       	ld	r24, X
+ 2ba:	85 fd       	sbrc	r24, 5
+ 2bc:	03 c0       	rjmp	.+6      	; 0x2c4 <HardwareSerial::flush()+0x20>
+ 2be:	80 81       	ld	r24, Z
+ 2c0:	86 fd       	sbrc	r24, 6
+ 2c2:	0d c0       	rjmp	.+26     	; 0x2de <HardwareSerial::flush()+0x3a>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:214
+    if (bit_is_clear(SREG, SREG_I) && bit_is_set(*_ucsrb, UDRIE0))
+ 2c4:	0f b6       	in	r0, 0x3f	; 63
+ 2c6:	07 fc       	sbrc	r0, 7
+ 2c8:	f7 cf       	rjmp	.-18     	; 0x2b8 <HardwareSerial::flush()+0x14>
+ 2ca:	8c 91       	ld	r24, X
+ 2cc:	85 ff       	sbrs	r24, 5
+ 2ce:	f2 cf       	rjmp	.-28     	; 0x2b4 <HardwareSerial::flush()+0x10>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:218
+  // Interrupts are globally disabled, but the DR empty
+  // interrupt should be enabled, so poll the DR empty flag to
+  // prevent deadlock
+  if (bit_is_set(*_ucsra, UDRE0))
+ 2d0:	80 81       	ld	r24, Z
+ 2d2:	85 ff       	sbrs	r24, 5
+ 2d4:	ed cf       	rjmp	.-38     	; 0x2b0 <HardwareSerial::flush()+0xc>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:219
+    _tx_udr_empty_irq();
+ 2d6:	ce 01       	movw	r24, r28
+ 2d8:	0e 94 e1 00 	call	0x1c2	; 0x1c2 <HardwareSerial::_tx_udr_empty_irq()>
+ 2dc:	e9 cf       	rjmp	.-46     	; 0x2b0 <HardwareSerial::flush()+0xc>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:223
+  }
+  // If we get here, nothing is queued anymore (DRIE is disabled) and
+  // the hardware finished transmission (TXC is set).
+}
+ 2de:	df 91       	pop	r29
+ 2e0:	cf 91       	pop	r28
+ 2e2:	08 95       	ret
+
+000002e4 <digitalWrite>:
+digitalWrite():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:181
+}
+
+#if defined(__AVR_ATtinyX41__ ) || defined(__AVR_ATtiny1634__) || defined(__AVR_ATtiny828__)
+
+void digitalWrite(uint8_t pin, uint8_t val)
+{
+ 2e4:	cf 93       	push	r28
+ 2e6:	df 93       	push	r29
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:185
+  #ifndef __AVR_ATtiny828__
+  if (pin&64) {pin=analogInputToDigitalPin((pin&63));}
+  #endif
+  uint8_t bit = digitalPinToBitMask(pin);
+ 2e8:	a8 2f       	mov	r26, r24
+ 2ea:	b0 e0       	ldi	r27, 0x00	; 0
+ 2ec:	fd 01       	movw	r30, r26
+ 2ee:	ee 56       	subi	r30, 0x6E	; 110
+ 2f0:	ff 4f       	sbci	r31, 0xFF	; 255
+ 2f2:	84 91       	lpm	r24, Z
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:186
+  uint8_t port = digitalPinToPort(pin);
+ 2f4:	a0 58       	subi	r26, 0x80	; 128
+ 2f6:	bf 4f       	sbci	r27, 0xFF	; 255
+ 2f8:	fd 01       	movw	r30, r26
+ 2fa:	a4 91       	lpm	r26, Z
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:189
+  volatile uint8_t *out, *pue;
+
+  if (port == NOT_A_PIN) return;
+ 2fc:	aa 23       	and	r26, r26
+ 2fe:	c9 f0       	breq	.+50     	; 0x332 <digitalWrite+0x4e>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:195
+
+  // If the pin that support PWM output, we need to turn it off
+  // before doing a digital write.
+  turnOffPWM( pin );
+
+  out = portOutputRegister(port);
+ 300:	b0 e0       	ldi	r27, 0x00	; 0
+ 302:	fd 01       	movw	r30, r26
+ 304:	e4 58       	subi	r30, 0x84	; 132
+ 306:	ff 4f       	sbci	r31, 0xFF	; 255
+ 308:	e4 91       	lpm	r30, Z
+ 30a:	ce 2f       	mov	r28, r30
+ 30c:	d0 e0       	ldi	r29, 0x00	; 0
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:196
+  pue = portPullupRegister(port);
+ 30e:	a8 58       	subi	r26, 0x88	; 136
+ 310:	bf 4f       	sbci	r27, 0xFF	; 255
+ 312:	fd 01       	movw	r30, r26
+ 314:	a4 91       	lpm	r26, Z
+ 316:	b0 e0       	ldi	r27, 0x00	; 0
+ 318:	98 2f       	mov	r25, r24
+ 31a:	90 95       	com	r25
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:199
+
+  if (val == LOW) {
+    uint8_t oldSREG = SREG;
+ 31c:	2f b7       	in	r18, 0x3f	; 63
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:198
+  turnOffPWM( pin );
+
+  out = portOutputRegister(port);
+  pue = portPullupRegister(port);
+
+  if (val == LOW) {
+ 31e:	61 11       	cpse	r22, r1
+ 320:	0b c0       	rjmp	.+22     	; 0x338 <digitalWrite+0x54>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:200
+    uint8_t oldSREG = SREG;
+    cli();
+ 322:	f8 94       	cli
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:201
+    *out &= ~bit;
+ 324:	88 81       	ld	r24, Y
+ 326:	89 23       	and	r24, r25
+ 328:	88 83       	st	Y, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:208
+    SREG = oldSREG;
+  } else {
+    uint8_t oldSREG = SREG;
+    cli();
+    *out |= bit;
+    *pue &= ~bit;
+ 32a:	8c 91       	ld	r24, X
+ 32c:	89 23       	and	r24, r25
+ 32e:	8c 93       	st	X, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:209
+    SREG = oldSREG;
+ 330:	2f bf       	out	0x3f, r18	; 63
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:211
+  }
+}
+ 332:	df 91       	pop	r29
+ 334:	cf 91       	pop	r28
+ 336:	08 95       	ret
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:206
+    *out &= ~bit;
+    *pue &= ~bit; //Turn off the pullups
+    SREG = oldSREG;
+  } else {
+    uint8_t oldSREG = SREG;
+    cli();
+ 338:	f8 94       	cli
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:207
+    *out |= bit;
+ 33a:	e8 81       	ld	r30, Y
+ 33c:	e8 2b       	or	r30, r24
+ 33e:	e8 83       	st	Y, r30
+ 340:	f4 cf       	rjmp	.-24     	; 0x32a <digitalWrite+0x46>
+
+00000342 <pinMode>:
+pinMode():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:37
+#include "core_timers.h"
+#include "PwmTimer.h"
+
+#if defined(__AVR_ATtinyX41__ ) || defined(__AVR_ATtiny1634__) || defined(__AVR_ATtiny828__)
+void pinMode(uint8_t pin, uint8_t mode)
+{
+ 342:	cf 93       	push	r28
+ 344:	df 93       	push	r29
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:41
+  #ifndef __AVR_ATtiny828__
+  if (pin&64) {pin=analogInputToDigitalPin((pin & 63));}
+  #endif
+  uint8_t bit = digitalPinToBitMask(pin);
+ 346:	a8 2f       	mov	r26, r24
+ 348:	b0 e0       	ldi	r27, 0x00	; 0
+ 34a:	fd 01       	movw	r30, r26
+ 34c:	ee 56       	subi	r30, 0x6E	; 110
+ 34e:	ff 4f       	sbci	r31, 0xFF	; 255
+ 350:	24 91       	lpm	r18, Z
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:42
+  uint8_t port = digitalPinToPort(pin);
+ 352:	a0 58       	subi	r26, 0x80	; 128
+ 354:	bf 4f       	sbci	r27, 0xFF	; 255
+ 356:	fd 01       	movw	r30, r26
+ 358:	a4 91       	lpm	r26, Z
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:45
+  volatile uint8_t *reg, *out, *pue;
+
+  if (port == NOT_A_PIN) return;
+ 35a:	aa 23       	and	r26, r26
+ 35c:	19 f1       	breq	.+70     	; 0x3a4 <pinMode+0x62>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:48
+
+  // JWS: can I let the optimizer do this?
+  reg = portModeRegister(port);
+ 35e:	b0 e0       	ldi	r27, 0x00	; 0
+ 360:	fd 01       	movw	r30, r26
+ 362:	ec 58       	subi	r30, 0x8C	; 140
+ 364:	ff 4f       	sbci	r31, 0xFF	; 255
+ 366:	e4 91       	lpm	r30, Z
+ 368:	ce 2f       	mov	r28, r30
+ 36a:	d0 e0       	ldi	r29, 0x00	; 0
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:49
+  out = portOutputRegister(port);
+ 36c:	fd 01       	movw	r30, r26
+ 36e:	e4 58       	subi	r30, 0x84	; 132
+ 370:	ff 4f       	sbci	r31, 0xFF	; 255
+ 372:	e4 91       	lpm	r30, Z
+ 374:	8e 2f       	mov	r24, r30
+ 376:	90 e0       	ldi	r25, 0x00	; 0
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:50
+  pue = portPullupRegister(port);
+ 378:	a8 58       	subi	r26, 0x88	; 136
+ 37a:	bf 4f       	sbci	r27, 0xFF	; 255
+ 37c:	fd 01       	movw	r30, r26
+ 37e:	a4 91       	lpm	r26, Z
+ 380:	b0 e0       	ldi	r27, 0x00	; 0
+ 382:	32 2f       	mov	r19, r18
+ 384:	30 95       	com	r19
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:52
+
+  if (mode == INPUT) {
+ 386:	61 11       	cpse	r22, r1
+ 388:	10 c0       	rjmp	.+32     	; 0x3aa <pinMode+0x68>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:53
+    uint8_t oldSREG = SREG;
+ 38a:	4f b7       	in	r20, 0x3f	; 63
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:54
+                cli();
+ 38c:	f8 94       	cli
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:55
+    *reg &= ~bit;
+ 38e:	28 81       	ld	r18, Y
+ 390:	23 23       	and	r18, r19
+ 392:	28 83       	st	Y, r18
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:56
+    *out &= ~bit;
+ 394:	fc 01       	movw	r30, r24
+ 396:	20 81       	ld	r18, Z
+ 398:	23 23       	and	r18, r19
+ 39a:	20 83       	st	Z, r18
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:57
+    *pue &= ~bit;
+ 39c:	8c 91       	ld	r24, X
+ 39e:	38 23       	and	r19, r24
+ 3a0:	3c 93       	st	X, r19
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:58
+    SREG = oldSREG;
+ 3a2:	4f bf       	out	0x3f, r20	; 63
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:73
+                cli();
+    *pue &= ~bit;
+    *reg |= bit;
+    SREG = oldSREG;
+  }
+}
+ 3a4:	df 91       	pop	r29
+ 3a6:	cf 91       	pop	r28
+ 3a8:	08 95       	ret
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:59
+                cli();
+    *reg &= ~bit;
+    *out &= ~bit;
+    *pue &= ~bit;
+    SREG = oldSREG;
+  } else if (mode == INPUT_PULLUP) {
+ 3aa:	62 30       	cpi	r22, 0x02	; 2
+ 3ac:	71 f4       	brne	.+28     	; 0x3ca <pinMode+0x88>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:60
+    uint8_t oldSREG = SREG;
+ 3ae:	5f b7       	in	r21, 0x3f	; 63
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:61
+                cli();
+ 3b0:	f8 94       	cli
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:62
+    *reg &= ~bit;
+ 3b2:	48 81       	ld	r20, Y
+ 3b4:	34 23       	and	r19, r20
+ 3b6:	38 83       	st	Y, r19
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:63
+    *out |= bit;
+ 3b8:	fc 01       	movw	r30, r24
+ 3ba:	30 81       	ld	r19, Z
+ 3bc:	32 2b       	or	r19, r18
+ 3be:	30 83       	st	Z, r19
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:64
+    *pue |= bit;
+ 3c0:	ec 91       	ld	r30, X
+ 3c2:	2e 2b       	or	r18, r30
+ 3c4:	2c 93       	st	X, r18
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:65
+    SREG = oldSREG;
+ 3c6:	5f bf       	out	0x3f, r21	; 63
+ 3c8:	ed cf       	rjmp	.-38     	; 0x3a4 <pinMode+0x62>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:67
+  } else {
+    uint8_t oldSREG = SREG;
+ 3ca:	9f b7       	in	r25, 0x3f	; 63
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:68
+                cli();
+ 3cc:	f8 94       	cli
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:69
+    *pue &= ~bit;
+ 3ce:	8c 91       	ld	r24, X
+ 3d0:	38 23       	and	r19, r24
+ 3d2:	3c 93       	st	X, r19
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:70
+    *reg |= bit;
+ 3d4:	e8 81       	ld	r30, Y
+ 3d6:	2e 2b       	or	r18, r30
+ 3d8:	28 83       	st	Y, r18
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:71
+    SREG = oldSREG;
+ 3da:	9f bf       	out	0x3f, r25	; 63
+ 3dc:	e3 cf       	rjmp	.-58     	; 0x3a4 <pinMode+0x62>
+
+000003de <micros>:
+micros():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:134
+  return m;
+}
+unsigned long micros()
+{
+  unsigned long m;
+  uint8_t oldSREG = SREG, t;
+ 3de:	3f b7       	in	r19, 0x3f	; 63
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:136
+
+  cli();
+ 3e0:	f8 94       	cli
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:137
+  m = millis_timer_overflow_count;
+ 3e2:	80 91 58 01 	lds	r24, 0x0158	; 0x800158 <millis_timer_overflow_count>
+ 3e6:	90 91 59 01 	lds	r25, 0x0159	; 0x800159 <millis_timer_overflow_count+0x1>
+ 3ea:	a0 91 5a 01 	lds	r26, 0x015A	; 0x80015a <millis_timer_overflow_count+0x2>
+ 3ee:	b0 91 5b 01 	lds	r27, 0x015B	; 0x80015b <millis_timer_overflow_count+0x3>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:139
+#if defined(TCNT0) && (TIMER_TO_USE_FOR_MILLIS == 0) && !defined(TCW0)
+  t = TCNT0;
+ 3f2:	29 b3       	in	r18, 0x19	; 25
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:154
+
+#if defined(TIFR0) && (TIMER_TO_USE_FOR_MILLIS == 0)
+  if ((TIFR0 & _BV(TOV0)) && (t < 255))
+    m++;
+#elif defined(TIFR) && (TIMER_TO_USE_FOR_MILLIS == 0)
+  if ((TIFR & _BV(TOV0)) && (t < 255))
+ 3f4:	09 b6       	in	r0, 0x39	; 57
+ 3f6:	01 fe       	sbrs	r0, 1
+ 3f8:	05 c0       	rjmp	.+10     	; 0x404 <__LOCK_REGION_LENGTH__+0x4>
+ 3fa:	2f 3f       	cpi	r18, 0xFF	; 255
+ 3fc:	19 f0       	breq	.+6      	; 0x404 <__LOCK_REGION_LENGTH__+0x4>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:155
+    m++;
+ 3fe:	01 96       	adiw	r24, 0x01	; 1
+ 400:	a1 1d       	adc	r26, r1
+ 402:	b1 1d       	adc	r27, r1
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:164
+#elif defined(TIFR) && (TIMER_TO_USE_FOR_MILLIS == 1)
+  if ((TIFR & _BV(TOV1)) && (t < 255))
+    m++;
+#endif
+
+  SREG = oldSREG;
+ 404:	3f bf       	out	0x3f, r19	; 63
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:171
+
+#if F_CPU < 1000000L
+  return ((m << 8) + t) * MillisTimer_Prescale_Value * (1000000L/F_CPU);
+#else
+#if (MillisTimer_Prescale_Value % clockCyclesPerMicrosecond() == 0 ) // Can we just do it the naive way? If so great!
+  return ((m << 8) + t) * (MillisTimer_Prescale_Value / clockCyclesPerMicrosecond());
+ 406:	ba 2f       	mov	r27, r26
+ 408:	a9 2f       	mov	r26, r25
+ 40a:	98 2f       	mov	r25, r24
+ 40c:	88 27       	eor	r24, r24
+ 40e:	bc 01       	movw	r22, r24
+ 410:	cd 01       	movw	r24, r26
+ 412:	62 0f       	add	r22, r18
+ 414:	71 1d       	adc	r23, r1
+ 416:	81 1d       	adc	r24, r1
+ 418:	91 1d       	adc	r25, r1
+ 41a:	43 e0       	ldi	r20, 0x03	; 3
+ 41c:	66 0f       	add	r22, r22
+ 41e:	77 1f       	adc	r23, r23
+ 420:	88 1f       	adc	r24, r24
+ 422:	99 1f       	adc	r25, r25
+ 424:	4a 95       	dec	r20
+ 426:	d1 f7       	brne	.-12     	; 0x41c <__LOCK_REGION_LENGTH__+0x1c>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:217
+  //the high part gets divided by cCPuS then multiplied by the prescaler. Then take the low 8 bits plus the high part modulo-cCPuS to correct for the division, then multiply that by the prescaler value first before dividing by cCPuS, and finally add the two together.
+  //return ((m << 8 )/clockCyclesPerMicrosecond()* MillisTimer_Prescale_Value) + ((t+(((m<<8)%clockCyclesPerMicrosecond())) * MillisTimer_Prescale_Value / clockCyclesPerMicrosecond()));
+  return ((m << 8 )/clockCyclesPerMicrosecond()* MillisTimer_Prescale_Value) + (t * MillisTimer_Prescale_Value / clockCyclesPerMicrosecond());
+#endif
+#endif
+}
+ 428:	08 95       	ret
+
+0000042a <delay.constprop.4>:
+delay():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:224
+static void __empty() {
+  // Empty
+}
+void yield(void) __attribute__ ((weak, alias("__empty")));
+
+void delay(unsigned long ms)
+ 42a:	cf 92       	push	r12
+ 42c:	df 92       	push	r13
+ 42e:	ef 92       	push	r14
+ 430:	ff 92       	push	r15
+ 432:	cf 93       	push	r28
+ 434:	df 93       	push	r29
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:227
+{
+  #if (F_CPU>=1000000L)
+  uint16_t start = (uint16_t)micros();
+ 436:	0e 94 ef 01 	call	0x3de	; 0x3de <micros>
+ 43a:	eb 01       	movw	r28, r22
+ 43c:	8a ef       	ldi	r24, 0xFA	; 250
+ 43e:	c8 2e       	mov	r12, r24
+ 440:	d1 2c       	mov	r13, r1
+ 442:	e1 2c       	mov	r14, r1
+ 444:	f1 2c       	mov	r15, r1
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:231
+
+  while (ms > 0) {
+    yield();
+    while (((uint16_t)micros() - start) >= 1000 && ms) {
+ 446:	0e 94 ef 01 	call	0x3de	; 0x3de <micros>
+ 44a:	6c 1b       	sub	r22, r28
+ 44c:	7d 0b       	sbc	r23, r29
+ 44e:	68 3e       	cpi	r22, 0xE8	; 232
+ 450:	73 40       	sbci	r23, 0x03	; 3
+ 452:	a0 f0       	brcs	.+40     	; 0x47c <delay.constprop.4+0x52>
+ 454:	c1 14       	cp	r12, r1
+ 456:	d1 04       	cpc	r13, r1
+ 458:	e1 04       	cpc	r14, r1
+ 45a:	f1 04       	cpc	r15, r1
+ 45c:	39 f4       	brne	.+14     	; 0x46c <delay.constprop.4+0x42>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:241
+  #else
+  uint32_t start = millis();
+  while((millis() - start) < ms)  /* NOP */yield();
+  return;
+  #endif
+}
+ 45e:	df 91       	pop	r29
+ 460:	cf 91       	pop	r28
+ 462:	ff 90       	pop	r15
+ 464:	ef 90       	pop	r14
+ 466:	df 90       	pop	r13
+ 468:	cf 90       	pop	r12
+ 46a:	08 95       	ret
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:232
+  uint16_t start = (uint16_t)micros();
+
+  while (ms > 0) {
+    yield();
+    while (((uint16_t)micros() - start) >= 1000 && ms) {
+      ms--;
+ 46c:	81 e0       	ldi	r24, 0x01	; 1
+ 46e:	c8 1a       	sub	r12, r24
+ 470:	d1 08       	sbc	r13, r1
+ 472:	e1 08       	sbc	r14, r1
+ 474:	f1 08       	sbc	r15, r1
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:233
+      start += 1000;
+ 476:	c8 51       	subi	r28, 0x18	; 24
+ 478:	dc 4f       	sbci	r29, 0xFC	; 252
+ 47a:	e5 cf       	rjmp	.-54     	; 0x446 <delay.constprop.4+0x1c>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:229
+void delay(unsigned long ms)
+{
+  #if (F_CPU>=1000000L)
+  uint16_t start = (uint16_t)micros();
+
+  while (ms > 0) {
+ 47c:	c1 14       	cp	r12, r1
+ 47e:	d1 04       	cpc	r13, r1
+ 480:	e1 04       	cpc	r14, r1
+ 482:	f1 04       	cpc	r15, r1
+ 484:	01 f7       	brne	.-64     	; 0x446 <delay.constprop.4+0x1c>
+ 486:	eb cf       	rjmp	.-42     	; 0x45e <delay.constprop.4+0x34>
+
+00000488 <Print::write(char const*) [clone .part.2] [clone .constprop.15]>:
+_ZN5Print5writeEPKc.part.2():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.h:51
+    void clearWriteError() { setWriteError(0); }
+
+    virtual size_t write(uint8_t) = 0;
+    size_t write(const char *str) {
+      if (str == NULL) return 0;
+      return write((const uint8_t *)str, strlen(str));
+ 488:	fc 01       	movw	r30, r24
+ 48a:	01 90       	ld	r0, Z+
+ 48c:	00 20       	and	r0, r0
+ 48e:	e9 f7       	brne	.-6      	; 0x48a <Print::write(char const*) [clone .part.2] [clone .constprop.15]+0x2>
+ 490:	31 97       	sbiw	r30, 0x01	; 1
+ 492:	af 01       	movw	r20, r30
+ 494:	48 1b       	sub	r20, r24
+ 496:	59 0b       	sbc	r21, r25
+ 498:	bc 01       	movw	r22, r24
+ 49a:	8d e5       	ldi	r24, 0x5D	; 93
+ 49c:	91 e0       	ldi	r25, 0x01	; 1
+ 49e:	0c 94 7d 00 	jmp	0xfa	; 0xfa <Print::write(unsigned char const*, unsigned int)>
+
+000004a2 <Print::printNumber(unsigned long, unsigned char) [clone .constprop.12]>:
+printNumber():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:230
+  return vfprintf_P(&f, (const char *)ifsh, ap);
+}
+
+// Private Methods /////////////////////////////////////////////////////////////
+
+size_t Print::printNumber(unsigned long n, uint8_t base) {
+ 4a2:	8f 92       	push	r8
+ 4a4:	9f 92       	push	r9
+ 4a6:	af 92       	push	r10
+ 4a8:	bf 92       	push	r11
+ 4aa:	ef 92       	push	r14
+ 4ac:	ff 92       	push	r15
+ 4ae:	0f 93       	push	r16
+ 4b0:	1f 93       	push	r17
+ 4b2:	cf 93       	push	r28
+ 4b4:	df 93       	push	r29
+ 4b6:	cd b7       	in	r28, 0x3d	; 61
+ 4b8:	de b7       	in	r29, 0x3e	; 62
+ 4ba:	a1 97       	sbiw	r28, 0x21	; 33
+ 4bc:	0f b6       	in	r0, 0x3f	; 63
+ 4be:	f8 94       	cli
+ 4c0:	de bf       	out	0x3e, r29	; 62
+ 4c2:	0f be       	out	0x3f, r0	; 63
+ 4c4:	cd bf       	out	0x3d, r28	; 61
+ 4c6:	16 2f       	mov	r17, r22
+ 4c8:	04 2f       	mov	r16, r20
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:234
+  char buf[8 * sizeof(long) + 1]; // Assumes 8-bit chars plus zero byte.
+  char *str = &buf[sizeof(buf) - 1];
+
+  *str = '\0';
+ 4ca:	19 a2       	std	Y+33, r1	; 0x21
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:237
+
+  // prevent crash if called with base == 1
+  if (base < 2) base = 10;
+ 4cc:	42 30       	cpi	r20, 0x02	; 2
+ 4ce:	08 f4       	brcc	.+2      	; 0x4d2 <Print::printNumber(unsigned long, unsigned char) [clone .constprop.12]+0x30>
+ 4d0:	0a e0       	ldi	r16, 0x0A	; 10
+ 4d2:	7e 01       	movw	r14, r28
+ 4d4:	21 e2       	ldi	r18, 0x21	; 33
+ 4d6:	e2 0e       	add	r14, r18
+ 4d8:	f1 1c       	adc	r15, r1
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:241
+
+  do {
+    unsigned long m = n;
+    n /= base;
+ 4da:	80 2e       	mov	r8, r16
+ 4dc:	91 2c       	mov	r9, r1
+ 4de:	b1 2c       	mov	r11, r1
+ 4e0:	a1 2c       	mov	r10, r1
+ 4e2:	61 2f       	mov	r22, r17
+ 4e4:	a5 01       	movw	r20, r10
+ 4e6:	94 01       	movw	r18, r8
+ 4e8:	0e 94 af 07 	call	0xf5e	; 0xf5e <__udivmodsi4>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:242
+    char c = m - base * n;
+ 4ec:	80 2f       	mov	r24, r16
+ 4ee:	62 2f       	mov	r22, r18
+ 4f0:	0e 94 cd 05 	call	0xb9a	; 0xb9a <__mulqi3>
+ 4f4:	18 1b       	sub	r17, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:243
+    *--str = c < 10 ? c + '0' : c + 'A' - 10;
+ 4f6:	1a 30       	cpi	r17, 0x0A	; 10
+ 4f8:	1c f5       	brge	.+70     	; 0x540 <__stack+0x41>
+ 4fa:	10 5d       	subi	r17, 0xD0	; 208
+ 4fc:	f7 01       	movw	r30, r14
+ 4fe:	12 93       	st	-Z, r17
+ 500:	7f 01       	movw	r14, r30
+ 502:	12 2f       	mov	r17, r18
+ 504:	73 2f       	mov	r23, r19
+ 506:	ca 01       	movw	r24, r20
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:244
+  } while(n);
+ 508:	23 2b       	or	r18, r19
+ 50a:	24 2b       	or	r18, r20
+ 50c:	25 2b       	or	r18, r21
+ 50e:	49 f7       	brne	.-46     	; 0x4e2 <Print::printNumber(unsigned long, unsigned char) [clone .constprop.12]+0x40>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.h:50
+    int getWriteError() { return write_error; }
+    void clearWriteError() { setWriteError(0); }
+
+    virtual size_t write(uint8_t) = 0;
+    size_t write(const char *str) {
+      if (str == NULL) return 0;
+ 510:	90 e0       	ldi	r25, 0x00	; 0
+ 512:	80 e0       	ldi	r24, 0x00	; 0
+write():
+ 514:	30 97       	sbiw	r30, 0x00	; 0
+ 516:	19 f0       	breq	.+6      	; 0x51e <__stack+0x1f>
+ 518:	cf 01       	movw	r24, r30
+ 51a:	0e 94 44 02 	call	0x488	; 0x488 <Print::write(char const*) [clone .part.2] [clone .constprop.15]>
+printNumber():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:247
+
+  return write(str);
+}
+ 51e:	a1 96       	adiw	r28, 0x21	; 33
+ 520:	0f b6       	in	r0, 0x3f	; 63
+ 522:	f8 94       	cli
+ 524:	de bf       	out	0x3e, r29	; 62
+ 526:	0f be       	out	0x3f, r0	; 63
+ 528:	cd bf       	out	0x3d, r28	; 61
+ 52a:	df 91       	pop	r29
+ 52c:	cf 91       	pop	r28
+ 52e:	1f 91       	pop	r17
+ 530:	0f 91       	pop	r16
+ 532:	ff 90       	pop	r15
+ 534:	ef 90       	pop	r14
+ 536:	bf 90       	pop	r11
+ 538:	af 90       	pop	r10
+ 53a:	9f 90       	pop	r9
+ 53c:	8f 90       	pop	r8
+ 53e:	08 95       	ret
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:243
+
+  do {
+    unsigned long m = n;
+    n /= base;
+    char c = m - base * n;
+    *--str = c < 10 ? c + '0' : c + 'A' - 10;
+ 540:	19 5c       	subi	r17, 0xC9	; 201
+ 542:	dc cf       	rjmp	.-72     	; 0x4fc <Print::printNumber(unsigned long, unsigned char) [clone .constprop.12]+0x5a>
+
+00000544 <Print::println(char const*) [clone .constprop.13]>:
+println():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:137
+  size_t n = print(s);
+  n += println();
+  return n;
+}
+
+size_t Print::println(const char c[])
+ 544:	0f 93       	push	r16
+ 546:	1f 93       	push	r17
+ 548:	cf 93       	push	r28
+ 54a:	df 93       	push	r29
+write():
+ 54c:	0e 94 44 02 	call	0x488	; 0x488 <Print::write(char const*) [clone .part.2] [clone .constprop.15]>
+ 550:	8c 01       	movw	r16, r24
+println():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:125
+  return x.printTo(*this);
+}
+
+size_t Print::println(void)
+{
+  size_t n = print('\r');
+ 552:	8d e0       	ldi	r24, 0x0D	; 13
+ 554:	0e 94 4d 01 	call	0x29a	; 0x29a <Print::print(char) [clone .constprop.17]>
+ 558:	ec 01       	movw	r28, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:126
+  n += print('\n');
+ 55a:	8a e0       	ldi	r24, 0x0A	; 10
+ 55c:	0e 94 4d 01 	call	0x29a	; 0x29a <Print::print(char) [clone .constprop.17]>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:140
+}
+
+size_t Print::println(const char c[])
+{
+  size_t n = print(c);
+  n += println();
+ 560:	c0 0f       	add	r28, r16
+ 562:	d1 1f       	adc	r29, r17
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:142
+  return n;
+}
+ 564:	8c 0f       	add	r24, r28
+ 566:	9d 1f       	adc	r25, r29
+ 568:	df 91       	pop	r29
+ 56a:	cf 91       	pop	r28
+ 56c:	1f 91       	pop	r17
+ 56e:	0f 91       	pop	r16
+ 570:	08 95       	ret
+
+00000572 <__vector_17>:
+__vector_17():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial0.cpp:63
+#elif defined(USART_UDRE_vect)
+ISR(USART_UDRE_vect)
+#else
+  #error "Don't know what the Data Register Empty vector is called for Serial"
+#endif
+{
+ 572:	1f 92       	push	r1
+ 574:	0f 92       	push	r0
+ 576:	0f b6       	in	r0, 0x3f	; 63
+ 578:	0f 92       	push	r0
+ 57a:	11 24       	eor	r1, r1
+ 57c:	2f 93       	push	r18
+ 57e:	3f 93       	push	r19
+ 580:	4f 93       	push	r20
+ 582:	5f 93       	push	r21
+ 584:	6f 93       	push	r22
+ 586:	7f 93       	push	r23
+ 588:	8f 93       	push	r24
+ 58a:	9f 93       	push	r25
+ 58c:	af 93       	push	r26
+ 58e:	bf 93       	push	r27
+ 590:	ef 93       	push	r30
+ 592:	ff 93       	push	r31
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial0.cpp:64
+  Serial._tx_udr_empty_irq();
+ 594:	8d e5       	ldi	r24, 0x5D	; 93
+ 596:	91 e0       	ldi	r25, 0x01	; 1
+ 598:	0e 94 e1 00 	call	0x1c2	; 0x1c2 <HardwareSerial::_tx_udr_empty_irq()>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial0.cpp:65
+}
+ 59c:	ff 91       	pop	r31
+ 59e:	ef 91       	pop	r30
+ 5a0:	bf 91       	pop	r27
+ 5a2:	af 91       	pop	r26
+ 5a4:	9f 91       	pop	r25
+ 5a6:	8f 91       	pop	r24
+ 5a8:	7f 91       	pop	r23
+ 5aa:	6f 91       	pop	r22
+ 5ac:	5f 91       	pop	r21
+ 5ae:	4f 91       	pop	r20
+ 5b0:	3f 91       	pop	r19
+ 5b2:	2f 91       	pop	r18
+ 5b4:	0f 90       	pop	r0
+ 5b6:	0f be       	out	0x3f, r0	; 63
+ 5b8:	0f 90       	pop	r0
+ 5ba:	1f 90       	pop	r1
+ 5bc:	18 95       	reti
+
+000005be <__vector_16>:
+__vector_16():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial0.cpp:48
+#elif defined(USART_RXC_vect)
+  ISR(USART_RXC_vect) // ATmega8
+#else
+  #error "Don't know what the Data Received vector is called for Serial"
+#endif
+  {
+ 5be:	1f 92       	push	r1
+ 5c0:	0f 92       	push	r0
+ 5c2:	0f b6       	in	r0, 0x3f	; 63
+ 5c4:	0f 92       	push	r0
+ 5c6:	11 24       	eor	r1, r1
+ 5c8:	2f 93       	push	r18
+ 5ca:	8f 93       	push	r24
+ 5cc:	9f 93       	push	r25
+ 5ce:	ef 93       	push	r30
+ 5d0:	ff 93       	push	r31
+_rx_complete_irq():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial_private.h:103
+
+// Actual interrupt handlers //////////////////////////////////////////////////////////////
+
+void HardwareSerial::_rx_complete_irq(void)
+{
+  if (bit_is_clear(*_ucsra, UPE0)) {
+ 5d2:	e0 91 6d 01 	lds	r30, 0x016D	; 0x80016d <Serial+0x10>
+ 5d6:	f0 91 6e 01 	lds	r31, 0x016E	; 0x80016e <Serial+0x11>
+ 5da:	80 81       	ld	r24, Z
+ 5dc:	e0 91 73 01 	lds	r30, 0x0173	; 0x800173 <Serial+0x16>
+ 5e0:	f0 91 74 01 	lds	r31, 0x0174	; 0x800174 <Serial+0x17>
+ 5e4:	82 fd       	sbrc	r24, 2
+ 5e6:	1b c0       	rjmp	.+54     	; 0x61e <__vector_16+0x60>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial_private.h:106
+    // No Parity error, read byte and store it in the buffer if there is
+    // room
+    unsigned char c = *_udr;
+ 5e8:	90 81       	ld	r25, Z
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial_private.h:107
+    rx_buffer_index_t i = (unsigned int)(_rx_buffer_head + 1) % SERIAL_RX_BUFFER_SIZE;
+ 5ea:	80 91 76 01 	lds	r24, 0x0176	; 0x800176 <Serial+0x19>
+ 5ee:	8f 5f       	subi	r24, 0xFF	; 255
+ 5f0:	8f 71       	andi	r24, 0x1F	; 31
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial_private.h:113
+
+    // if we should be storing the received character into the location
+    // just before the tail (meaning that the head would advance to the
+    // current location of the tail), we're about to overflow the buffer
+    // and so we don't write the character or advance the head.
+    if (i != _rx_buffer_tail) {
+ 5f2:	20 91 77 01 	lds	r18, 0x0177	; 0x800177 <Serial+0x1a>
+ 5f6:	82 17       	cp	r24, r18
+ 5f8:	41 f0       	breq	.+16     	; 0x60a <__vector_16+0x4c>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial_private.h:114
+      _rx_buffer[_rx_buffer_head] = c;
+ 5fa:	e0 91 76 01 	lds	r30, 0x0176	; 0x800176 <Serial+0x19>
+ 5fe:	f0 e0       	ldi	r31, 0x00	; 0
+ 600:	e3 5a       	subi	r30, 0xA3	; 163
+ 602:	fe 4f       	sbci	r31, 0xFE	; 254
+ 604:	95 8f       	std	Z+29, r25	; 0x1d
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial_private.h:115
+      _rx_buffer_head = i;
+ 606:	80 93 76 01 	sts	0x0176, r24	; 0x800176 <Serial+0x19>
+__vector_16():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial0.cpp:50
+    Serial._rx_complete_irq();
+  }
+ 60a:	ff 91       	pop	r31
+ 60c:	ef 91       	pop	r30
+ 60e:	9f 91       	pop	r25
+ 610:	8f 91       	pop	r24
+ 612:	2f 91       	pop	r18
+ 614:	0f 90       	pop	r0
+ 616:	0f be       	out	0x3f, r0	; 63
+ 618:	0f 90       	pop	r0
+ 61a:	1f 90       	pop	r1
+ 61c:	18 95       	reti
+_rx_complete_irq():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial_private.h:119
+    }
+  } else {
+    // Parity error, read byte but discard it
+    *_udr;
+ 61e:	80 81       	ld	r24, Z
+ 620:	f4 cf       	rjmp	.-24     	; 0x60a <__vector_16+0x4c>
+
+00000622 <__vector_12>:
+__vector_12():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:86
+volatile unsigned long millis_timer_overflow_count = 0;
+volatile unsigned long millis_timer_millis = 0;
+static unsigned char millis_timer_fract = 0;
+
+ISR(MILLISTIMER_OVF_vect)
+{
+ 622:	1f 92       	push	r1
+ 624:	0f 92       	push	r0
+ 626:	0f b6       	in	r0, 0x3f	; 63
+ 628:	0f 92       	push	r0
+ 62a:	11 24       	eor	r1, r1
+ 62c:	2f 93       	push	r18
+ 62e:	3f 93       	push	r19
+ 630:	8f 93       	push	r24
+ 632:	9f 93       	push	r25
+ 634:	af 93       	push	r26
+ 636:	bf 93       	push	r27
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:89
+  // copy these to local variables so they can be stored in registers
+  // (volatile variables must be read from memory on every access)
+  unsigned long m = millis_timer_millis;
+ 638:	80 91 54 01 	lds	r24, 0x0154	; 0x800154 <millis_timer_millis>
+ 63c:	90 91 55 01 	lds	r25, 0x0155	; 0x800155 <millis_timer_millis+0x1>
+ 640:	a0 91 56 01 	lds	r26, 0x0156	; 0x800156 <millis_timer_millis+0x2>
+ 644:	b0 91 57 01 	lds	r27, 0x0157	; 0x800157 <millis_timer_millis+0x3>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:90
+  unsigned char f = millis_timer_fract;
+ 648:	30 91 53 01 	lds	r19, 0x0153	; 0x800153 <millis_timer_fract>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:102
+    f -= FRACT_MAX;
+    m += 1;
+  }
+...rmv */
+
+  f += FRACT_INC;
+ 64c:	26 e0       	ldi	r18, 0x06	; 6
+ 64e:	23 0f       	add	r18, r19
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:104
+
+  if (f >= FRACT_MAX)
+ 650:	2d 37       	cpi	r18, 0x7D	; 125
+ 652:	68 f1       	brcs	.+90     	; 0x6ae <__vector_12+0x8c>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:106
+  {
+    f -= FRACT_MAX;
+ 654:	29 e8       	ldi	r18, 0x89	; 137
+ 656:	23 0f       	add	r18, r19
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:107
+    m = m + MILLIS_INC + 1;
+ 658:	03 96       	adiw	r24, 0x03	; 3
+ 65a:	a1 1d       	adc	r26, r1
+ 65c:	b1 1d       	adc	r27, r1
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:114
+  else
+  {
+    m += MILLIS_INC;
+  }
+
+  millis_timer_fract = f;
+ 65e:	20 93 53 01 	sts	0x0153, r18	; 0x800153 <millis_timer_fract>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:115
+  millis_timer_millis = m;
+ 662:	80 93 54 01 	sts	0x0154, r24	; 0x800154 <millis_timer_millis>
+ 666:	90 93 55 01 	sts	0x0155, r25	; 0x800155 <millis_timer_millis+0x1>
+ 66a:	a0 93 56 01 	sts	0x0156, r26	; 0x800156 <millis_timer_millis+0x2>
+ 66e:	b0 93 57 01 	sts	0x0157, r27	; 0x800157 <millis_timer_millis+0x3>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:116
+  millis_timer_overflow_count++;
+ 672:	80 91 58 01 	lds	r24, 0x0158	; 0x800158 <millis_timer_overflow_count>
+ 676:	90 91 59 01 	lds	r25, 0x0159	; 0x800159 <millis_timer_overflow_count+0x1>
+ 67a:	a0 91 5a 01 	lds	r26, 0x015A	; 0x80015a <millis_timer_overflow_count+0x2>
+ 67e:	b0 91 5b 01 	lds	r27, 0x015B	; 0x80015b <millis_timer_overflow_count+0x3>
+ 682:	01 96       	adiw	r24, 0x01	; 1
+ 684:	a1 1d       	adc	r26, r1
+ 686:	b1 1d       	adc	r27, r1
+ 688:	80 93 58 01 	sts	0x0158, r24	; 0x800158 <millis_timer_overflow_count>
+ 68c:	90 93 59 01 	sts	0x0159, r25	; 0x800159 <millis_timer_overflow_count+0x1>
+ 690:	a0 93 5a 01 	sts	0x015A, r26	; 0x80015a <millis_timer_overflow_count+0x2>
+ 694:	b0 93 5b 01 	sts	0x015B, r27	; 0x80015b <millis_timer_overflow_count+0x3>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:117
+}
+ 698:	bf 91       	pop	r27
+ 69a:	af 91       	pop	r26
+ 69c:	9f 91       	pop	r25
+ 69e:	8f 91       	pop	r24
+ 6a0:	3f 91       	pop	r19
+ 6a2:	2f 91       	pop	r18
+ 6a4:	0f 90       	pop	r0
+ 6a6:	0f be       	out	0x3f, r0	; 63
+ 6a8:	0f 90       	pop	r0
+ 6aa:	1f 90       	pop	r1
+ 6ac:	18 95       	reti
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:111
+    f -= FRACT_MAX;
+    m = m + MILLIS_INC + 1;
+  }
+  else
+  {
+    m += MILLIS_INC;
+ 6ae:	02 96       	adiw	r24, 0x02	; 2
+ 6b0:	a1 1d       	adc	r26, r1
+ 6b2:	b1 1d       	adc	r27, r1
+ 6b4:	d4 cf       	rjmp	.-88     	; 0x65e <__vector_12+0x3c>
+
+000006b6 <__vector_24>:
+__vector_24():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:207
+/*----------------------------------------------------------
+ Handles all the communication. Is disabled only when waiting
+ for new Start Condition.
+----------------------------------------------------------*/
+ISR(USI_OVERFLOW_VECTOR)
+{
+ 6b6:	1f 92       	push	r1
+ 6b8:	0f 92       	push	r0
+ 6ba:	0f b6       	in	r0, 0x3f	; 63
+ 6bc:	0f 92       	push	r0
+ 6be:	11 24       	eor	r1, r1
+ 6c0:	2f 93       	push	r18
+ 6c2:	8f 93       	push	r24
+ 6c4:	9f 93       	push	r25
+ 6c6:	ef 93       	push	r30
+ 6c8:	ff 93       	push	r31
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:212
+  unsigned char tmpRxHead;
+  unsigned char tmpTxTail; // Temporary variables to store volatiles
+  unsigned char tmpUSIDR;
+
+  switch (USI_TWI_Overflow_State) {
+ 6ca:	80 91 52 01 	lds	r24, 0x0152	; 0x800152 <USI_TWI_Overflow_State>
+ 6ce:	82 30       	cpi	r24, 0x02	; 2
+ 6d0:	09 f4       	brne	.+2      	; 0x6d4 <__vector_24+0x1e>
+ 6d2:	5f c0       	rjmp	.+190    	; 0x792 <__vector_24+0xdc>
+ 6d4:	78 f4       	brcc	.+30     	; 0x6f4 <__vector_24+0x3e>
+ 6d6:	88 23       	and	r24, r24
+ 6d8:	49 f1       	breq	.+82     	; 0x72c <__vector_24+0x76>
+ 6da:	81 30       	cpi	r24, 0x01	; 1
+ 6dc:	09 f4       	brne	.+2      	; 0x6e0 <__vector_24+0x2a>
+ 6de:	3f c0       	rjmp	.+126    	; 0x75e <__vector_24+0xa8>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:306
+    {
+      SET_USI_TO_SEND_NACK();
+    }
+    break;
+  }
+}
+ 6e0:	ff 91       	pop	r31
+ 6e2:	ef 91       	pop	r30
+ 6e4:	9f 91       	pop	r25
+ 6e6:	8f 91       	pop	r24
+ 6e8:	2f 91       	pop	r18
+ 6ea:	0f 90       	pop	r0
+ 6ec:	0f be       	out	0x3f, r0	; 63
+ 6ee:	0f 90       	pop	r0
+ 6f0:	1f 90       	pop	r1
+ 6f2:	18 95       	reti
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:212
+{
+  unsigned char tmpRxHead;
+  unsigned char tmpTxTail; // Temporary variables to store volatiles
+  unsigned char tmpUSIDR;
+
+  switch (USI_TWI_Overflow_State) {
+ 6f4:	84 30       	cpi	r24, 0x04	; 4
+ 6f6:	09 f4       	brne	.+2      	; 0x6fa <__vector_24+0x44>
+ 6f8:	52 c0       	rjmp	.+164    	; 0x79e <__vector_24+0xe8>
+ 6fa:	50 f1       	brcs	.+84     	; 0x750 <__vector_24+0x9a>
+ 6fc:	85 30       	cpi	r24, 0x05	; 5
+ 6fe:	81 f7       	brne	.-32     	; 0x6e0 <__vector_24+0x2a>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:293
+    break;
+
+  // Copy data from USIDR and send ACK. Next USI_SLAVE_REQUEST_DATA
+  case USI_SLAVE_GET_DATA_AND_SEND_ACK:
+    // Put data into Buffer
+    USI_TWI_Overflow_State = USI_SLAVE_REQUEST_DATA;
+ 700:	84 e0       	ldi	r24, 0x04	; 4
+ 702:	80 93 52 01 	sts	0x0152, r24	; 0x800152 <USI_TWI_Overflow_State>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:294
+    tmpUSIDR              = USIDR; // Not necessary, but prevents warnings
+ 706:	9c b5       	in	r25, 0x2c	; 44
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:295
+    tmpRxHead = (TWI_RxHead + 1) & TWI_RX_BUFFER_MASK;
+ 708:	80 91 4f 01 	lds	r24, 0x014F	; 0x80014f <TWI_RxHead>
+ 70c:	8f 5f       	subi	r24, 0xFF	; 255
+ 70e:	8f 70       	andi	r24, 0x0F	; 15
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:296
+    if (TWI_RxTail != tmpRxHead) {
+ 710:	20 91 4e 01 	lds	r18, 0x014E	; 0x80014e <TWI_RxTail>
+ 714:	28 17       	cp	r18, r24
+ 716:	09 f4       	brne	.+2      	; 0x71a <__vector_24+0x64>
+ 718:	47 c0       	rjmp	.+142    	; 0x7a8 <__vector_24+0xf2>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:297
+      TWI_RxHead            = tmpRxHead;
+ 71a:	80 93 4f 01 	sts	0x014F, r24	; 0x80014f <TWI_RxHead>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:298
+      TWI_RxBuf[TWI_RxHead] = tmpUSIDR;
+ 71e:	e0 91 4f 01 	lds	r30, 0x014F	; 0x80014f <TWI_RxHead>
+ 722:	f0 e0       	ldi	r31, 0x00	; 0
+ 724:	e2 5d       	subi	r30, 0xD2	; 210
+ 726:	fe 4f       	sbci	r31, 0xFE	; 254
+ 728:	90 83       	st	Z, r25
+ 72a:	0c c0       	rjmp	.+24     	; 0x744 <__vector_24+0x8e>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:216
+
+  switch (USI_TWI_Overflow_State) {
+  // ---------- Address mode ----------
+  // Check address and send ACK (and next USI_SLAVE_SEND_DATA) if OK, else reset USI.
+  case USI_SLAVE_CHECK_ADDRESS:
+    if ((USIDR == 0) || ((USIDR >> 1) == TWI_slaveAddress)) {
+ 72c:	8c b5       	in	r24, 0x2c	; 44
+ 72e:	88 23       	and	r24, r24
+ 730:	19 f0       	breq	.+6      	; 0x738 <__vector_24+0x82>
+ 732:	8c b5       	in	r24, 0x2c	; 44
+ 734:	86 95       	lsr	r24
+ 736:	79 f4       	brne	.+30     	; 0x756 <__vector_24+0xa0>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:217
+      if (USIDR & 0x01) {
+ 738:	0c b4       	in	r0, 0x2c	; 44
+ 73a:	00 fe       	sbrs	r0, 0
+ 73c:	07 c0       	rjmp	.+14     	; 0x74c <__vector_24+0x96>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:224
+          // reset tx buffer and call callback
+          tmpTxTail = TWI_TxHead;
+          TWI_TxTail = tmpTxTail;
+          USI_TWI_On_Slave_Transmit();
+        }
+        USI_TWI_Overflow_State = USI_SLAVE_SEND_DATA;
+ 73e:	81 e0       	ldi	r24, 0x01	; 1
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:226
+      } else {
+        USI_TWI_Overflow_State = USI_SLAVE_REQUEST_DATA;
+ 740:	80 93 52 01 	sts	0x0152, r24	; 0x800152 <USI_TWI_Overflow_State>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:228
+      }
+      SET_USI_TO_SEND_ACK();
+ 744:	1c bc       	out	0x2c, r1	; 44
+ 746:	61 9a       	sbi	0x0c, 1	; 12
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:302
+      TWI_RxHead            = tmpRxHead;
+      TWI_RxBuf[TWI_RxHead] = tmpUSIDR;
+      SET_USI_TO_SEND_ACK();
+    } else // If the buffer is full then:
+    {
+      SET_USI_TO_SEND_NACK();
+ 748:	8e e7       	ldi	r24, 0x7E	; 126
+ 74a:	21 c0       	rjmp	.+66     	; 0x78e <__vector_24+0xd8>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:226
+          TWI_TxTail = tmpTxTail;
+          USI_TWI_On_Slave_Transmit();
+        }
+        USI_TWI_Overflow_State = USI_SLAVE_SEND_DATA;
+      } else {
+        USI_TWI_Overflow_State = USI_SLAVE_REQUEST_DATA;
+ 74c:	84 e0       	ldi	r24, 0x04	; 4
+ 74e:	f8 cf       	rjmp	.-16     	; 0x740 <__vector_24+0x8a>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:237
+    break;
+
+  // ----- Master write data mode ------
+  // Check reply and goto USI_SLAVE_SEND_DATA if OK, else reset USI.
+  case USI_SLAVE_CHECK_REPLY_FROM_SEND_DATA:
+    if (USIDR) // If NACK, the master does not want more data.
+ 750:	8c b5       	in	r24, 0x2c	; 44
+ 752:	88 23       	and	r24, r24
+ 754:	21 f0       	breq	.+8      	; 0x75e <__vector_24+0xa8>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:255
+    if (TWI_TxHead != tmpTxTail) {
+      TWI_TxTail = (TWI_TxTail + 1) & TWI_TX_BUFFER_MASK;
+      USIDR      = TWI_TxBuf[TWI_TxTail];
+    } else // If the buffer is empty then:
+    {
+      SET_USI_TO_TWI_START_CONDITION_MODE();
+ 756:	61 98       	cbi	0x0c, 1	; 12
+ 758:	88 ea       	ldi	r24, 0xA8	; 168
+ 75a:	8a bd       	out	0x2a, r24	; 42
+ 75c:	17 c0       	rjmp	.+46     	; 0x78c <__vector_24+0xd6>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:249
+  // Copy data from buffer to USIDR and set USI to shift byte. Next USI_SLAVE_REQUEST_REPLY_FROM_SEND_DATA
+  /* Falls through. */
+  case USI_SLAVE_SEND_DATA:
+
+    // Get data from Buffer
+    tmpTxTail = TWI_TxTail; // Not necessary, but prevents warnings
+ 75e:	80 91 50 01 	lds	r24, 0x0150	; 0x800150 <TWI_TxTail>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:250
+    if (TWI_TxHead != tmpTxTail) {
+ 762:	90 91 51 01 	lds	r25, 0x0151	; 0x800151 <TWI_TxHead>
+ 766:	98 17       	cp	r25, r24
+ 768:	b1 f3       	breq	.-20     	; 0x756 <__vector_24+0xa0>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:251
+      TWI_TxTail = (TWI_TxTail + 1) & TWI_TX_BUFFER_MASK;
+ 76a:	80 91 50 01 	lds	r24, 0x0150	; 0x800150 <TWI_TxTail>
+ 76e:	8f 5f       	subi	r24, 0xFF	; 255
+ 770:	8f 70       	andi	r24, 0x0F	; 15
+ 772:	80 93 50 01 	sts	0x0150, r24	; 0x800150 <TWI_TxTail>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:252
+      USIDR      = TWI_TxBuf[TWI_TxTail];
+ 776:	e0 91 50 01 	lds	r30, 0x0150	; 0x800150 <TWI_TxTail>
+ 77a:	f0 e0       	ldi	r31, 0x00	; 0
+ 77c:	e2 5c       	subi	r30, 0xC2	; 194
+ 77e:	fe 4f       	sbci	r31, 0xFE	; 254
+ 780:	80 81       	ld	r24, Z
+ 782:	8c bd       	out	0x2c, r24	; 44
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:258
+    } else // If the buffer is empty then:
+    {
+      SET_USI_TO_TWI_START_CONDITION_MODE();
+      return;
+    }
+    USI_TWI_Overflow_State = USI_SLAVE_REQUEST_REPLY_FROM_SEND_DATA;
+ 784:	82 e0       	ldi	r24, 0x02	; 2
+ 786:	80 93 52 01 	sts	0x0152, r24	; 0x800152 <USI_TWI_Overflow_State>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:259
+    SET_USI_TO_SEND_DATA();
+ 78a:	61 9a       	sbi	0x0c, 1	; 12
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:272
+
+  // ----- Master read data mode ------
+  // Set USI to sample data from master. Next USI_SLAVE_GET_DATA_AND_SEND_ACK.
+  case USI_SLAVE_REQUEST_DATA:
+    USI_TWI_Overflow_State = USI_SLAVE_GET_DATA_AND_SEND_ACK;
+    SET_USI_TO_READ_DATA();
+ 78c:	80 e7       	ldi	r24, 0x70	; 112
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:302
+      TWI_RxHead            = tmpRxHead;
+      TWI_RxBuf[TWI_RxHead] = tmpUSIDR;
+      SET_USI_TO_SEND_ACK();
+    } else // If the buffer is full then:
+    {
+      SET_USI_TO_SEND_NACK();
+ 78e:	8b bd       	out	0x2b, r24	; 43
+ 790:	a7 cf       	rjmp	.-178    	; 0x6e0 <__vector_24+0x2a>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:264
+    SET_USI_TO_SEND_DATA();
+    break;
+
+  // Set USI to sample reply from master. Next USI_SLAVE_CHECK_REPLY_FROM_SEND_DATA
+  case USI_SLAVE_REQUEST_REPLY_FROM_SEND_DATA:
+    USI_TWI_Overflow_State = USI_SLAVE_CHECK_REPLY_FROM_SEND_DATA;
+ 792:	83 e0       	ldi	r24, 0x03	; 3
+ 794:	80 93 52 01 	sts	0x0152, r24	; 0x800152 <USI_TWI_Overflow_State>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:265
+    SET_USI_TO_READ_ACK();
+ 798:	61 98       	cbi	0x0c, 1	; 12
+ 79a:	1c bc       	out	0x2c, r1	; 44
+ 79c:	d5 cf       	rjmp	.-86     	; 0x748 <__vector_24+0x92>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:271
+    break;
+
+  // ----- Master read data mode ------
+  // Set USI to sample data from master. Next USI_SLAVE_GET_DATA_AND_SEND_ACK.
+  case USI_SLAVE_REQUEST_DATA:
+    USI_TWI_Overflow_State = USI_SLAVE_GET_DATA_AND_SEND_ACK;
+ 79e:	85 e0       	ldi	r24, 0x05	; 5
+ 7a0:	80 93 52 01 	sts	0x0152, r24	; 0x800152 <USI_TWI_Overflow_State>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:272
+    SET_USI_TO_READ_DATA();
+ 7a4:	61 98       	cbi	0x0c, 1	; 12
+ 7a6:	f2 cf       	rjmp	.-28     	; 0x78c <__vector_24+0xd6>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:302
+      TWI_RxHead            = tmpRxHead;
+      TWI_RxBuf[TWI_RxHead] = tmpUSIDR;
+      SET_USI_TO_SEND_ACK();
+    } else // If the buffer is full then:
+    {
+      SET_USI_TO_SEND_NACK();
+ 7a8:	61 98       	cbi	0x0c, 1	; 12
+ 7aa:	ce cf       	rjmp	.-100    	; 0x748 <__vector_24+0x92>
+
+000007ac <__vector_23>:
+__vector_23():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:165
+ISR(USI_START_VECTOR)
+#elif __ICCAVR__
+#pragma vector = USI_START_VECTOR
+__interrupt void USI_Start_Condition_ISR(void)
+#endif
+{
+ 7ac:	1f 92       	push	r1
+ 7ae:	0f 92       	push	r0
+ 7b0:	0f b6       	in	r0, 0x3f	; 63
+ 7b2:	0f 92       	push	r0
+ 7b4:	11 24       	eor	r1, r1
+ 7b6:	8f 93       	push	r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:178
+      // reset rx buffer
+      TWI_RxTail = tmpRxHead;
+    }
+  }
+
+  USI_TWI_Overflow_State = USI_SLAVE_CHECK_ADDRESS;
+ 7b8:	10 92 52 01 	sts	0x0152, r1	; 0x800152 <USI_TWI_Overflow_State>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:179
+  DDR_USI &= ~(1 << PORT_USI_SDA); // Set SDA as input
+ 7bc:	61 98       	cbi	0x0c, 1	; 12
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:180
+  while ((tmpPin = (PIN_USI_CL & (1 << PORT_USI_SCL))) && ((PIN_USI & (1 << PIN_USI_SDA)) == 0))
+ 7be:	39 9b       	sbis	0x07, 1	; 7
+ 7c0:	04 c0       	rjmp	.+8      	; 0x7ca <__vector_23+0x1e>
+ 7c2:	59 9b       	sbis	0x0b, 1	; 11
+ 7c4:	fc cf       	rjmp	.-8      	; 0x7be <__vector_23+0x12>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:185
+    ; // Wait for SCL to go low to ensure the "Start Condition" has completed.
+        // If a Stop condition arises then leave the interrupt to prevent waiting forever.
+  if (tmpPin) {
+    // Stop Condition (waiting for next Start Condition)
+    USICR = (1 << USISIE) | (0 << USIOIE) | // Enable Start Condition Interrupt. Disable Overflow Interrupt.
+ 7c6:	88 ea       	ldi	r24, 0xA8	; 168
+ 7c8:	01 c0       	rjmp	.+2      	; 0x7cc <__vector_23+0x20>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:192
+                                            // to first Start Condition (potential failure)
+            (1 << USICS1) | (0 << USICS0) | (0 << USICLK) | // Shift Register Clock Source = External, positive edge
+            (0 << USITC);
+  } else {
+    // really Start Condition (Enable Overflow Interrupt)
+    USICR = (1 << USISIE) | (1 << USIOIE)
+ 7ca:	88 ef       	ldi	r24, 0xF8	; 248
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:185
+  while ((tmpPin = (PIN_USI_CL & (1 << PORT_USI_SCL))) && ((PIN_USI & (1 << PIN_USI_SDA)) == 0))
+    ; // Wait for SCL to go low to ensure the "Start Condition" has completed.
+        // If a Stop condition arises then leave the interrupt to prevent waiting forever.
+  if (tmpPin) {
+    // Stop Condition (waiting for next Start Condition)
+    USICR = (1 << USISIE) | (0 << USIOIE) | // Enable Start Condition Interrupt. Disable Overflow Interrupt.
+ 7cc:	8a bd       	out	0x2a, r24	; 42
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:198
+            | // Enable Overflow and Start Condition Interrupt. (Keep StartCondInt to detect RESTART)
+            (1 << USIWM1) | (1 << USIWM0) |                 // Set USI in Two-wire mode.
+            (1 << USICS1) | (0 << USICS0) | (0 << USICLK) | // Shift Register Clock Source = External, positive edge
+            (0 << USITC);
+  }
+  USISR = (1 << USI_START_COND_INT) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC) | // Clear flags
+ 7ce:	80 ef       	ldi	r24, 0xF0	; 240
+ 7d0:	8b bd       	out	0x2b, r24	; 43
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Slave/USI_TWI_Slave.c:200
+          (0x0 << USICNT0); // Set USI to sample 8 bits i.e. count 16 external pin toggles.
+}
+ 7d2:	8f 91       	pop	r24
+ 7d4:	0f 90       	pop	r0
+ 7d6:	0f be       	out	0x3f, r0	; 63
+ 7d8:	0f 90       	pop	r0
+ 7da:	1f 90       	pop	r1
+ 7dc:	18 95       	reti
+
+000007de <__vector_4>:
+__vector_4():
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:53
+    //Wire.write(val);             // sends potentiometer value byte
+    //Wire.endTransmission();     // stop transmitting
+
+}
+
+ISR(PCINT2_vect) {
+ 7de:	1f 92       	push	r1
+ 7e0:	0f 92       	push	r0
+ 7e2:	0f b6       	in	r0, 0x3f	; 63
+ 7e4:	0f 92       	push	r0
+ 7e6:	11 24       	eor	r1, r1
+ 7e8:	2f 93       	push	r18
+ 7ea:	3f 93       	push	r19
+ 7ec:	4f 93       	push	r20
+ 7ee:	5f 93       	push	r21
+ 7f0:	6f 93       	push	r22
+ 7f2:	7f 93       	push	r23
+ 7f4:	8f 93       	push	r24
+ 7f6:	9f 93       	push	r25
+ 7f8:	af 93       	push	r26
+ 7fa:	bf 93       	push	r27
+ 7fc:	ef 93       	push	r30
+ 7fe:	ff 93       	push	r31
+digitalRead():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:248
+#endif
+
+int digitalRead(uint8_t pin)
+{
+  if (pin&128) {pin=analogInputToDigitalPin((pin&127));}
+  uint8_t bit = digitalPinToBitMask(pin);
+ 800:	ef e9       	ldi	r30, 0x9F	; 159
+ 802:	f0 e0       	ldi	r31, 0x00	; 0
+ 804:	84 91       	lpm	r24, Z
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:249
+  uint8_t port = digitalPinToPort(pin);
+ 806:	ed e8       	ldi	r30, 0x8D	; 141
+ 808:	f0 e0       	ldi	r31, 0x00	; 0
+ 80a:	e4 91       	lpm	r30, Z
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:251
+
+  if (port == NOT_A_PIN) return LOW;
+ 80c:	ee 23       	and	r30, r30
+ 80e:	41 f0       	breq	.+16     	; 0x820 <__vector_4+0x42>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_digital.c:259
+  // "read" should *NEVER* change the behavior of the thing you're using it on.
+  // That's why it's called "read" not "write". As an added bonus, sets the
+  // stage for auto-fast-digitalRead() for compile time known pins.
+  // turnOffPWM( pin );
+
+  if (*portInputRegister(port) & bit) return HIGH;
+ 810:	f0 e0       	ldi	r31, 0x00	; 0
+ 812:	e0 59       	subi	r30, 0x90	; 144
+ 814:	ff 4f       	sbci	r31, 0xFF	; 255
+ 816:	a4 91       	lpm	r26, Z
+ 818:	b0 e0       	ldi	r27, 0x00	; 0
+ 81a:	ec 91       	ld	r30, X
+ 81c:	e8 23       	and	r30, r24
+ 81e:	21 f4       	brne	.+8      	; 0x828 <__vector_4+0x4a>
+__vector_4():
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:56
+
+    if (!digitalRead(USER_SW)) {
+        Serial.println("Button");
+ 820:	87 e2       	ldi	r24, 0x27	; 39
+ 822:	91 e0       	ldi	r25, 0x01	; 1
+ 824:	0e 94 a2 02 	call	0x544	; 0x544 <Print::println(char const*) [clone .constprop.13]>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:58
+    }
+}
+ 828:	ff 91       	pop	r31
+ 82a:	ef 91       	pop	r30
+ 82c:	bf 91       	pop	r27
+ 82e:	af 91       	pop	r26
+ 830:	9f 91       	pop	r25
+ 832:	8f 91       	pop	r24
+ 834:	7f 91       	pop	r23
+ 836:	6f 91       	pop	r22
+ 838:	5f 91       	pop	r21
+ 83a:	4f 91       	pop	r20
+ 83c:	3f 91       	pop	r19
+ 83e:	2f 91       	pop	r18
+ 840:	0f 90       	pop	r0
+ 842:	0f be       	out	0x3f, r0	; 63
+ 844:	0f 90       	pop	r0
+ 846:	1f 90       	pop	r1
+ 848:	18 95       	reti
+
+0000084a <main>:
+init():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring.c:572
+  #else
+  CLKPR=1<<CLKPCE; //enable change of protected register
+  #endif
+  CLKPR=1; //prescale by 2 for 4MHz
+  #endif
+  sei();
+ 84a:	78 94       	sei
+Timer0_SetWaveformGenerationMode():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_timers.h:677
+}
+timer0_wgm_t;
+
+__attribute__((always_inline)) static inline void Timer0_SetWaveformGenerationMode( timer0_wgm_t wgm )
+{
+  TCCR0A = (TCCR0A & ~MASK2(WGM01,WGM00)) | (((wgm & B011) >> 0) << WGM00);
+ 84c:	8b b3       	in	r24, 0x1b	; 27
+ 84e:	83 60       	ori	r24, 0x03	; 3
+ 850:	8b bb       	out	0x1b, r24	; 27
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_timers.h:678
+  TCCR0B = (TCCR0B & ~MASK1(WGM02))       | (((wgm & B100) >> 2) << WGM02);
+ 852:	d3 98       	cbi	0x1a, 3	; 26
+Timer0_ClockSelect():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_timers.h:659
+}
+timer0_cs_t;
+
+__attribute__((always_inline)) static inline void Timer0_ClockSelect( timer0_cs_t cs )
+{
+  TCCR0B = (TCCR0B & ~MASK3(CS02,CS01,CS00)) | (cs << CS00);
+ 854:	8a b3       	in	r24, 0x1a	; 26
+ 856:	88 7f       	andi	r24, 0xF8	; 248
+ 858:	82 60       	ori	r24, 0x02	; 2
+ 85a:	8a bb       	out	0x1a, r24	; 26
+Timer0_EnableOverflowInterrupt():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_timers.h:733
+  TIMSK |= (1<<OCIE0A);
+}
+
+__attribute__((always_inline)) static inline void Timer0_EnableOverflowInterrupt( void )
+{
+  TIMSK |= (1<<TOIE0);
+ 85c:	8a b7       	in	r24, 0x3a	; 58
+ 85e:	82 60       	ori	r24, 0x02	; 2
+ 860:	8a bf       	out	0x3a, r24	; 58
+Timer1_ClockSelect():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_timers.h:811
+}
+timer1_cs_t;
+
+__attribute__((always_inline)) static inline void Timer1_ClockSelect( timer1_cs_t cs )
+{
+  TCCR1B = (TCCR1B & ~MASK3(CS12,CS11,CS10)) | (cs << CS10);
+ 862:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <__DATA_REGION_ORIGIN__+0x11>
+ 866:	88 7f       	andi	r24, 0xF8	; 248
+ 868:	80 93 71 00 	sts	0x0071, r24	; 0x800071 <__DATA_REGION_ORIGIN__+0x11>
+Timer1_SetWaveformGenerationMode():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_timers.h:837
+}
+timer1_wgm_t;
+
+__attribute__((always_inline)) static inline void Timer1_SetWaveformGenerationMode( timer1_wgm_t wgm )
+{
+  TCCR1A = (TCCR1A & ~MASK2(WGM11,WGM10)) | (((wgm & B0011) >> 0) << WGM10);
+ 86c:	80 91 72 00 	lds	r24, 0x0072	; 0x800072 <__DATA_REGION_ORIGIN__+0x12>
+ 870:	8c 7f       	andi	r24, 0xFC	; 252
+ 872:	81 60       	ori	r24, 0x01	; 1
+ 874:	80 93 72 00 	sts	0x0072, r24	; 0x800072 <__DATA_REGION_ORIGIN__+0x12>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_timers.h:838
+  TCCR1B = (TCCR1B & ~MASK2(WGM13,WGM12)) | (((wgm & B1100) >> 2) << WGM12);
+ 878:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <__DATA_REGION_ORIGIN__+0x11>
+ 87c:	87 7e       	andi	r24, 0xE7	; 231
+ 87e:	80 93 71 00 	sts	0x0071, r24	; 0x800071 <__DATA_REGION_ORIGIN__+0x11>
+Timer1_ClockSelect():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_timers.h:811
+}
+timer1_cs_t;
+
+__attribute__((always_inline)) static inline void Timer1_ClockSelect( timer1_cs_t cs )
+{
+  TCCR1B = (TCCR1B & ~MASK3(CS12,CS11,CS10)) | (cs << CS10);
+ 882:	80 91 71 00 	lds	r24, 0x0071	; 0x800071 <__DATA_REGION_ORIGIN__+0x11>
+ 886:	88 7f       	andi	r24, 0xF8	; 248
+ 888:	82 60       	ori	r24, 0x02	; 2
+ 88a:	80 93 71 00 	sts	0x0071, r24	; 0x800071 <__DATA_REGION_ORIGIN__+0x11>
+ADC_PrescalerSelect():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_adc.h:89
+}
+adc_ps_t;
+
+__attribute__((always_inline)) static inline void ADC_PrescalerSelect( adc_ps_t ps )
+{
+  ADCSRA = (ADCSRA & ~MASK3(ADPS2,ADPS1,ADPS0)) | (ps << ADPS0);
+ 88e:	83 b1       	in	r24, 0x03	; 3
+ 890:	88 7f       	andi	r24, 0xF8	; 248
+ 892:	83 60       	ori	r24, 0x03	; 3
+ 894:	83 b9       	out	0x03, r24	; 3
+ADC_Enable():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_adc.h:94
+}
+
+__attribute__((always_inline)) static inline void ADC_Enable( void )
+{
+  ADCSRA |= MASK1( ADEN );
+ 896:	1f 9a       	sbi	0x03, 7	; 3
+setup():
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:17
+#define LED1 PIN_PC5
+
+#include <Wire.h>
+
+void setup() {
+    pinMode(LED0, OUTPUT);
+ 898:	61 e0       	ldi	r22, 0x01	; 1
+ 89a:	8a e0       	ldi	r24, 0x0A	; 10
+ 89c:	0e 94 a1 01 	call	0x342	; 0x342 <pinMode>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:18
+    pinMode(LED1, OUTPUT);
+ 8a0:	61 e0       	ldi	r22, 0x01	; 1
+ 8a2:	89 e0       	ldi	r24, 0x09	; 9
+ 8a4:	0e 94 a1 01 	call	0x342	; 0x342 <pinMode>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:19
+    pinMode(USER_SW, INPUT_PULLUP);
+ 8a8:	62 e0       	ldi	r22, 0x02	; 2
+ 8aa:	8d e0       	ldi	r24, 0x0D	; 13
+ 8ac:	0e 94 a1 01 	call	0x342	; 0x342 <pinMode>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:20
+    GIMSK |= (1 << PCIE2);
+ 8b0:	8c b7       	in	r24, 0x3c	; 60
+ 8b2:	80 62       	ori	r24, 0x20	; 32
+ 8b4:	8c bf       	out	0x3c, r24	; 60
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:21
+    PCMSK2 |= (1 << PCINT12);
+ 8b6:	89 b5       	in	r24, 0x29	; 41
+ 8b8:	81 60       	ori	r24, 0x01	; 1
+ 8ba:	89 bd       	out	0x29, r24	; 41
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:22
+    pinMode(NRF_CE, OUTPUT);
+ 8bc:	61 e0       	ldi	r22, 0x01	; 1
+ 8be:	88 e0       	ldi	r24, 0x08	; 8
+ 8c0:	0e 94 a1 01 	call	0x342	; 0x342 <pinMode>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:23
+    pinMode(NRF_SCK, OUTPUT);
+ 8c4:	61 e0       	ldi	r22, 0x01	; 1
+ 8c6:	87 e0       	ldi	r24, 0x07	; 7
+ 8c8:	0e 94 a1 01 	call	0x342	; 0x342 <pinMode>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:24
+    pinMode(NRF_MOSI, OUTPUT);
+ 8cc:	61 e0       	ldi	r22, 0x01	; 1
+ 8ce:	83 e0       	ldi	r24, 0x03	; 3
+ 8d0:	0e 94 a1 01 	call	0x342	; 0x342 <pinMode>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:25
+    pinMode(NRF_CSN, OUTPUT);
+ 8d4:	61 e0       	ldi	r22, 0x01	; 1
+ 8d6:	82 e0       	ldi	r24, 0x02	; 2
+ 8d8:	0e 94 a1 01 	call	0x342	; 0x342 <pinMode>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:26
+    pinMode(NRF_IRQ, INPUT);
+ 8dc:	60 e0       	ldi	r22, 0x00	; 0
+ 8de:	84 e0       	ldi	r24, 0x04	; 4
+ 8e0:	0e 94 a1 01 	call	0x342	; 0x342 <pinMode>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:27
+    pinMode(NRF_MISO, INPUT);
+ 8e4:	60 e0       	ldi	r22, 0x00	; 0
+ 8e6:	86 e0       	ldi	r24, 0x06	; 6
+ 8e8:	0e 94 a1 01 	call	0x342	; 0x342 <pinMode>
+begin():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:121
+
+void HardwareSerial::begin(unsigned long baud, byte config)
+{
+  // Try u2x mode first
+  uint16_t baud_setting = (F_CPU / 4 / baud - 1) / 2;
+  *_ucsra = 1 << U2X0;
+ 8ec:	e0 91 6d 01 	lds	r30, 0x016D	; 0x80016d <Serial+0x10>
+ 8f0:	f0 91 6e 01 	lds	r31, 0x016E	; 0x80016e <Serial+0x11>
+ 8f4:	82 e0       	ldi	r24, 0x02	; 2
+ 8f6:	80 83       	st	Z, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:135
+    *_ucsra = 0;
+    baud_setting = (F_CPU / 8 / baud - 1) / 2;
+  }
+
+  // assign the baud_setting, a.k.a. ubrr (USART Baud Rate Register)
+  *_ubrrh = baud_setting >> 8;
+ 8f8:	e0 91 69 01 	lds	r30, 0x0169	; 0x800169 <Serial+0xc>
+ 8fc:	f0 91 6a 01 	lds	r31, 0x016A	; 0x80016a <Serial+0xd>
+ 900:	10 82       	st	Z, r1
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:136
+  *_ubrrl = baud_setting;
+ 902:	e0 91 6b 01 	lds	r30, 0x016B	; 0x80016b <Serial+0xe>
+ 906:	f0 91 6c 01 	lds	r31, 0x016C	; 0x80016c <Serial+0xf>
+ 90a:	8c e0       	ldi	r24, 0x0C	; 12
+ 90c:	80 83       	st	Z, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:138
+
+  _written = false;
+ 90e:	10 92 75 01 	sts	0x0175, r1	; 0x800175 <Serial+0x18>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:144
+
+  //set the data bits, parity, and stop bits
+#if defined(__AVR_ATmega8__)
+  config |= 0x80; // select UCSRC register (shared with UBRRH)
+#endif
+  *_ucsrc = config;
+ 912:	e0 91 71 01 	lds	r30, 0x0171	; 0x800171 <Serial+0x14>
+ 916:	f0 91 72 01 	lds	r31, 0x0172	; 0x800172 <Serial+0x15>
+ 91a:	86 e0       	ldi	r24, 0x06	; 6
+ 91c:	80 83       	st	Z, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:146
+
+  sbi(*_ucsrb, RXEN0);
+ 91e:	e0 91 6f 01 	lds	r30, 0x016F	; 0x80016f <Serial+0x12>
+ 922:	f0 91 70 01 	lds	r31, 0x0170	; 0x800170 <Serial+0x13>
+ 926:	80 81       	ld	r24, Z
+ 928:	80 61       	ori	r24, 0x10	; 16
+ 92a:	80 83       	st	Z, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:147
+  sbi(*_ucsrb, TXEN0);
+ 92c:	e0 91 6f 01 	lds	r30, 0x016F	; 0x80016f <Serial+0x12>
+ 930:	f0 91 70 01 	lds	r31, 0x0170	; 0x800170 <Serial+0x13>
+ 934:	80 81       	ld	r24, Z
+ 936:	88 60       	ori	r24, 0x08	; 8
+ 938:	80 83       	st	Z, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:148
+  sbi(*_ucsrb, RXCIE0);
+ 93a:	e0 91 6f 01 	lds	r30, 0x016F	; 0x80016f <Serial+0x12>
+ 93e:	f0 91 70 01 	lds	r31, 0x0170	; 0x800170 <Serial+0x13>
+ 942:	80 81       	ld	r24, Z
+ 944:	80 68       	ori	r24, 0x80	; 128
+ 946:	80 83       	st	Z, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial.cpp:149
+  cbi(*_ucsrb, UDRIE0);
+ 948:	e0 91 6f 01 	lds	r30, 0x016F	; 0x80016f <Serial+0x12>
+ 94c:	f0 91 70 01 	lds	r31, 0x0170	; 0x800170 <Serial+0x13>
+ 950:	80 81       	ld	r24, Z
+ 952:	8f 7d       	andi	r24, 0xDF	; 223
+ 954:	80 83       	st	Z, r24
+setup():
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:29
+    Serial.begin(9600);
+    Serial.println("Reboot");
+ 956:	82 e1       	ldi	r24, 0x12	; 18
+ 958:	91 e0       	ldi	r25, 0x01	; 1
+ 95a:	0e 94 a2 02 	call	0x544	; 0x544 <Print::println(char const*) [clone .constprop.13]>
+USI_TWI_Master_Initialise():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Master/USI_TWI_Master.c:61
+{
+  #ifdef PUE_USI
+  PUE_USI |=(1 << PIN_USI_SDA);
+  PUE_USI_CL |=(1 << PIN_USI_SCL);
+  #endif
+  PORT_USI |= (1 << PIN_USI_SDA); // Enable pullup on SDA, to set high as released state.
+ 95e:	69 9a       	sbi	0x0d, 1	; 13
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Master/USI_TWI_Master.c:62
+  PORT_USI_CL |= (1 << PIN_USI_SCL); // Enable pullup on SCL, to set high as released state.
+ 960:	49 9a       	sbi	0x09, 1	; 9
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Master/USI_TWI_Master.c:64
+
+  DDR_USI_CL |= (1 << PIN_USI_SCL); // Enable SCL as output.
+ 962:	41 9a       	sbi	0x08, 1	; 8
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Master/USI_TWI_Master.c:65
+  DDR_USI |= (1 << PIN_USI_SDA); // Enable SDA as output.
+ 964:	61 9a       	sbi	0x0c, 1	; 12
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Master/USI_TWI_Master.c:67
+
+  USIDR = 0xFF;                                           // Preload dataregister with "released level" data.
+ 966:	8f ef       	ldi	r24, 0xFF	; 255
+ 968:	8c bd       	out	0x2c, r24	; 44
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Master/USI_TWI_Master.c:68
+  USICR = (0 << USISIE) | (0 << USIOIE) |                 // Disable Interrupts.
+ 96a:	8a e2       	ldi	r24, 0x2A	; 42
+ 96c:	8a bd       	out	0x2a, r24	; 42
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/libraries/Wire/src/USI_TWI_Master/USI_TWI_Master.c:72
+          (1 << USIWM1) | (0 << USIWM0) |                 // Set USI in Two-wire mode.
+          (1 << USICS1) | (0 << USICS0) | (1 << USICLK) | // Software stobe as counter clock source
+          (0 << USITC);
+  USISR = (1 << USISIF) | (1 << USIOIF) | (1 << USIPF) | (1 << USIDC) | // Clear flags,
+ 96e:	80 ef       	ldi	r24, 0xF0	; 240
+ 970:	8b bd       	out	0x2b, r24	; 43
+analogReference():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_analog.c:44
+{
+  // can't actually set the register here because the default setting
+  // will connect AVCC and the AREF pin, which would cause a short if
+  // there's something connected to AREF.
+  // fix? Validate the mode?
+  analog_reference = mode;
+ 972:	10 92 5c 01 	sts	0x015C, r1	; 0x80015c <analog_reference>
+loop():
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:36
+    analogReference(DEFAULT);
+    
+}
+
+void loop() {
+    digitalWrite(LED1, HIGH);
+ 976:	61 e0       	ldi	r22, 0x01	; 1
+ 978:	89 e0       	ldi	r24, 0x09	; 9
+ 97a:	0e 94 72 01 	call	0x2e4	; 0x2e4 <digitalWrite>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:37
+    digitalWrite(LED0, LOW);
+ 97e:	60 e0       	ldi	r22, 0x00	; 0
+ 980:	8a e0       	ldi	r24, 0x0A	; 10
+ 982:	0e 94 72 01 	call	0x2e4	; 0x2e4 <digitalWrite>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:38
+    delay(250);
+ 986:	0e 94 15 02 	call	0x42a	; 0x42a <delay.constprop.4>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:39
+    digitalWrite(LED1, LOW);
+ 98a:	60 e0       	ldi	r22, 0x00	; 0
+ 98c:	89 e0       	ldi	r24, 0x09	; 9
+ 98e:	0e 94 72 01 	call	0x2e4	; 0x2e4 <digitalWrite>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:40
+    digitalWrite(LED0, HIGH);
+ 992:	61 e0       	ldi	r22, 0x01	; 1
+ 994:	8a e0       	ldi	r24, 0x0A	; 10
+ 996:	0e 94 72 01 	call	0x2e4	; 0x2e4 <digitalWrite>
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:41
+    delay(250);
+ 99a:	0e 94 15 02 	call	0x42a	; 0x42a <delay.constprop.4>
+ADC_SetVoltageReference():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_adc.h:256
+}
+adc_ic_t;
+
+__attribute__((always_inline)) static inline void ADC_SetVoltageReference( adc_vr_t vr )
+{
+  ADMUX = (ADMUX & ~MASK2(REFS1,REFS0)) | (((vr & B11) >> 0) << REFS0);
+ 99e:	94 b1       	in	r25, 0x04	; 4
+ 9a0:	80 91 5c 01 	lds	r24, 0x015C	; 0x80015c <analog_reference>
+ 9a4:	82 95       	swap	r24
+ 9a6:	88 0f       	add	r24, r24
+ 9a8:	88 0f       	add	r24, r24
+ 9aa:	80 7c       	andi	r24, 0xC0	; 192
+ 9ac:	9f 73       	andi	r25, 0x3F	; 63
+ 9ae:	89 2b       	or	r24, r25
+ 9b0:	84 b9       	out	0x04, r24	; 4
+ADC_SetInputChannel():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_adc.h:261
+}
+
+__attribute__((always_inline)) static inline void ADC_SetInputChannel( adc_ic_t ic )
+{
+  ADMUX = (ADMUX & ~MASK4(MUX3,MUX2,MUX1,MUX0)) | (ic << MUX0);
+ 9b2:	84 b1       	in	r24, 0x04	; 4
+ 9b4:	80 7f       	andi	r24, 0xF0	; 240
+ 9b6:	84 b9       	out	0x04, r24	; 4
+ADC_StartConversion():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_adc.h:266
+}
+
+__attribute__((always_inline)) static inline void ADC_StartConversion( void )
+{
+  ADCSRA |= MASK1( ADSC );
+ 9b8:	1e 9a       	sbi	0x03, 6	; 3
+analogRead():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/wiring_analog.c:61
+  ADC_SetVoltageReference( analog_reference );
+  ADC_SetInputChannel( pin );
+
+  ADC_StartConversion();
+
+  while( ADC_ConversionInProgress() );
+ 9ba:	1e 99       	sbic	0x03, 6	; 3
+ 9bc:	fe cf       	rjmp	.-4      	; 0x9ba <main+0x170>
+ADC_GetDataRegister():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/core_adc.h:276
+  return( (ADCSRA & (1<<ADSC)) != 0 );
+}
+
+__attribute__((always_inline)) static inline uint16_t ADC_GetDataRegister( void )
+{
+  return( ADC );
+ 9be:	60 b1       	in	r22, 0x00	; 0
+ 9c0:	71 b1       	in	r23, 0x01	; 1
+loop():
+/media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:43
+
+    Serial.println(analogRead(Batt_sense)/1024.0*3.2);
+ 9c2:	07 2e       	mov	r0, r23
+ 9c4:	00 0c       	add	r0, r0
+ 9c6:	88 0b       	sbc	r24, r24
+ 9c8:	99 0b       	sbc	r25, r25
+ 9ca:	0e 94 80 06 	call	0xd00	; 0xd00 <__floatsisf>
+ 9ce:	20 e0       	ldi	r18, 0x00	; 0
+ 9d0:	30 e0       	ldi	r19, 0x00	; 0
+ 9d2:	40 e8       	ldi	r20, 0x80	; 128
+ 9d4:	5a e3       	ldi	r21, 0x3A	; 58
+ 9d6:	0e 94 35 07 	call	0xe6a	; 0xe6a <__mulsf3>
+ 9da:	2d ec       	ldi	r18, 0xCD	; 205
+ 9dc:	3c ec       	ldi	r19, 0xCC	; 204
+ 9de:	4c e4       	ldi	r20, 0x4C	; 76
+ 9e0:	50 e4       	ldi	r21, 0x40	; 64
+ 9e2:	0e 94 35 07 	call	0xe6a	; 0xe6a <__mulsf3>
+ 9e6:	6b 01       	movw	r12, r22
+ 9e8:	7c 01       	movw	r14, r24
+ 9ea:	4b 01       	movw	r8, r22
+ 9ec:	5c 01       	movw	r10, r24
+printFloat():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:253
+
+size_t Print::printFloat(double number, uint8_t digits)
+{
+  size_t n = 0;
+
+  if (isnan(number)) return print("nan");
+ 9ee:	ac 01       	movw	r20, r24
+ 9f0:	9b 01       	movw	r18, r22
+ 9f2:	0e 94 aa 07 	call	0xf54	; 0xf54 <__unordsf2>
+ 9f6:	88 23       	and	r24, r24
+ 9f8:	59 f0       	breq	.+22     	; 0xa10 <main+0x1c6>
+write():
+ 9fa:	89 e1       	ldi	r24, 0x19	; 25
+ 9fc:	91 e0       	ldi	r25, 0x01	; 1
+ 9fe:	0e 94 44 02 	call	0x488	; 0x488 <Print::write(char const*) [clone .part.2] [clone .constprop.15]>
+println():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:125
+  return x.printTo(*this);
+}
+
+size_t Print::println(void)
+{
+  size_t n = print('\r');
+ a02:	8d e0       	ldi	r24, 0x0D	; 13
+ a04:	0e 94 4d 01 	call	0x29a	; 0x29a <Print::print(char) [clone .constprop.17]>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:126
+  n += print('\n');
+ a08:	8a e0       	ldi	r24, 0x0A	; 10
+ a0a:	0e 94 4d 01 	call	0x29a	; 0x29a <Print::print(char) [clone .constprop.17]>
+ a0e:	b3 cf       	rjmp	.-154    	; 0x976 <main+0x12c>
+printFloat():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:254
+size_t Print::printFloat(double number, uint8_t digits)
+{
+  size_t n = 0;
+
+  if (isnan(number)) return print("nan");
+  if (isinf(number)) return print("inf");
+ a10:	26 01       	movw	r4, r12
+ a12:	37 01       	movw	r6, r14
+ a14:	e8 94       	clt
+ a16:	77 f8       	bld	r7, 7
+ a18:	2f ef       	ldi	r18, 0xFF	; 255
+ a1a:	3f ef       	ldi	r19, 0xFF	; 255
+ a1c:	4f e7       	ldi	r20, 0x7F	; 127
+ a1e:	5f e7       	ldi	r21, 0x7F	; 127
+ a20:	c3 01       	movw	r24, r6
+ a22:	b2 01       	movw	r22, r4
+ a24:	0e 94 aa 07 	call	0xf54	; 0xf54 <__unordsf2>
+ a28:	81 11       	cpse	r24, r1
+ a2a:	0d c0       	rjmp	.+26     	; 0xa46 <main+0x1fc>
+ a2c:	2f ef       	ldi	r18, 0xFF	; 255
+ a2e:	3f ef       	ldi	r19, 0xFF	; 255
+ a30:	4f e7       	ldi	r20, 0x7F	; 127
+ a32:	5f e7       	ldi	r21, 0x7F	; 127
+ a34:	c3 01       	movw	r24, r6
+ a36:	b2 01       	movw	r22, r4
+ a38:	0e 94 43 06 	call	0xc86	; 0xc86 <__cmpsf2>
+ a3c:	18 16       	cp	r1, r24
+ a3e:	1c f4       	brge	.+6      	; 0xa46 <main+0x1fc>
+write():
+ a40:	8d e1       	ldi	r24, 0x1D	; 29
+ a42:	91 e0       	ldi	r25, 0x01	; 1
+ a44:	dc cf       	rjmp	.-72     	; 0x9fe <main+0x1b4>
+printFloat():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:255
+  if (number > 4294967040.0) return print ("ovf");  // constant determined empirically
+ a46:	2f ef       	ldi	r18, 0xFF	; 255
+ a48:	3f ef       	ldi	r19, 0xFF	; 255
+ a4a:	4f e7       	ldi	r20, 0x7F	; 127
+ a4c:	5f e4       	ldi	r21, 0x4F	; 79
+ a4e:	c7 01       	movw	r24, r14
+ a50:	b6 01       	movw	r22, r12
+ a52:	0e 94 30 07 	call	0xe60	; 0xe60 <__gesf2>
+ a56:	18 16       	cp	r1, r24
+ a58:	1c f4       	brge	.+6      	; 0xa60 <main+0x216>
+write():
+ a5a:	81 e2       	ldi	r24, 0x21	; 33
+ a5c:	91 e0       	ldi	r25, 0x01	; 1
+ a5e:	cf cf       	rjmp	.-98     	; 0x9fe <main+0x1b4>
+printFloat():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:256
+  if (number <-4294967040.0) return print ("ovf");  // constant determined empirically
+ a60:	2f ef       	ldi	r18, 0xFF	; 255
+ a62:	3f ef       	ldi	r19, 0xFF	; 255
+ a64:	4f e7       	ldi	r20, 0x7F	; 127
+ a66:	5f ec       	ldi	r21, 0xCF	; 207
+ a68:	c7 01       	movw	r24, r14
+ a6a:	b6 01       	movw	r22, r12
+ a6c:	0e 94 43 06 	call	0xc86	; 0xc86 <__cmpsf2>
+ a70:	87 fd       	sbrc	r24, 7
+ a72:	f3 cf       	rjmp	.-26     	; 0xa5a <main+0x210>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:259
+
+  // Handle negative numbers
+  if (number < 0.0)
+ a74:	20 e0       	ldi	r18, 0x00	; 0
+ a76:	30 e0       	ldi	r19, 0x00	; 0
+ a78:	a9 01       	movw	r20, r18
+ a7a:	c7 01       	movw	r24, r14
+ a7c:	b6 01       	movw	r22, r12
+ a7e:	0e 94 43 06 	call	0xc86	; 0xc86 <__cmpsf2>
+ a82:	87 ff       	sbrs	r24, 7
+ a84:	09 c0       	rjmp	.+18     	; 0xa98 <main+0x24e>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:261
+  {
+     n += print('-');
+ a86:	8d e2       	ldi	r24, 0x2D	; 45
+ a88:	0e 94 4d 01 	call	0x29a	; 0x29a <Print::print(char) [clone .constprop.17]>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:262
+     number = -number;
+ a8c:	46 01       	movw	r8, r12
+ a8e:	57 01       	movw	r10, r14
+ a90:	b7 fa       	bst	r11, 7
+ a92:	b0 94       	com	r11
+ a94:	b7 f8       	bld	r11, 7
+ a96:	b0 94       	com	r11
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:270
+  // Round correctly so that print(1.999, 2) prints as "2.00"
+  double rounding = 0.5;
+  for (uint8_t i=0; i<digits; ++i)
+    rounding /= 10.0;
+
+  number += rounding;
+ a98:	2a e0       	ldi	r18, 0x0A	; 10
+ a9a:	37 ed       	ldi	r19, 0xD7	; 215
+ a9c:	43 ea       	ldi	r20, 0xA3	; 163
+ a9e:	5b e3       	ldi	r21, 0x3B	; 59
+ aa0:	c5 01       	movw	r24, r10
+ aa2:	b4 01       	movw	r22, r8
+ aa4:	0e 94 d7 05 	call	0xbae	; 0xbae <__addsf3>
+ aa8:	6b 01       	movw	r12, r22
+ aaa:	7c 01       	movw	r14, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:273
+
+  // Extract the integer part of the number and print it
+  unsigned long int_part = (unsigned long)number;
+ aac:	0e 94 4f 06 	call	0xc9e	; 0xc9e <__fixunssfsi>
+ ab0:	4b 01       	movw	r8, r22
+ ab2:	5c 01       	movw	r10, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:274
+  double remainder = number - (double)int_part;
+ ab4:	0e 94 7e 06 	call	0xcfc	; 0xcfc <__floatunsisf>
+ ab8:	9b 01       	movw	r18, r22
+ aba:	ac 01       	movw	r20, r24
+ abc:	c7 01       	movw	r24, r14
+ abe:	b6 01       	movw	r22, r12
+ ac0:	0e 94 d6 05 	call	0xbac	; 0xbac <__subsf3>
+ ac4:	6b 01       	movw	r12, r22
+ ac6:	7c 01       	movw	r14, r24
+print():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:103
+}
+
+size_t Print::print(unsigned long n, int base)
+{
+  if (base == 0) return write(n);
+  else return printNumber(n, base);
+ ac8:	4a e0       	ldi	r20, 0x0A	; 10
+ aca:	c5 01       	movw	r24, r10
+ acc:	b4 01       	movw	r22, r8
+ ace:	0e 94 51 02 	call	0x4a2	; 0x4a2 <Print::printNumber(unsigned long, unsigned char) [clone .constprop.12]>
+write():
+ ad2:	85 e2       	ldi	r24, 0x25	; 37
+ ad4:	91 e0       	ldi	r25, 0x01	; 1
+ ad6:	0e 94 44 02 	call	0x488	; 0x488 <Print::write(char const*) [clone .part.2] [clone .constprop.15]>
+ ada:	c3 e0       	ldi	r28, 0x03	; 3
+ adc:	c1 50       	subi	r28, 0x01	; 1
+printFloat():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:283
+  if (digits > 0) {
+    n += print(".");
+  }
+
+  // Extract digits from the remainder one at a time
+  while (digits-- > 0)
+ ade:	09 f4       	brne	.+2      	; 0xae2 <main+0x298>
+ ae0:	90 cf       	rjmp	.-224    	; 0xa02 <main+0x1b8>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:285
+  {
+    remainder *= 10.0;
+ ae2:	20 e0       	ldi	r18, 0x00	; 0
+ ae4:	30 e0       	ldi	r19, 0x00	; 0
+ ae6:	40 e2       	ldi	r20, 0x20	; 32
+ ae8:	51 e4       	ldi	r21, 0x41	; 65
+ aea:	c7 01       	movw	r24, r14
+ aec:	b6 01       	movw	r22, r12
+ aee:	0e 94 35 07 	call	0xe6a	; 0xe6a <__mulsf3>
+ af2:	4b 01       	movw	r8, r22
+ af4:	5c 01       	movw	r10, r24
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:286
+    int toPrint = int(remainder);
+ af6:	0e 94 48 06 	call	0xc90	; 0xc90 <__fixsfsi>
+print():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:76
+  return print((unsigned long) b, base);
+}
+
+size_t Print::print(int n, int base)
+{
+  return print((long) n, base);
+ afa:	6b 01       	movw	r12, r22
+ afc:	77 0f       	add	r23, r23
+ afe:	ee 08       	sbc	r14, r14
+ b00:	ff 08       	sbc	r15, r15
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:94
+    if (n < 0) {
+      int t = print('-');
+      n = -n;
+      return printNumber(n, 10) + t;
+    }
+    return printNumber(n, 10);
+ b02:	4a e0       	ldi	r20, 0x0A	; 10
+ b04:	c7 01       	movw	r24, r14
+ b06:	b6 01       	movw	r22, r12
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:89
+size_t Print::print(long n, int base)
+{
+  if (base == 0) {
+    return write(n);
+  } else if (base == 10) {
+    if (n < 0) {
+ b08:	f7 fe       	sbrs	r15, 7
+ b0a:	0b c0       	rjmp	.+22     	; 0xb22 <main+0x2d8>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:90
+      int t = print('-');
+ b0c:	8d e2       	ldi	r24, 0x2D	; 45
+ b0e:	0e 94 4d 01 	call	0x29a	; 0x29a <Print::print(char) [clone .constprop.17]>
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:91
+      n = -n;
+ b12:	66 27       	eor	r22, r22
+ b14:	77 27       	eor	r23, r23
+ b16:	cb 01       	movw	r24, r22
+ b18:	6c 19       	sub	r22, r12
+ b1a:	7d 09       	sbc	r23, r13
+ b1c:	8e 09       	sbc	r24, r14
+ b1e:	9f 09       	sbc	r25, r15
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:92
+      return printNumber(n, 10) + t;
+ b20:	4a e0       	ldi	r20, 0x0A	; 10
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:94
+    }
+    return printNumber(n, 10);
+ b22:	0e 94 51 02 	call	0x4a2	; 0x4a2 <Print::printNumber(unsigned long, unsigned char) [clone .constprop.12]>
+printFloat():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.cpp:288
+  while (digits-- > 0)
+  {
+    remainder *= 10.0;
+    int toPrint = int(remainder);
+    n += print(toPrint);
+    remainder -= toPrint;
+ b26:	c7 01       	movw	r24, r14
+ b28:	b6 01       	movw	r22, r12
+ b2a:	0e 94 80 06 	call	0xd00	; 0xd00 <__floatsisf>
+ b2e:	9b 01       	movw	r18, r22
+ b30:	ac 01       	movw	r20, r24
+ b32:	c5 01       	movw	r24, r10
+ b34:	b4 01       	movw	r22, r8
+ b36:	0e 94 d6 05 	call	0xbac	; 0xbac <__subsf3>
+ b3a:	6b 01       	movw	r12, r22
+ b3c:	7c 01       	movw	r14, r24
+ b3e:	ce cf       	rjmp	.-100    	; 0xadc <main+0x292>
+
+00000b40 <_GLOBAL__sub_I___vector_16>:
+_ZN5PrintC2Ev():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Print.h:43
+    size_t printNumber(unsigned long, uint8_t);
+    size_t printFloat(double, uint8_t);
+  protected:
+    void setWriteError(int err = 1) { write_error = err; }
+  public:
+    Print() : write_error(0) {}
+ b40:	ed e5       	ldi	r30, 0x5D	; 93
+ b42:	f1 e0       	ldi	r31, 0x01	; 1
+ b44:	13 82       	std	Z+3, r1	; 0x03
+ b46:	12 82       	std	Z+2, r1	; 0x02
+_ZN6StreamC2Ev():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/Stream.h:64
+    virtual int available() = 0;
+    virtual int read() = 0;
+    virtual int peek() = 0;
+    virtual void flush() = 0;
+
+    Stream() {_timeout=1000;}
+ b48:	88 ee       	ldi	r24, 0xE8	; 232
+ b4a:	93 e0       	ldi	r25, 0x03	; 3
+ b4c:	a0 e0       	ldi	r26, 0x00	; 0
+ b4e:	b0 e0       	ldi	r27, 0x00	; 0
+ b50:	84 83       	std	Z+4, r24	; 0x04
+ b52:	95 83       	std	Z+5, r25	; 0x05
+ b54:	a6 83       	std	Z+6, r26	; 0x06
+ b56:	b7 83       	std	Z+7, r27	; 0x07
+_ZN14HardwareSerialC2EPVhS1_S1_S1_S1_S1_():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial_private.h:95
+  volatile uint8_t *ucsrc, volatile uint8_t *udr) :
+    _ubrrh(ubrrh), _ubrrl(ubrrl),
+    _ucsra(ucsra), _ucsrb(ucsrb), _ucsrc(ucsrc),
+    _udr(udr),
+    _rx_buffer_head(0), _rx_buffer_tail(0),
+    _tx_buffer_head(0), _tx_buffer_tail(0)
+ b58:	84 e0       	ldi	r24, 0x04	; 4
+ b5a:	91 e0       	ldi	r25, 0x01	; 1
+ b5c:	91 83       	std	Z+1, r25	; 0x01
+ b5e:	80 83       	st	Z, r24
+ b60:	82 e4       	ldi	r24, 0x42	; 66
+ b62:	90 e0       	ldi	r25, 0x00	; 0
+ b64:	95 87       	std	Z+13, r25	; 0x0d
+ b66:	84 87       	std	Z+12, r24	; 0x0c
+ b68:	81 e4       	ldi	r24, 0x41	; 65
+ b6a:	90 e0       	ldi	r25, 0x00	; 0
+ b6c:	97 87       	std	Z+15, r25	; 0x0f
+ b6e:	86 87       	std	Z+14, r24	; 0x0e
+ b70:	86 e4       	ldi	r24, 0x46	; 70
+ b72:	90 e0       	ldi	r25, 0x00	; 0
+ b74:	91 8b       	std	Z+17, r25	; 0x11
+ b76:	80 8b       	std	Z+16, r24	; 0x10
+ b78:	85 e4       	ldi	r24, 0x45	; 69
+ b7a:	90 e0       	ldi	r25, 0x00	; 0
+ b7c:	93 8b       	std	Z+19, r25	; 0x13
+ b7e:	82 8b       	std	Z+18, r24	; 0x12
+ b80:	84 e4       	ldi	r24, 0x44	; 68
+ b82:	90 e0       	ldi	r25, 0x00	; 0
+ b84:	95 8b       	std	Z+21, r25	; 0x15
+ b86:	84 8b       	std	Z+20, r24	; 0x14
+ b88:	80 e4       	ldi	r24, 0x40	; 64
+ b8a:	90 e0       	ldi	r25, 0x00	; 0
+ b8c:	97 8b       	std	Z+23, r25	; 0x17
+ b8e:	86 8b       	std	Z+22, r24	; 0x16
+ b90:	11 8e       	std	Z+25, r1	; 0x19
+ b92:	12 8e       	std	Z+26, r1	; 0x1a
+ b94:	13 8e       	std	Z+27, r1	; 0x1b
+ b96:	14 8e       	std	Z+28, r1	; 0x1c
+_GLOBAL__sub_I___vector_16():
+/home/user/.arduino15/packages/ATTinyCore/hardware/avr/1.5.2/cores/tinymodern/HardwareSerial0.cpp:77
+
+// Function that can be weakly referenced by serialEventRun to prevent
+// pulling in this file if it's not otherwise used.
+bool Serial0_available() {
+  return Serial.available();
+}
+ b98:	08 95       	ret
+
+00000b9a <__mulqi3>:
+__mulqi3():
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:224
+ b9a:	00 24       	eor	r0, r0
+
+00000b9c <__mulqi3_loop>:
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:226
+ b9c:	80 fd       	sbrc	r24, 0
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:227
+ b9e:	06 0e       	add	r0, r22
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:228
+ ba0:	66 0f       	add	r22, r22
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:229
+ ba2:	11 f0       	breq	.+4      	; 0xba8 <__mulqi3_exit>
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:230
+ ba4:	86 95       	lsr	r24
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:231
+ ba6:	d1 f7       	brne	.-12     	; 0xb9c <__mulqi3_loop>
+
+00000ba8 <__mulqi3_exit>:
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:233
+ ba8:	80 2d       	mov	r24, r0
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:234
+ baa:	08 95       	ret
+
+00000bac <__subsf3>:
+__subsf3():
+ bac:	50 58       	subi	r21, 0x80	; 128
+
+00000bae <__addsf3>:
+ bae:	bb 27       	eor	r27, r27
+ bb0:	aa 27       	eor	r26, r26
+ bb2:	0e 94 ee 05 	call	0xbdc	; 0xbdc <__addsf3x>
+ bb6:	0c 94 f6 06 	jmp	0xdec	; 0xdec <__fp_round>
+__addsf3():
+ bba:	0e 94 e8 06 	call	0xdd0	; 0xdd0 <__fp_pscA>
+ bbe:	38 f0       	brcs	.+14     	; 0xbce <__addsf3+0x20>
+ bc0:	0e 94 ef 06 	call	0xdde	; 0xdde <__fp_pscB>
+ bc4:	20 f0       	brcs	.+8      	; 0xbce <__addsf3+0x20>
+ bc6:	39 f4       	brne	.+14     	; 0xbd6 <__addsf3+0x28>
+ bc8:	9f 3f       	cpi	r25, 0xFF	; 255
+ bca:	19 f4       	brne	.+6      	; 0xbd2 <__addsf3+0x24>
+ bcc:	26 f4       	brtc	.+8      	; 0xbd6 <__addsf3+0x28>
+ bce:	0c 94 e5 06 	jmp	0xdca	; 0xdca <__fp_nan>
+ bd2:	0e f4       	brtc	.+2      	; 0xbd6 <__addsf3+0x28>
+ bd4:	e0 95       	com	r30
+ bd6:	e7 fb       	bst	r30, 7
+ bd8:	0c 94 df 06 	jmp	0xdbe	; 0xdbe <__fp_inf>
+
+00000bdc <__addsf3x>:
+__addsf3x():
+ bdc:	e9 2f       	mov	r30, r25
+ bde:	0e 94 07 07 	call	0xe0e	; 0xe0e <__fp_split3>
+ be2:	58 f3       	brcs	.-42     	; 0xbba <__addsf3+0xc>
+ be4:	ba 17       	cp	r27, r26
+ be6:	62 07       	cpc	r22, r18
+ be8:	73 07       	cpc	r23, r19
+ bea:	84 07       	cpc	r24, r20
+ bec:	95 07       	cpc	r25, r21
+ bee:	20 f0       	brcs	.+8      	; 0xbf8 <__addsf3x+0x1c>
+ bf0:	79 f4       	brne	.+30     	; 0xc10 <__addsf3x+0x34>
+ bf2:	a6 f5       	brtc	.+104    	; 0xc5c <__addsf3x+0x80>
+ bf4:	0c 94 29 07 	jmp	0xe52	; 0xe52 <__fp_zero>
+ bf8:	0e f4       	brtc	.+2      	; 0xbfc <__addsf3x+0x20>
+ bfa:	e0 95       	com	r30
+ bfc:	0b 2e       	mov	r0, r27
+ bfe:	ba 2f       	mov	r27, r26
+ c00:	a0 2d       	mov	r26, r0
+ c02:	0b 01       	movw	r0, r22
+ c04:	b9 01       	movw	r22, r18
+ c06:	90 01       	movw	r18, r0
+ c08:	0c 01       	movw	r0, r24
+ c0a:	ca 01       	movw	r24, r20
+ c0c:	a0 01       	movw	r20, r0
+ c0e:	11 24       	eor	r1, r1
+ c10:	ff 27       	eor	r31, r31
+ c12:	59 1b       	sub	r21, r25
+ c14:	99 f0       	breq	.+38     	; 0xc3c <__addsf3x+0x60>
+ c16:	59 3f       	cpi	r21, 0xF9	; 249
+ c18:	50 f4       	brcc	.+20     	; 0xc2e <__addsf3x+0x52>
+ c1a:	50 3e       	cpi	r21, 0xE0	; 224
+ c1c:	68 f1       	brcs	.+90     	; 0xc78 <__addsf3x+0x9c>
+ c1e:	1a 16       	cp	r1, r26
+ c20:	f0 40       	sbci	r31, 0x00	; 0
+ c22:	a2 2f       	mov	r26, r18
+ c24:	23 2f       	mov	r18, r19
+ c26:	34 2f       	mov	r19, r20
+ c28:	44 27       	eor	r20, r20
+ c2a:	58 5f       	subi	r21, 0xF8	; 248
+ c2c:	f3 cf       	rjmp	.-26     	; 0xc14 <__addsf3x+0x38>
+ c2e:	46 95       	lsr	r20
+ c30:	37 95       	ror	r19
+ c32:	27 95       	ror	r18
+ c34:	a7 95       	ror	r26
+ c36:	f0 40       	sbci	r31, 0x00	; 0
+ c38:	53 95       	inc	r21
+ c3a:	c9 f7       	brne	.-14     	; 0xc2e <__addsf3x+0x52>
+ c3c:	7e f4       	brtc	.+30     	; 0xc5c <__addsf3x+0x80>
+ c3e:	1f 16       	cp	r1, r31
+ c40:	ba 0b       	sbc	r27, r26
+ c42:	62 0b       	sbc	r22, r18
+ c44:	73 0b       	sbc	r23, r19
+ c46:	84 0b       	sbc	r24, r20
+ c48:	ba f0       	brmi	.+46     	; 0xc78 <__addsf3x+0x9c>
+ c4a:	91 50       	subi	r25, 0x01	; 1
+ c4c:	a1 f0       	breq	.+40     	; 0xc76 <__addsf3x+0x9a>
+ c4e:	ff 0f       	add	r31, r31
+ c50:	bb 1f       	adc	r27, r27
+ c52:	66 1f       	adc	r22, r22
+ c54:	77 1f       	adc	r23, r23
+ c56:	88 1f       	adc	r24, r24
+ c58:	c2 f7       	brpl	.-16     	; 0xc4a <__addsf3x+0x6e>
+ c5a:	0e c0       	rjmp	.+28     	; 0xc78 <__addsf3x+0x9c>
+ c5c:	ba 0f       	add	r27, r26
+ c5e:	62 1f       	adc	r22, r18
+ c60:	73 1f       	adc	r23, r19
+ c62:	84 1f       	adc	r24, r20
+ c64:	48 f4       	brcc	.+18     	; 0xc78 <__addsf3x+0x9c>
+ c66:	87 95       	ror	r24
+ c68:	77 95       	ror	r23
+ c6a:	67 95       	ror	r22
+ c6c:	b7 95       	ror	r27
+ c6e:	f7 95       	ror	r31
+ c70:	9e 3f       	cpi	r25, 0xFE	; 254
+ c72:	08 f0       	brcs	.+2      	; 0xc76 <__addsf3x+0x9a>
+ c74:	b0 cf       	rjmp	.-160    	; 0xbd6 <__addsf3+0x28>
+ c76:	93 95       	inc	r25
+ c78:	88 0f       	add	r24, r24
+ c7a:	08 f0       	brcs	.+2      	; 0xc7e <__addsf3x+0xa2>
+ c7c:	99 27       	eor	r25, r25
+ c7e:	ee 0f       	add	r30, r30
+ c80:	97 95       	ror	r25
+ c82:	87 95       	ror	r24
+ c84:	08 95       	ret
+
+00000c86 <__cmpsf2>:
+ c86:	0e 94 bb 06 	call	0xd76	; 0xd76 <__fp_cmp>
+ c8a:	08 f4       	brcc	.+2      	; 0xc8e <__cmpsf2+0x8>
+ c8c:	81 e0       	ldi	r24, 0x01	; 1
+ c8e:	08 95       	ret
+
+00000c90 <__fixsfsi>:
+ c90:	0e 94 4f 06 	call	0xc9e	; 0xc9e <__fixunssfsi>
+ c94:	68 94       	set
+ c96:	b1 11       	cpse	r27, r1
+ c98:	0c 94 2a 07 	jmp	0xe54	; 0xe54 <__fp_szero>
+ c9c:	08 95       	ret
+
+00000c9e <__fixunssfsi>:
+ c9e:	0e 94 0f 07 	call	0xe1e	; 0xe1e <__fp_splitA>
+ ca2:	88 f0       	brcs	.+34     	; 0xcc6 <__fixunssfsi+0x28>
+ ca4:	9f 57       	subi	r25, 0x7F	; 127
+ ca6:	98 f0       	brcs	.+38     	; 0xcce <__fixunssfsi+0x30>
+__fixunssfsi():
+ ca8:	b9 2f       	mov	r27, r25
+ caa:	99 27       	eor	r25, r25
+ cac:	b7 51       	subi	r27, 0x17	; 23
+ cae:	b0 f0       	brcs	.+44     	; 0xcdc <__fixunssfsi+0x3e>
+ cb0:	e1 f0       	breq	.+56     	; 0xcea <__fixunssfsi+0x4c>
+ cb2:	66 0f       	add	r22, r22
+ cb4:	77 1f       	adc	r23, r23
+ cb6:	88 1f       	adc	r24, r24
+ cb8:	99 1f       	adc	r25, r25
+ cba:	1a f0       	brmi	.+6      	; 0xcc2 <__fixunssfsi+0x24>
+ cbc:	ba 95       	dec	r27
+ cbe:	c9 f7       	brne	.-14     	; 0xcb2 <__fixunssfsi+0x14>
+ cc0:	14 c0       	rjmp	.+40     	; 0xcea <__fixunssfsi+0x4c>
+ cc2:	b1 30       	cpi	r27, 0x01	; 1
+ cc4:	91 f0       	breq	.+36     	; 0xcea <__fixunssfsi+0x4c>
+ cc6:	0e 94 29 07 	call	0xe52	; 0xe52 <__fp_zero>
+ cca:	b1 e0       	ldi	r27, 0x01	; 1
+ ccc:	08 95       	ret
+ cce:	0c 94 29 07 	jmp	0xe52	; 0xe52 <__fp_zero>
+ cd2:	67 2f       	mov	r22, r23
+ cd4:	78 2f       	mov	r23, r24
+ cd6:	88 27       	eor	r24, r24
+ cd8:	b8 5f       	subi	r27, 0xF8	; 248
+ cda:	39 f0       	breq	.+14     	; 0xcea <__fixunssfsi+0x4c>
+ cdc:	b9 3f       	cpi	r27, 0xF9	; 249
+ cde:	cc f3       	brlt	.-14     	; 0xcd2 <__fixunssfsi+0x34>
+ ce0:	86 95       	lsr	r24
+ ce2:	77 95       	ror	r23
+ ce4:	67 95       	ror	r22
+ ce6:	b3 95       	inc	r27
+ ce8:	d9 f7       	brne	.-10     	; 0xce0 <__fixunssfsi+0x42>
+ cea:	3e f4       	brtc	.+14     	; 0xcfa <__fixunssfsi+0x5c>
+ cec:	90 95       	com	r25
+ cee:	80 95       	com	r24
+ cf0:	70 95       	com	r23
+ cf2:	61 95       	neg	r22
+ cf4:	7f 4f       	sbci	r23, 0xFF	; 255
+ cf6:	8f 4f       	sbci	r24, 0xFF	; 255
+ cf8:	9f 4f       	sbci	r25, 0xFF	; 255
+ cfa:	08 95       	ret
+
+00000cfc <__floatunsisf>:
+__floatunsisf():
+ cfc:	e8 94       	clt
+ cfe:	09 c0       	rjmp	.+18     	; 0xd12 <__floatsisf+0x12>
+
+00000d00 <__floatsisf>:
+ d00:	97 fb       	bst	r25, 7
+ d02:	3e f4       	brtc	.+14     	; 0xd12 <__floatsisf+0x12>
+ d04:	90 95       	com	r25
+ d06:	80 95       	com	r24
+ d08:	70 95       	com	r23
+ d0a:	61 95       	neg	r22
+ d0c:	7f 4f       	sbci	r23, 0xFF	; 255
+ d0e:	8f 4f       	sbci	r24, 0xFF	; 255
+ d10:	9f 4f       	sbci	r25, 0xFF	; 255
+ d12:	99 23       	and	r25, r25
+ d14:	a9 f0       	breq	.+42     	; 0xd40 <__floatsisf+0x40>
+ d16:	f9 2f       	mov	r31, r25
+ d18:	96 e9       	ldi	r25, 0x96	; 150
+ d1a:	bb 27       	eor	r27, r27
+ d1c:	93 95       	inc	r25
+ d1e:	f6 95       	lsr	r31
+ d20:	87 95       	ror	r24
+ d22:	77 95       	ror	r23
+ d24:	67 95       	ror	r22
+ d26:	b7 95       	ror	r27
+ d28:	f1 11       	cpse	r31, r1
+ d2a:	f8 cf       	rjmp	.-16     	; 0xd1c <__floatsisf+0x1c>
+ d2c:	fa f4       	brpl	.+62     	; 0xd6c <__floatsisf+0x6c>
+ d2e:	bb 0f       	add	r27, r27
+ d30:	11 f4       	brne	.+4      	; 0xd36 <__floatsisf+0x36>
+ d32:	60 ff       	sbrs	r22, 0
+ d34:	1b c0       	rjmp	.+54     	; 0xd6c <__floatsisf+0x6c>
+ d36:	6f 5f       	subi	r22, 0xFF	; 255
+ d38:	7f 4f       	sbci	r23, 0xFF	; 255
+ d3a:	8f 4f       	sbci	r24, 0xFF	; 255
+ d3c:	9f 4f       	sbci	r25, 0xFF	; 255
+ d3e:	16 c0       	rjmp	.+44     	; 0xd6c <__floatsisf+0x6c>
+ d40:	88 23       	and	r24, r24
+ d42:	11 f0       	breq	.+4      	; 0xd48 <__floatsisf+0x48>
+ d44:	96 e9       	ldi	r25, 0x96	; 150
+ d46:	11 c0       	rjmp	.+34     	; 0xd6a <__floatsisf+0x6a>
+ d48:	77 23       	and	r23, r23
+ d4a:	21 f0       	breq	.+8      	; 0xd54 <__floatsisf+0x54>
+ d4c:	9e e8       	ldi	r25, 0x8E	; 142
+ d4e:	87 2f       	mov	r24, r23
+ d50:	76 2f       	mov	r23, r22
+ d52:	05 c0       	rjmp	.+10     	; 0xd5e <__floatsisf+0x5e>
+ d54:	66 23       	and	r22, r22
+ d56:	71 f0       	breq	.+28     	; 0xd74 <__floatsisf+0x74>
+ d58:	96 e8       	ldi	r25, 0x86	; 134
+ d5a:	86 2f       	mov	r24, r22
+ d5c:	70 e0       	ldi	r23, 0x00	; 0
+ d5e:	60 e0       	ldi	r22, 0x00	; 0
+ d60:	2a f0       	brmi	.+10     	; 0xd6c <__floatsisf+0x6c>
+ d62:	9a 95       	dec	r25
+ d64:	66 0f       	add	r22, r22
+ d66:	77 1f       	adc	r23, r23
+ d68:	88 1f       	adc	r24, r24
+ d6a:	da f7       	brpl	.-10     	; 0xd62 <__floatsisf+0x62>
+ d6c:	88 0f       	add	r24, r24
+ d6e:	96 95       	lsr	r25
+ d70:	87 95       	ror	r24
+ d72:	97 f9       	bld	r25, 7
+ d74:	08 95       	ret
+
+00000d76 <__fp_cmp>:
+__fp_cmp():
+ d76:	99 0f       	add	r25, r25
+ d78:	00 08       	sbc	r0, r0
+ d7a:	55 0f       	add	r21, r21
+ d7c:	aa 0b       	sbc	r26, r26
+ d7e:	e0 e8       	ldi	r30, 0x80	; 128
+ d80:	fe ef       	ldi	r31, 0xFE	; 254
+ d82:	16 16       	cp	r1, r22
+ d84:	17 06       	cpc	r1, r23
+ d86:	e8 07       	cpc	r30, r24
+ d88:	f9 07       	cpc	r31, r25
+ d8a:	c0 f0       	brcs	.+48     	; 0xdbc <__fp_cmp+0x46>
+ d8c:	12 16       	cp	r1, r18
+ d8e:	13 06       	cpc	r1, r19
+ d90:	e4 07       	cpc	r30, r20
+ d92:	f5 07       	cpc	r31, r21
+ d94:	98 f0       	brcs	.+38     	; 0xdbc <__fp_cmp+0x46>
+ d96:	62 1b       	sub	r22, r18
+ d98:	73 0b       	sbc	r23, r19
+ d9a:	84 0b       	sbc	r24, r20
+ d9c:	95 0b       	sbc	r25, r21
+ d9e:	39 f4       	brne	.+14     	; 0xdae <__fp_cmp+0x38>
+ da0:	0a 26       	eor	r0, r26
+ da2:	61 f0       	breq	.+24     	; 0xdbc <__fp_cmp+0x46>
+ da4:	23 2b       	or	r18, r19
+ da6:	24 2b       	or	r18, r20
+ da8:	25 2b       	or	r18, r21
+ daa:	21 f4       	brne	.+8      	; 0xdb4 <__fp_cmp+0x3e>
+ dac:	08 95       	ret
+ dae:	0a 26       	eor	r0, r26
+ db0:	09 f4       	brne	.+2      	; 0xdb4 <__fp_cmp+0x3e>
+ db2:	a1 40       	sbci	r26, 0x01	; 1
+ db4:	a6 95       	lsr	r26
+ db6:	8f ef       	ldi	r24, 0xFF	; 255
+ db8:	81 1d       	adc	r24, r1
+ dba:	81 1d       	adc	r24, r1
+ dbc:	08 95       	ret
+
+00000dbe <__fp_inf>:
+__fp_inf():
+ dbe:	97 f9       	bld	r25, 7
+ dc0:	9f 67       	ori	r25, 0x7F	; 127
+ dc2:	80 e8       	ldi	r24, 0x80	; 128
+ dc4:	70 e0       	ldi	r23, 0x00	; 0
+ dc6:	60 e0       	ldi	r22, 0x00	; 0
+ dc8:	08 95       	ret
+
+00000dca <__fp_nan>:
+__fp_nan():
+ dca:	9f ef       	ldi	r25, 0xFF	; 255
+ dcc:	80 ec       	ldi	r24, 0xC0	; 192
+ dce:	08 95       	ret
+
+00000dd0 <__fp_pscA>:
+__fp_pscA():
+ dd0:	00 24       	eor	r0, r0
+ dd2:	0a 94       	dec	r0
+ dd4:	16 16       	cp	r1, r22
+ dd6:	17 06       	cpc	r1, r23
+ dd8:	18 06       	cpc	r1, r24
+ dda:	09 06       	cpc	r0, r25
+ ddc:	08 95       	ret
+
+00000dde <__fp_pscB>:
+__fp_pscB():
+ dde:	00 24       	eor	r0, r0
+ de0:	0a 94       	dec	r0
+ de2:	12 16       	cp	r1, r18
+ de4:	13 06       	cpc	r1, r19
+ de6:	14 06       	cpc	r1, r20
+ de8:	05 06       	cpc	r0, r21
+ dea:	08 95       	ret
+
+00000dec <__fp_round>:
+__fp_round():
+ dec:	09 2e       	mov	r0, r25
+ dee:	03 94       	inc	r0
+ df0:	00 0c       	add	r0, r0
+ df2:	11 f4       	brne	.+4      	; 0xdf8 <__fp_round+0xc>
+ df4:	88 23       	and	r24, r24
+ df6:	52 f0       	brmi	.+20     	; 0xe0c <__fp_round+0x20>
+ df8:	bb 0f       	add	r27, r27
+ dfa:	40 f4       	brcc	.+16     	; 0xe0c <__fp_round+0x20>
+ dfc:	bf 2b       	or	r27, r31
+ dfe:	11 f4       	brne	.+4      	; 0xe04 <__fp_round+0x18>
+ e00:	60 ff       	sbrs	r22, 0
+ e02:	04 c0       	rjmp	.+8      	; 0xe0c <__fp_round+0x20>
+ e04:	6f 5f       	subi	r22, 0xFF	; 255
+ e06:	7f 4f       	sbci	r23, 0xFF	; 255
+ e08:	8f 4f       	sbci	r24, 0xFF	; 255
+ e0a:	9f 4f       	sbci	r25, 0xFF	; 255
+ e0c:	08 95       	ret
+
+00000e0e <__fp_split3>:
+__fp_split3():
+ e0e:	57 fd       	sbrc	r21, 7
+ e10:	90 58       	subi	r25, 0x80	; 128
+ e12:	44 0f       	add	r20, r20
+ e14:	55 1f       	adc	r21, r21
+ e16:	59 f0       	breq	.+22     	; 0xe2e <__fp_splitA+0x10>
+ e18:	5f 3f       	cpi	r21, 0xFF	; 255
+ e1a:	71 f0       	breq	.+28     	; 0xe38 <__fp_splitA+0x1a>
+ e1c:	47 95       	ror	r20
+
+00000e1e <__fp_splitA>:
+ e1e:	88 0f       	add	r24, r24
+ e20:	97 fb       	bst	r25, 7
+ e22:	99 1f       	adc	r25, r25
+ e24:	61 f0       	breq	.+24     	; 0xe3e <__fp_splitA+0x20>
+ e26:	9f 3f       	cpi	r25, 0xFF	; 255
+ e28:	79 f0       	breq	.+30     	; 0xe48 <__fp_splitA+0x2a>
+ e2a:	87 95       	ror	r24
+ e2c:	08 95       	ret
+ e2e:	12 16       	cp	r1, r18
+ e30:	13 06       	cpc	r1, r19
+ e32:	14 06       	cpc	r1, r20
+ e34:	55 1f       	adc	r21, r21
+ e36:	f2 cf       	rjmp	.-28     	; 0xe1c <__fp_split3+0xe>
+ e38:	46 95       	lsr	r20
+ e3a:	f1 df       	rcall	.-30     	; 0xe1e <__fp_splitA>
+ e3c:	08 c0       	rjmp	.+16     	; 0xe4e <__fp_splitA+0x30>
+ e3e:	16 16       	cp	r1, r22
+ e40:	17 06       	cpc	r1, r23
+ e42:	18 06       	cpc	r1, r24
+ e44:	99 1f       	adc	r25, r25
+ e46:	f1 cf       	rjmp	.-30     	; 0xe2a <__fp_splitA+0xc>
+ e48:	86 95       	lsr	r24
+ e4a:	71 05       	cpc	r23, r1
+ e4c:	61 05       	cpc	r22, r1
+ e4e:	08 94       	sec
+ e50:	08 95       	ret
+
+00000e52 <__fp_zero>:
+__fp_zero():
+ e52:	e8 94       	clt
+
+00000e54 <__fp_szero>:
+ e54:	bb 27       	eor	r27, r27
+ e56:	66 27       	eor	r22, r22
+ e58:	77 27       	eor	r23, r23
+ e5a:	cb 01       	movw	r24, r22
+ e5c:	97 f9       	bld	r25, 7
+ e5e:	08 95       	ret
+
+00000e60 <__gesf2>:
+__gesf2():
+ e60:	0e 94 bb 06 	call	0xd76	; 0xd76 <__fp_cmp>
+ e64:	08 f4       	brcc	.+2      	; 0xe68 <__gesf2+0x8>
+ e66:	8f ef       	ldi	r24, 0xFF	; 255
+ e68:	08 95       	ret
+
+00000e6a <__mulsf3>:
+__mulsf3():
+ e6a:	0e 94 47 07 	call	0xe8e	; 0xe8e <__mulsf3x>
+ e6e:	0c 94 f6 06 	jmp	0xdec	; 0xdec <__fp_round>
+ e72:	0e 94 e8 06 	call	0xdd0	; 0xdd0 <__fp_pscA>
+ e76:	38 f0       	brcs	.+14     	; 0xe86 <__mulsf3+0x1c>
+ e78:	0e 94 ef 06 	call	0xdde	; 0xdde <__fp_pscB>
+ e7c:	20 f0       	brcs	.+8      	; 0xe86 <__mulsf3+0x1c>
+ e7e:	95 23       	and	r25, r21
+ e80:	11 f0       	breq	.+4      	; 0xe86 <__mulsf3+0x1c>
+ e82:	0c 94 df 06 	jmp	0xdbe	; 0xdbe <__fp_inf>
+ e86:	0c 94 e5 06 	jmp	0xdca	; 0xdca <__fp_nan>
+ e8a:	0c 94 2a 07 	jmp	0xe54	; 0xe54 <__fp_szero>
+
+00000e8e <__mulsf3x>:
+__mulsf3x():
+ e8e:	0e 94 07 07 	call	0xe0e	; 0xe0e <__fp_split3>
+ e92:	78 f3       	brcs	.-34     	; 0xe72 <__mulsf3+0x8>
+
+00000e94 <__mulsf3_pse>:
+ e94:	99 23       	and	r25, r25
+ e96:	c9 f3       	breq	.-14     	; 0xe8a <__mulsf3+0x20>
+ e98:	55 23       	and	r21, r21
+ e9a:	b9 f3       	breq	.-18     	; 0xe8a <__mulsf3+0x20>
+ e9c:	95 0f       	add	r25, r21
+ e9e:	50 e0       	ldi	r21, 0x00	; 0
+ ea0:	55 1f       	adc	r21, r21
+ ea2:	aa 27       	eor	r26, r26
+ ea4:	ee 27       	eor	r30, r30
+ ea6:	ff 27       	eor	r31, r31
+ ea8:	bb 27       	eor	r27, r27
+ eaa:	00 24       	eor	r0, r0
+ eac:	08 94       	sec
+ eae:	67 95       	ror	r22
+ eb0:	20 f4       	brcc	.+8      	; 0xeba <__mulsf3_pse+0x26>
+ eb2:	e2 0f       	add	r30, r18
+ eb4:	f3 1f       	adc	r31, r19
+ eb6:	b4 1f       	adc	r27, r20
+ eb8:	0a 1e       	adc	r0, r26
+ eba:	22 0f       	add	r18, r18
+ ebc:	33 1f       	adc	r19, r19
+ ebe:	44 1f       	adc	r20, r20
+ ec0:	aa 1f       	adc	r26, r26
+ ec2:	66 95       	lsr	r22
+ ec4:	a9 f7       	brne	.-22     	; 0xeb0 <__mulsf3_pse+0x1c>
+ ec6:	77 95       	ror	r23
+ ec8:	30 f4       	brcc	.+12     	; 0xed6 <__mulsf3_pse+0x42>
+ eca:	f3 0f       	add	r31, r19
+ ecc:	b4 1f       	adc	r27, r20
+ ece:	0a 1e       	adc	r0, r26
+ ed0:	12 1e       	adc	r1, r18
+ ed2:	08 f4       	brcc	.+2      	; 0xed6 <__mulsf3_pse+0x42>
+ ed4:	63 95       	inc	r22
+ ed6:	33 0f       	add	r19, r19
+ ed8:	44 1f       	adc	r20, r20
+ eda:	aa 1f       	adc	r26, r26
+ edc:	22 1f       	adc	r18, r18
+ ede:	76 95       	lsr	r23
+ ee0:	99 f7       	brne	.-26     	; 0xec8 <__mulsf3_pse+0x34>
+ ee2:	87 95       	ror	r24
+ ee4:	20 f4       	brcc	.+8      	; 0xeee <__mulsf3_pse+0x5a>
+ ee6:	b4 0f       	add	r27, r20
+ ee8:	0a 1e       	adc	r0, r26
+ eea:	12 1e       	adc	r1, r18
+ eec:	63 1f       	adc	r22, r19
+ eee:	44 0f       	add	r20, r20
+ ef0:	aa 1f       	adc	r26, r26
+ ef2:	22 1f       	adc	r18, r18
+ ef4:	33 1f       	adc	r19, r19
+ ef6:	86 95       	lsr	r24
+ ef8:	a9 f7       	brne	.-22     	; 0xee4 <__mulsf3_pse+0x50>
+ efa:	86 2f       	mov	r24, r22
+ efc:	71 2d       	mov	r23, r1
+ efe:	60 2d       	mov	r22, r0
+ f00:	11 24       	eor	r1, r1
+ f02:	9f 57       	subi	r25, 0x7F	; 127
+ f04:	50 40       	sbci	r21, 0x00	; 0
+ f06:	9a f0       	brmi	.+38     	; 0xf2e <__mulsf3_pse+0x9a>
+ f08:	f1 f0       	breq	.+60     	; 0xf46 <__mulsf3_pse+0xb2>
+ f0a:	88 23       	and	r24, r24
+ f0c:	4a f0       	brmi	.+18     	; 0xf20 <__mulsf3_pse+0x8c>
+ f0e:	ee 0f       	add	r30, r30
+ f10:	ff 1f       	adc	r31, r31
+ f12:	bb 1f       	adc	r27, r27
+ f14:	66 1f       	adc	r22, r22
+ f16:	77 1f       	adc	r23, r23
+ f18:	88 1f       	adc	r24, r24
+ f1a:	91 50       	subi	r25, 0x01	; 1
+ f1c:	50 40       	sbci	r21, 0x00	; 0
+ f1e:	a9 f7       	brne	.-22     	; 0xf0a <__mulsf3_pse+0x76>
+ f20:	9e 3f       	cpi	r25, 0xFE	; 254
+ f22:	51 05       	cpc	r21, r1
+ f24:	80 f0       	brcs	.+32     	; 0xf46 <__mulsf3_pse+0xb2>
+ f26:	0c 94 df 06 	jmp	0xdbe	; 0xdbe <__fp_inf>
+ f2a:	0c 94 2a 07 	jmp	0xe54	; 0xe54 <__fp_szero>
+ f2e:	5f 3f       	cpi	r21, 0xFF	; 255
+ f30:	e4 f3       	brlt	.-8      	; 0xf2a <__mulsf3_pse+0x96>
+ f32:	98 3e       	cpi	r25, 0xE8	; 232
+ f34:	d4 f3       	brlt	.-12     	; 0xf2a <__mulsf3_pse+0x96>
+ f36:	86 95       	lsr	r24
+ f38:	77 95       	ror	r23
+ f3a:	67 95       	ror	r22
+ f3c:	b7 95       	ror	r27
+ f3e:	f7 95       	ror	r31
+ f40:	e7 95       	ror	r30
+ f42:	9f 5f       	subi	r25, 0xFF	; 255
+ f44:	c1 f7       	brne	.-16     	; 0xf36 <__mulsf3_pse+0xa2>
+ f46:	fe 2b       	or	r31, r30
+ f48:	88 0f       	add	r24, r24
+ f4a:	91 1d       	adc	r25, r1
+ f4c:	96 95       	lsr	r25
+ f4e:	87 95       	ror	r24
+ f50:	97 f9       	bld	r25, 7
+ f52:	08 95       	ret
+
+00000f54 <__unordsf2>:
+ f54:	0e 94 bb 06 	call	0xd76	; 0xd76 <__fp_cmp>
+ f58:	88 0b       	sbc	r24, r24
+ f5a:	99 0b       	sbc	r25, r25
+ f5c:	08 95       	ret
+
+00000f5e <__udivmodsi4>:
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1638
+ f5e:	a1 e2       	ldi	r26, 0x21	; 33
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1639
+ f60:	1a 2e       	mov	r1, r26
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1640
+ f62:	aa 1b       	sub	r26, r26
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1641
+ f64:	bb 1b       	sub	r27, r27
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1642
+ f66:	fd 01       	movw	r30, r26
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1644
+ f68:	0d c0       	rjmp	.+26     	; 0xf84 <__udivmodsi4_ep>
+
+00000f6a <__udivmodsi4_loop>:
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1646
+ f6a:	aa 1f       	adc	r26, r26
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1647
+ f6c:	bb 1f       	adc	r27, r27
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1648
+ f6e:	ee 1f       	adc	r30, r30
+__udivmodsi4_loop():
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1649
+ f70:	ff 1f       	adc	r31, r31
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1650
+ f72:	a2 17       	cp	r26, r18
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1651
+ f74:	b3 07       	cpc	r27, r19
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1652
+ f76:	e4 07       	cpc	r30, r20
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1653
+ f78:	f5 07       	cpc	r31, r21
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1654
+ f7a:	20 f0       	brcs	.+8      	; 0xf84 <__udivmodsi4_ep>
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1655
+ f7c:	a2 1b       	sub	r26, r18
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1656
+ f7e:	b3 0b       	sbc	r27, r19
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1657
+ f80:	e4 0b       	sbc	r30, r20
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1658
+ f82:	f5 0b       	sbc	r31, r21
+
+00000f84 <__udivmodsi4_ep>:
+__udivmodsi4_ep():
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1660
+ f84:	66 1f       	adc	r22, r22
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1661
+ f86:	77 1f       	adc	r23, r23
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1662
+ f88:	88 1f       	adc	r24, r24
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1663
+ f8a:	99 1f       	adc	r25, r25
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1664
+ f8c:	1a 94       	dec	r1
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1665
+ f8e:	69 f7       	brne	.-38     	; 0xf6a <__udivmodsi4_loop>
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1667
+ f90:	60 95       	com	r22
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1668
+ f92:	70 95       	com	r23
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1669
+ f94:	80 95       	com	r24
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1670
+ f96:	90 95       	com	r25
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1672
+ f98:	9b 01       	movw	r18, r22
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1674
+ f9a:	ac 01       	movw	r20, r24
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1676
+ f9c:	bd 01       	movw	r22, r26
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1678
+ f9e:	cf 01       	movw	r24, r30
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:1680
+ fa0:	08 95       	ret
+
+00000fa2 <__tablejump2__>:
+__tablejump2__():
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2296
+ fa2:	ee 0f       	add	r30, r30
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2297
+ fa4:	ff 1f       	adc	r31, r31
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2328
+ fa6:	05 90       	lpm	r0, Z+
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2329
+ fa8:	f4 91       	lpm	r31, Z
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2330
+ faa:	e0 2d       	mov	r30, r0
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2331
+ fac:	09 94       	ijmp
+
+00000fae <_exit>:
+exit():
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2278
+ fae:	f8 94       	cli
+
+00000fb0 <__stop_program>:
+__stop_program():
+/home/jenkins/workspace/avr-gcc-staging/label/debian7-x86_64/gcc-build/avr/avr35/libgcc/../../../../gcc/libgcc/config/avr/lib1funcs.S:2280
+ fb0:	ff cf       	rjmp	.-2      	; 0xfb0 <__stop_program>
