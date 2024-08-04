@@ -23,7 +23,7 @@
 //#define SERIAL_DEBUG
 //#define MINIMAL
 //#define SPI_UART    // Requires library from https://github.com/TMRh20/Sketches/tree/master/SPI_UART
-//#define SOFTSPI     // Requires library from https://github.com/greiman/DigitalIO
+//#define SOFTSPI     // Requires library from https://github.com/greiman/DigitalIO //XB was here
     
 /**********************/
 #define rf24_max(a,b) (a>b?a:b)
@@ -66,15 +66,15 @@
             // change these pins to your liking
             //
             #ifndef SOFT_SPI_MISO_PIN
-                #define SOFT_SPI_MISO_PIN 9
+                #define SOFT_SPI_MISO_PIN PIN_PA2 //XB was here 9
             #endif // SOFT_SPI_MISO_PIN
 
             #ifndef SOFT_SPI_MOSI_PIN
-                #define SOFT_SPI_MOSI_PIN 8
+                #define SOFT_SPI_MOSI_PIN PIN_PA5 //XB was here 8
             #endif // SOFT_SPI_MOSI_PIN
 
             #ifndef SOFT_SPI_SCK_PIN
-                #define SOFT_SPI_SCK_PIN 7
+                #define SOFT_SPI_SCK_PIN PIN_PA1 //XB was here 7
             #endif // SOFT_SPI_SCK_PIN
 
             const uint8_t SPI_MODE = 0;

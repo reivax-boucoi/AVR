@@ -3452,9 +3452,9 @@ void loop() {
      d88:	8a e0       	ldi	r24, 0x0A	; 10
      d8a:	0e 94 bd 01 	call	0x37a	; 0x37a <digitalWrite>
 /media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:58
-    delay(260);
-     d8e:	64 e0       	ldi	r22, 0x04	; 4
-     d90:	71 e0       	ldi	r23, 0x01	; 1
+    delay(200);
+     d8e:	68 ec       	ldi	r22, 0xC8	; 200
+     d90:	70 e0       	ldi	r23, 0x00	; 0
      d92:	80 e0       	ldi	r24, 0x00	; 0
      d94:	90 e0       	ldi	r25, 0x00	; 0
      d96:	0e 94 60 02 	call	0x4c0	; 0x4c0 <delay>
@@ -3469,9 +3469,9 @@ void loop() {
      da4:	8a e0       	ldi	r24, 0x0A	; 10
      da6:	0e 94 bd 01 	call	0x37a	; 0x37a <digitalWrite>
 /media/user/Data/Documents/AVR/AVR/elevator_altimeter/elevator_altimeter.ino:61
-    delay(260);
-     daa:	64 e0       	ldi	r22, 0x04	; 4
-     dac:	71 e0       	ldi	r23, 0x01	; 1
+    delay(200);
+     daa:	68 ec       	ldi	r22, 0xC8	; 200
+     dac:	70 e0       	ldi	r23, 0x00	; 0
      dae:	80 e0       	ldi	r24, 0x00	; 0
      db0:	90 e0       	ldi	r25, 0x00	; 0
      db2:	0e 94 60 02 	call	0x4c0	; 0x4c0 <delay>

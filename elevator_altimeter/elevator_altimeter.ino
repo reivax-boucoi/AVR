@@ -16,6 +16,9 @@
 #define LED1 PIN_PC5
 
 #include <Wire.h>
+#include "RF24.h"
+
+
 
 void setup() {
     pinMode(LED0, OUTPUT);
@@ -55,10 +58,10 @@ void setup() {
 void loop() {
     digitalWrite(LED1, HIGH);
     digitalWrite(LED0, LOW);
-    delay(260);
+    delay(200);
     digitalWrite(LED1, LOW);
     digitalWrite(LED0, HIGH);
-    delay(260);
+    delay(200);
 
     Serial.print(analogRead(Batt_sense) / 1024.0 * 3.2);
 
