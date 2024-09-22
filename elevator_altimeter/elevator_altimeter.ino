@@ -18,7 +18,7 @@
 #include <Wire.h>
 #include "RF24.h"
 
-
+uint8_t log_mode = 0;
 
 void setup() {
     pinMode(LED0, OUTPUT);
@@ -63,7 +63,7 @@ void loop() {
     digitalWrite(LED0, HIGH);
     delay(200);
 
-    Serial.print(analogRead(Batt_sense) / 1024.0 * 3.2);
+    float batt_v = analogRead(Batt_sense) / 1024.0 * 3.2;
 
 
     Wire.beginTransmission(ALTI_ADDR);
@@ -73,7 +73,7 @@ void loop() {
     uint16_t temp = 0; //in 16*degrees
     Wire.requestFrom(ALTI_ADDR, n);
     for (uint8_t i = 0; i < n; i++) {
-        uint8_t d = Wire.read();
+    uint8_t d = Wire.read();
         if (i == 0) {
             if (d != 0x0E) {
                 //Serial.print(",d");
@@ -86,17 +86,35 @@ void loop() {
             temp = (temp << 8) | d; //temp is 8MSBs=int value, 8LSBs=[4 decimal, 0b0000].
         }
     }
-    alti=alti>>4;
-    temp=temp>>4;
-    Serial.print(",");
-    Serial.print(alti/16.0);//in meters
-    Serial.print(",");
-    Serial.println(temp/16.0);//in degrees C
+    alti = alti >> 4;
+    temp = temp >> 4;
+    switch (log_mode) {
+    case 0://All: alt,temp,batt
+        Serial.print(alti / 16.0); //in meters
+            Serial.print(",");
+            Serial.print(temp / 16.0); //in degrees C
+            Serial.print(",");
+            Serial.println(batt_v);
+            break;
+        case 1://alt only
+            Serial.println(alti / 16.0); //in meters
+            break;
+        case 2://temp only
+            Serial.println(temp / 16.0); //in degrees C
+            break;
+        case 3://batt only
+            Serial.println(batt_v);
+            break;
+        default:
+            break;
+    }
 }
 
 ISR(PCINT2_vect) {
 
     if (!digitalRead(USER_SW)) {
-        Serial.println("Button");
+        if (++log_mode > 3)log_mode = 0;
+        Serial.print("Mode :");
+        Serial.println(log_mode);
     }
 }

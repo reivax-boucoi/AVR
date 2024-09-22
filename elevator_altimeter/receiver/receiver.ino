@@ -1,15 +1,24 @@
+#include "RF24.h"
+#include "SPI.h"
+
 #define DIG1 4//PIN_PB4
 #define DIG2 5//PIN_PB5
 #define DIG3 0//PIN_PB0
 #define LEDS 6//PIN_PB6
 #define USER_SW 7//PIN_PB7
 #define PWR_EN 5//PIN_PF5
+#define NRF_IRQ PIN_PF4
+#define NRF_CSN 23 //PIN_PF0
+#define NRF_CE 22 //PIN_PF1
+
+
 #define LED_Red 0
 #define LED_Yellow 2
 #define LED_Green 1
+
 #define DASH 16
 #define DP (1<<2)
-#define PWRDOWN_TIMEOUT 20.0 //seconds
+#define PWRDOWN_TIMEOUT 30.0 //seconds
 #define PWRDOWN_CNT_MAX (PWRDOWN_TIMEOUT/0.002048) //(16MHz/256/128=488Hz / 2ms)
 
 //    0-9,    A-F,    Dash
@@ -22,14 +31,21 @@ uint8_t pButton = 1 << 7;
 uint8_t cnt = 0;
 volatile uint16_t powerUP_time = 0;
 
-uint8_t displayVariable = 3;
+uint8_t displayVariable = 1;
 uint8_t altitude = 0;
 uint8_t etage = 0;
 float batt_level = 1.23;
 
+RF24 radio(NRF_CE, NRF_CSN); //CE,CSN
+const uint64_t pipe = 0xE6E6E6E6E6E6;
+
 void setup() {
 
     Serial.begin(9600);
+    radio.begin(); // Start the NRF24L01
+    radio.openWritingPipe(pipe); // Get NRF24L01 ready to transmit
+    radio.stopListening();
+    
     DDRD = 0xFF; //segments as outputs
     PORTD = 0x00; //segments off
 
@@ -49,6 +65,7 @@ void setup() {
 void loop() {
     delay(1);
     if (++cnt == 0) {
+        radio.write(&etage, sizeof(etage));
         switch (displayVariable) {
             case 0:
                 setDisplayInt(altitude++);
