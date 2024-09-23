@@ -43,7 +43,17 @@ void setup() {
 
     Wire.beginTransmission(ALTI_ADDR);
     Wire.write(0x13);//PT_DATA_CFG
-    Wire.write(0x07);//0b00000111);//DREM=PDEFE=TDEFE=1: data ready event on new temperature or altitude reeadings.
+    Wire.write(0x07);//0b00000111);//DREM=PDEFE=TDEFE=1: data ready event on new temperature or altitude readings.
+    Wire.endTransmission();
+    
+    Wire.beginTransmission(ALTI_ADDR);
+    Wire.write(0x29);//CTRL_REG4
+    Wire.write(0x80);//INT_EN_DRDY=1 enable data ready interrupt
+    Wire.endTransmission();
+    
+    Wire.beginTransmission(ALTI_ADDR);
+    Wire.write(0x2A);//CTRL_REG5
+    Wire.write(0x80);//INT_EN_DRDY=1 route Data ready interrupt to INT1
     Wire.endTransmission();
 
     Wire.beginTransmission(ALTI_ADDR);
@@ -67,7 +77,7 @@ void loop() {
 
 
     Wire.beginTransmission(ALTI_ADDR);
-    Wire.write(0);
+    Wire.write(0); //STATUS register (reads DR_STATUS reg (0x06))
     uint8_t n = 6;
     uint32_t alti = 0; // in 16*meters
     uint16_t temp = 0; //in 16*degrees
@@ -75,10 +85,12 @@ void loop() {
     for (uint8_t i = 0; i < n; i++) {
     uint8_t d = Wire.read();
         if (i == 0) {
-            if (d != 0x0E) {
+            if (d == 0x0E) { // 0x0E: 0b00001110 : new temp & altitude data is available.
                 //Serial.print(",d");
-            } else {
+            } else if( d & 0xF0){//PTOW-POW-TOW some data was overwritten
                 //Serial.print(",ok");
+            }else{//no new data available
+
             }
         } else if (i < 4) {
             alti = (alti << 8) | d;
