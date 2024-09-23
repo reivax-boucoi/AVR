@@ -37,18 +37,18 @@ void setup() {
     delay(500);
     Wire.begin();
     Wire.beginTransmission(ALTI_ADDR);
-    Wire.write(0x26);
-    Wire.write(0xB8);//0b10011011);//Altimeter mode, OSR=0b011(8), OST=1, Active
+    Wire.write(0x26);//CTRL_REG1
+    Wire.write(0xB8);//0b10111000);//Altimeter mode, OSR=0b111(128,512ms)
     Wire.endTransmission();
 
     Wire.beginTransmission(ALTI_ADDR);
-    Wire.write(0x13);
-    Wire.write(0x07);//0b10011011);//Altimeter mode, OSR=0b011(8), OST=1, Active
+    Wire.write(0x13);//PT_DATA_CFG
+    Wire.write(0x07);//0b00000111);//DREM=PDEFE=TDEFE=1: data ready event on new temperature or altitude reeadings.
     Wire.endTransmission();
 
     Wire.beginTransmission(ALTI_ADDR);
-    Wire.write(0x26);
-    Wire.write(0xB9);//0b10011011);//Altimeter mode, OSR=0b011(8), OST=1, Active
+    Wire.write(0x26);//CTRL_REG1
+    Wire.write(0xB9);//0b10111001);//Altimeter mode, OSR=0b111(128,512ms), Active
     Wire.endTransmission();
 
     analogReference(DEFAULT);
