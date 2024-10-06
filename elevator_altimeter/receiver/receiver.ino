@@ -1,5 +1,6 @@
-#include "RF24.h"
-#include "SPI.h"
+#include <SPI.h>
+#include <nRF24L01.h>
+#include <RF24.h>
 
 #define DIG1 4//PIN_PB4
 #define DIG2 5//PIN_PB5
@@ -29,22 +30,28 @@ volatile uint8_t displayCurrentDigit = 0;
 uint8_t pButton = 1 << 7;
 
 uint8_t cnt = 0;
-volatile uint16_t powerUP_time = 0;
+volatile uint32_t powerUP_time = 0;
 
 uint8_t displayVariable = 1;
-uint8_t altitude = 0;
+uint32_t altitude = 0;
 uint8_t etage = 0;
 float batt_level = 1.23;
 
 RF24 radio(NRF_CE, NRF_CSN); //CE,CSN
-const uint64_t pipe = 0xE6E6E6E6E6E6;
+const byte slaveAddress[5] = "XBEA0";
+uint8_t dataReceived[4]; // etage (4 bits), altitude (18 bits), battery voltage (10 bits)
+                         //[3]: eeeeaaaa [2]: aaaaaaaa [1]: aaaaaabb [0]: bbbbbbbb
+bool newData = false;
 
 void setup() {
 
-    Serial.begin(9600);
-    radio.begin(); // Start the NRF24L01
-    radio.openWritingPipe(pipe); // Get NRF24L01 ready to transmit
+    Serial.begin(115200);
+
+    radio.begin();
+    radio.setDataRate( RF24_250KBPS );
     radio.stopListening();
+    radio.openReadingPipe(1, slaveAddress);
+    radio.startListening();
     
     DDRD = 0xFF; //segments as outputs
     PORTD = 0x00; //segments off
@@ -64,19 +71,19 @@ void setup() {
 }
 void loop() {
     delay(1);
+
+    getRadioData();
+    
     if (++cnt == 0) {
-        radio.write(&etage, sizeof(etage));
         switch (displayVariable) {
             case 0:
-                setDisplayInt(altitude++);
+                setDisplayInt(altitude>>4);
                 break;
             case 1:
-                setDisplayInt(etage++);
-                etage = etage % 16;
+                setDisplayInt(etage);
                 break;
             case 2:
                 setDisplayFLoat(batt_level);
-                batt_level += 0.01;
                 break;
             default:
                 displayVal[0] = segMap[DASH];
@@ -92,7 +99,7 @@ void loop() {
         pButton = PINB & (1 << USER_SW);
         if (pButton) {
             powerUP_time = 0;
-            if (displayVariable < 3) {//DO not allow to change displayed variabel is still searching signal
+            if (displayVariable < 3) {//DO not allow to change displayed variable is still searching signal
                 if (++displayVariable > 2)displayVariable = 0;
                 displayVal[3] = (1 << displayVariable);
                 Serial.println(displayVariable);
@@ -105,6 +112,24 @@ void loop() {
         while (1);
     }
 }
+
+void getRadioData() {
+    if ( radio.available() ) {
+        radio.read( &dataReceived, sizeof(dataReceived) );
+        newData = true;
+        etage=(dataReceived[3]>>4)&0x0F;
+        altitude=((dataReceived[3]&0x0F)<<14) | (dataReceived[2]<<6) | ((dataReceived[1]>>2)&0x3F);
+        batt_level=((dataReceived[1]&0x03)|dataReceived[0])/1024.0*3.2;
+        Serial.print(etage);
+        Serial.print('\t');
+        Serial.print(altitude);
+        Serial.print('\t');
+        Serial.println(batt_level);
+        
+    }
+}
+
+
 
 void setDisplayInt(uint16_t val) {
     if (val > 999)val = 999;
@@ -147,6 +172,7 @@ void setDisplayFLoat(float val) {
 
 void displayMutliplex() {
     switch (displayCurrentDigit) {
+        PORTD=0;
         case 0:
             PORTB &= ~(1 << DIG1);
             PORTB |= (1 << DIG2) | (1 << DIG3);

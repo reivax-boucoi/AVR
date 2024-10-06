@@ -12,7 +12,7 @@ Help:
     -h, --help                  print this message
 
 Driver options:
-    --driver=[wiringPi|SPIDEV|MRAA|RPi|LittleWire]
+    --driver=[SPIDEV|MRAA|RPi|LittleWire]
                                 Driver for RF24 library. [configure autodetected]
 
 Building options:
@@ -63,7 +63,7 @@ function die {
 
 function detect_machine {
     local cpu=$(execute_check "uname -m 2>/dev/null")
-    local machine=$(execute_check "cat -v /sys/firmware/devicetree/base/model 2>/dev/null")
+    local machine=$(execute_check "cat /sys/firmware/devicetree/base/model 2>/dev/null")
     local hardware=$(execute_check "grep sunxi_platform /sys/class/sunxi_info/sys_info 2>/dev/null | sed 's/^.*: \(.*\)$/\1/'")
     if [ -z "$hardware" ]; then
         local hardware=$(execute_check "grep Hardware /proc/cpuinfo 2>/dev/null | sed 's/^.*: \(.*\)$/\1/'")
@@ -76,7 +76,7 @@ function detect_machine {
     fi
 
     case $hardware in
-    BCM2708|BCM2835)
+    BCM2708)
         soc="BCM2835"
         if [[ $machine == "Raspberry"* ]]; then
             tp="RPi"
@@ -148,7 +148,7 @@ function gcc_cpu_flags {
     local soc=$1
     case $soc in
     BCM2835)
-        flags="-marm -march=armv6zk -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard"
+        flags="-march=armv6zk -mtune=arm1176jzf-s -mfpu=vfp -mfloat-abi=hard"
         ;;
     BCM2836)
         flags="-march=armv7-a -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard"
@@ -175,12 +175,10 @@ function gcc_cpu_flags {
 }
 
 function detect_driver {
-    if [[ $(execute_check "cat /proc/cpuinfo | grep Hardware | grep 'BCM2708\|BCM2709\|BCM2835'") ]]; then
+    if [[ $(execute_check "cat /proc/cpuinfo | grep Hardware | grep 'BCM2708\|BCM2709'") ]]; then
         result=RPi
     elif [[ $(execute_check 'ls /dev/spidev* 2>/dev/null') ]]; then
         result=SPIDEV
-    elif [[ $(execute_check "file /usr/lib/libwiringPi.so*") ]]; then
-        result=wiringPi
     elif [[ $(execute_check "${REMOTE_LDCONFIG} -p | grep libmraa") ]]; then
         result=MRAA
     elif [[ $(execute_check "${REMOTE_LDCONFIG} -p | grep liblittlewire-spi") ]]; then
@@ -207,7 +205,7 @@ function gen_symlink_names {
     echo ${versions}
 }
 
-params="OS SOC DRIVER CPUFLAGS CFLAGS PREFIX REMOTE_PREFIX LIB LIBNAME LIB_VERSION LIBSYMLINKS LIBDEPRECATE CC CXX LIB_DIR REMOTE_LIB_DIR HEADER_DIR REMOTE_HEADER_DIR DRIVER_DIR ARCH_DIR REMOTE REMOTE_HOST REMOTE_USER REMOTE_PORT SHARED_LINKER_FLAGS SHARED_LINKER_LIBS LDCONFIG REMOTE_LDCONFIG EXAMPLES_DIR REMOTE_EXAMPLES_DIR"
+params="OS SOC DRIVER CPUFLAGS CFLAGS PREFIX REMOTE_PREFIX LIB LIBNAME LIB_VERSION LIBSYMLINKS LIBDEPRECATE CC CXX LIB_DIR REMOTE_LIB_DIR HEADER_DIR REMOTE_HEADER_DIR DRIVER_DIR ARCH_DIR REMOTE REMOTE_HOST REMOTE_USER REMOTE_PORT SHARED_LINKER_FLAGS LDCONFIG REMOTE_LDCONFIG EXAMPLES_DIR REMOTE_EXAMPLES_DIR"
 
 for opt do
     if [ "$opt" = "-h" ] || [ "$opt" = "--help" ]; then
@@ -397,21 +395,17 @@ if [ -z "${DRIVER}" ]; then
 fi
 
 case ${DRIVER} in
-wiringPi)
-    SHARED_LINKER_LIBS+=" -pthread -lwiringPi"
-    CFLAGS+=" -lwiringPi"
-    ;;
 SPIDEV)
-    SHARED_LINKER_LIBS+=" -pthread"
+    SHARED_LINKER_FLAGS+=" -pthread"
     ;;
 RPi)
-    SHARED_LINKER_LIBS+=" -pthread"
+    SHARED_LINKER_FLAGS+=" -pthread"
     ;;
 MRAA)
-    SHARED_LINKER_LIBS+=" -lmraa"
+    SHARED_LINKER_FLAGS+=" -lmraa"
     ;;
 LittleWire)
-    SHARED_LINKER_LIBS+=" -llittlewire-spi"
+    SHARED_LINKER_FLAGS+=" -llittlewire-spi"
     ;;
 *)
     die "Unsupported DRIVER: ${DRIVER}." 2
