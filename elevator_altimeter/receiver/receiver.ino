@@ -38,10 +38,11 @@ uint8_t etage = 0;
 float batt_level = 1.23;
 
 RF24 radio(NRF_CE, NRF_CSN); //CE,CSN
-const byte slaveAddress[5] = "XBEA0";
+const byte slaveAddress[5] = "XBEA";
 uint8_t dataReceived[4]; // etage (4 bits), altitude (18 bits), battery voltage (10 bits)
-                         //[3]: eeeeaaaa [2]: aaaaaaaa [1]: aaaaaabb [0]: bbbbbbbb
+//[3]: eeeeaaaa [2]: aaaaaaaa [1]: aaaaaabb [0]: bbbbbbbb
 bool newData = false;
+bool toggle=false;
 
 void setup() {
 
@@ -52,7 +53,7 @@ void setup() {
     radio.stopListening();
     radio.openReadingPipe(1, slaveAddress);
     radio.startListening();
-    
+
     DDRD = 0xFF; //segments as outputs
     PORTD = 0x00; //segments off
 
@@ -73,11 +74,13 @@ void loop() {
     delay(1);
 
     getRadioData();
-    
-    if (++cnt == 0) {
+
+    if (newData) {
+        newData = false;
+
         switch (displayVariable) {
             case 0:
-                setDisplayInt(altitude>>4);
+                setDisplayInt(altitude >> 4);
                 break;
             case 1:
                 setDisplayInt(etage);
@@ -91,6 +94,12 @@ void loop() {
                 displayVal[2] = segMap[DASH];
                 displayVal[3] = (1 << LED_Red);
                 break;
+        }
+        toggle=!toggle;
+        if (toggle) {
+            displayVal[2] |= DP;
+        } else {
+            displayVal[2] &= ~DP;
         }
     }
 
@@ -117,15 +126,15 @@ void getRadioData() {
     if ( radio.available() ) {
         radio.read( &dataReceived, sizeof(dataReceived) );
         newData = true;
-        etage=(dataReceived[3]>>4)&0x0F;
-        altitude=((dataReceived[3]&0x0F)<<14) | (dataReceived[2]<<6) | ((dataReceived[1]>>2)&0x3F);
-        batt_level=((dataReceived[1]&0x03)|dataReceived[0])/1024.0*3.2;
+        etage = (dataReceived[3] >> 4) & 0x0F;
+        altitude = ((dataReceived[3] & 0x0F) << 14) | (dataReceived[2] << 6) | ((dataReceived[1] >> 2) & 0x3F);
+        batt_level = (((dataReceived[1] & 0x03)<<8) | dataReceived[0]) / 1024.0 * 2.5 * 2.0;
         Serial.print(etage);
         Serial.print('\t');
         Serial.print(altitude);
         Serial.print('\t');
         Serial.println(batt_level);
-        
+
     }
 }
 
@@ -172,7 +181,7 @@ void setDisplayFLoat(float val) {
 
 void displayMutliplex() {
     switch (displayCurrentDigit) {
-        PORTD=0;
+            PORTD = 0;
         case 0:
             PORTB &= ~(1 << DIG1);
             PORTB |= (1 << DIG2) | (1 << DIG3);

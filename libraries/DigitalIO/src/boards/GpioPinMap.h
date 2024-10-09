@@ -59,6 +59,7 @@
 #error Undefined variant 1284, 644, 324
 #endif  // ARDUINO_1284P_SLEEPINGBEAUTY
 #else  // 1284P, 1284, 644
-#error Unknown board type.
+#include "Attiny1634GpioPinMap.h"
+//XB was here #error Unknown board type.
 #endif  // end all boards
 #endif  // GpioPinMap_h
