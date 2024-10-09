@@ -11,6 +11,8 @@
 
 Alt_Data::Alt_Data() {
     alt_RdC = ALT_RdC_INIT;
+    newDataReady = true;
+
 }
 
 uint8_t Alt_Data::getEtage(uint32_t alt) {

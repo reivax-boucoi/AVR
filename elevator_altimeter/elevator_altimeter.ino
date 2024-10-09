@@ -14,9 +14,17 @@
 #define LED0 PIN_PC4
 #define LED1 PIN_PC5
 
-#include "RF24.h"
+#include <SPI.h>
+#include <nRF24L01.h>
+#include <RF24.h>
+
+const byte slaveAddress[5] = "XBEA";
+uint8_t dataToSend[4] = "OKx"; // etage (4 bits), altitude (18 bits), battery voltage (10 bits)
+//[3]: eeeeaaaa [2]: aaaaaaaa [1]: aaaaaabb [0]: bbbbbbbb
+RF24 radio(NRF_CE, NRF_CSN);
 
 uint8_t log_mode = 0;
+uint16_t batt_v = 0;
 Alt_Data alt_data;
 
 void setup() {
@@ -35,45 +43,57 @@ void setup() {
     delay(50);
     MPL_init();
 
-    MCUCR = (1<<ISC01);//Interrupt on falling edge of INTO
-    GIMSK |= (1 << PCIE2) | (1<<INT0);
+    MCUCR = (1 << ISC01); //Interrupt on falling edge of INTO
+    GIMSK |= (1 << PCIE2) | (1 << INT0);
     PCMSK2 |= (1 << PCINT12);
     analogReference(DEFAULT);
+
+    radio.begin();
+    radio.setDataRate( RF24_250KBPS );
+    radio.setRetries(3, 5); // delay, count
+    radio.openWritingPipe(slaveAddress);
+    Serial.println("Initialized radio !");
 
 }
 
 void loop() {
-    digitalWrite(LED1, HIGH);
-    digitalWrite(LED0, LOW);
-    delay(200);
-    digitalWrite(LED1, LOW);
-    digitalWrite(LED0, HIGH);
-    delay(200);
+    if (alt_data.newDataReady) {
+        digitalWrite(LED1, HIGH);
+        alt_data.newDataReady = false;
+        batt_v = analogRead(Batt_sense);// ;
+        uint32_t alti;
+        uint16_t temp;
+        MPL_readAltTemp(&alti, &temp);
+        uint8_t etage = alt_data.getEtage(alti);
+        switch (log_mode) {
+            case 0://All: alt,temp,batt
+                Serial.print(alti / 16.0); //in meters
+                Serial.print(",");
+                Serial.print(temp / 16.0); //in degrees C
+                Serial.print(",");
+                Serial.println(batt_v / 1024.0 * 2.5 * 2.0);
+                break;
+            case 1://alt only
+                Serial.println(alti / 16.0); //in meters
+                break;
+            case 2://temp only
+                Serial.println(temp / 16.0); //in degrees C
+                break;
+            case 3://batt only
+                Serial.println(batt_v / 1024.0 * 2.5 * 2.0);
+                break;
+            default:
+                break;
+        }
+        digitalWrite(LED1, LOW);
+        digitalWrite(LED0, HIGH);
 
-    float batt_v = analogRead(Batt_sense) / 1024.0 * 3.2;
-    uint32_t alti;
-    uint16_t temp;
-    MPL_readAltTemp(&alti,&temp);
-    uint8_t etage=alt_data.getEtage(alti);
-    switch (log_mode) {
-        case 0://All: alt,temp,batt
-            Serial.print(alti / 16.0); //in meters
-            Serial.print(",");
-            Serial.print(temp / 16.0); //in degrees C
-            Serial.print(",");
-            Serial.println(batt_v);
-            break;
-        case 1://alt only
-            Serial.println(alti / 16.0); //in meters
-            break;
-        case 2://temp only
-            Serial.println(temp / 16.0); //in degrees C
-            break;
-        case 3://batt only
-            Serial.println(batt_v);
-            break;
-        default:
-            break;
+        dataToSend[3] = (etage << 4) | ((alti >> 14) & 0x0F);
+        dataToSend[2] = alti >> 6;
+        dataToSend[1] = ((alti << 2) & 0xFC) | ((batt_v >> 8) & 0x03);
+        dataToSend[0] = batt_v;
+        send();
+        digitalWrite(LED0, LOW);
     }
     //GOTO sleep
 }
@@ -81,12 +101,35 @@ void loop() {
 ISR(PCINT2_vect) {
 
     if (!digitalRead(USER_SW)) {
-        if (++log_mode > 3)log_mode = 0;
+        if (++log_mode > 4)log_mode = 0;
         Serial.print("Mode :");
         Serial.println(log_mode);
     }
 }
 
-ISR(INT0_ISR){
-    Serial.println("MPL interrupt");
+ISR(INT0_vect) {
+    alt_data.newDataReady = true;
+}
+
+void send() {
+
+    bool rslt;
+    rslt = radio.write( &dataToSend, sizeof(dataToSend) );
+    //    Serial.print("Data Sent\t");
+    //    Serial.print(dataToSend[3]);
+    //    Serial.print(dataToSend[2]);
+    //    Serial.print(dataToSend[1]);
+    //    Serial.print(dataToSend[0]);
+    //    Serial.print('\t\t');
+    //    Serial.print(etage);
+    //    Serial.print('\t');
+    //    Serial.print(batt);
+    //    Serial.print('\t');
+    //    Serial.print(alti);
+    if (rslt) {
+        Serial.println("\tAcknowledge received");
+    }
+    else {
+        Serial.println("\tTx failed");
+    }
 }

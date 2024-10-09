@@ -14,6 +14,7 @@ class Alt_Data {
         uint32_t alt_RdC;
     public:
         Alt_Data();
+        volatile bool newDataReady;
         uint8_t getEtage(uint32_t alt);
 };
 
