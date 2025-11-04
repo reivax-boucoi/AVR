@@ -65,7 +65,7 @@ void loop() {
         uint16_t temp;
         MPL_readAltTemp(&alti, &temp);
         uint8_t etage = alt_data.getEtage(alti);
-        switch (log_mode) {
+        /*switch (log_mode) {
             case 0://All: alt,temp,batt
                 Serial.print(alti / 16.0); //in meters
                 Serial.print(",");
@@ -84,7 +84,7 @@ void loop() {
                 break;
             default:
                 break;
-        }
+        }*/
         digitalWrite(LED1, LOW);
         digitalWrite(LED0, HIGH);
 
@@ -92,7 +92,7 @@ void loop() {
         dataToSend[2] = alti >> 6;
         dataToSend[1] = ((alti << 2) & 0xFC) | ((batt_v >> 8) & 0x03);
         dataToSend[0] = batt_v;
-        send();
+        if(!radio.write( &dataToSend, sizeof(dataToSend)))Serial.println("Fail");
         digitalWrite(LED0, LOW);
     }
     //GOTO sleep
@@ -109,27 +109,4 @@ ISR(PCINT2_vect) {
 
 ISR(INT0_vect) {
     alt_data.newDataReady = true;
-}
-
-void send() {
-
-    bool rslt;
-    rslt = radio.write( &dataToSend, sizeof(dataToSend) );
-    //    Serial.print("Data Sent\t");
-    //    Serial.print(dataToSend[3]);
-    //    Serial.print(dataToSend[2]);
-    //    Serial.print(dataToSend[1]);
-    //    Serial.print(dataToSend[0]);
-    //    Serial.print('\t\t');
-    //    Serial.print(etage);
-    //    Serial.print('\t');
-    //    Serial.print(batt);
-    //    Serial.print('\t');
-    //    Serial.print(alti);
-    if (rslt) {
-        Serial.println("\tAcknowledge received");
-    }
-    else {
-        Serial.println("\tTx failed");
-    }
 }

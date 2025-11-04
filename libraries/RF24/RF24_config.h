@@ -19,7 +19,7 @@
   //#define SERIAL_DEBUG
   //#define MINIMAL
   //#define SPI_UART  // Requires library from https://github.com/TMRh20/Sketches/tree/master/SPI_UART
-  //#define SOFTSPI   // Requires library from https://github.com/greiman/DigitalIO
+  #define SOFTSPI   // Requires library from https://github.com/greiman/DigitalIO
   
   /**********************/
   #define rf24_max(a,b) (a>b?a:b)

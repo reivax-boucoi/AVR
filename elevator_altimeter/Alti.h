@@ -4,8 +4,8 @@
 
 #define FLOOR_HEIGHT (3*16)
 #define ALT_RdC_INIT (130*16)
-#define DEBUG_MPL 1
-#define DEBUG_Alt 1
+//#define DEBUG_MPL 1
+//#define DEBUG_Alt 1
 
 class Alt_Data {
     private:
