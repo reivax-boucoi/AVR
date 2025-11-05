@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 
 # Configuration
-SERIAL_PORT = 'COM3'  # Change to your actual serial port (e.g., '/dev/ttyUSB0' on Linux)
+SERIAL_PORT = '/dev/ttyACM0' 
 BAUDRATE = 115200
 CSV_FILENAME = 'serial_log.csv'
 
@@ -24,10 +24,9 @@ def main():
                 if ser.in_waiting:
                     line = ser.readline().decode('ascii', errors='replace').strip()
                     if line:
-                        timestamp = datetime.now().strftime('%d %H:%M:%S.%f')[:-3]  # Millisecond precision
+                        timestamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]  # Millisecond precision
                         writer.writerow([timestamp, line])
                         csvfile.flush()  # Ensure data is written immediately
-                        print(f"{timestamp} - {line}")
     except KeyboardInterrupt:
         print("\nLogging stopped by user.")
     except Exception as e:
