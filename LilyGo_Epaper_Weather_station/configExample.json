@@ -1,0 +1,18 @@
+{
+  "wifi": {
+    "ssid": "yourssid",
+    "password": "yourpassword"
+  },
+
+  "owm": {
+    "apikey": "yourAPIKEY",
+    "city": "Paris",
+    "lat": 46.8,
+    "lon": 0.5333
+  },
+
+  "birthdays": [
+    { "day": 2, "month": 3,  "name": "Example1" },
+    { "day": 4,  "month": 5,  "name": "Example2" }
+  ]
+}
