@@ -7,11 +7,23 @@
 #include <HTTPClient.h>
 #include <WiFi.h>
 #include <SPI.h>
+#include <Wire.h>
 #include <time.h>
 
 #include "owm_credentials.h"
 #include "forecast_record.h"
 #include "lang_fr.h"
+
+//For MCP9804 I2C temperature sensor:
+#define I2C_SDA 18
+#define I2C_SCL 17
+#define MCP9804_ADDR 0x18
+
+//For SD card interface:
+#define SPI_CS   42
+#define SPI_MOSI 15
+#define SPI_MISO 16
+#define SPI_SCLK 11
 
 #define SCREEN_WIDTH   EPD_WIDTH
 #define SCREEN_HEIGHT  EPD_HEIGHT
@@ -40,12 +52,14 @@ int     wifi_signal, CurrentHour = 0, CurrentMin = 0, CurrentSec = 0, EventCnt =
 #define max_Dreadings 8//
 Forecast_record_type  WxConditions[1];
 Forecast_record_type  WxDForecast[max_Dreadings];
+float interior_temp = 0;//Room temeprature in °C, filled by getI2CTemperature(), polling MCP9804 sensor
 
 //float pressure_readings[max_Dreadings]    = {0};
 float temperature_readings[max_Dreadings] = {0};
 float humidity_readings[max_Dreadings]    = {0};
 float rain_readings[max_Dreadings]        = {0};
 float snow_readings[max_Dreadings]        = {0};
+
 #ifdef DEBUG_ON
 long SleepDuration   = 5; // Sleep time in minutes, aligned to the nearest minute boundary, so if 30 will always update at 00 or 30 past the hour
 #else
@@ -63,8 +77,10 @@ long Delta           = 30; // ESP32 rtc speed compensation, prevents display at 
 #include "Fonts/opensans10.h"
 #include "Fonts/opensans12b.h"
 #include "Fonts/opensans14b.h"
+#include "Fonts/opensans16b.h"
 #include "Fonts/opensans18b.h"
 #include "Fonts/opensans20b.h"
+#include "Fonts/opensans24b.h"
 
 GFXfont  currentFont;
 uint8_t *framebuffer;
@@ -77,6 +93,7 @@ void BeginSleep() {
     Serial.println("Awake for : " + String((millis() - StartTime) / 1000.0, 3) + "-secs");
     Serial.println("Entering " + String(SleepTimer) + " (secs) of sleep time");
     Serial.println("Starting deep-sleep period...");
+    //esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);//XB added: keep GPIO powered to be able to set SCL/SDA low (to avoid phantom powering of MCP9804 via defualt pullups)
     esp_deep_sleep_start();  // Sleep for e.g. 30 minutes
 }
 
@@ -116,11 +133,6 @@ void StopWiFi() {
     Serial.println("WiFi switched Off");
 }
 
-#define SPI_CS   42
-#define SPI_MOSI 15
-#define SPI_MISO 16
-#define SPI_SCLK 11
-
 void InitialiseSystem() {
     StartTime = millis();
 #ifdef DEBUG_ON
@@ -133,6 +145,9 @@ void InitialiseSystem() {
     framebuffer = (uint8_t *)ps_calloc(sizeof(uint8_t), EPD_WIDTH * EPD_HEIGHT / 2);
     if (!framebuffer) Serial.println("Memory alloc failed!");
     memset(framebuffer, 0xFF, EPD_WIDTH * EPD_HEIGHT / 2);
+    //gpio_hold_dis((gpio_num_t)I2C_SCL);
+    //gpio_hold_dis((gpio_num_t)I2C_SDA);
+    Wire.begin(I2C_SDA, I2C_SCL);
 }
 
 void loop() {
@@ -208,11 +223,18 @@ void setup() {
             }
             if (RxWeather) { // Only if received both Weather or Forecast proceed
                 StopWiFi();         // Reduces power consumption
+                interior_temp = getI2CTemperature();
+                Wire.end();
+//periph_module_disable(PERIPH_I2C0_MODULE); 
+//                pinMode(I2C_SCL,INPUT_PULLDOWN);
+//                pinMode(I2C_SDA,INPUT_PULLDOWN);
                 epd_poweron();      // Switch on EPD display
                 epd_clear();        // Clear the screen
                 DisplayWeather();   // Display the weather data
                 edp_update();       // Update the display to show the information
                 epd_poweroff_all(); // Switch off all power to EPD
+//                gpio_pullup_dis((gpio_num_t)I2C_SCL);
+//                gpio_pullup_dis((gpio_num_t)I2C_SDA);
             } else {
                 Serial.println("Failed to get weather data...");
             }
@@ -394,11 +416,11 @@ double NormalizedMoonPhase(int d, int m, int y) {
 }
 
 void DisplayWeather() {                          // 4.7" e-paper display is 960x540 resolution
-    DisplayStatusSection(745, 25, wifi_signal);    // Wi-Fi signal strength and Battery voltage
+    DisplayStatusSection(745, 35, wifi_signal);    // Wi-Fi signal strength and Battery voltage
     DisplayGeneralInfoSection();                   // Top line of the display
     //DisplayDisplayWindSection(137, 150, WxConditions[0].Winddir, WxConditions[0].Windspeed, 100);
     //DisplayAstronomySection(5, 255);               // Astronomy section Sun rise/set, Moon phase and Moon icon
-    DisplayMainWeatherSection(5, 90);//x was 320           // Centre section of display for Location, temperature, Weather report, current Wx Symbol
+    DisplayMainWeatherSection(5, 80);//x was 320           // Centre section of display for Location, temperature, Weather report, current Wx Symbol
     DisplayWeatherIcon(850, 130);                  // Display weather icon    scale = Large;
     DisplayForecastSection(5, 170);//x was 320              // 3hr forecast boxes
     getTodayEvent(650, 200); //XB show today's saint/anniv
@@ -406,9 +428,9 @@ void DisplayWeather() {                          // 4.7" e-paper display is 960x
 
 void DisplayGeneralInfoSection() {
     setFont(OpenSans8B);
-    drawString(740, 11, City, RIGHT);
-    setFont(OpenSans12B);
-    drawString(5, 2, Date_str + Time_str, LEFT);
+    drawString(740, 20, City, RIGHT);
+    setFont(OpenSans14B);
+    drawString(5, 8, Date_str + Time_str, LEFT);
 }
 
 void DisplayWeatherIcon(int x, int y) {
@@ -416,9 +438,8 @@ void DisplayWeatherIcon(int x, int y) {
 }
 
 void DisplayMainWeatherSection(int x, int y) {
-    setFont(OpenSans8B);
-    DisplayTemperatureSection(x, y - 45);
-    DisplayForecastTextSection(x, y + 50);
+    DisplayTemperatureSection(x, y - 40);
+    DisplayForecastTextSection(x, y + 55);
     //DisplayPressureSection(x - 25, y + 90, WxConditions[0].Pressure, WxConditions[0].Trend);
 }
 
@@ -479,22 +500,27 @@ String WindDegToOrdinalDirection(float winddirection) {
 }
 
 void DisplayTemperatureSection(int x, int y) {
-    setFont(OpenSans18B);
-    drawString(x, y, "Ext " + String(WxConditions[0].Temperature, 1) + "°C   " + String(WxConditions[0].Humidity, 0) + "%   |   Int " + String(WxConditions[0].Temperature, 1) + "°C   " + String(WxConditions[0].Humidity, 0) + "%", LEFT);
-    setFont(OpenSans14B);
-    drawString(x, y + 55, "Max " + String(WxConditions[0].High, 0) + "° | Min " + String(WxConditions[0].Low, 0) + "°", LEFT); // Show forecast high and Low
-    if (WxConditions[0].Cloudcover > 0) CloudCover(x + 275, y + 65, WxConditions[0].Cloudcover);
-
-    drawString(x + 380, y + 65, "Vent " + WindDegToOrdinalDirection(WxConditions[0].Winddir) + "   " + String(WxConditions[0].Windspeed * 3.6, 0) + (Units == "M" ? "km/h" : "mph"), LEFT);
+    setFont(OpenSans24B);
+    drawString(x, y, "Int " + String(interior_temp, 1) + "°C, Ext " + String(WxConditions[0].Temperature, 1) + "°C  " + String(WxConditions[0].Humidity, 0) + "%", LEFT);
+    setFont(OpenSans16B);
+    drawString(x, y + 55, "Max " + String(WxConditions[0].High, 0) + "°    Min " + String(WxConditions[0].Low, 0) + "°    Vent " + WindDegToOrdinalDirection(WxConditions[0].Winddir) + "  " + String(WxConditions[0].Windspeed * 3.6, 0) + (Units == "M" ? "km/h" : "mph"), LEFT);
 }
 
 void DisplayForecastTextSection(int x, int y) {
 #define lineWidth 34
     setFont(OpenSans14B);
+
+    int spaceRemaining = 0, p = 0, charCount = 0, Width = lineWidth;
+    int x1 = x;
+    if (WxConditions[0].Cloudcover > 0) {
+        CloudCover(x + 20, y + 5 , WxConditions[0].Cloudcover);
+        x1 += 150;
+        Width = lineWidth - 5;
+    }
+
     //Wx_Description = WxConditions[0].Main0;          // e.g. typically 'Clouds'
     String Wx_Description = WxConditions[0].Forecast0; // e.g. typically 'overcast clouds' ... you choose which
     Wx_Description.replace(".", ""); // remove any '.'
-    int spaceRemaining = 0, p = 0, charCount = 0, Width = lineWidth;
     while (p < Wx_Description.length()) {
         if (Wx_Description.substring(p, p + 1) == " ") spaceRemaining = p;
         if (charCount > Width - 1) { // '~' is the end of line marker
@@ -508,8 +534,10 @@ void DisplayForecastTextSection(int x, int y) {
     //Wx_Description = wordWrap(Wx_Description, lineWidth);
     String Line1 = Wx_Description.substring(0, Wx_Description.indexOf("~"));
     String Line2 = Wx_Description.substring(Wx_Description.indexOf("~") + 1);
-    drawString(x, y + 5, TitleCase(Line1), LEFT);
-    if (Line1 != Line2) drawString(x, y + 30, Line2, LEFT);
+
+
+    drawString(x1, y , TitleCase(Line1), LEFT);
+    if (Line1 != Line2) drawString(x, y + 25, Line2, LEFT);
 }
 /*
     void DisplayPressureSection(int x, int y, float pressure, String slope) {
@@ -984,9 +1012,9 @@ void Haze(int x, int y, bool IconSize, String IconName) {
 }
 
 void CloudCover(int x, int y, int CCover) {
-    addcloud(x - 9, y + 2, Small * 0.3, 2); // Cloud top left
-    addcloud(x + 3, y - 2, Small * 0.3, 2); // Cloud top right
-    addcloud(x, y + 10, Small * 0.6, 2); // Main cloud
+    addcloud(x - 9, y + 12, Small * 0.3, 2); // Cloud top left
+    addcloud(x + 3, y + 8, Small * 0.3, 2); // Cloud top right
+    addcloud(x, y + 20, Small * 0.6, 2); // Main cloud
     drawString(x + 20, y, String(CCover) + "%", LEFT);
 }
 
@@ -1031,7 +1059,7 @@ void DrawTGraph(int x_pos, int y_pos, int gwidth, int gheight, float Y1Min, floa
     int last_x, last_y, last_y_min, last_y_max;
     float x2, y2, y2_min, y2_max;
     if (auto_scale == true) {
-        for (int i = 1; i < readings; i++ ) {
+        for (int i = 0; i < readings; i++ ) {
             if (MaxDataArray[i] >= maxYscale) maxYscale = MaxDataArray[i];
             if (MinDataArray[i] <= minYscale) minYscale = MinDataArray[i];
         }
@@ -1104,7 +1132,7 @@ void DrawRGraph(int x_pos, int y_pos, int gwidth, int gheight, float Y1Min, floa
     int minYscale =  10000;
     float x2, y2;
     if (auto_scale == true) {
-        for (int i = 1; i < readings; i++ ) {
+        for (int i = 0; i < readings; i++ ) {
             if (DataArray[i] >= maxYscale) maxYscale = DataArray[i];
             if (DataArray[i] <= minYscale) minYscale = DataArray[i];
         }
@@ -1289,4 +1317,27 @@ void getTodayEvent(int x, int y) {
         drawString(x, y, String("St  "), LEFT);
         drawString(x, y + 50, saint, LEFT);
     }
+}
+
+float getI2CTemperature() {
+    Wire.beginTransmission(MCP9804_ADDR);
+    Wire.write(0x05);
+    Wire.endTransmission();
+    Wire.requestFrom(MCP9804_ADDR, 2 /*bytes*/);
+    int value;
+    if (Wire.available()) {
+        value = Wire.read();
+        value <<= 8;
+        if (Wire.available()) {
+            value |= Wire.read();
+            Wire.endTransmission();
+            float temp = (value & 0x3ff) / 16.0;
+            if (value & 0x800) {
+                temp *= -1;
+            }
+            return temp;
+        }
+    }
+    Wire.endTransmission();
+    return -1;
 }

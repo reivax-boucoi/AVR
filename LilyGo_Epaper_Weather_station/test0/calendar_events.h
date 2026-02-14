@@ -23,12 +23,12 @@ const Birthday birthdays[] = {
   { 3 , 5, "Xavier" },
   { 6 , 5, "Huguette" },
   { 9 , 5, "Dominique" },
-  { 26, 6, "Papa" },
+  { 26, 6, "Papa !" },
   { 4 , 7, "Jean-Luc" },//JL ou Marithé?
   { 31, 7, "Jean-Baptiste" },//JB ou Estelle?
   { 3 , 8, "Isaïa" },
   { 5 , 8, "Paolino" },
-  { 6 , 8, "Maman" },
+  { 6 , 8, "Maman !" },
   { 7 , 8, "Bertrand" },
   { 11, 8, "Elio" },
   { 24, 8, "Clémence" },
