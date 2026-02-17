@@ -5350,6 +5350,156 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Switch:SW_Push"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "SW"
+				(at 1.27 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "SW_Push"
+				(at 0 -1.524 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Push button switch, generic, two pins"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "switch normally-open pushbutton push-button"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SW_Push_0_1"
+				(circle
+					(center -2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 1.27) (xy 0 3.048)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 1.27) (xy -2.54 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "_MYLIBRARY:MPC17529"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -7735,7 +7885,7 @@
 		(uuid "5cfbaee6-6e13-4b20-b8a0-d455dbaca616")
 	)
 	(junction
-		(at 128.27 193.04)
+		(at 187.96 157.48)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "61e4e75b-7913-4078-9e23-73cd047094dc")
@@ -7867,7 +8017,7 @@
 		(uuid "b3b75d43-b4ce-4695-9973-4e8917385ca0")
 	)
 	(junction
-		(at 135.89 193.04)
+		(at 195.58 157.48)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b84d04e7-61d4-4657-999e-4adb4aaff2ad")
@@ -7915,7 +8065,7 @@
 		(uuid "cd1767ef-3655-4910-8a99-1cd230206a1c")
 	)
 	(junction
-		(at 123.19 193.04)
+		(at 182.88 157.48)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ce6e81b2-c625-4086-b68f-504690176fb1")
@@ -8968,7 +9118,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 193.04) (xy 140.97 193.04)
+			(xy 195.58 157.48) (xy 200.66 157.48)
 		)
 		(stroke
 			(width 0)
@@ -8988,7 +9138,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 165.1) (xy 135.89 170.18)
+			(xy 195.58 129.54) (xy 195.58 134.62)
 		)
 		(stroke
 			(width 0)
@@ -9138,7 +9288,7 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 193.04) (xy 135.89 193.04)
+			(xy 187.96 157.48) (xy 195.58 157.48)
 		)
 		(stroke
 			(width 0)
@@ -9688,7 +9838,7 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 165.1) (xy 123.19 170.18)
+			(xy 182.88 129.54) (xy 182.88 134.62)
 		)
 		(stroke
 			(width 0)
@@ -9888,7 +10038,7 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 165.1) (xy 128.27 170.18)
+			(xy 187.96 129.54) (xy 187.96 134.62)
 		)
 		(stroke
 			(width 0)
@@ -10338,7 +10488,7 @@
 	)
 	(wire
 		(pts
-			(xy 140.97 165.1) (xy 140.97 170.18)
+			(xy 200.66 129.54) (xy 200.66 134.62)
 		)
 		(stroke
 			(width 0)
@@ -10518,6 +10668,16 @@
 	)
 	(wire
 		(pts
+			(xy 124.46 180.34) (xy 120.65 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c7b6403c-8061-489b-bb9f-1fbcc3655a04")
+	)
+	(wire
+		(pts
 			(xy 153.67 125.73) (xy 156.21 125.73)
 		)
 		(stroke
@@ -10595,6 +10755,16 @@
 			(type default)
 		)
 		(uuid "cc19509c-3312-42c7-a0c4-64e02339da41")
+	)
+	(wire
+		(pts
+			(xy 124.46 189.23) (xy 124.46 190.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ccee6177-4407-4346-99ba-375bbb2fb85f")
 	)
 	(wire
 		(pts
@@ -11098,6 +11268,16 @@
 	)
 	(wire
 		(pts
+			(xy 124.46 190.5) (xy 120.65 190.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eedf0d99-4574-4bef-90df-7962a32719e8")
+	)
+	(wire
+		(pts
 			(xy 46.99 123.19) (xy 38.1 123.19)
 		)
 		(stroke
@@ -11238,6 +11418,16 @@
 	)
 	(wire
 		(pts
+			(xy 124.46 181.61) (xy 124.46 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fb3076c0-6bc4-4131-b5b7-8693aae816aa")
+	)
+	(wire
+		(pts
 			(xy 260.35 62.23) (xy 260.35 63.5)
 		)
 		(stroke
@@ -11258,7 +11448,7 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 193.04) (xy 128.27 193.04)
+			(xy 182.88 157.48) (xy 187.96 157.48)
 		)
 		(stroke
 			(width 0)
@@ -11477,7 +11667,7 @@
 		(uuid "2a2b68d3-3cf6-4a75-a79b-4ecd51c2a2d0")
 	)
 	(label "LED1"
-		(at 128.27 165.1 270)
+		(at 187.96 129.54 270)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -11707,7 +11897,7 @@
 		(uuid "5f7be34e-1a12-4392-8276-fea70fed4ca5")
 	)
 	(label "LED3"
-		(at 140.97 165.1 270)
+		(at 200.66 129.54 270)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -12107,7 +12297,7 @@
 		(uuid "c26a002c-f6df-489f-8bee-7c6b82f1ff14")
 	)
 	(label "LED0"
-		(at 123.19 165.1 270)
+		(at 182.88 129.54 270)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -12237,7 +12427,7 @@
 		(uuid "f05aa7b0-6ef8-42bc-84a2-8af425ef8588")
 	)
 	(label "LED2"
-		(at 135.89 165.1 270)
+		(at 195.58 129.54 270)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -12476,7 +12666,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED_Dual_AAKK")
-		(at 138.43 185.42 270)
+		(at 198.12 149.86 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12484,7 +12674,7 @@
 		(dnp no)
 		(uuid "07ef46d0-8c77-4fd7-a7eb-8443e68409e1")
 		(property "Reference" "D3"
-			(at 141.986 181.356 90)
+			(at 201.676 145.796 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12493,7 +12683,7 @@
 			)
 		)
 		(property "Value" "LED_Dual_AAKK"
-			(at 146.05 186.5629 90)
+			(at 205.74 151.0029 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12503,7 +12693,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 138.43 186.182 0)
+			(at 198.12 150.622 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12512,7 +12702,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 138.43 186.182 0)
+			(at 198.12 150.622 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12521,7 +12711,7 @@
 			)
 		)
 		(property "Description" "Dual LED, cathodes on pins 3 and 4"
-			(at 138.43 185.42 0)
+			(at 198.12 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12819,7 +13009,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 123.19 173.99 0)
+		(at 182.88 138.43 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12827,7 +13017,7 @@
 		(dnp no)
 		(uuid "0cb401f8-feb0-46d0-a2a2-c15c4db2bc6a")
 		(property "Reference" "R2"
-			(at 125.984 176.784 90)
+			(at 185.674 141.224 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12836,7 +13026,7 @@
 			)
 		)
 		(property "Value" "470"
-			(at 125.984 173.736 90)
+			(at 185.674 138.176 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12845,7 +13035,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 121.412 173.99 90)
+			(at 181.102 138.43 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12854,7 +13044,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 123.19 173.99 0)
+			(at 182.88 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12863,7 +13053,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 123.19 173.99 0)
+			(at 182.88 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13660,34 +13850,35 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 128.27 173.99 0)
+		(lib_id "Switch:SW_Push")
+		(at 120.65 185.42 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "1b43f301-48a1-45f9-b42b-866234f0c83c")
-		(property "Reference" "R3"
-			(at 131.064 176.784 90)
+		(fields_autoplaced yes)
+		(uuid "1abae75c-b208-4efb-8180-6593e074bb98")
+		(property "Reference" "SW1"
+			(at 121.92 184.1499 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
-		(property "Value" "470"
-			(at 131.064 173.736 90)
+		(property "Value" "SW_Push"
+			(at 121.92 186.6899 90)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
+				(justify right)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 126.492 173.99 90)
+		(property "Footprint" ""
+			(at 115.57 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13696,7 +13887,76 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 128.27 173.99 0)
+			(at 115.57 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Push button switch, generic, two pins"
+			(at 120.65 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "3d1f98d6-2bbf-4229-8831-6e5b1612ef8a")
+		)
+		(pin "1"
+			(uuid "0559de2c-d022-43b8-8281-646c20ba2480")
+		)
+		(instances
+			(project ""
+				(path "/f6f64c75-d62f-458e-9c33-5105e6978fbd"
+					(reference "SW1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 187.96 138.43 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1b43f301-48a1-45f9-b42b-866234f0c83c")
+		(property "Reference" "R3"
+			(at 190.754 141.224 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "470"
+			(at 190.754 138.176 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 186.182 138.43 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 187.96 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13705,7 +13965,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 128.27 173.99 0)
+			(at 187.96 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15899,7 +16159,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 135.89 173.99 0)
+		(at 195.58 138.43 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15907,7 +16167,7 @@
 		(dnp no)
 		(uuid "459ebd11-f034-4035-979f-2051cc4a1820")
 		(property "Reference" "R6"
-			(at 138.684 176.784 90)
+			(at 198.374 141.224 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15916,7 +16176,7 @@
 			)
 		)
 		(property "Value" "470"
-			(at 138.684 173.736 90)
+			(at 198.374 138.176 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15925,7 +16185,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 134.112 173.99 90)
+			(at 193.802 138.43 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15934,7 +16194,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 135.89 173.99 0)
+			(at 195.58 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15943,7 +16203,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 135.89 173.99 0)
+			(at 195.58 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -18324,6 +18584,76 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C")
+		(at 124.46 185.42 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7833df4d-b927-4dda-9fc9-8168c751e51d")
+		(property "Reference" "C40"
+			(at 128.27 184.1499 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10n"
+			(at 128.27 186.6899 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder"
+			(at 125.4252 189.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 124.46 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 124.46 185.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "65bb49c5-38e8-4aa7-bb11-860ad15a572b")
+		)
+		(pin "2"
+			(uuid "f5e23d69-daa1-4487-85d1-7895ff657cd3")
+		)
+		(instances
+			(project "FaderCtrl"
+				(path "/f6f64c75-d62f-458e-9c33-5105e6978fbd"
+					(reference "C40")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 220.98 109.22 90)
 		(unit 1)
@@ -20451,7 +20781,7 @@
 	)
 	(symbol
 		(lib_id "power:GNDD")
-		(at 123.19 193.04 0)
+		(at 182.88 157.48 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -20460,7 +20790,7 @@
 		(fields_autoplaced yes)
 		(uuid "b102ee56-934d-4241-91f9-70b1722bae51")
 		(property "Reference" "#PWR027"
-			(at 123.19 199.39 0)
+			(at 182.88 163.83 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20469,7 +20799,7 @@
 			)
 		)
 		(property "Value" "GNDD"
-			(at 123.19 196.85 0)
+			(at 182.88 161.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20477,7 +20807,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 123.19 193.04 0)
+			(at 182.88 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20486,7 +20816,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 123.19 193.04 0)
+			(at 182.88 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20495,7 +20825,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GNDD\" , digital ground"
-			(at 123.19 193.04 0)
+			(at 182.88 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22284,7 +22614,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED_Dual_AAKK")
-		(at 125.73 185.42 270)
+		(at 185.42 149.86 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -22292,7 +22622,7 @@
 		(dnp no)
 		(uuid "d98674e8-61ad-43f3-bf86-c2c67e23b659")
 		(property "Reference" "D2"
-			(at 129.286 181.356 90)
+			(at 188.976 145.796 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22301,7 +22631,7 @@
 			)
 		)
 		(property "Value" "LED_Dual_AAKK"
-			(at 133.35 186.5629 90)
+			(at 193.04 151.0029 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22311,7 +22641,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 125.73 186.182 0)
+			(at 185.42 150.622 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22320,7 +22650,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 125.73 186.182 0)
+			(at 185.42 150.622 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22329,7 +22659,7 @@
 			)
 		)
 		(property "Description" "Dual LED, cathodes on pins 3 and 4"
-			(at 125.73 185.42 0)
+			(at 185.42 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22722,7 +23052,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 140.97 173.99 0)
+		(at 200.66 138.43 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -22730,7 +23060,7 @@
 		(dnp no)
 		(uuid "deca6195-f40a-4ddd-81c2-b1fef9b6f83b")
 		(property "Reference" "R7"
-			(at 143.764 176.784 90)
+			(at 203.454 141.224 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22739,7 +23069,7 @@
 			)
 		)
 		(property "Value" "470"
-			(at 143.764 173.736 90)
+			(at 203.454 138.176 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22748,7 +23078,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 139.192 173.99 90)
+			(at 198.882 138.43 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22757,7 +23087,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 140.97 173.99 0)
+			(at 200.66 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22766,7 +23096,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 140.97 173.99 0)
+			(at 200.66 138.43 0)
 			(effects
 				(font
 					(size 1.27 1.27)
