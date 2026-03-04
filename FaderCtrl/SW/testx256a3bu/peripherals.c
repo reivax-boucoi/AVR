@@ -1,6 +1,7 @@
 #include "peripherals.h"
 
 volatile uint16_t adc_buffer[8];
+volatile uint16_t motTargPos[NUM_MOTORS];
 
 void clk_init(void){
     OSC.CTRL |= OSC_RC32MEN_bm;             // Enable 32 MHz internal oscillator
@@ -39,8 +40,10 @@ void uart_send_byte(uint8_t data){
     while (!(USARTF0.STATUS & USART_DREIF_bm));
     USARTF0.DATA = data;
 }
-void uart_send_uint16(uint16_t value){
-    uart_send_byte(value >> 8);
+void uart_send_int32(int32_t value){
+    uart_send_byte(value >> 24);
+    uart_send_byte((value >> 16)&0xFF);
+    uart_send_byte((value >> 8)&0xFF);
     uart_send_byte(value & 0xFF);
 }
 

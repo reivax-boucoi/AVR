@@ -4,7 +4,7 @@
 
 
 #define LED_PIN PIN0_bm   // Bit mask for PIN0
-#define F_PWM (24000UL)
+#define F_PWM (24000)
 #define F_ADC (1000)
 
 #define PWM_PERIOD ((F_CPU/F_PWM)-1)
@@ -18,12 +18,14 @@
     #error "PERIOD exceeds 16-bit timer limit!"
 #endif
 
+#define NUM_MOTORS     4
 extern volatile uint16_t adc_buffer[8];
+extern volatile uint16_t motTargPos[NUM_MOTORS];
 
 void clk_init(void);
 void uart_init(void);
 void uart_send_byte(uint8_t data);
-void uart_send_uint16(uint16_t value);
+void uart_send_int32(int32_t value);
 void timer_init(void);
 void GPIO_init(void);
 void PWM_init(void);

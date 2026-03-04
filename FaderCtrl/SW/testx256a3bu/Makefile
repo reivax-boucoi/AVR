@@ -23,6 +23,9 @@ SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
 
 all: clean program
+	$(MAKE) clean
+
+compile: clean $(TARGET).elf
 
 # Compile .c → .o
 %.o: %.c
@@ -42,3 +45,5 @@ program: $(TARGET).hex
 
 clean:
 	rm -f *.o *.elf *.hex
+
+.PHONY: all clean program compile
