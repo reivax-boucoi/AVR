@@ -1,4 +1,4 @@
-26628468295437821
+26646592548772377
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -105987,6 +105987,13 @@ DS3231_RTC_module
 5
 5
 footprints
+FR50MHNR
+Fiber Optic RedLink® receiver 50 MBd Non-inverting
+
+0
+6
+6
+footprints
 GD3162HBIEVM
 
 
@@ -106134,6 +106141,13 @@ PSM01-082A-103B2_MotorizedPot
 9
 9
 footprints
+PTL6015G0103B2_SlidePotLED
+PTL60-15G0-103B2-5
+Variable Resistor
+0
+6
+6
+footprints
 PinHeader_1x02_P5.08mm_Vertical
 
 
@@ -106189,6 +106203,13 @@ RFB1010
 0
 2
 2
+footprints
+RJ45_Amphenol_54602-x08_Horizontal
+8 Pol Shallow Latch Connector, Modjack, RJ45 (https://cdn.amphenol-icc.com/media/wysiwyg/files/drawing/c-bmj-0102.pdf)
+RJ45
+0
+8
+8
 footprints
 R_Axial_INSA_L6.3mm_D2.5mm_P2.54mm_Vertical
 Resistor, Axial_DIN0207 series, Axial, Vertical, pin pitch=2.54mm, 0.25W = 1/4W, length*diameter=6.3*2.5mm^2, http://cdn-reichelt.de/documents/datenblatt/B400/1_4W%23YAG.pdf
@@ -106302,6 +106323,20 @@ tact sw push 6mm
 2
 2
 footprints
+SolderJumper-2P_Closed_THT+SMD
+SMD Solder Jumper, 1x1.5mm, rounded Pads, 0.3mm gap, closed
+solder jumper open
+0
+2
+2
+footprints
+SolderJumper-2P_Open_THT+SMD
+SMD Solder Jumper, 1x1.5mm, rounded Pads, 0.3mm gap, open
+solder jumper open
+0
+2
+2
+footprints
 Symbol_HighVoltage_Triangle_8x7mm_Silk
 High voltage symbol, in triangle, 8x7mm, copper layer
 warning graphic
@@ -106365,7 +106400,42 @@ terminal block bornier2
 2
 2
 footprints
-TestPoint_Keystone_5010-5014_Multipurpose
+TestPoint_Keystone_5010_Red
+Keystone Miniature THM Test Point 5010-5014, http://www.keyelco.com/product-pdf.cfm?p=1319
+Through Hole Mount Test Points
+0
+1
+1
+footprints
+TestPoint_Keystone_5011_Black
+Keystone Miniature THM Test Point 5010-5014, http://www.keyelco.com/product-pdf.cfm?p=1319
+Through Hole Mount Test Points
+0
+1
+1
+footprints
+TestPoint_Keystone_5012_white
+Keystone Miniature THM Test Point 5010-5014, http://www.keyelco.com/product-pdf.cfm?p=1319
+Through Hole Mount Test Points
+0
+1
+1
+footprints
+TestPoint_Keystone_5014_yellow
+Keystone Miniature THM Test Point 5010-5014, http://www.keyelco.com/product-pdf.cfm?p=1319
+Through Hole Mount Test Points
+0
+1
+1
+footprints
+TestPoint_Keystone_5126_green
+Keystone Miniature THM Test Point 5010-5014, http://www.keyelco.com/product-pdf.cfm?p=1319
+Through Hole Mount Test Points
+0
+1
+1
+footprints
+TestPoint_Keystone_5127_blue
 Keystone Miniature THM Test Point 5010-5014, http://www.keyelco.com/product-pdf.cfm?p=1319
 Through Hole Mount Test Points
 0
