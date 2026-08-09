@@ -63,9 +63,9 @@ float snow_readings[max_Dreadings]        = {0};
 #ifdef DEBUG_ON
 long SleepDuration   = 5; // Sleep time in minutes, aligned to the nearest minute boundary, so if 30 will always update at 00 or 30 past the hour
 #else
-long SleepDuration   = 60;
+long SleepDuration   = 90;
 #endif
-int  WakeupHour      = 8;  // Don't wakeup until after 07:00 to save battery power
+int  WakeupHour      = 7;  // Don't wakeup until after 07:00 to save battery power
 int  SleepHour       = 23; // Sleep after 23:00 to save battery power
 long StartTime       = 0;
 long SleepTimer      = 0;
@@ -89,7 +89,7 @@ void BeginSleep() {
     epd_poweroff_all();
     UpdateLocalTime();
     SleepTimer = (SleepDuration * 60 - ((CurrentMin % SleepDuration) * 60 + CurrentSec)) + Delta; //Some ESP32 have a RTC that is too fast to maintain accurate time, so add an offset
-    esp_sleep_enable_timer_wakeup(SleepTimer * 1000000LL); // in Secs, 1000000LL converts to Secs as unit = 1uSec
+    TODO esp_sleep_enable_timer_wakeup(SleepTimer * 1000000LL); // in Secs, 1000000LL converts to Secs as unit = 1uSec
     Serial.println("Awake for : " + String((millis() - StartTime) / 1000.0, 3) + "-secs");
     Serial.println("Entering " + String(SleepTimer) + " (secs) of sleep time");
     Serial.println("Starting deep-sleep period...");
