@@ -45,7 +45,7 @@
         "silk_text_italic": false,
         "silk_text_size_h": 1.0,
         "silk_text_size_v": 1.0,
-        "silk_text_thickness": 0.1,
+        "silk_text_thickness": 0.15,
         "silk_text_upright": false,
         "zones": {
           "min_clearance": 0.5
@@ -56,6 +56,11 @@
           "gap": 0.0,
           "via_gap": 0.0,
           "width": 0.0
+        },
+        {
+          "gap": 0.31,
+          "via_gap": 0.0,
+          "width": 0.33
         }
       ],
       "drc_exclusions": [],
@@ -76,9 +81,9 @@
         "duplicate_footprints": "warning",
         "extra_footprint": "warning",
         "footprint": "error",
-        "footprint_filters_mismatch": "ignore",
+        "footprint_filters_mismatch": "warning",
         "footprint_symbol_mismatch": "warning",
-        "footprint_type_mismatch": "ignore",
+        "footprint_type_mismatch": "warning",
         "hole_clearance": "error",
         "hole_to_hole": "warning",
         "holes_co_located": "warning",
@@ -92,13 +97,13 @@
         "malformed_courtyard": "error",
         "microvia_drill_out_of_range": "error",
         "mirrored_text_on_front_layer": "warning",
-        "missing_courtyard": "ignore",
+        "missing_courtyard": "warning",
         "missing_footprint": "warning",
         "net_conflict": "warning",
         "nonmirrored_text_on_back_layer": "warning",
-        "npth_inside_courtyard": "ignore",
+        "npth_inside_courtyard": "warning",
         "padstack": "warning",
-        "pth_inside_courtyard": "ignore",
+        "pth_inside_courtyard": "warning",
         "shorting_items": "error",
         "silk_edge_clearance": "warning",
         "silk_over_copper": "warning",
@@ -123,8 +128,8 @@
       },
       "rules": {
         "max_error": 0.005,
-        "min_clearance": 0.0,
-        "min_connection": 0.0,
+        "min_clearance": 0.15,
+        "min_connection": 0.15,
         "min_copper_edge_clearance": 0.5,
         "min_groove_width": 0.0,
         "min_hole_clearance": 0.25,
@@ -136,10 +141,10 @@
         "min_text_height": 0.8,
         "min_text_thickness": 0.08,
         "min_through_hole_diameter": 0.3,
-        "min_track_width": 0.0,
+        "min_track_width": 0.15,
         "min_via_annular_width": 0.1,
         "min_via_diameter": 0.5,
-        "solder_mask_to_copper_clearance": 0.0,
+        "solder_mask_to_copper_clearance": 0.1,
         "use_height_for_length_calcs": true
       },
       "teardrop_options": [
@@ -225,8 +230,8 @@
           "drill": 0.0
         },
         {
-          "diameter": 0.8,
-          "drill": 0.4
+          "diameter": 0.45,
+          "drill": 0.3
         }
       ],
       "zones_allow_external_fillets": false
@@ -461,6 +466,7 @@
       "single_global_label": "error",
       "unannotated": "error",
       "unconnected_wire_endpoint": "warning",
+      "undefined_netclass": "error",
       "unit_value_mismatch": "error",
       "unresolved_variable": "error",
       "wire_dangling": "error"
@@ -497,16 +503,24 @@
       {
         "line_style": 0,
         "name": "IN_ana",
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": 0,
+        "pcb_color": "rgb(34, 25, 255)",
+        "priority": 1,
         "schematic_color": "rgb(204, 102, 0)"
       },
       {
         "line_style": 0,
         "name": "PWR",
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "priority": 1,
+        "pcb_color": "rgb(255, 0, 5)",
+        "priority": 2,
         "schematic_color": "rgb(72, 72, 0)"
+      },
+      {
+        "diff_pair_gap": 0.31,
+        "diff_pair_width": 0.33,
+        "name": "USB",
+        "pcb_color": "rgb(228, 255, 83)",
+        "priority": 0,
+        "schematic_color": "rgba(0, 0, 0, 0.000)"
       }
     ],
     "meta": {
@@ -586,6 +600,10 @@
       {
         "netclass": "IN_ana",
         "pattern": "/TP*"
+      },
+      {
+        "netclass": "USB",
+        "pattern": "/D*"
       }
     ]
   },
