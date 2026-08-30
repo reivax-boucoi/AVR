@@ -22,10 +22,9 @@ TARGET = main
 SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
 
-all: clean program
-	$(MAKE) clean
+all: compile
 
-compile: clean $(TARGET).elf
+compile: $(TARGET).elf
 
 # Compile .c → .o
 %.o: %.c

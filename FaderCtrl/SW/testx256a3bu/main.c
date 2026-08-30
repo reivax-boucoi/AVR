@@ -4,7 +4,7 @@
 #include "FaderCtrl.h"
 
 volatile uint16_t cnt=1;
-volatile uint8_t cnt1=0;
+volatile int32_t cnt1=0;
 volatile uint8_t half = 0;       // tracks which half is being sampled
 
 int main(void){
@@ -22,9 +22,9 @@ int main(void){
     while (1){
         if(cnt==0){
             cnt++;
-            //uart_send_byte(0xAA);
-            //uart_send_byte(0xBB);
-            //uart_send_int32((int32_t)adc_buffer[0]);
+            uart_send_byte(0xAA);
+            uart_send_byte(0xBB);
+            uart_send_int32((int32_t)cnt1++);//adc_buffer[0]);
         }
     }
 }
