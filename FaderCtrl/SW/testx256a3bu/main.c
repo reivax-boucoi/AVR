@@ -22,19 +22,20 @@ int main(void){
     while (1){
         if(cnt==0){
             cnt++;
-            uart_send_byte(0xAA);
-            uart_send_byte(0xBB);
-            uart_send_int32((int32_t)cnt1++);//adc_buffer[0]);
+            //uart_send_byte(0xAA);
+            //uart_send_byte(0xBB);
+            uart_send_int32_ascii(cnt1++);//uart_send_int32((int32_t)cnt1++);//adc_buffer[0]);
+            uart_send_byte('\r');
+            uart_send_byte('\n');
         }
     }
 }
 
 ISR(TCC1_OVF_vect){
-    if(++cnt>3){
+    if(++cnt>500){
         cnt=0;
+        PORTD.OUTTGL = LED_PIN;  // Set LED
     }
-
-    PORTD.OUTSET = LED_PIN;  // Set LED
     PI_UpdateAll();
-    PORTD.OUTCLR = LED_PIN;  // Set LED
+
 }

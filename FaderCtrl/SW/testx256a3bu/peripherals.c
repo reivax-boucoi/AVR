@@ -23,18 +23,28 @@ void timer_init(void){
 }
 
 
-void uart_init(void){
-    PORTF.DIRSET = PIN3_bm; //PF3 / TX output
-    PORTF.DIRCLR = PIN2_bm; // PF2 / RX input
 
-    USARTF0.CTRLB = 0;//USART_CLK2X_bm;//double uart speed
+void uart_init(void)
+{
+    PORTF.DIRSET = PIN3_bm;  // PF3 TX
+    PORTF.DIRCLR = PIN2_bm;  // PF2 RX
 
-    USARTF0.BAUDCTRLA = UART_BAUD & 0xFF;   //Baud: BSEL = 6, BSCALE = 0
-    USARTF0.BAUDCTRLB = (0b1111<<4) | (UART_BAUD >> 8);
+    USARTF0.CTRLB = 0;       // normal speed, CLK2X = 0
 
-    USARTF0.CTRLC = USART_CHSIZE_8BIT_gc | USART_PMODE_DISABLED_gc;
-    USARTF0.CTRLB |= USART_TXEN_bm | USART_RXEN_bm;
+    USARTF0.BAUDCTRLA = UART_BSEL & 0xFF;
+    USARTF0.BAUDCTRLB =
+    ((UART_BSCALE & 0x0F) << 4) |
+    ((UART_BSEL >> 8) & 0x0F);
+
+    USARTF0.CTRLC =
+    USART_CHSIZE_8BIT_gc |
+    USART_PMODE_DISABLED_gc;
+
+    USARTF0.CTRLB =
+    USART_TXEN_bm |
+    USART_RXEN_bm;
 }
+
 
 void uart_send_byte(uint8_t data){
     while (!(USARTF0.STATUS & USART_DREIF_bm));
@@ -47,6 +57,16 @@ void uart_send_int32(int32_t value){
     uart_send_byte(value & 0xFF);
 }
 
+
+void uart_send_int32_ascii(int32_t value)
+{
+    char buf[12];
+
+    snprintf(buf, sizeof(buf), "%ld", (long)value);
+
+    for (char *p = buf; *p; p++)
+        uart_send_byte((uint8_t)*p);
+}
 
 void PWM_init(void){
     // Set pins as outputs

@@ -1,0 +1,18 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/avr-gcc",
+      "-mmcu=atxmega256a3bu",
+      "-DF_CPU=32000000UL",
+      "-Os",
+      "-Wall",
+      "-c",
+      "-o",
+      "main.o",
+      "main.c"
+    ],
+    "directory": "/home/user/Documents/AVR/AVR/FaderCtrl/SW/minimal_example",
+    "file": "/home/user/Documents/AVR/AVR/FaderCtrl/SW/minimal_example/main.c",
+    "output": "/home/user/Documents/AVR/AVR/FaderCtrl/SW/minimal_example/main.o"
+  }
+]

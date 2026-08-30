@@ -1,0 +1,9 @@
+Based on the attached pin map list, you will generate several minimal test programs.
+Each test programs implements a new block, which should be independent of the others. Use different files for each with header and .c sources.
+The pins used must be clearly identified at the beggining of the header files using #define statements. Other pogram constants, such as debounce count or timer frequency by example shall also use #define and be accessible on top.
+The 1st test program shall enable the UART and print "Hello World\n" at 1Hz
+The 2nd test shall implement the macros and sequentially toggle all digital out static pins
+The 3rd test program shall implement the digital inputs BTN1-3 with debounce and use the UART to show debounced pin changes
+The 4th test shall implement the PWM output functions for the digital out PWM pins, enable the outputs and assign fixed duty cycles to each
+The 5th test shall implement the digital in touch pins preferably using HW peripherals, output via UART pin change
+The 6th test shall implement the analog in sampling (1kHz) of all channels, displaying as csv in the UART
