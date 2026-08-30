@@ -1,0 +1,50 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/avr-gcc",
+      "-mmcu=atxmega256a3bu",
+      "-DF_CPU=32000000UL",
+      "-Os",
+      "-Wall",
+      "-c",
+      "-o",
+      "FaderCtrl.o",
+      "FaderCtrl.c"
+    ],
+    "directory": "/home/user/Documents/AVR/AVR/FaderCtrl/SW/testx256a3bu",
+    "file": "/home/user/Documents/AVR/AVR/FaderCtrl/SW/testx256a3bu/FaderCtrl.c",
+    "output": "/home/user/Documents/AVR/AVR/FaderCtrl/SW/testx256a3bu/FaderCtrl.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/avr-gcc",
+      "-mmcu=atxmega256a3bu",
+      "-DF_CPU=32000000UL",
+      "-Os",
+      "-Wall",
+      "-c",
+      "-o",
+      "main.o",
+      "main.c"
+    ],
+    "directory": "/home/user/Documents/AVR/AVR/FaderCtrl/SW/testx256a3bu",
+    "file": "/home/user/Documents/AVR/AVR/FaderCtrl/SW/testx256a3bu/main.c",
+    "output": "/home/user/Documents/AVR/AVR/FaderCtrl/SW/testx256a3bu/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/avr-gcc",
+      "-mmcu=atxmega256a3bu",
+      "-DF_CPU=32000000UL",
+      "-Os",
+      "-Wall",
+      "-c",
+      "-o",
+      "peripherals.o",
+      "peripherals.c"
+    ],
+    "directory": "/home/user/Documents/AVR/AVR/FaderCtrl/SW/testx256a3bu",
+    "file": "/home/user/Documents/AVR/AVR/FaderCtrl/SW/testx256a3bu/peripherals.c",
+    "output": "/home/user/Documents/AVR/AVR/FaderCtrl/SW/testx256a3bu/peripherals.o"
+  }
+]

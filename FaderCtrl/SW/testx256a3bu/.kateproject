@@ -1,0 +1,20 @@
+{
+    "name": "xmega256",
+    "build": {
+        "directory": ".",
+        "targets": [
+            {
+                "name": "Compile",
+                "build_cmd": "make compile"
+            },
+            {
+                "name": "Compile + Program",
+                "build_cmd": "make program"
+            },
+            {
+                "name": "Clean",
+                "build_cmd": "make clean"
+            }
+        ]
+    }
+}

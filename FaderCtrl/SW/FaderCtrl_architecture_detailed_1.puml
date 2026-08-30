@@ -1,0 +1,337 @@
+@startuml FaderCtrl_Architecture_Detailed
+title Fader Controller Firmware — Detailed Class / Module Diagram (rev 2, netlist-verified)
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+
+' ============================================================
+' LAYER 1 — HAL (register-level, ATxmega256A3BU-specific)
+' ============================================================
+package "HAL" {
+
+  class Hal_Clock {
+    +void init_32MHz_osc_and_PLL()
+    +void init_TOSC_32k(bool enable_RTC)
+  }
+
+  class Hal_AdcA {
+    ' TR1..TR4 on PA0..PA3, channels 0..3
+    ' reference = AREFB (ADC_REFSEL_AREFB_gc), shared with ADCB, = VDDA
+    +void init()
+    +void configure_channel(uint8_t ch, AdcInputMode mode)
+    +void start_dma_linked_sweep(uint8_t* dma_channel, uint16_t* dst_buf)
+    +uint16_t read_raw(uint8_t ch)
+  }
+
+  class Hal_AdcB {
+    ' SL1..SL4 on PB4..PB7, channels 4..7
+    +void init()                            ' reference hard-wired to AREFB = VDDA (pin 6/61)
+    +void configure_channel(uint8_t ch, AdcInputMode mode)
+    +void start_dma_linked_sweep(uint8_t* dma_channel, uint16_t* dst_buf)
+    +uint16_t read_raw(uint8_t ch)
+  }
+
+  class Hal_Dma {
+    +void configure_double_buffer(uint8_t ch, void* src, void* dstA, void* dstB, uint16_t len)
+    +void on_transfer_complete(void(*cb)(uint8_t buf_idx))
+  }
+
+  class Hal_EventSystem {
+    +void route_rtc_or_timer_tick_to_adc(uint8_t event_ch, uint16_t period_1kHz)
+  }
+
+  class Hal_TccPwm_AWEX {
+    ' TCC0 in split + AWEXC mode -> OC0A..D complementary pairs
+    ' PC0/PC1 = ch A (PWM1A/B), PC2/PC3 = ch B (PWM2A/B)
+    ' PC4/PC5 = ch C (PWM3A/B), PC6/PC7 = ch D (PWM4A/B)
+    +void init(uint32_t pwm_freq_hz)         ' 22 kHz per spec
+    +void set_deadtime(uint8_t ch, uint8_t dt_cycles)
+    +void set_duty_signed(uint8_t ch, int16_t duty_pct)  ' -100..+100, 0 = locked-antiphase center
+    +void disable_all()                      ' does NOT touch ~OE, purely stops toggling
+  }
+
+  class Hal_TcdPwm {
+    ' TCD0, standard (non-complementary) mode -> OC0A..D on PD0..PD3
+    +void init(uint32_t pwm_freq_hz)
+    +void set_duty(uint8_t ch, uint8_t duty_pct)   ' SLED1..4 brightness
+  }
+
+  class Hal_CapTouch {
+    ' PF0/PF1/PF4/PF6 (TP1..4), stimulus = GPIO drive,
+    ' sense = pin-threshold-crossing routed via Event System
+    ' into a TCF0 capture channel (A..D, one per pad)
+    +void init_channel(uint8_t ch, Port p, uint8_t pin)
+    +void start_measurement(uint8_t ch)     ' charge pad, arm capture
+    +uint16_t get_last_count(uint8_t ch)    ' raw discharge-time count
+    +void on_measurement_complete(void(*cb)(uint8_t ch, uint16_t count))
+  }
+
+  class Hal_Gpio {
+    +void configure_input_pullup(Port p, uint8_t pin)
+    +void configure_output(Port p, uint8_t pin)
+    +void attach_interrupt(Port p, uint8_t pin, EdgeType edge, void(*cb)())
+    +void write(Port p, uint8_t pin, bool level)
+    +bool read(Port p, uint8_t pin)
+  }
+
+  class Hal_UsartF0 {
+    ' RXD = PF2, TXD = PF3
+    +void init(uint32_t baud)
+    +void write_bytes(const uint8_t* buf, uint16_t len)
+    +void on_rx_byte(void(*cb)(uint8_t byte))
+  }
+
+  class Hal_Pdi
+}
+
+' ============================================================
+' LAYER 2 — Peripheral drivers
+' ============================================================
+package "Peripheral Drivers" {
+
+  class AdcChannelSource {
+    +uint8_t adc_module           ' A or B
+    +uint8_t channel
+    +uint16_t read_filtered()     ' e.g. moving-average / median-of-3
+  }
+
+  class SliderPot {
+    +uint8_t id                   ' 1..4  (SL1..SL4)
+    +AdcChannelSource adc         ' ADCB channel 4+id-1
+    +LedPwm indicator_led         ' SLEDx, TCD0 channel id-1
+    +uint16_t get_position_0_1000()
+  }
+
+  class MotorHBridgeChannel {
+    ' one MPC17529 half of the driver = one AWEX complementary pair
+    +uint8_t id                   ' 1..4
+    +Hal_TccPwm_AWEX* pwm
+    +uint8_t awex_channel         ' A/B/C/D per id
+    +void drive(int16_t effort_pct)   ' signed, sign = direction, wraps set_duty_signed
+    +void brake()                 ' duty = 0 (locked-antiphase center)
+    +void coast()                 ' relies on shared ~OE, see MotorDriverChip::disable()
+  }
+
+  class MotorDriverChip {
+    ' represents U4 (fader ch1+2) or U5 (fader ch3+4), MPC17529
+    +uint8_t id                   ' 4 or 5
+    +Hal_Gpio* oe_gpio            ' shared /~OE line, PF7 -- SHARED across U4 AND U5
+    +void enable_outputs()
+    +void disable_outputs()
+  }
+
+  class LedPwm {
+    +uint8_t id
+    +Hal_TcdPwm* pwm              ' nullptr => plain GPIO (LED0..3 on PORTA have no HW PWM)
+    +void set_brightness(uint8_t pct)  ' PWM if available, else on/off threshold
+  }
+
+  class DebouncedButton {
+    +uint8_t id                   ' 1..3 (BTN1..3)
+    +Hal_Gpio* gpio
+    +void poll_or_isr_edge()
+    +bool is_pressed()
+    +void register_callback(void(*on_press)(), void(*on_release)())
+  }
+
+  class FaderTouchSensor {
+    ' TP1..4 on PF0/PF1/PF4/PF6 -- capacitive touch pad per motorized fader
+    +uint8_t fader_id
+    +Hal_CapTouch* cap
+    +uint8_t channel
+    +uint16_t baseline
+    +uint16_t threshold
+    +void calibrate_baseline()
+    +void update(uint16_t raw_count)   ' drift-compensated baseline tracking
+    +bool is_touched()                 ' debounced digital result
+  }
+
+  AdcChannelSource <.. SliderPot
+  LedPwm <.. SliderPot
+}
+
+' ============================================================
+' LAYER 3 — Fader abstraction
+' ============================================================
+package "Fader Devices" {
+
+  enum FaderMode {
+    MANUAL
+    POSITION_DRIVE
+    HAPTIC
+  }
+
+  class MotorizedFader {
+    +uint8_t id                       ' 1..4 (TR1..TR4)
+    +AdcChannelSource position_adc    ' ADCA channel id-1
+    +MotorHBridgeChannel motor
+    +FaderTouchSensor touch
+    +FaderMode mode
+    +uint16_t target_position
+    +PositionController* pos_ctrl
+    +HapticProfile* haptic_profile
+    --
+    +void set_mode(FaderMode m)
+    +void set_target(uint16_t pos)
+    +void tick_1kHz()                 ' runs active control law; touch.is_touched() can force MANUAL / pause auto-drive
+    +uint16_t get_position()
+  }
+
+  class PositionController {
+    +float kp, ki, kd
+    +int16_t compute(uint16_t target, uint16_t actual)   ' returns effort_pct for drive()
+    +void reset_integrator()
+  }
+
+  class HapticProfile {
+    +vector~uint16_t~ detent_positions
+    +float detent_strength
+    +int16_t compute_torque(uint16_t actual_pos)          ' returns effort_pct for drive()
+  }
+
+  MotorizedFader *-- MotorHBridgeChannel
+  MotorizedFader *-- AdcChannelSource
+  MotorizedFader *-- FaderTouchSensor
+  MotorizedFader --> PositionController : uses (POSITION_DRIVE)
+  MotorizedFader --> HapticProfile : uses (HAPTIC)
+  MotorizedFader --> FaderMode
+}
+
+' ============================================================
+' LAYER 4 — Application
+' ============================================================
+package "Application" {
+
+  class FaderControllerManager {
+    +MotorizedFader motorized[4]
+    +SliderPot sliders[4]
+    +LedPwm user_leds[4]
+    +DebouncedButton buttons[3]
+    +MotorDriverChip driver_u4
+    +MotorDriverChip driver_u5
+    --
+    +void init()
+    +void scheduler_tick_1kHz()        ' called from Hal_Dma::on_transfer_complete
+    +void apply_command(const Command& c)
+    +StatusReport build_status_report()
+    +void emergency_stop()             ' driver_u4.disable_outputs() + driver_u5.disable_outputs()
+    +void poll_touch_sensors()         ' calls Hal_CapTouch::start_measurement() per pad each cycle
+  }
+
+  class Command {
+    +CommandType type
+    +uint8_t target_id
+    +uint16_t value
+  }
+
+  class StatusReport {
+    +uint16_t slider_pos[4]
+    +uint16_t fader_pos[4]
+    +bool button_state[3]
+    +bool thermal_fault[4]
+    +size_t serialize(uint8_t* buf)
+  }
+
+  enum CommandType {
+    SET_MODE
+    SET_TARGET_POSITION
+    SET_LED_BRIGHTNESS
+    SET_HAPTIC_PROFILE
+    REQUEST_STATUS
+    EMERGENCY_STOP
+  }
+
+  Command --> CommandType
+  FaderControllerManager --> Command
+  FaderControllerManager --> StatusReport
+  FaderControllerManager *-- MotorizedFader
+  FaderControllerManager *-- SliderPot
+  FaderControllerManager *-- LedPwm
+  FaderControllerManager *-- DebouncedButton
+  FaderControllerManager *-- MotorDriverChip
+}
+
+' ============================================================
+' LAYER 5 — Communication (UART only)
+' ============================================================
+package "Communication" {
+
+  class UartTransport {
+    +Hal_UsartF0* usart
+    +void poll()
+    +void send(const uint8_t* buf, uint16_t len)
+    +void on_frame_received(void(*cb)(const uint8_t*, uint16_t))
+  }
+
+  class ProtocolCodec {
+    +Command parse_frame(const uint8_t* raw_buf, uint16_t len)
+    +size_t encode_status(const StatusReport& s, uint8_t* buf)
+  }
+
+  UartTransport --> ProtocolCodec
+  FaderControllerManager --> UartTransport : sends/receives via
+}
+
+' ============================================================
+' Cross-layer dependencies
+' ============================================================
+Hal_AdcA <.. AdcChannelSource
+Hal_AdcB <.. AdcChannelSource
+Hal_TccPwm_AWEX <.. MotorHBridgeChannel
+Hal_TcdPwm <.. LedPwm
+Hal_Gpio <.. DebouncedButton
+Hal_CapTouch <.. FaderTouchSensor
+Hal_Gpio <.. MotorDriverChip
+Hal_UsartF0 <.. UartTransport
+Hal_Dma <.. Hal_AdcA
+Hal_Dma <.. Hal_AdcB
+Hal_EventSystem <.. Hal_AdcA
+Hal_EventSystem <.. Hal_AdcB
+
+note right of Hal_TccPwm_AWEX
+  PWM1A/B..PWM4A/B are NOT 8 independent
+  PWM channels: PC0..PC7 form 4 hardware
+  complementary pairs (OC0A..D split by AWEXC),
+  each pair sharing ONE compare/duty value with
+  dead-time inserted between the LS/HS edges.
+  This maps naturally to MPC17529's locked-
+  antiphase drive: 50% duty = stopped, duty
+  above/below 50% = direction + speed.
+  set_duty_signed() should translate the signed
+  effort into this single compare register per
+  channel, not into two separate registers.
+end note
+
+note right of MotorDriverChip
+  U4 and U5 share ONE ~OE line (PF7).
+  There is no per-chip enable, so
+  emergency_stop() / global motor-kill
+  always affects all 4 faders together.
+end note
+
+note right of Hal_CapTouch
+  TP1..4 are capacitive touch pads on the
+  fader knobs (not thermal sensors).
+  PORTF's single TC0 gives 4 capture
+  channels -- one per pad. Stimulus is a
+  plain GPIO drive; sensing is done by
+  routing the pin's threshold-crossing
+  through the Event System into a TCF0
+  capture channel, so discharge time is
+  timed in hardware rather than by CPU
+  polling. Pads should be scanned one at
+  a time to avoid cross-talk between
+  adjacent faders.
+end note
+
+note right of Hal_AdcA
+  ADCA.REFCTRL = ADC_REFSEL_AREFB_gc:
+  ADCA borrows ADCB's AREFB pin (PB0),
+  which is hard-tied to AVCC/VDDA on this
+  board. This keeps TR1..4 ratiometric
+  against the exact same rail that
+  excites the SL pot dividers, so both
+  pot families stay consistent even if
+  VDDA drifts.
+end note
+
+@enduml

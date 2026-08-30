@@ -1,0 +1,65 @@
+Pin,Port.Pin,Net / Signal,Function,Peripheral / Module,Notes
+1,PA3,/TR4,"ADC input, fader 4 track position",ADCA channel 3,
+2,PA4,/LED0,"GPIO output, user LED 0",GPIO (PORTA),No hardware PWM on PORTA -> on/off or SW-timed brightness only
+3,PA5,/LED1,"GPIO output, user LED 1",GPIO (PORTA),Same as above
+4,PA6,/LED2,"GPIO output, user LED 2",GPIO (PORTA),Same as above
+5,PA7,/LED3,"GPIO output, user LED 3",GPIO (PORTA),Same as above
+6,PB0,VDDA,"ADCB external reference (AREFB), tied to AVCC/VDDA","ADCB reference (also used by ADCA, see pin 62)",Shorted to AVCC on this net -> ratiometric reference shared by both ADCs; do NOT reconfigure as GPIO
+7,PB1,/BTN1,"Digital input, pushbutton 1",GPIO + PORT interrupt (PORTB),"SW debounce, interrupt-on-change"
+8,PB2,/BTN2,"Digital input, pushbutton 2",GPIO + PORT interrupt (PORTB),"SW debounce, interrupt-on-change"
+9,PB3,/BTN3,"Digital input, pushbutton 3",GPIO + PORT interrupt (PORTB),"SW debounce, interrupt-on-change"
+10,PB4,/SL1,"ADC input, classic slider 1",ADCB channel 4,Ratiometric vs VDDA (see pin 6)
+11,PB5,/SL2,"ADC input, classic slider 2",ADCB channel 5,Ratiometric vs VDDA
+12,PB6,/SL3,"ADC input, classic slider 3",ADCB channel 6,Ratiometric vs VDDA
+13,PB7,/SL4,"ADC input, classic slider 4",ADCB channel 7,Ratiometric vs VDDA
+14,-,GND,Ground,Power,1 of 6 GND pins
+15,-,VDD,Digital supply,Power,1 of 5 VCC pins
+16,PC0,/PWM1A,"H-bridge 1 complementary PWM output, low side (OC0ALS)","TCC0 ch A, AWEX split/complementary mode, 22kHz",Paired with PC1 as one dead-time-inserted complementary pair -> single duty value drives both
+17,PC1,/PWM1B,"H-bridge 1 complementary PWM output, high side (OC0AHS)","TCC0 ch A, AWEX split/complementary mode, 22kHz",See PC0 note
+18,PC2,/PWM2A,"H-bridge 2 complementary PWM output, low side (OC0BLS)","TCC0 ch B, AWEX split/complementary mode, 22kHz",Paired with PC3
+19,PC3,/PWM2B,"H-bridge 2 complementary PWM output, high side (OC0BHS)","TCC0 ch B, AWEX split/complementary mode, 22kHz",See PC2 note
+20,PC4,/PWM3A,"H-bridge 3 complementary PWM output, low side (OC0CLS)","TCC0 ch C, AWEX split/complementary mode, 22kHz",Paired with PC5
+21,PC5,/PWM3B,"H-bridge 3 complementary PWM output, high side (OC0CHS)","TCC0 ch C, AWEX split/complementary mode, 22kHz",See PC4 note
+22,PC6,/PWM4A,"H-bridge 4 complementary PWM output, low side (OC0DLS)","TCC0 ch D, AWEX split/complementary mode, 22kHz",Paired with PC7
+23,PC7,/PWM4B,"H-bridge 4 complementary PWM output, high side (OC0DHS)","TCC0 ch D, AWEX split/complementary mode, 22kHz","See PC6 note; requires AWEXC enabled, TCC0 in split mode, dead-time set; drives MPC17529 IN2A/IN2B on U5"
+24,-,GND,Ground,Power,1 of 6 GND pins
+25,-,VDD,Digital supply,Power,1 of 5 VCC pins
+26,PD0,/SLED1,"LED PWM output, classic slider 1 indicator",TCD0 ch A (OC0A),Independent (non-complementary) PWM
+27,PD1,/SLED2,"LED PWM output, classic slider 2 indicator",TCD0 ch B (OC0B),Independent PWM
+28,PD2,/SLED3,"LED PWM output, classic slider 3 indicator",TCD0 ch C (OC0C),Independent PWM
+29,PD3,/SLED4,"LED PWM output, classic slider 4 indicator",TCD0 ch D (OC0D),Independent PWM
+30,PD4,/CP,Charge-pump related signal,TCD1 ch A / GPIO,Ignored per instruction
+31,PD5,/~CP,Charge-pump related signal (complement),TCD1 ch B / GPIO,Ignored per instruction
+32,PD6,/D-,Former USB D-,GPIO (unused),"USB/MIDI dropped -> free GPIO, leave unconfigured or repurpose"
+33,PD7,/D+,Former USB D+,GPIO (unused),"USB/MIDI dropped -> free GPIO, leave unconfigured or repurpose"
+34,-,GND,Ground,Power,1 of 6 GND pins
+35,-,VDD,Digital supply,Power,1 of 5 VCC pins
+36,PE0,J3 pin2,Breakout header PORTE,GPIO (PORTE),Unused/expansion
+37,PE1,J3 pin3,Breakout header PORTE,GPIO (PORTE),Unused/expansion
+38,PE2,J3 pin4,Breakout header PORTE,GPIO (PORTE),Unused/expansion
+39,PE3,J3 pin5,Breakout header PORTE,GPIO (PORTE),Unused/expansion
+40,PE4,J3 pin6,Breakout header PORTE,GPIO (PORTE),Unused/expansion
+41,PE5,J3 pin7,Breakout header PORTE,GPIO (PORTE),Unused/expansion
+42,TOSC2,/TOSC2,32.768kHz osc pin 2,RTC / async clock (Y1),"Dedicated function pin, not GPIO"
+43,TOSC1,/TOSC1,32.768kHz osc pin 1,RTC / async clock (Y1),"Dedicated function pin, not GPIO"
+44,-,GND,Ground,Power,1 of 6 GND pins
+45,-,VDD,Digital supply,Power,1 of 5 VCC pins
+46,PF0,/TP1,Fader 1 capacitive touch pad (MP1 pin T),"GPIO stimulus + TCF0 capture ch A, via Event System",Charge-time sense -> debounced digital touch output
+47,PF1,/TP2,Fader 2 capacitive touch pad (MP2 pin T),"GPIO stimulus + TCF0 capture ch B, via Event System",Charge-time sense -> debounced digital touch output
+48,PF2,/RXD,UART receive,USARTF0 RXD,Control link (UART only)
+49,PF3,/TXD,UART transmit,USARTF0 TXD,Control link (UART only)
+50,PF4,/TP3,Fader 3 capacitive touch pad (MP3 pin T),"GPIO stimulus + TCF0 capture ch C, via Event System",Charge-time sense -> debounced digital touch output
+51,VBAT,/Vbat,RTC battery backup,Battery backup system,"Dedicated VBAT pin, connects to J4 coin-cell header, not GPIO"
+52,-,GND,Ground,Power,1 of 6 GND pins
+53,-,VDD,Digital supply,Power,1 of 5 VCC pins
+54,PF6,/TP4,Fader 4 capacitive touch pad (MP4 pin T),"GPIO stimulus + TCF0 capture ch D, via Event System",Charge-time sense -> debounced digital touch output
+55,PF7,/~OE,"Global H-bridge output-enable, active low","GPIO (PORTF), drives U4+U5 ~OE together",Single shared enable for both MPC17529 drivers - no per-chip enable
+56,PDI_DATA,/PDI_DATA,Programming/debug data,PDI,J2 programming header
+57,PDI_CLK/~RESET,/PDI_CLK,Programming/debug clock + reset,PDI,J2 programming header
+58,PR0/XTAL2,/XTAL2,12MHz osc pin 2,Main clock (Y2),"Dedicated function pin, not GPIO"
+59,PR1/XTAL1,/XTAL1,12MHz osc pin 1,Main clock (Y2),"Dedicated function pin, not GPIO"
+60,-,GND,Ground,Power,1 of 6 GND pins
+61,AVCC,VDDA,Analog supply,Power (ADCA + ADCB analog supply),"Same net as pin 6 (AREFB) -> analog rail = ADC reference, ratiometric by design"
+62,PA0,/TR1,"ADC input, fader 1 track position","ADCA channel 0, reference = AREFB (ADC_REFSEL_AREFB_gc)",AREFA function unavailable (pin used as ADC input); ADCA reference set to shared AREFB (=VDDA) so it stays ratiometric and consistent with ADCB
+63,PA1,/TR2,"ADC input, fader 2 track position",ADCA channel 1,
+64,PA2,/TR3,"ADC input, fader 3 track position",ADCA channel 2,
