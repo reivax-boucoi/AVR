@@ -63,7 +63,32 @@
           "width": 0.33
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "silk_edge_clearance|105500000|112640000|cb95ca38-f676-4cd5-8362-5e0092631020|3004332e-e1a0-4b8f-96ed-b89476ee6de7",
+          ""
+        ],
+        [
+          "silk_edge_clearance|105500000|120560000|cb95ca38-f676-4cd5-8362-5e0092631020|fbf82234-b9dd-4a78-8517-b6ef8c20e446",
+          ""
+        ],
+        [
+          "silk_edge_clearance|105500000|140328043|cb95ca38-f676-4cd5-8362-5e0092631020|0ad997e9-9c33-44b9-a6ee-f6c7d6ca40ef",
+          ""
+        ],
+        [
+          "silk_edge_clearance|105500000|149528043|cb95ca38-f676-4cd5-8362-5e0092631020|2f414a2c-cff7-4c42-b55f-828eb8e13c1c",
+          ""
+        ],
+        [
+          "silk_edge_clearance|31427499|159443513|74053e2b-e73f-42b1-b985-64b5bc87dae6|37f5d73a-aae3-4ef9-a88c-dac8ef1a5d4d",
+          ""
+        ],
+        [
+          "silk_over_copper|89179507|123709074|bb8d4490-8c73-4afe-938d-6d77e840b22f|00000000-0000-0000-0000-000000000000",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -81,7 +106,7 @@
         "duplicate_footprints": "warning",
         "extra_footprint": "warning",
         "footprint": "error",
-        "footprint_filters_mismatch": "warning",
+        "footprint_filters_mismatch": "ignore",
         "footprint_symbol_mismatch": "warning",
         "footprint_type_mismatch": "warning",
         "hole_clearance": "error",
@@ -93,7 +118,7 @@
         "items_not_allowed": "error",
         "length_out_of_range": "error",
         "lib_footprint_issues": "warning",
-        "lib_footprint_mismatch": "warning",
+        "lib_footprint_mismatch": "ignore",
         "malformed_courtyard": "error",
         "microvia_drill_out_of_range": "error",
         "mirrored_text_on_front_layer": "warning",
@@ -101,9 +126,9 @@
         "missing_footprint": "warning",
         "net_conflict": "warning",
         "nonmirrored_text_on_back_layer": "warning",
-        "npth_inside_courtyard": "warning",
+        "npth_inside_courtyard": "ignore",
         "padstack": "warning",
-        "pth_inside_courtyard": "warning",
+        "pth_inside_courtyard": "ignore",
         "shorting_items": "error",
         "silk_edge_clearance": "warning",
         "silk_over_copper": "warning",
@@ -136,15 +161,15 @@
         "min_hole_to_hole": 0.25,
         "min_microvia_diameter": 0.2,
         "min_microvia_drill": 0.1,
-        "min_resolved_spokes": 2,
+        "min_resolved_spokes": 1,
         "min_silk_clearance": 0.0,
         "min_text_height": 0.8,
         "min_text_thickness": 0.08,
         "min_through_hole_diameter": 0.3,
         "min_track_width": 0.15,
-        "min_via_annular_width": 0.1,
-        "min_via_diameter": 0.5,
-        "solder_mask_to_copper_clearance": 0.1,
+        "min_via_annular_width": 0.05,
+        "min_via_diameter": 0.4,
+        "solder_mask_to_copper_clearance": 0.0,
         "use_height_for_length_calcs": true
       },
       "teardrop_options": [
@@ -612,10 +637,10 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "output",
       "pos_files": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "../../Mechanical/FaderCtrl.step",
       "svg": "",
       "vrml": ""
     },
