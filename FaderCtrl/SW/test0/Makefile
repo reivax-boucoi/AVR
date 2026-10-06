@@ -13,7 +13,7 @@ PORT = usb
 
 # Flags
 CFLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall
-LDFLAGS = -mmcu=$(MCU)
+LDFLAGS = -mmcu=$(MCU) -Wl,-u,vfprintf -lprintf_flt -Wl,-u,vfscanf -lscanf_flt -lm
 
 # Target
 TARGET = main

@@ -8,6 +8,13 @@ static uint8_t counter[NUM_BUTTONS];
 static volatile uint8_t changed_flag[NUM_BUTTONS];
 static volatile button_state_t changed_to[NUM_BUTTONS];
 
+void timer_init(void){
+    TCC1.CTRLA = TC_CLKSEL_DIV1024_gc;
+    TCC1.PER = 311;//TIMER_PER;
+    TCC1.INTCTRLA = TC_OVFINTLVL_LO_gc;
+    PMIC.CTRL |= PMIC_LOLVLEN_bm;
+}
+
 void buttons_init(void){
     BTN_PORT.DIRCLR = BTN_ALL_bm;
     BTN_PORT.PIN1CTRL = PORT_OPC_PULLUP_gc;

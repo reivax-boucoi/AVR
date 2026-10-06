@@ -1,17 +1,24 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <util/delay.h>
-#include "buttons.h"
-#include "pwm_sled.h"
+#include "buttons.h"        //Uses TCC1
+#include "pwm_sled.h"       //Uses TCD0
+#include "pwm_hbridge.h"    //Uses TCC0
 #include "gpio_static.h"
-#define TOGGLE_DELAY_MS 1000
+#include "uart.h"
+#include "adc.h"
+#define TOGGLE_DELAY_MS 500
+#define TICKER_TIMEOUT (TOGGLE_DELAY_MS/DEBOUNCE_SAMPLE_MS-2)
 
-#define TIMER_PRESCALE_DIV  8UL
-#define TIMER_PER           ((F_CPU / TIMER_PRESCALE_DIV / 1000UL) * DEBOUNCE_SAMPLE_MS - 1)
 
-volatile uint16_t adc_result;
-
+volatile uint16_t target=0;
+volatile int32_t error=0;
+volatile uint16_t currentPos=0;
+volatile uint16_t ticker=0;
+int8_t mduty=1;
 
 static void clock_init(void){
     OSC.CTRL |= OSC_RC32MEN_bm;
@@ -20,44 +27,15 @@ static void clock_init(void){
     CLK.CTRL = CLK_SCLKSEL_RC32M_gc;
 }
 
-static void adc_init(void){
-    PORTB.PIN4CTRL = PORT_ISC_INPUT_DISABLE_gc;        /* disable the digital input buffer on PB4 */
-    ADCB.CTRLB     = ADC_RESOLUTION_12BIT_gc;          /* unsigned, 12-bit, no free-run */
-    ADCB.REFCTRL   = ADC_REFSEL_AREFB_gc;              /* external reference on AREFB (PB0) */
-    ADCB.PRESCALER = ADC_PRESCALER_DIV32_gc;           /* 24 MHz / 32 = 750 kHz */
-    ADCB.CH0.CTRL    = ADC_CH_INPUTMODE_SINGLEENDED_gc;
-    ADCB.CH0.MUXCTRL = ADC_CH_MUXPOS_PIN4_gc;          /* PB4 */
-    ADCB.CH0.INTCTRL = ADC_CH_INTMODE_COMPLETE_gc | ADC_CH_INTLVL_LO_gc;
-    EVSYS.CH0MUX   = EVSYS_CHMUX_TCC0_OVF_gc;          /* TCC0 overflow -> event channel 0 */
-    ADCB.EVCTRL    = ADC_EVSEL_0123_gc | ADC_EVACT_CH0_gc;  /* event triggers ADC channel 0 */
-    ADCB.CTRLA     = ADC_ENABLE_bm;
-}
-
-static void timer_init(void){
-    TCC0.CTRLA = TC_CLKSEL_DIV8_gc;
-    TCC0.PER = TIMER_PER;
-    TCC0.INTCTRLA = TC_OVFINTLVL_LO_gc;
-    PMIC.CTRL |= PMIC_LOLVLEN_bm;
-}
-
-ISR(ADCB_CH0_vect){
-    adc_result = ADCB.CH0.RES;                         /* flag is cleared automatically */
-    if(adc_result>4090){
-        LED1_ON();
-    }else{
-        LED1_OFF();
-    }
-    if(adc_result<200){
-        LED0_ON();
-    }else{
-        LED0_OFF();
-    }
-    pwm_sled_set_duty(0, (float)adc_result*100.0/4096.0);
-
-}
-
-ISR(TCC0_OVF_vect){
+ISR(TCC1_OVF_vect){
     buttons_sample();
+    target=4096-adc_read_raw(4);
+    currentPos=adc_read_raw(3);
+    pwm_sled_set_duty(0, (float)target*100.0/4096.0);
+    if(mduty>0){
+        error=pwm_hbridge_setPos(3,target,currentPos);
+    }
+    ticker++;
 }
 
 int main(void){
@@ -67,7 +45,11 @@ int main(void){
     buttons_init();
     timer_init();
     pwm_sled_init();
+    pwm_hbridge_init();
+    uart_init();
+    adc_init();
     sei();
+    uart_puts("\r\n\nRestarted\r\n");
 
     while (1){
 
@@ -77,19 +59,40 @@ int main(void){
                 if(st == BTN_PRESSED){
                     switch(i){
                         case 0:
-                            LED1_TOGGLE();
+                            LED1_ON();
+                            LED2_OFF();
+                            pwm_hbridge_OFF(3);
+                            mduty=0;
 
                             break;
                         case 1:
-                            LED2_TOGGLE();
+                            pwm_hbridge_set_duty(3,0);
                             break;
                         case 2:
-                            LED3_TOGGLE();
+                            LED2_ON();
+                            LED1_OFF();
+                            mduty=1;
                             break;
                     }
-                    //LED0_TOGGLE();
                 }
             }
         }
+
+        if (ticker>TICKER_TIMEOUT){
+            ticker = 0;
+            //uint16_t : %u
+            // int16_t : %d
+            // int32_t : %ld
+            printf_P(PSTR("Target = %u\tCurrentPos = %u\tError = %ld\r\n"), target, currentPos, error);
+
+        }
+        /*if (uart_rx_available()){
+            float v;
+            if (scanf("%f", &v) == 1)
+                printf_P(PSTR("got %.4f\n"), v);
+            else
+                puts_P(PSTR("parse error"));
+            while (getchar() != '\n');
+        }*/
     }
 }

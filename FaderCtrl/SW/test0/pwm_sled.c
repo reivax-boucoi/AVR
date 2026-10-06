@@ -6,10 +6,10 @@ void pwm_sled_init(void){
 
     TCD0.CTRLB = TC0_CCAEN_bm | TC0_CCBEN_bm | TC0_CCCEN_bm | TC0_CCDEN_bm | TC_WGMODE_SS_gc;
     TCD0.PER = SLED_PWM_PER;
-    TCD0.CCA = 0;
-    TCD0.CCB = 0;
-    TCD0.CCC = 0;
-    TCD0.CCD = 0;
+    TCD0.CCA = SLED_PWM_PER;
+    TCD0.CCB = SLED_PWM_PER;
+    TCD0.CCC = SLED_PWM_PER;
+    TCD0.CCD = SLED_PWM_PER;
     TCD0.CTRLA = TC_CLKSEL_DIV64_gc;
 }
 

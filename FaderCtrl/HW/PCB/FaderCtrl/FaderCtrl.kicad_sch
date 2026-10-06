@@ -8667,6 +8667,27 @@
 			(embedded_fonts no)
 		)
 	)
+	(text_box "RevA issues:\n- missing board ident silk\n- VDDA must be < VCC-0.6V, AVCC=VCC\n	-> put Si diode on JP2, connect AVCC pin 61 to VCC pin 53\n- use more common 3.3v reg footprint"
+		(exclude_from_sim no)
+		(at 162.56 49.53 0)
+		(size 67.31 16.51)
+		(margins 0.9525 0.9525 0.9525 0.9525)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(type color)
+			(color 255 255 194 1)
+		)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "dd133524-625f-4f76-8da7-f9fe041cbeda")
+	)
 	(junction
 		(at 118.11 118.11)
 		(diameter 0)
