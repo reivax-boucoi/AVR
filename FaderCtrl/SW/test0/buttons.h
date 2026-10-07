@@ -4,14 +4,14 @@
 #include <stdint.h>
 
 #define BTN_PORT     PORTB
-#define BTN1_bm      PIN1_bm   /* PB1 */
-#define BTN2_bm      PIN2_bm   /* PB2 */
-#define BTN3_bm      PIN3_bm   /* PB3 */
+#define BTN1_bm      PIN1_bm
+#define BTN2_bm      PIN2_bm
+#define BTN3_bm      PIN3_bm
 #define BTN_ALL_bm   (BTN1_bm | BTN2_bm | BTN3_bm)
 #define NUM_BUTTONS  3
 
-#define DEBOUNCE_SAMPLE_MS   10     /* periodic sample tick period */
-#define DEBOUNCE_COUNT       4     /* consecutive samples required to accept a state change */
+#define DEBOUNCE_SAMPLE_MS   10
+#define DEBOUNCE_COUNT       4
 #define TIMER_PRESCALE_DIV  1024UL
 #define TIMER_PER           (((F_CPU / TIMER_PRESCALE_DIV) / 1000UL) * DEBOUNCE_SAMPLE_MS - 1)
 

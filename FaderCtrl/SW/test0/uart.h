@@ -9,9 +9,13 @@
 #define UART_RXD_bm     PIN2_bm   /* PF2 = RXD */
 
 /* ---- UART configuration ---- */
-#define UART_BAUD       9600UL
-#define UART_BSEL       207       /* BSCALE=0, F_CPU=32MHz -> ~9615 baud (0.16% error) */
-#define UART_BSCALE     0
+#define UART_BAUD       115200UL
+#define UART_BSEL       1047
+#define UART_BSCALE     (-6)
+
+//For BSCALE=0, Baudrate=F_CPU/(16*(BSEL+1))
+// BSEL=207,BSCALE= 0 => Baudrate=9615
+//BSEL=1047,BSCALE=-6 => Baudrate=115211
 
 /* Initializes USARTF0 and binds stdin/stdout/stderr to it,
  * so printf()/scanf()/getchar()/fgets() work. */

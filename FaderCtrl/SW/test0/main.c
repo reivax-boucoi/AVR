@@ -10,7 +10,7 @@
 #include "gpio_static.h"
 #include "uart.h"
 #include "adc.h"
-#define TOGGLE_DELAY_MS 500
+#define TOGGLE_DELAY_MS 750
 #define TICKER_TIMEOUT (TOGGLE_DELAY_MS/DEBOUNCE_SAMPLE_MS-2)
 
 
@@ -29,12 +29,12 @@ static void clock_init(void){
 
 ISR(TCC1_OVF_vect){
     buttons_sample();
-    target=4096-adc_read_raw(4);
     currentPos=adc_read_raw(3);
     pwm_sled_set_duty(0, (float)target*100.0/4096.0);
-    if(mduty>0){
-        error=pwm_hbridge_setPos(3,target,currentPos);
+    if(mduty==0){
+        target=4096-adc_read_raw(4);
     }
+    pwm_hbridge_setPos(3,target,currentPos);
     ticker++;
 }
 
@@ -59,19 +59,23 @@ int main(void){
                 if(st == BTN_PRESSED){
                     switch(i){
                         case 0:
-                            LED1_ON();
+                            LED0_ON();
+                            LED1_OFF();
                             LED2_OFF();
-                            pwm_hbridge_OFF(3);
                             mduty=0;
-
                             break;
                         case 1:
-                            pwm_hbridge_set_duty(3,0);
+                            LED0_OFF();
+                            LED1_ON();
+                            LED2_OFF();
+                            mduty=1;
+                            target=200;
                             break;
                         case 2:
-                            LED2_ON();
+                            LED0_OFF();
                             LED1_OFF();
-                            mduty=1;
+                            LED2_ON();
+                            mduty=2;
                             break;
                     }
                 }
@@ -80,10 +84,17 @@ int main(void){
 
         if (ticker>TICKER_TIMEOUT){
             ticker = 0;
-            //uint16_t : %u
-            // int16_t : %d
-            // int32_t : %ld
-            printf_P(PSTR("Target = %u\tCurrentPos = %u\tError = %ld\r\n"), target, currentPos, error);
+            if(mduty>1){
+                if(mduty==2){
+                    if(target<400)mduty=3;else
+                    target-=400;
+                }else{
+                    if(target>3600)mduty=2; else
+                    target+=400;
+                }
+            }else if(mduty==1){
+                target=4000-target;
+            }
 
         }
         /*if (uart_rx_available()){
